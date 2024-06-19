@@ -1,0 +1,10 @@
+bin
+obj
+build
+Non_versionati
+
+#misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
