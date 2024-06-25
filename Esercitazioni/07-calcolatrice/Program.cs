@@ -27,16 +27,16 @@ float? risultato =0;
 // costrutto switch a seconda del tipo di simbolo scelto verrà eseguita la corrispondente operazione
 
 switch(operazione){
-    case "+": risultato = num1 + num2;
+    case "+": risultato = num1 + num2;          //somma
     break;
 
-    case "-" : risultato = num1 - num2;
+    case "-" : risultato = num1 - num2;         //differenza
     break;
 
-    case "*" :  risultato = num1 * num2;
+    case "*" :  risultato = num1 * num2;        //prodotto
     break;
 
-    case "/" : 
+    case "/" :                                  //quoziente
 
     // se il divisore è 0 la divisione è impossibile
 
