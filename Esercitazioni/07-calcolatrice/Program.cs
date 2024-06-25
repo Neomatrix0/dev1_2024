@@ -1,4 +1,4 @@
-﻿﻿// Calcolatrice per eseguire le 4 operazioni aritmetiche
+﻿// Calcolatrice per eseguire le 4 operazioni aritmetiche
 
 Console.WriteLine("Questa è una calcolatrice.Prego inserire di seguito la prima cifra");
 
@@ -22,42 +22,48 @@ string? operazione = Console.ReadLine();
 
 // inizializza variabile risultato 
 
-float? risultato =0;
+float? risultato = 0;
 
 // costrutto switch a seconda del tipo di simbolo scelto verrà eseguita la corrispondente operazione
 
-switch(operazione){
-    case "+": risultato = num1 + num2;          //somma
-    break;
+switch (operazione)
+{
+    case "+":
+        risultato = num1 + num2;          //somma
+        break;
 
-    case "-" : risultato = num1 - num2;         //differenza
-    break;
+    case "-":
+        risultato = num1 - num2;         //differenza
+        break;
 
-    case "*" :  risultato = num1 * num2;        //prodotto
-    break;
+    case "*":
+        risultato = num1 * num2;        //prodotto
+        break;
 
-    case "/" :                                  //quoziente
+    case "/":                                  //quoziente
 
-    // se il divisore è 0 la divisione è impossibile
+        // se il divisore è 0 la divisione è impossibile
 
-    if(num2 == 0){
-        Console.WriteLine("Mi dispiace,ma non è possibile dividere un numero per 0");
-        return;
+        if (num2 == 0)
+        {
+            Console.WriteLine("Mi dispiace,ma non è possibile dividere un numero per 0");
+            return;
 
-    }
+        }
 
-    // se il divisore è diverso da 0 la divisione verrà svolta
+        // se il divisore è diverso da 0 la divisione verrà svolta
 
-    risultato = num1 / num2;
-    break;
+        risultato = num1 / num2;
+        break;
 
     // in caso non venga scelto il simbolo corretto apparirà il seguente emssaggio
     default:
-     Console.WriteLine("L'operazione scelta non è corretta,prego riprovare.");
-     break; 
+        Console.WriteLine("L'operazione scelta non è corretta,prego riprovare.");
+        break;
 
 }
 
-    // mostra il risultato finale dell'operazione scelta
+// mostra il risultato finale dell'operazione scelta
 
 Console.WriteLine($"Il risultato è {risultato}");
+
