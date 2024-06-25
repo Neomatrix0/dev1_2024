@@ -1,4 +1,4 @@
-﻿// metodo random
+﻿// metodo random che accetta l'intervallo di generazione del numero inserito tramite input
 
 Random random = new Random();       //new è un costruttore 
 
@@ -18,3 +18,10 @@ int numeroCasuale = random.Next(primoNumero, secondoNumero);
 
 Console.WriteLine($"Il numero casuale è {numeroCasuale}");
 
+/* versione automatica
+
+Random random = new Random();       //new è un costruttore 
+
+int numeroCasuale = random.Next(11);
+
+Console.WriteLine($"Il numero casuale è {numeroCasuale}");   */
