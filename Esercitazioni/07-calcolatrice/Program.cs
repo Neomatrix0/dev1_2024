@@ -4,13 +4,13 @@ Console.WriteLine("Questa è una calcolatrice.Prego inserire di seguito la prima
 
 // riceve il primo numero come  input e lo converte nel formato float
 
-float? num1 = float.Parse(Console.ReadLine());
+float num1 = float.Parse(Console.ReadLine());
 
 Console.WriteLine("Prego inserire sotto la secondo cifra cifra");
 
 // riceve il secondo  numero come  input e lo converte nel formato float
 
-float? num2 = float.Parse(Console.ReadLine());
+float num2 = float.Parse(Console.ReadLine());
 
 //chiede di scegliere il tipo di operazione da svolgere
 
@@ -22,7 +22,7 @@ string? operazione = Console.ReadLine();
 
 // inizializza variabile risultato 
 
-float? risultato = 0;
+float risultato = 0;
 
 // costrutto switch a seconda del tipo di simbolo scelto verrà eseguita la corrispondente operazione
 
@@ -56,7 +56,7 @@ switch (operazione)
         risultato = num1 / num2;
         break;
 
-    // in caso non venga scelto il simbolo corretto apparirà il seguente emssaggio
+    // in caso non venga scelto il simbolo corretto apparirà il seguente messaggio
     default:
         Console.WriteLine("L'operazione scelta non è corretta,prego riprovare.");
         break;
