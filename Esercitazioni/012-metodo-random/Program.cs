@@ -10,6 +10,8 @@ int primoNumero = int.Parse(Console.ReadLine());
 
 Console.WriteLine("Inserisci il secondo numero dell'intervallo");
 
+
+
 int secondoNumero = int.Parse(Console.ReadLine());
 
 // genera numero random nell'intervallo scelto
