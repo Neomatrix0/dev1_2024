@@ -40,7 +40,7 @@ switch (operazione)
         risultato = num1 * num2;        //prodotto
         break;
 
-    case "/":                                  //quoziente
+    case "/":                           //quoziente
 
         // se il divisore è 0 la divisione è impossibile
 
