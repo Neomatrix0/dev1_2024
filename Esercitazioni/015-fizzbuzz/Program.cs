@@ -1,9 +1,9 @@
 ﻿
 // FeezBuzz
 
-// esegue l'app 5 volte
+// esegue l'app 10 volte
 
-for(int i = 1; i<= 5; i++){
+for(int i = 1; i<= 10; i++){
 
  //genera numero random da 1 a 100   
     
@@ -20,7 +20,7 @@ Console.WriteLine($"Numero casuale è {numeroComputer}");
 
 if ((numeroComputer % 3 == 0) && (numeroComputer % 5 == 0))
 {
-    Console.WriteLine("FeezBuzz");
+    Console.WriteLine("FizzBuzz");
 }
 else if ((numeroComputer % 5 == 0))                    //se divisibile per 5 
 {
@@ -28,7 +28,7 @@ else if ((numeroComputer % 5 == 0))                    //se divisibile per 5
 }
 else if ((numeroComputer % 3 == 0))                    // se divisibile per 3 
 {
-    Console.WriteLine("Feez");
+    Console.WriteLine("Fizz");
 }
 else
 {
