@@ -1,18 +1,11 @@
 # Progetto Fizzbuzz
 
 ### Applicazione che valuta la divisibilità di un numero casuale per 3 e 5 
-- ciclo per fare girare l'applicazione 10 volte
 
-```mermaid
-sequenceDiagram
-    
-    loop fino a 10 numeri casuali
-        PC-->PC:Calcola divisibilità per 3 e 5
-    end
+- Viene impostato un ciclo per fare girare l'applicazione 10 volte
 
-```
 
-- viene generato numero random da 1 a 100
+- viene generato un numero random da 1 a 100
 
     - ```c#
         Random random = new Random();
@@ -49,18 +42,22 @@ sequenceDiagram
             Console.WriteLine("Fizz");}
             
         ```
-
+- Di seguito viene mostrato un diagramma per comprendere meglio la logica dell'algoritmo
 
 ```mermaid
 flowchart TD
-    A[Start] --> B{è il numero divisibile per 5 e 3?}
-    B -->|Yes| C[Fizzbuzz]
-    C --> D[Rigenera nuovo number]
-    D --> B
-    B ---->|No| --> E [è il numero divisibile solo per 5?]  
+
+    A[Start] --> w[ciclo for 10  di iterazioni]--> x[genera numero random] -->
+    B{è il numero divisibile per 3 e 5?}
+    B -- Yes --> C[FizzBuzz] --> T
+    B -- No --> D{è divisibile per 5?}
    
-     
-
-
+    D -- Sì --> F[Buzz]
+    D -- No --> E{è divisibile per 3?}
+    E -- Sì --> G[Fizz]
+    E -- No --> S[non divisibile per numeri]-->  T[Prossima iterazione] --> w
+    F --> T
+    G --> T
+    --> W[end]
 
 ```
