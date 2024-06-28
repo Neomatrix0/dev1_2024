@@ -32,10 +32,12 @@ while (nomi.Count > 0)
 
 
 
-    // assegna stringa sorteggiato al quale assegnamo corrispettivo lista nomi tramite l'indice generato a random
+    // assegna stringa sorteggiato al quale assegniamo corrispettivo lista nomi tramite l'indice generato a random
 
     string sorteggiato = nomi[indice];
 
+
+    
 
 
 
