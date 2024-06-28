@@ -37,9 +37,12 @@ la app toglie dalla lista il nome sorteggiato e lo aggiunge ad una seconda lista
 
 l'app permette d'inserire un nuovo partecipante
 1. inserisci partecipante 
+
 - nome partecipante:
-2 visualizza partecipanti
-3 esci
+
+2. visualizza partecipanti
+
+3. esci
 
 visualizza la lista di partecipanti
 
