@@ -66,6 +66,9 @@ div.split
 | Header | Title|
 |Paragraph | ![esempio di SVG di svg repo]|
 
+
+
+
 <details>
 
 <summary>Tips for collapsed sections </summary>
@@ -81,6 +84,8 @@ You can add an image or code block too.
 ```
 
 </details>
+
+# bisogna mettere backtick e mermaid per copiare poi questi grafici
 
 ```mermaid
 flowchart TD
