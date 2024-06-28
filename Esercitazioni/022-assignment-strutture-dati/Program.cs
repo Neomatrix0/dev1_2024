@@ -12,80 +12,55 @@ nomi.Add("Sharon");
 nomi.Add("Silvio");
 nomi.Add("Ginevra");
 
-// random
+// lista da riempire con i nomi rimossi dalla prima lista
+
+List<string> listaSorteggiati = new List<string>();
+
+// random va messo fuori dal ciclo per non creare più volte l'oggetto
 
 Random random = new Random();
 
 // finchè count > 0 stampa nomi rimasti
+
 while (nomi.Count > 0)
 {
-    
+
 
     // indice prende numero casuale nel limite della lunghezza della lista 
 
     int indice = random.Next(nomi.Count);
 
-    Console.WriteLine($"Il nome sorteggiato che verra rimosso è {nomi[indice]}");
 
-    // rimuove il nome dalla lista
 
+    // assegna stringa sorteggiato al quale assegnamo corrispettivo lista nomi tramite l'indice generato a random
+
+    string sorteggiato = nomi[indice];
+
+
+
+
+    Console.WriteLine($"Il nome sorteggiato che verra rimosso è {sorteggiato}");
+
+    // tolgo gli elementi dalla prima lista e li aggiungo sull'altra
     nomi.RemoveAt(indice);
 
-    Console.WriteLine("Rimangono i seguenti partecipanti:");
+    listaSorteggiati.Add(sorteggiato);
 
-    // ciclo nomi rimanenti senza il nome rimosso
+
+    Console.WriteLine("Elenco partecipanti");
 
     foreach (string nome in nomi)
     {
-        Console.WriteLine($"{nome}");
-
+        Console.WriteLine(nome);
     }
 
-    // quando tutti i nomi sono stati rimossi stampa questo messaggio
 
-    if(nomi.Count == 0){
-        Console.WriteLine("Non ci sono più partecipanti");
+    Console.WriteLine("Elenco sorteggiati");
+
+    foreach (string nome in listaSorteggiati)
+    {
+        Console.WriteLine(nome);
     }
-
 
 }
 
-
-
-
-
-
-
-
-
-// versione insegnante
-/*
-List<string> nomi = new List<string>();
-nomi.Add("Mario");
-nomi.Add("Giovanni");
-nomi.Add("Luigi");
-
-
-
-Random random = new Random();
-int indice = random.Next(nomi.Count);
-
-Console.Write($"{nomi[indice]}");
-
-
-
-//versione alternativa inserendo più nomi in ocntmeporanea invece di uno alla volta
-
-//nomi.AddRange(new string[]{"Mario,Giovanni,Luigi"});
-
-//oppure
-
-List<string> names = new List<string> {"Mario,Giovanni,Luigi"};
-
-//Random random = new Random();
-int indice = random.Next(names.Count);
-
-Console.Write($"{names[indice]}");
-
-
-*/
