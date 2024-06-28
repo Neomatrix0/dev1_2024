@@ -6,7 +6,9 @@
 for(int i = 1; i<= 10; i++){
 
  //genera numero random da 1 a 100   
-    
+
+
+
 
 Random random = new Random();
 

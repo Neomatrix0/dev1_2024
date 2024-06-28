@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿// array length 
 
 
 
@@ -11,3 +11,4 @@ nomi[2] = "Giovanni";
 
 Console.WriteLine($"Ciao {nomi[0]},{nomi[1]},{nomi[2]}.");
 Console.WriteLine($"Il numero degli elementi è {nomi.Length}.");
+
