@@ -13,9 +13,13 @@ nomi.Add("Silvio");
 nomi.Add("Ginevra");
 
 // random
+
+Random random = new Random();
+
+// finchè count > 0 stampa nomi rimasti
 while (nomi.Count > 0)
 {
-    Random random = new Random();
+    
 
     // indice prende numero casuale nel limite della lunghezza della lista 
 
@@ -36,6 +40,8 @@ while (nomi.Count > 0)
         Console.WriteLine($"{nome}");
 
     }
+
+    // quando tutti i nomi sono stati rimossi stampa questo messaggio
 
     if(nomi.Count == 0){
         Console.WriteLine("Non ci sono più partecipanti");
