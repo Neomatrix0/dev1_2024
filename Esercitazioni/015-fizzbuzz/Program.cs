@@ -37,3 +37,31 @@ else
 
 
 }
+
+// versione insegnante
+
+/*
+
+﻿for (int i = 1; i <= 100; i++)
+        {
+            Console.Write($"numero: {i} ");
+            if (i % 3 == 0 && i % 5 == 0)
+            {
+                Console.WriteLine("FizzBuzz");
+            }
+            else if (i % 3 == 0)
+            {
+                Console.WriteLine("Fizz");
+            }
+            else if (i % 5 == 0)
+            {
+                Console.WriteLine("Buzz");
+            }
+            else
+            {
+                Console.WriteLine("");
+            }
+            Thread.Sleep(300); // utilizzo il metodo sleep per rallentare il ciclo
+        }
+
+        */
