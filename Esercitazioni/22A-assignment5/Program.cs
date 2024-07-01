@@ -170,3 +170,42 @@ while(scelta != 3); // il ciclo continua finchè la scelta è diversa da 3
 
 
 */
+
+// versione Matteo
+
+/*
+
+List<string> partecipanti = new List<string>();
+char inserimento = 'o';
+while (inserimento != 'q')
+{
+    Console.WriteLine("-----Gestionale classe-----\n1 - inserimentoerisci partecipante\n2 - Visualiza partecipanti\n3 - Ordina\nq per uscire");
+    inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
+    switch (inserimento)
+    {
+        case '1':
+            Console.WriteLine("inserimentoerire nome");
+            partecipanti.Add(Console.ReadLine()!);
+            Console.Clear();
+            break;
+        case '2':
+            Console.Clear();
+            Console.WriteLine("Partecipanti:");
+            foreach (string studente in partecipanti) Console.WriteLine(studente);
+            Console.WriteLine();
+            break;
+        case '3':
+            partecipanti.Sort();
+            Console.WriteLine("d - Discendente?");
+            inserimento = Console.ReadKey(true).KeyChar;
+            if (inserimento == 'd') partecipanti.Reverse();
+            Console.Clear();
+            break;
+        default:
+            Console.Clear();
+            Console.WriteLine("Scelta non valida.\n");
+            break;
+    }
+}
+
+*/
