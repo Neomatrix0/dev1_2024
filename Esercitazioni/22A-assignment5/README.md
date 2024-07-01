@@ -4,6 +4,8 @@
 // Creare una console app che contiene un elenco di nomi dei partecipanti del corso
 // La app sorteggia un nome e lo visualizza
 
+<details>Codice
+
 ```csharp
 List<string> nomi = new List<string>();
 nomi.Add("Mario");
@@ -28,6 +30,8 @@ List<string> nomi = new List<string> { "Mario", "Luigi", "Giovanni" };
 List<string> nomi = ["Mario", "Luigi", "Giovanni"];
 ```
 
+</details>
+
 // il metodo RemoveAt(indice) ci permette di eliminare un nome una volta che è stato estratto
 
 ## VERSIONE 2
@@ -35,6 +39,8 @@ List<string> nomi = ["Mario", "Luigi", "Giovanni"];
 // La app sorteggia un nome e lo visualizza
 // la app toglie dalla lista il nome sorteggiato
 // la app visualizza la lista dei nomi rimanenti
+
+<details>
 
 ```csharp
 List<string> nomi = new List<string>();
@@ -61,7 +67,7 @@ foreach (string nome in nomi)
     Console.WriteLine(nome);
 }
 ```
-
+</details>
 ## VERSIONE 3
 
 // Creare una console app che contiene un elenco di nomi dei partecipanti del corso
@@ -69,6 +75,9 @@ foreach (string nome in nomi)
 // la app toglie dalla lista il nome sorteggiato
 // la app visualizza la lista dei nomi rimanenti
 // la app continua a sorteggiare finchè ci sono nomi nella lista
+
+<details>
+
 ```csharp
 List<string> nomi = new List<string>();                         // dichiarazione di una lista di stringhe
 nomi.Add("Mario");
@@ -87,6 +96,7 @@ while (nomi.Count > 0)
     }
 }
 ```
+</details>
 
 ## VERSIONE 4
 
@@ -96,6 +106,9 @@ while (nomi.Count > 0)
 // la app visualizza la lista dei nomi rimanenti
 // la app visualizza la lista dei nomi sorteggiati
 // la app continua a sorteggiare finchè ci sono nomi nella lista
+
+<details>
+
 ```csharp
 
 // genero le lise e l'oggetto random
@@ -134,6 +147,7 @@ while (nomi.Count > 0)
     }
 }
 ```
+</details>
 
 ## VERSIONE 5
 
@@ -141,6 +155,9 @@ while (nomi.Count > 0)
 // La app permette di inserire un nuovo partecipante
 // La app visualizza la lista dei partecipanti
 // La app permette di uscire
+
+<details>
+
 ```csharp
 //----eseguo fuori dai loops----------------------------------------------------------
 List<string> partecipanti = new List<string>();
@@ -179,6 +196,8 @@ do
 while (scelta != 3); // il ciclo continua finchè la scelta è diversa da 3
 ```
 
+</details>
+
 ## VERSIONE 6
 
 // Creare una console app che contiene un elenco di nomi dei partecipanti del corso
@@ -186,6 +205,8 @@ while (scelta != 3); // il ciclo continua finchè la scelta è diversa da 3
 // La app visualizza la lista dei partecipanti
 // La app permette di uscire
 // la app permette di ordinare la lista dei partecipanti in ordine alfabetico
+
+<details>
 
 ```csharp
 partecipanti.Sort(); // ordinamento della lista in ordine alfabetico tramite il metodo Sort
@@ -246,9 +267,14 @@ do
 } while (scelta != 4);
 ```
 
+</details>
+
 ## VERSIONE 7
 
 // cerca un partecipante specifico
+
+<details>
+
 ```csharp
 partecipanti.Contains(nome)
 
@@ -328,7 +354,12 @@ do
     }
 } while (scelta != 5);
 ```
+
+</details>
+
 ## VERSIONE 8
+
+<details>
 
 ```csharp
 List<string> partecipanti = new List<string>();
@@ -405,6 +436,8 @@ do
     }
 } while (scelta != 5);
 ```
+</details>
+
 ## VERSIONE 9
 
 // Creare una console app che contiene un elenco di nomi dei partecipanti del corso
@@ -414,6 +447,9 @@ do
 // la app permette di ordinare la lista dei partecipanti in ordine alfabetico
 // la app permette di cercare un partecipante nella lista
 // la app permette di eliminare un partecipante dalla lista se il partecipante è presente
+
+<details>
+
 ```csharp
 partecipanti.Remove(nome);
 ```
@@ -506,6 +542,9 @@ do
     }
 } while (scelta != 6);
 ```
+
+</details>
+
 ## VERSIONE 10
 
 // Creare una console app che contiene un elenco di nomi dei partecipanti del corso
@@ -516,6 +555,9 @@ do
 // la app permette di cercare un partecipante nella lista
 // la app permette di eliminare un partecipante dalla lista
 // la app permette di modificare un partecipante nella lista
+
+<details>
+
 ```csharp
 int indice = partecipanti.IndexOf(nome); // IndexOf restituisce l'indice del nome nella lista
 ```
@@ -541,4 +583,49 @@ case 6:
 // aggiungo il conteggio dei partecipanti
 ```csharp
 Console.WriteLine($"Numero partecipanti: {partecipanti.Count}");
+```
+
+</details>
+
+### PRIMO GRAFICO
+
+```mermaid
+
+sequenceDiagram
+ autonumber
+    Utente->>PC:Avvia programma
+    loop checkCase
+    PC-->>Utente: Digita un numero da 1-8
+    Utente->>PC: Caso 1 inserisci partecipante
+    PC-->>Utente: Aggiunto alla lista
+    Utente->>PC: Caso 2 visualizza lista
+    PC->>Utente: mostra lista
+    Utente->>PC: Caso 3 Ordina lista 
+    PC->> Utente:  ordina o inverti lista?
+    Utente --> PC: Inverti
+
+
+
+
+    end
+    
+```
+# SECONDO GRAFICO
+
+```mermaid
+
+flowchart TD
+
+ Start --> A[/Inserisci numero/] -->B[/Case1:Inserisci nome partecipante/] & C[Case2:elenco partecipanti] & D[Case3] & F[Case4] & G[Case5] & H[Case6] & I[Case7] & L[Case8: esci]
+ B-->B1[aggiunto alla lista]
+ C-->C1[stampa lista]
+ D-->D1[Ordine decrescente]
+ F--> F1[verfica s epresente nella lista]
+ G--> G1[rimozione dalla lista se già presente]
+ H--> H1[/nuovo nome partecipante/] --> H2[Modifica nome]
+ I--> I1[Conteggio partecipanti]
+ L--> L1[esci]
+ 
+    
+
 ```

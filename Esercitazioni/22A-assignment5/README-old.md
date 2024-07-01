@@ -73,3 +73,20 @@ Eliminare un partecipante dalla lista se presente usando il seguente metodo
 ```c#
 nomelista.Remove(nome);
 ```
+
+# Versione 10
+
+La app permette di modificare un partecipante alla lista
+serve 
+
+nome
+
+if(partecipanti.Containes(nome){
+    string nuovonoe = Console:readLine()
+})
+
+int indice = partecipanti.indexOf(nome);
+lista[indice] = nuovonome;
+
+quando stampa lista partecipanti quanti partecipanti ci sono
+

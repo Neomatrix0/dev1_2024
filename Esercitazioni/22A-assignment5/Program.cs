@@ -9,9 +9,16 @@
 // la app permette di modificare un partecipante nella lista
 // la app permette di visualizzare il numero di partecipanti
 
-List<string> partecipanti = new List<string>();
+// creazione lista
+
+List<string> partecipanti = new List<string>();   
+
+// dichiarazioni variabili nome e scelta
+
 string nome;
 int scelta;
+
+// ciclo do while  si interrompe solo quando viene premuto 8
 
 do
 {
@@ -24,42 +31,49 @@ do
     Console.WriteLine("7. Numero partecipanti");
     Console.WriteLine("8. Esci");
     Console.Write("Scelta: ");
+
+    // accetta come input una stringa e la converte in numero
+
     scelta = Convert.ToInt32(Console.ReadLine());
     switch (scelta)
     {
-        case 1:
+        case 1:                                                     // inserisci partecipante                     
             Console.Write("Nome partecipante: ");
-            nome = Console.ReadLine();
+            nome = Console.ReadLine().ToLower().Trim();             // accetta input ed elimina spazi vuoti o problemi relativi al caps lock
             partecipanti.Add(nome);
             break;
+
         case 2:
-            Console.WriteLine("Elenco partecipanti:");
+            Console.WriteLine("Elenco partecipanti:");              // ciclo che stampa elenco partecipanti
             foreach (string partecipante in partecipanti)
             {
                 Console.WriteLine(partecipante);
             }
             break;
+
         case 3:
-            Console.WriteLine("1. Ordine crescente");
+            Console.WriteLine("1. Ordine crescente");                // se premi 1  mette la lista in ordine crescente se premi 2 la mette in ordine descrescente
             Console.WriteLine("2. Ordine decrescente");
             Console.Write("Scelta: ");
+
             int ordine = Convert.ToInt32(Console.ReadLine());
             if (ordine == 1)
             {
-                partecipanti.Sort();
+                partecipanti.Sort();                                // metodo per mettere in ordine alfabetico i nomi nella lista
             }
             else if (ordine == 2)
             {
                 partecipanti.Sort();
-                partecipanti.Reverse();
+                partecipanti.Reverse();                             // metodo per mettere in ordine inverso i nomi nella lista
             }
             else
             {
                 Console.WriteLine("Scelta non valida");
             }
             break;
+
         case 4:
-            Console.Write("Nome partecipante: ");
+            Console.Write("Nome partecipante: ");                               // verifica se il partecipante è presente nella lista o meno
             nome = Console.ReadLine();
             if (partecipanti.Contains(nome))
             {
@@ -70,27 +84,29 @@ do
                 Console.WriteLine("Il partecipante non è presente nella lista");
             }
             break;
-        case 5:
+
+        case 5:                                                                     //  Se il partecipante inserito è già nella lista viene rimosso 
             Console.Write("Nome partecipante: ");
             nome = Console.ReadLine();
-            if (partecipanti.Contains(nome))
+            if (partecipanti.Contains(nome))                                        // metodo che permette di rilevare se i partecipanti sono nella lista
             {
-                partecipanti.Remove(nome);
+                partecipanti.Remove(nome);                                          // metodo per rimuovere il nome dalla lista
                 Console.WriteLine("Il partecipante è stato eliminato dalla lista");
             }
             else
             {
-                Console.WriteLine("Il partecipante non è presente nella lista");
+                Console.WriteLine("Il partecipante non è presente nella lista");        
             }
             break;
+
         case 6:
-            Console.Write("Nome partecipante: ");
+            Console.Write("Nome partecipante: ");                                   // modifica nome partecipante
             nome = Console.ReadLine();
             if (partecipanti.Contains(nome))
             {
                 Console.Write("Nuovo nome: ");
                 string nuovoNome = Console.ReadLine();
-                int indice = partecipanti.IndexOf(nome);
+                int indice = partecipanti.IndexOf(nome);                            // assegnato l'indice del nome alla variabile indice
                 partecipanti[indice] = nuovoNome;
                 Console.WriteLine("Il partecipante è stato modificato nella lista");
             }
@@ -100,16 +116,19 @@ do
             }
             break;
         case 7:
-            Console.WriteLine($"Numero partecipanti: {partecipanti.Count}");
+
+            Console.WriteLine($"Numero partecipanti: {partecipanti.Count}");         // stampa il numero di partecipanti
             break;
+
         case 8:
-            Console.WriteLine("Arrivederci!");
+            Console.WriteLine("Arrivederci!");                                      // se premi 8 esci dal loop
             break;
+
         default:
-            Console.WriteLine("Scelta non valida");
+            Console.WriteLine("Scelta non valida");                                 // se il numero scelto non rientra in quelli prestabiliti allora stampa il messaggio
             break;
     }
-} while (scelta != 8);
+} while (scelta != 8);                                                              // se il numero scelto è 8 il loop verrà chiuso
 
 
 
