@@ -1,4 +1,123 @@
-﻿// Applicazione gestione utenti
+﻿
+// Creare una console app che contiene un elenco di nomi dei partecipanti del corso
+// La app permette di inserire un nuovo partecipante
+// La app visualizza la lista dei partecipanti
+// La app permette di uscire
+// la app permette di ordinare la lista dei partecipanti in ordine alfabetico
+// la app permette di cercare un partecipante nella lista
+// la app permette di eliminare un partecipante dalla lista
+// la app permette di modificare un partecipante nella lista
+// la app permette di visualizzare il numero di partecipanti
+
+List<string> partecipanti = new List<string>();
+string nome;
+int scelta;
+
+do
+{
+    Console.WriteLine("1. Inserisci partecipante");
+    Console.WriteLine("2. Visualizza partecipanti");
+    Console.WriteLine("3. Ordina partecipanti");
+    Console.WriteLine("4. Cerca partecante");
+    Console.WriteLine("5. Elimina partecante");
+    Console.WriteLine("6. Modifica partecipante");
+    Console.WriteLine("7. Numero partecipanti");
+    Console.WriteLine("8. Esci");
+    Console.Write("Scelta: ");
+    scelta = Convert.ToInt32(Console.ReadLine());
+    switch (scelta)
+    {
+        case 1:
+            Console.Write("Nome partecipante: ");
+            nome = Console.ReadLine();
+            partecipanti.Add(nome);
+            break;
+        case 2:
+            Console.WriteLine("Elenco partecipanti:");
+            foreach (string partecipante in partecipanti)
+            {
+                Console.WriteLine(partecipante);
+            }
+            break;
+        case 3:
+            Console.WriteLine("1. Ordine crescente");
+            Console.WriteLine("2. Ordine decrescente");
+            Console.Write("Scelta: ");
+            int ordine = Convert.ToInt32(Console.ReadLine());
+            if (ordine == 1)
+            {
+                partecipanti.Sort();
+            }
+            else if (ordine == 2)
+            {
+                partecipanti.Sort();
+                partecipanti.Reverse();
+            }
+            else
+            {
+                Console.WriteLine("Scelta non valida");
+            }
+            break;
+        case 4:
+            Console.Write("Nome partecipante: ");
+            nome = Console.ReadLine();
+            if (partecipanti.Contains(nome))
+            {
+                Console.WriteLine("Il partecipante è presente nella lista");
+            }
+            else
+            {
+                Console.WriteLine("Il partecipante non è presente nella lista");
+            }
+            break;
+        case 5:
+            Console.Write("Nome partecipante: ");
+            nome = Console.ReadLine();
+            if (partecipanti.Contains(nome))
+            {
+                partecipanti.Remove(nome);
+                Console.WriteLine("Il partecipante è stato eliminato dalla lista");
+            }
+            else
+            {
+                Console.WriteLine("Il partecipante non è presente nella lista");
+            }
+            break;
+        case 6:
+            Console.Write("Nome partecipante: ");
+            nome = Console.ReadLine();
+            if (partecipanti.Contains(nome))
+            {
+                Console.Write("Nuovo nome: ");
+                string nuovoNome = Console.ReadLine();
+                int indice = partecipanti.IndexOf(nome);
+                partecipanti[indice] = nuovoNome;
+                Console.WriteLine("Il partecipante è stato modificato nella lista");
+            }
+            else
+            {
+                Console.WriteLine("Il partecipante non è presente nella lista");
+            }
+            break;
+        case 7:
+            Console.WriteLine($"Numero partecipanti: {partecipanti.Count}");
+            break;
+        case 8:
+            Console.WriteLine("Arrivederci!");
+            break;
+        default:
+            Console.WriteLine("Scelta non valida");
+            break;
+    }
+} while (scelta != 8);
+
+
+
+
+
+
+
+/*// Applicazione gestione utenti
 
 // creazione lista vuota di stringhe
 
@@ -8,7 +127,7 @@ List<string> listaNomi = new List<string>();
 
 while (true)
 {
-    Console.WriteLine("\nDigita 1 se vuoi inserire un nuovo partecipante.\nDigita 2 per vedere l'elenco dei partecipanti.\nDigita 3 per uscire\nDigita 4 per mettere in ordine alfabetico la lista oppure invertirla\n");
+    Console.WriteLine("\nDigita 1 se vuoi inserire un nuovo partecipante.\nDigita 2 per vedere l'elenco dei partecipanti.\nDigita 3 per uscire\nDigita 4 per mettere in ordine alfabetico la lista oppure invertirla\nDigita 5 per cercare un nome nell'elenco");
 
     // converte un input di tipo stringa in un intero
 
@@ -21,8 +140,25 @@ while (true)
 
         case 1:
             Console.WriteLine("Inserisci partecipante: \n");
-            string scelto = Console.ReadLine().ToLower().Trim();        // accetta una stringa come input
-            listaNomi.Add(scelto);                                      // viene aggiunto il nome alla lista 
+
+            string scelto = Console.ReadLine().ToLower().Trim();           // accetta una stringa come input
+
+            if (listaNomi.Contains(scelto))                                // se il nome è già nell'elenco genera un warning
+            {
+
+
+                Console.WriteLine($"{scelto} è già nell'elenco");
+
+
+            }
+            else
+            {
+                listaNomi.Add(scelto);                                 // viene aggiunto il nome alla lista 
+            };
+
+
+
+
             Thread.Sleep(1000);                                         // pausa di 1 secondo                            
             break;
 
@@ -57,19 +193,10 @@ while (true)
             return;
 
         case 4:
-          
-        /* versione ottimale
-        listaNomi.Sort();
-        Console.WriteLine();
-        ins = Console.ReadKey(true).KeyChar;
-        if( ins == 'd') listaNomi.Reverse();
-        Console.Clear();
-        break;
+
+            
 
 
-
-
-         */
             Console.WriteLine("se digiti 1 mette la lista in ordine alfabetico, se digiti 2 la lista si inverte");
 
 
@@ -88,10 +215,11 @@ while (true)
                     Console.WriteLine(nome);
 
                 };
-                                                                                     //scelta d'invertire l'elenco
+                //scelta d'invertire l'elenco
             }
             else if (ordine == 2)
             {
+                listaNomi.Sort();
 
                 listaNomi.Reverse();                                                 //inverte l'ordine dei partecipanti
 
@@ -102,7 +230,9 @@ while (true)
                     Console.WriteLine(nome);
 
                 };
-            }else{
+            }
+            else
+            {
                 Console.WriteLine("Numero errato.Puoi digitare solo 1 o 2.");
             }
 
@@ -111,7 +241,40 @@ while (true)
 
 
             Thread.Sleep(1000);
-            break;*/
+            break;
+
+        case 5:
+            Console.WriteLine("Inserisci il nome del partecipante da cercare\n");
+            string nome = Console.ReadLine().ToLower().Trim();
+
+            if (listaNomi.Contains(nome))                          //  verifica se il nome inserito è nell'elenco
+            {
+                listaNomi.Remove(nome);
+                Console.WriteLine($"{nome} è già nell'elenco quindi è stato rimosso");
+
+            }
+            else
+            {
+                Console.WriteLine($"{nome} non è nell'elenco");
+            };
+
+            break;
+           
+
+            case 6:
+            Console.Write("Nome partecipante:");
+            nome = Console.ReadLine();
+            if(listaNomi.Contains(nome)){
+                Console.Write("Nuovo nome:");
+                string nuovoNome = Console.ReadLine();
+                int indice = listaNomi.indexOf(nome);
+                partecipanti[indice] = nuovoNome;
+                Console.WriteLine("Il partecipanto è stato modificato dalla lista");
+            }else{
+                Console.WriteLine("Il partecipante è stato modificato nella lista");
+            }
+            Console.WriteLine($"Il numero dei partecipanti è {listaNomi.Count}");
+
 
         default:
             Console.WriteLine("Scelta non valida. Riprova.\n");         //se vengono digitati altri numeri non compresi nelle casistiche l'applicazione lo segnala
@@ -125,51 +288,9 @@ while (true)
 
 }
 
-//versione insegnante
-/*
-
-List<string> partecipanti = new List<string>();
-string nome;
-int scelta;
-
-do{
-Console.WriteLine("1. Inserisci partecipante");
-Console.WriteLine("2. Visualizza partecipanti");
-Console.WriteLine("3. Esci");
-
-scelta = Convert.ToInt32(Console.ReadLine());
-
-switch(scelta){
-
-case 1:
-
-Console.Write("Nome partecipante: ");
-nome = Console.ReadLine();
-partecipanti.Add(nome);
-break;
-
-case 2:
-
-Console.WriteLine("Elenco partecipanti: ");
-foreach(string partecipante in partecipanti){
-Console.WriteLine(partecipante);
-}
-break;
-
-case 3:
-Console.WriteLine("Arrivederci");
-break;
-
-default:
-Console.WriteLine("Scelta non valida");
-break;
-}
-}
-while(scelta != 3); // il ciclo continua finchè la scelta è diversa da 3
-
-
-
 */
+
+
 
 // versione Matteo
 
@@ -179,12 +300,12 @@ List<string> partecipanti = new List<string>();
 char inserimento = 'o';
 while (inserimento != 'q')
 {
-    Console.WriteLine("-----Gestionale classe-----\n1 - inserimentoerisci partecipante\n2 - Visualiza partecipanti\n3 - Ordina\nq per uscire");
+    Console.WriteLine("-----Gestionale classe-----\n1 - inserimento partecipante\n2 - Visualizza partecipanti\n3 - Ordina\nq per uscire");
     inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
     switch (inserimento)
     {
         case '1':
-            Console.WriteLine("inserimentoerire nome");
+            Console.WriteLine("inserimento nome");
             partecipanti.Add(Console.ReadLine()!);
             Console.Clear();
             break;

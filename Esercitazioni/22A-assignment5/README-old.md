@@ -48,6 +48,28 @@ visualizza la lista di partecipanti
 
 la app permette di uscire
 
-4. La app permette di ordinare la lista dei partecipanti in ordine alfabetico con il metodo partecipanti.Sort();
+# Versione 6
+
+1. La app permette di ordinare la lista dei partecipanti in ordine alfabetico con il metodo partecipanti.Sort();
 partecipanti.Reverse(); ordinamento inverso
 
+# Versione 7
+
+1.  cerca un partecipante specifico nella lista
+```c#
+ if(partecipanti.Contains(nome){
+    Console.WriteLine($"{nome} è nell'elenco ")
+ });
+
+ ```
+
+Dovrà dirci se il nome inserito è compreso oppure no nella lista
+
+
+# Versione 8
+
+Eliminare un partecipante dalla lista se presente usando il seguente metodo 
+
+```c#
+nomelista.Remove(nome);
+```
