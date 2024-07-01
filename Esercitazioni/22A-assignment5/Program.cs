@@ -114,10 +114,10 @@ do
 
 
 
+/*
 
 
-
-/*// Applicazione gestione utenti
+// Applicazione gestione utenti
 
 // creazione lista vuota di stringhe
 
@@ -143,20 +143,7 @@ while (true)
 
             string scelto = Console.ReadLine().ToLower().Trim();           // accetta una stringa come input
 
-            if (listaNomi.Contains(scelto))                                // se il nome è già nell'elenco genera un warning
-            {
-
-
-                Console.WriteLine($"{scelto} è già nell'elenco");
-
-
-            }
-            else
-            {
-                listaNomi.Add(scelto);                                 // viene aggiunto il nome alla lista 
-            };
-
-
+            listaNomi.Add(scelto);                                 // viene aggiunto il nome alla lista 
 
 
             Thread.Sleep(1000);                                         // pausa di 1 secondo                            
@@ -194,7 +181,7 @@ while (true)
 
         case 4:
 
-            
+
 
 
             Console.WriteLine("se digiti 1 mette la lista in ordine alfabetico, se digiti 2 la lista si inverte");
@@ -237,9 +224,6 @@ while (true)
             }
 
 
-
-
-
             Thread.Sleep(1000);
             break;
 
@@ -259,21 +243,24 @@ while (true)
             };
 
             break;
-           
 
-            case 6:
+
+        case 6:
             Console.Write("Nome partecipante:");
             nome = Console.ReadLine();
-            if(listaNomi.Contains(nome)){
+            if (listaNomi.Contains(nome))
+            {
                 Console.Write("Nuovo nome:");
                 string nuovoNome = Console.ReadLine();
                 int indice = listaNomi.indexOf(nome);
                 partecipanti[indice] = nuovoNome;
                 Console.WriteLine("Il partecipanto è stato modificato dalla lista");
-            }else{
+            }
+            else
+            {
                 Console.WriteLine("Il partecipante è stato modificato nella lista");
             }
-            Console.WriteLine($"Il numero dei partecipanti è {listaNomi.Count}");
+            break;
 
 
         default:
@@ -281,20 +268,15 @@ while (true)
             Thread.Sleep(1000);
             break;
 
-
-
-
     }
 
 }
-
-*/
 
 
 
 // versione Matteo
 
-/*
+
 
 List<string> partecipanti = new List<string>();
 char inserimento = 'o';
