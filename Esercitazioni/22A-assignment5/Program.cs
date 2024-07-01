@@ -74,7 +74,7 @@ do
 
         case 4:
             Console.Write("Nome partecipante: ");                               // verifica se il partecipante è presente nella lista o meno
-            nome = Console.ReadLine();
+            nome = Console.ReadLine().ToLower().Trim();
             if (partecipanti.Contains(nome))
             {
                 Console.WriteLine("Il partecipante è presente nella lista");
@@ -136,17 +136,19 @@ do
 /*
 
 
-// Applicazione gestione utenti
+// Applicazione gestione utenti versione personale
 
 // creazione lista vuota di stringhe
 
 List<string> listaNomi = new List<string>();
 
+string nome;
+
 // loop per continuare ad eseguire l'applicazione
 
 while (true)
 {
-    Console.WriteLine("\nDigita 1 se vuoi inserire un nuovo partecipante.\nDigita 2 per vedere l'elenco dei partecipanti.\nDigita 3 per uscire\nDigita 4 per mettere in ordine alfabetico la lista oppure invertirla\nDigita 5 per cercare un nome nell'elenco");
+    Console.WriteLine("\nDigita 1 se vuoi inserire un nuovo partecipante.\nDigita 2 per vedere l'elenco dei partecipanti.\nDigita 3 per uscire\nDigita 4 per mettere in ordine alfabetico la lista oppure invertirla\nDigita 5 per cercare un nome nell'elenco\nDigita 6 per modificare il partecipante\nDigita 7 per conteggiare il totale dei partecipanti");
 
     // converte un input di tipo stringa in un intero
 
@@ -160,9 +162,9 @@ while (true)
         case 1:
             Console.WriteLine("Inserisci partecipante: \n");
 
-            string scelto = Console.ReadLine().ToLower().Trim();           // accetta una stringa come input
+            nome = Console.ReadLine().ToLower().Trim();           // accetta una stringa come input
 
-            listaNomi.Add(scelto);                                 // viene aggiunto il nome alla lista 
+            listaNomi.Add(nome);                                 // viene aggiunto il nome alla lista 
 
 
             Thread.Sleep(1000);                                         // pausa di 1 secondo                            
@@ -182,12 +184,12 @@ while (true)
             else
             {
 
-                foreach (string nome in listaNomi)                               // ciclo per mostrare tutti gli utenti aggiunti alla lista 
+                foreach(string partecipante in listaNomi)                               // ciclo per mostrare tutti gli utenti aggiunti alla lista 
                 {
-                    Console.WriteLine(nome);
+                    Console.WriteLine(partecipante);
 
                 }
-            };
+            }
             Thread.Sleep(1000);
 
             break;
@@ -215,10 +217,10 @@ while (true)
 
                 Console.WriteLine("La lista in ordine alfabetico\n");
 
-                foreach (string nome in listaNomi)                                  // ciclo per mostrare tutti gli utenti aggiunti alla lista 
+                foreach (string nominativo in listaNomi)                                  // ciclo per mostrare tutti gli utenti aggiunti alla lista 
                 {
 
-                    Console.WriteLine(nome);
+                    Console.WriteLine(nominativo);
 
                 };
                 //scelta d'invertire l'elenco
@@ -231,9 +233,9 @@ while (true)
 
                 Console.WriteLine($"\nLa lista in ordine invertito.\n");
 
-                foreach (string nome in listaNomi)                                   // ciclo per mostrare tutti gli utenti aggiunti alla lista  in modo invertito
+                foreach (string nomi in listaNomi)                                   // ciclo per mostrare tutti gli utenti aggiunti alla lista  in modo invertito
                 {
-                    Console.WriteLine(nome);
+                    Console.WriteLine(nomi);
 
                 };
             }
@@ -248,7 +250,7 @@ while (true)
 
         case 5:
             Console.WriteLine("Inserisci il nome del partecipante da cercare\n");
-            string nome = Console.ReadLine().ToLower().Trim();
+            nome = Console.ReadLine().ToLower().Trim();
 
             if (listaNomi.Contains(nome))                          //  verifica se il nome inserito è nell'elenco
             {
@@ -266,20 +268,25 @@ while (true)
 
         case 6:
             Console.Write("Nome partecipante:");
-            nome = Console.ReadLine();
+            nome = Console.ReadLine().Trim().ToLower();
             if (listaNomi.Contains(nome))
             {
                 Console.Write("Nuovo nome:");
-                string nuovoNome = Console.ReadLine();
-                int indice = listaNomi.indexOf(nome);
-                partecipanti[indice] = nuovoNome;
-                Console.WriteLine("Il partecipanto è stato modificato dalla lista");
+                string nuovoNome = Console.ReadLine().ToLower().Trim();
+                int indice = listaNomi.IndexOf(nome);
+                listaNomi[indice] = nuovoNome;
+                Console.WriteLine("Il partecipante è stato modificato dalla lista");
             }
             else
             {
-                Console.WriteLine("Il partecipante è stato modificato nella lista");
+                Console.WriteLine("Il partecipante non è nella lista");
             }
             break;
+
+            case 7:
+             Console.WriteLine($"Numero partecipanti: {listaNomi.Count}");
+            break;
+
 
 
         default:
@@ -293,9 +300,24 @@ while (true)
 
 
 
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 // versione Matteo
 
-
+/*
 
 List<string> partecipanti = new List<string>();
 char inserimento = 'o';
