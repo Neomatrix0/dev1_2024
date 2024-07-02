@@ -31,7 +31,7 @@ Console.WriteLine("Di quale dipendente vuoi cambiare lo stato?");
 
 string nomeDipendente = Console.ReadLine();
 
-if (presenze.ContainsKey(nomeDipendente))
+if (presenze.ContainsKey(nomeDipendente))                   // se contiene determinata chiave
 {
     presenze[nomeDipendente] = !presenze[nomeDipendente];   // cambio stato dipendente
 }
