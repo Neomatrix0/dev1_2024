@@ -612,20 +612,38 @@ sequenceDiagram
 ```
 # SECONDO GRAFICO
 
+ 
+
 ```mermaid
 
 flowchart TD
 
- Start --> A[/Inserisci numero/] -->B[/Case1:Inserisci nome partecipante/] & C[Case2:elenco partecipanti] & D[Case3] & F[Case4] & G[Case5] & H[Case6] & I[Case7] & L[Case8: esci]
- B-->B1[aggiunto alla lista]
- C-->C1[stampa lista]
- D-->D1[Ordine decrescente]
- F--> F1[verfica s epresente nella lista]
- G--> G1[rimozione dalla lista se già presente]
- H--> H1[/nuovo nome partecipante/] --> H2[Modifica nome]
- I--> I1[Conteggio partecipanti]
- L--> L1[esci]
- 
-    
+ Start --> A[/Inserisci numero/]
+ A --> B[/Case1: Inserisci nome partecipante/]
+ A --> C[/Case2: Elenco partecipanti/]
+ A --> D[/Case3: Ordina partecipanti/]
+ A --> F[/Case4: Cerca partecipante/]
+ A --> G[/Case5: Elimina partecipante/]
+ A --> H[/Case6: Modifica partecipante/]
+ A --> I[/Case7: Numero partecipanti/]
+ A --> L[/Case8: Esci/]
 
-```
+ B --> B1[aggiunto alla lista]
+ C --> C1[stampa lista]
+ D --> D1[Ordine decrescente?]
+ D1 -->|Sì| D2[Ordine decrescente]
+ D1 -->|No| D3[Ordine crescente]
+ F --> F1[verifica se presente nella lista]
+ G --> G1[rimozione dalla lista se già presente]
+ H --> H1[/nuovo nome partecipante/]
+ H1 --> H2[Modifica nome]
+ I --> I1[Conteggio partecipanti]
+ L --> L1[Arrivederci!]
+
+ subgraph Loop
+    End -->|Scelta != 8| A
+    L1 -->|Scelta == 8| Stop[Fine ciclo]
+ end
+
+ ```
+ 
