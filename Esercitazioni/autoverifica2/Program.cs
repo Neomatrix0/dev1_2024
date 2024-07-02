@@ -27,7 +27,7 @@ do
 
         case 2:
 
-           Console.WriteLine("Hai selezionato l'Opzione tre sentirai un suono");
+           Console.WriteLine("Hai selezionato l'opzione due sentirai un suono");
             Console.Beep();
            
 
@@ -46,7 +46,7 @@ do
             Console.WriteLine("Numero errato,ritenta.");
             break;
     }
-    
+
     if (prosecuzione)
     {
         Console.WriteLine("Premi un tasto per continuare");
