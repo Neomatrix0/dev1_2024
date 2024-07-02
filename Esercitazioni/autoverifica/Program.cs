@@ -21,3 +21,4 @@ Console.WriteLine($"La somma dei numeri estratti è {somma}");       // stampa s
 
 
 
+
