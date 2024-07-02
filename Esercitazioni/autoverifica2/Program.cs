@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-bool uscita = true;
+bool prosecuzione = true;
 do
 {
     Console.Clear();
@@ -31,7 +31,7 @@ do
 
         case 2:
             Console.WriteLine("l'applicazione si chiuderà");
-            uscita = false;
+            prosecuzione = false;
 
             break;
 
@@ -49,7 +49,7 @@ do
             Console.WriteLine("Numero errato,ritenta.");
             break;
     }
-    if(uscita)
+    if(prosecuzione)
     {
         Console.WriteLine("Premi un tasto per continuare");
         Console.ReadKey();
@@ -60,4 +60,4 @@ do
 
 
 
-while (uscita);
+while (prosecuzione);

@@ -39,14 +39,14 @@ do
     switch (scelta)
     {
         case 1:   
-            Console.Clear();                                                  // inserisci partecipante                     
+                                                             // inserisci partecipante                     
             Console.Write("Nome partecipante: ");
             nome = Console.ReadLine().ToLower().Trim();             // accetta input ed elimina spazi vuoti o problemi relativi al caps lock
             partecipanti.Add(nome);
             break;
 
         case 2:
-            Console.Clear();
+            
             Console.WriteLine("Elenco partecipanti:");              // ciclo che stampa elenco partecipanti
             foreach (string partecipante in partecipanti)
             {
@@ -55,7 +55,7 @@ do
             break;
 
         case 3:
-        Console.Clear();
+        
             Console.WriteLine("1. Ordine crescente");                // se premi 1  mette la lista in ordine crescente se premi 2 la mette in ordine descrescente
             Console.WriteLine("2. Ordine decrescente");
             Console.Write("Scelta: ");
@@ -77,7 +77,7 @@ do
             break;
 
         case 4:
-        Console.Clear();
+        
             Console.Write("Nome partecipante: ");                               // verifica se il partecipante è presente nella lista o meno
             nome = Console.ReadLine().ToLower().Trim();
             if (partecipanti.Contains(nome))
@@ -91,7 +91,7 @@ do
             break;
 
         case 5:   
-            Console.Clear();                                                                  //  Se il partecipante inserito è già nella lista viene rimosso 
+                                                                            //  Se il partecipante inserito è già nella lista viene rimosso 
             Console.Write("Nome partecipante: ");
             nome = Console.ReadLine();
             if (partecipanti.Contains(nome))                                        // metodo che permette di rilevare se i partecipanti sono nella lista
