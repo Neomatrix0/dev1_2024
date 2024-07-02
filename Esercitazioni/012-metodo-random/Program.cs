@@ -10,7 +10,7 @@ int primoNumero = int.Parse(Console.ReadLine());
 
 Console.WriteLine("Inserisci il secondo numero dell'intervallo");
 
-
+// int numero = random.Next(11); in questo caso parte da 0
 
 int secondoNumero = int.Parse(Console.ReadLine());
 

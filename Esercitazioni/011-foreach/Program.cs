@@ -1,4 +1,4 @@
-﻿// for each 
+﻿// esempi di for each 
 
 
 /*int[] numeri = new int[10];
