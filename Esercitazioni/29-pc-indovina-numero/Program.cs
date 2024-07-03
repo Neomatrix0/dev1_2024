@@ -1,59 +1,81 @@
-﻿// VERSIONE DA CORREGGERE
-/*
+﻿// Guess player number
+
 
 Random random = new Random();
 int counter =10;
 int myNumber;
 int maxNumber = 100;
 int minNumber = 1;
+int pcNumber;
+
 Console.WriteLine("Choose a number and the pc will try to figure it out");
+
+
  myNumber= Convert.ToInt32(Console.ReadLine());
 
+// condition to keep the loop
 
 while(counter >0){
+
+// clean console
+
 Console.Clear();
 
-Console.WriteLine("This is my number: " + myNumber);
+Console.WriteLine("This is the user number: " + myNumber);
+
+// mause for one second
+
 Thread.Sleep(1000);
 
+// range minimum and max value
 
+pcNumber = random.Next(minNumber, maxNumber+1);
 
-int pcNumber = random.Next(minNumber, maxNumber)+1;
-//int findNumber = (maxNumber + minNumber)/2;
+Console.WriteLine($"This is the number chosen by PC:  {pcNumber}");
 
-//int tryLowNum = random.Next(1,pcNumber);
-
-//int tryGreaterNum = random.Next(pcNumber,101);
-
-Console.WriteLine("This is pc number: " + pcNumber);
+// win condition
 
 if(pcNumber == myNumber){
     Console.WriteLine($"it's {myNumber} so PC has won.");
-    
-    counter =0;
+
+// exit the loop
+
+    counter =0;                                             
     Thread.Sleep(1000);
+
+// if guessed number is lower than useer number
 
 }else if(pcNumber < myNumber){
     Console.WriteLine($"it's {pcNumber} still too low. Try an higher number");
-    //tryLowNum;
     
-    //random.next(pcNumber,11);
-    Console.WriteLine($"Pc: I try a greater number:\n{pcNumber+1}");
+// try an higher number
+    
+    minNumber = pcNumber +1;
+    
     Thread.Sleep(1000);
 
 
 }else{
     Console.WriteLine($"it's {pcNumber} still too high.");
 
-    Console.WriteLine($"Pc try a lower number:\n{pcNumber-1}");
+    // try a lower number
+
+    maxNumber = pcNumber -1;
+    
     Thread.Sleep(1000);
     
 }
 
+// counts and reduce by one for each loop
+
 counter--;
 Thread.Sleep(1000);
 
+// if the pc didn't guess the number print this message
+
+}
+if(counter == 0){
+    Console.WriteLine($"Pc couldn't guess the {myNumber} within 10 tries.");
 }
 
-//Console.WriteLine($"Il numero sorteggiato casualmente è {numeroCasuale}");   
-*/
+
