@@ -1,4 +1,4 @@
-﻿Random random = new Random();
+﻿﻿Random random = new Random();
 int counter =10;
 int myNumber;
 int maxNumber = 100;
