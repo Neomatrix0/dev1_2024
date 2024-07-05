@@ -23,7 +23,7 @@ Console.Clear();
 
 Console.WriteLine("This is the user number: " + myNumber);
 
-// mause for one second
+// pause for one second
 
 Thread.Sleep(1000);
 
@@ -40,8 +40,9 @@ if(pcNumber == myNumber){
 
 // exit the loop
 
-    counter =0;                                             
+                                               
     Thread.Sleep(1000);
+    break;
 
 // if guessed number is lower than useer number
 
