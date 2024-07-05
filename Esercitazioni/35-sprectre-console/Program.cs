@@ -72,4 +72,14 @@ AnsiConsole.Render(panel);
 
 // esempio di progress bar
 
+AnsiConsole.Write(new BarChart()
+.Width(60)
+.Label("[green bold underline]Fruits[/]")
+.CenterLabel()
+.AddItem("Apple",12, Color.Yellow)
+.AddItem("Orange",12, Color.Green)
+.AddItem("Banana",12, Color.Red)
+
+
+);
 
