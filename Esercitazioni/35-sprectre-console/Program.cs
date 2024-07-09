@@ -33,7 +33,7 @@ AnsiConsole.Clear();
 AnsiConsole.Write(new Markup("[bold yellow]Hello[/] [bold red]World!\n[/]"));
 
 
-AnsiConsole.Write(new Markup("[28]Hello[/] [blue]World!\n[/]"));  
+AnsiConsole.Write(new Markup("[28]Hello[/] [blue]World!\n[/]"));
 
 
 
@@ -52,7 +52,7 @@ var continua = AnsiConsole.Confirm("Vuoi continuare?");
 var table = new Table();
 table.AddColumn("Nome corso");
 table.AddColumn("Anno");
-table.AddRow("Corso di informatica","2024");
+table.AddRow("Corso di informatica", "2024");
 AnsiConsole.Render(table);
 
 var rule = new Rule("[red]Hello[/]");
@@ -76,10 +76,48 @@ AnsiConsole.Write(new BarChart()
 .Width(60)
 .Label("[green bold underline]Fruits[/]")
 .CenterLabel()
-.AddItem("Apple",12, Color.Yellow)
-.AddItem("Orange",12, Color.Green)
-.AddItem("Banana",12, Color.Red)
+.AddItem("Apple", 12, Color.Yellow)
+.AddItem("Orange", 12, Color.Green)
+.AddItem("Banana", 12, Color.Red)
 
 
 );
 
+// esempio di calendario
+var calendar = new Calendar(DateTime.Now.Year, DateTime.Now.Month);
+// localizzazioni
+calendar.Culture("it-IT");
+// impostazioni
+calendar.AddCalendarEvent(2024, 7, 11);
+calendar.HighlightStyle(Style.Parse("blue bold"));
+AnsiConsole.Write(calendar);
+
+// esempio di layout 
+
+// Create the layout
+var layout = new Layout("Root")
+    .SplitColumns(
+        new Layout("Left"),
+        new Layout("Right")
+            .SplitRows(
+                new Layout("Top"),
+                new Layout("Bottom")));
+
+// Update the left column
+layout["Left"].Update(
+    new Panel(
+        Align.Center(
+            new Markup("Hello [blue]World![/]"),
+            VerticalAlignment.Middle))
+        .Expand());
+
+// Render the layout
+AnsiConsole.Write(layout);
+
+
+AnsiConsole.Write(
+    new FigletText("Hello")
+        .LeftJustified()
+        .Color(Color.Red));
+
+AnsiConsole.MarkupLine("Hello :warning:");
