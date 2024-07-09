@@ -10,6 +10,7 @@ int counter = 0;
 string userSuggest;
 bool guessed = false;
 
+
 Console.WriteLine($"PC:Welcome,please think a number...");
 
 // loop for tries

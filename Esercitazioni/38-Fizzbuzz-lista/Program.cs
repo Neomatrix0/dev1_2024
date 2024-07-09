@@ -35,7 +35,7 @@ for (int i = 1; i <= 100; i++)
     Thread.Sleep(30);
 }
 
-// togli gli elementi duplicati dalla lista
+// togli gli elementi duplicati dalla lista con il metodo .Distinct().ToList();
 fizzbuzz = fizzbuzz.Distinct().ToList();
 fizz = fizz.Distinct().ToList();
 buzz = buzz.Distinct().ToList();
