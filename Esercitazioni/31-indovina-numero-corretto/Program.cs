@@ -1,4 +1,7 @@
-﻿// Guess the proper number
+﻿using Spectre.Console;
+
+Console.Clear();
+// Guess the proper number
 
 Random random = new Random();
 
@@ -11,7 +14,9 @@ string userSuggest;
 bool guessed = false;
 
 
-Console.WriteLine($"PC:Welcome,please think a number...");
+//Console.WriteLine($"PC:Welcome,please think a number...");
+
+AnsiConsole.MarkupLine("[bold yellow]Think of a number between 1 and 100, I'm gonna try and guess it.[/]");
 
 // loop for tries
 

@@ -28,8 +28,9 @@ Rappresentazione del flusso di gioco e delle decisioni che vengono prese a ogni 
 
    Start -->
    Random-->
-   A[Player 1 lancio1] & C[PC lancio1]
-   A-->B[Player 1 lancio 2]-->F[somma lancio giocatore1]-->G
+   A[Player 1 think a number] --> C[PC guess] -- yes -->D[solved]
+
+   
    C-->D[PC lancio 2]-->E[somma lancio pc] -->
    G{lancio giocatore1 maggiore di lancio pc?}--si-->H[Sottrai punti a pc per la differenza dei punteggi]-->L
    G --no -->I[Sottrai punti a giocatore 1 per la differenza dei punteggi]-->

@@ -107,3 +107,26 @@ while (counter < 5)
 ```
 
 </details>
+
+```mermaid
+
+flowchart LR
+
+
+   Start -->
+   Random-->
+   A[Player 1 pensa numero] --> B[PC lancio1]
+   C{indovina?}
+
+
+   A-->B[Player 1 lancio 2]-->F[somma lancio giocatore1]-->G
+   C-->D[PC lancio 2]-->E[somma lancio pc] -->
+   G{lancio pc maggiore di numero pensato?}--si-->H[Sottrai numeri]-->L
+   G --no -->I[Aumenta numero]-->
+   L{Chi perde? }-->M[se contatore == 0]-->N[pc perde e vince giocatore 1]
+   L-->O[se punteggio giocatore1 =0 ]-->P[Giocatore1 perde vince pc]
+   L-->V[se entrambi hanno stesso punteggio = parità]-->Z
+   N & P-->Z[end]
+
+
+```
