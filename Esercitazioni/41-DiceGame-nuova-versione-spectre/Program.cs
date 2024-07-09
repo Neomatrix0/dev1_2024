@@ -22,28 +22,34 @@ while (puntiUmano > 0 && puntiPc > 0)
     Console.WriteLine($"Umano lancia i dadi: {dado1Umano} e {dado2Umano} (Totale: {sommaUmano})");
     Console.WriteLine($"PC lancia i dadi: {dado1Pc} e {dado2Pc} (Totale: {sommaPc})");
 
-    
 
 
     // Calcola la differenza e aggiorna i punteggi
     if (sommaUmano > sommaPc)
     {
         puntiPc -= sommaUmano - sommaPc;
-        AnsiConsole.Markup($"[underline red]Il PC perde {sommaUmano - sommaPc} punti.[/] ");
+        AnsiConsole.Markup($"[underline red]Il PC perde {sommaUmano - sommaPc} punti.[/]\n ");
         
     }
     else if (sommaPc > sommaUmano)
     {
         puntiUmano -= sommaPc - sommaUmano;
-        Console.WriteLine($"[underline red]L'umano perde {sommaPc - sommaUmano} punti.[/]");
+        AnsiConsole.Markup($"[underline red]L'umano perde {sommaPc - sommaUmano} punti.[/]\n");
     }
     else
     {
         Console.WriteLine("Parità in questo turno.");
     }
 
-    Console.WriteLine($"Punti Umano: {puntiUmano}, Punti PC: {puntiPc}");
-    Console.WriteLine("Premi un tasto per il prossimo turno...");
+    AnsiConsole.Write(new BarChart()
+.Width(60)
+.Label("[green bold underline]Risultati[/]")
+.CenterLabel()
+.AddItem("[bold blue]Punteggio PC[/]", puntiPc, Color.Blue)
+.AddItem("[bold green]Punteggio Umano[/]", puntiUmano, Color.Green));
+
+    AnsiConsole.Markup($"[bold green]Punti Umano: {puntiUmano} [/] [bold blue]Punti PC: {puntiPc}[/]\n");
+    AnsiConsole.Markup("[bold]Premi un tasto per il prossimo turno...[/]");
     Console.ReadKey();
 }
 
@@ -51,16 +57,15 @@ while (puntiUmano > 0 && puntiPc > 0)
 
 if (puntiUmano <= 0)
 {
-    Console.WriteLine("[red]L'umano ha perso![/]");
+    AnsiConsole.Markup("[red]L'umano ha perso![/]");
 }
 else
 {
-    Console.WriteLine("[red]Il PC ha perso![/]");
+    AnsiConsole.Markup("[red]Il PC ha perso![/]");
 }
 
-AnsiConsole.Write(new BarChart()
-    .Width(60)
-    .Label("[green bold underline]Risultati[/]")
-    .CenterLabel()
-    .AddItem("Punteggio PC", puntiPc, Color.Yellow)
-    .AddItem("Punteggio Umano", puntiUmano, Color.Green));
+
+
+
+
+
