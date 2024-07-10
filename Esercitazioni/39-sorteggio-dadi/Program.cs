@@ -41,7 +41,7 @@ Console.Clear();
             }
            totalPoints.Add(sum);
             Console.WriteLine("");
-            Console.WriteLine($"Somma totale: {sum}");
+            Console.WriteLine($"Somma totale: {sum}\n");
             Console.WriteLine("");
             Console.WriteLine("Punti totali dai turni precedenti:"); 
             foreach (int point in totalPoints)
@@ -59,7 +59,7 @@ Console.Clear();
             
             double average = totalPoints.Average();
             Console.WriteLine("");
-            Console.WriteLine($"Media punti: {average}");
+            Console.WriteLine($"\nMedia punti: {average}");
 
             // usa il metodo .Max() per prendere il valore maggiore
             int maxFrequency = frequency.Max();
@@ -77,16 +77,53 @@ Console.Clear();
             }
 
             // stampa risultati
-            Console.WriteLine("Numero(i) più frequente(i): " + string.Join(", ", mostFrequentNumbers));
-            Console.WriteLine("");
-            Console.WriteLine("Vuoi giocare ancora? (s/n)");
+            Console.WriteLine($"Numero più frequente:   {string.Join(", ", mostFrequentNumbers)}");
+            
+            Console.WriteLine("\nVuoi giocare ancora? (s/n)");
 
             // input di risposta dell'utente
             string response = Console.ReadLine()!;
 
             // se la risposta è diversa da s il gioco si chiude
-            if (response != "s")
+            if (response.ToLower() != "s")
             {
                 continuePlaying = false;
             } 
         }
+
+        /*
+
+        ﻿Console.WriteLine("Quanti dadi vuoi lanciare?");
+
+int numDadi = int.Parse(Console.ReadLine());
+int[] risultati = new int[numDadi];
+int facce = 6;
+int somma = 0;
+
+Random random = new Random();
+
+// Lancio dei dadi
+
+for (int i = 0; i < numDadi; i++)
+{
+    risultati[i] = random.Next(1, 7);
+    somma += risultati[i];
+    Console.WriteLine($"Dado {i + 1}: {risultati[i]}");
+}
+
+Console.WriteLine($"Somma totale: {somma}");
+
+// Salvataggio e analisi dei risultati
+int[] frequenze = new int[facce]; // Inizializza un array di 6 elementi a 0
+
+for (int i = 0; i < numDadi; i++)
+{
+    frequenze[risultati[i] - 1]++; // Incrementa la frequenza del numero ottenuto
+}
+
+for (int i = 0; i < facce ; i++)
+{
+    Console.WriteLine($"Frequenza del numero {i + 1}: {frequenze[i]}"); // Stampa la frequenza di ciascun numero
+}
+
+*/
