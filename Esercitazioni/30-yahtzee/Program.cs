@@ -3,8 +3,7 @@ int punteggio =0;
 
 Random random = new Random();
 
-
-//int indice = random.Next(1,7);
+// da finire
 
 
 for(int i =0; i < numeroDadi.Length; i++){
@@ -18,6 +17,23 @@ Console.WriteLine("Quali dadi vuoi ritirare da 1 a 5?");
 int scelta = Convert.ToInt32(Console.ReadLine());
 
 // rilancia dado
+
+/*Console.WriteLine("Quali dadi vuoi cambiare? Scegli i numeri separati da una virgola: ");
+string input = Console.ReadLine();
+string[] scelta = input.Split(',');
+foreach (string numero in scelta)
+{
+    int indice = int.Parse(numero) - 1;
+    numeroDadi[indice] = random.Next(1, 7);
+}
+
+  // Utilizzare un metodo per visualizzare il secondo lancio
+
+Console.WriteLine("I dadi sono:");
+foreach (int dado in numeroDadi)
+{
+    Console.Write($"{dado} ");
+}  */
 
 if(scelta >= 1 && scelta <= 5){
 
@@ -37,28 +53,45 @@ if(scelta >= 1 && scelta <= 5){
             }
             
         }  
-        Console.WriteLine(punteggio); */
+        Console.WriteLine(punteggio); 
 
     if(numeroDadi.Contains(numeroDadi[scelta-1])){
         punteggio+=1;
         Console.WriteLine($"Il punteggio è {punteggio}");
 
-    }
+    } // fine */
 
 }else{
     Console.WriteLine("Puoi scegliere solo dadi da 1 a 5");
 
+} 
+
+
+/*
+
+
+Console.WriteLine("Quali dadi vuoi cambiare? Scegli i numeri separati da una virgola: ");
+string input = Console.ReadLine();
+string[] scelta = input.Split(',');
+foreach (string numero in scelta)
+{
+    int indice = int.Parse(numero) - 1;
+    numeroDadi[indice] = random.Next(1, 7);
+}
+
+  // Utilizzare un metodo per visualizzare il secondo lancio
+
+Console.WriteLine("I dadi sono:");
+foreach (int dado in numeroDadi)
+{
+    Console.Write($"{dado} ");
 }
 
 
 
 
 
-
-
-
-
-
+*/
 
 
 
