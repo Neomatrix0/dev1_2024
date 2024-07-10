@@ -43,7 +43,7 @@ if(scelta >= 1 && scelta <= 5){
     /* for (int i = 0; i < numeroDadi.Length; i++)
         {
             
-            for (int j= i +1; j < numeroDadi.Length; j++)
+            for (int j= 0; j < numeroDadi.Length; j++)
             {
 
                 if (numeroDadi[i] == numeroDadi[j])
@@ -99,7 +99,7 @@ foreach (int dado in numeroDadi)
 
 
 
-/*// Yahtzee versione originale
+/*// Yahtzee versione originale fatta a casa
 
 Console.WriteLine("This is Yahtzee game. We launch 5 dices.");
 
