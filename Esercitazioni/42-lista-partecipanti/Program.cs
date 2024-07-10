@@ -1,8 +1,11 @@
-﻿﻿// versione con console clear in modo da mantenere il menu nella stessa posizione dopo ogni scelta 
+﻿// versione con console clear in modo da mantenere il menu nella stessa posizione dopo ogni scelta 
 
 List<string> partecipanti = new List<string>();
 string nome;
 int scelta;
+
+
+
 
 do
 {
