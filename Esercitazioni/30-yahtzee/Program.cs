@@ -1,4 +1,72 @@
-﻿﻿// Yahtzee
+﻿﻿int []numeroDadi = new int[5];
+int punteggio =0;
+
+Random random = new Random();
+
+
+//int indice = random.Next(1,7);
+
+
+for(int i =0; i < numeroDadi.Length; i++){
+    numeroDadi[i] = random.Next(1,7);
+    Console.WriteLine($"Il dado {i+1} ha valore {numeroDadi[i]}");
+}
+
+
+Console.WriteLine("Quali dadi vuoi ritirare da 1 a 5?");
+
+int scelta = Convert.ToInt32(Console.ReadLine());
+
+// rilancia dado
+
+if(scelta >= 1 && scelta <= 5){
+
+    numeroDadi[scelta -1] = random.Next(1,7);
+    Console.WriteLine($"Il nuovo valore del dado {scelta} è {numeroDadi[scelta -1]} ");
+
+    /* for (int i = 0; i < numeroDadi.Length; i++)
+        {
+            
+            for (int j= i +1; j < numeroDadi.Length; j++)
+            {
+
+                if (numeroDadi[i] == numeroDadi[j])
+                Console.WriteLine(numeroDadi[j]);
+                    punteggio +=1;
+                    
+            }
+            
+        }  
+        Console.WriteLine(punteggio); */
+
+    if(numeroDadi.Contains(numeroDadi[scelta-1])){
+        punteggio+=1;
+        Console.WriteLine($"Il punteggio è {punteggio}");
+
+    }
+
+}else{
+    Console.WriteLine("Puoi scegliere solo dadi da 1 a 5");
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*// Yahtzee versione originale
 
 Console.WriteLine("This is Yahtzee game. We launch 5 dices.");
 
@@ -108,7 +176,7 @@ Thread.Sleep(1000);
 
 
 
-
+*/
 
 
 
