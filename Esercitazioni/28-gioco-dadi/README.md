@@ -47,3 +47,11 @@ Rappresentazione del flusso di gioco e delle decisioni che vengono prese a ogni 
 ```
 
 
+# SPECTRE CONSOLE
+
+- Sono state aggiunte le bar per rappresentare i punteggi dei 2 giocatori.
+
+- è stato assegnato il colore blu al PC e il verde al giocatore umano invece il giallo rappresenta il punteggio
+
+-  i punti sottratti sono stati rappresentati in rosso così come la condzione di  parità
+
