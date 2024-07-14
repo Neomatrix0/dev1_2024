@@ -1,12 +1,2 @@
-Il punteggio massimo del pc è 30
-Il punteggio massimo del pc è 23
-Il punteggio massimo dell'umano è 17
-Il punteggio massimo del pc è 4
-Il punteggio massimo dell'umano è 1
-Il punteggio massimo del pc è 28
-Il punteggio massimo del pc è 5
-Il punteggio massimo del pc è 5
-Il punteggio massimo dell'umano è 23
-Il punteggio massimo del pc è 21
-Il punteggio massimo dell'umano è 9
-Il punteggio massimo del pc è 20
+Il punteggio massimo del PC è 45
+Il punteggio massimo dell'umano è 26

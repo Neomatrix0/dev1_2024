@@ -18,25 +18,49 @@ Rappresentazione del flusso di gioco e delle decisioni che vengono prese a ogni 
 
 - il gioco continua fino a quando il computer o il giocatore umano raggiungono 0 punti
 
-> **TO DO:**  Implementare la persistenza dei dati 
+> **EXTRA:**  Implementare la persistenza dei dati
+
+- vengono scritti nel file registro tutte le giocate con relativo timestamp
+- viene aggiunto al file registroVittorie  solo il punteggio più alto
 
 
 ```mermaid
 
+flowchart TD
+   Start --> A0[Creazione path per file di testo] --> Random --> A[Giocatore1 lancia dadi] --> B[PC lancia i dadi]
+
+   B--> D[Calcolo Somma dei rispettivi lanci] --> G{lancio giocatore1 maggiore di lancio pc?}
+   G --si--> H[Sottrai punti a pc per la differenza dei punteggi] --> L0[scrive punti] 
+   L{Chi perde?}
+   G --no --> I[Sottrai punti a giocatore 1 per la differenza dei punteggi] --> L0[scrive punti] --> L{Chi perde?}
+
+   L --PC == 0--> M[pc perde e vince giocatore 1] --> S[aggiunta punteggio max a file txt] --> Z[end]
+   L --giocatore1 == 0 --> P[Giocatore1 perde vince pc] --> S[aggiunta punteggio max a file txt] 
+   L --parità--> V[se entrambi hanno stesso punteggio = parità] --> Z[end]
+
+   Z --> Random
 
 
-   flowchart LR
 
 
-   Start -->
-   Random-->
-   A[Player 1 think a number] --> C[PC guess] -- yes -->D[solved]
+   ```
 
-   
-   C-->D[PC lancio 2]-->E[somma lancio pc] -->
-   G{lancio giocatore1 maggiore di lancio pc?}--si-->H[Sottrai punti a pc per la differenza dei punteggi]-->L
-   G --no -->I[Sottrai punti a giocatore 1 per la differenza dei punteggi]-->
-   L{Chi perde? }-->M[se punteggo PC == 0]-->N[pc perde e vince giocatore 1]
-   L-->O[se punteggio giocatore1 =0 ]-->P[Giocatore1 perde vince pc]
-   L-->V[se entrambi hanno stesso punteggio = parità]-->Z
-   N & P-->Z[end]
+  
+
+
+  
+  
+  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

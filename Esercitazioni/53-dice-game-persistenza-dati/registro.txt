@@ -116,3 +116,207 @@ Punti Umano: 9
 Punti PC: 20
 Punti Umano: 0
  Orario: 15:57
+Punti PC: 0
+Punti Umano: 2
+ Orario: 17:1
+Punti PC: -1
+Punti Umano: 30
+ Orario: 17:3
+Punti PC: 24
+Punti Umano: 0
+ Orario: 17:3
+Punti PC: -1
+Punti Umano: 2
+ Orario: 17:9
+Punti PC: 11
+Punti Umano: -1
+ Orario: 18:48
+Punti PC: 32
+Punti Umano: -2
+ Orario: 19:10
+Punti PC: -1
+Punti Umano: 11
+ Orario: 19:16
+Punti PC: 19
+Punti Umano: -2
+Orario: 19:23
+Punti PC: -2
+Punti Umano: 26
+Orario: 19:23
+Punti PC: 0
+Punti Umano: 45
+Orario: 19:23
+Punti PC: 47
+Punti Umano: 0
+Orario: 19:26
+Punti PC: 24
+Punti Umano: -1
+Orario: 19:26
+Punti PC: 21
+Punti Umano: -3
+Orario: 19:26
+Punti PC: -1
+Punti Umano: 6
+Orario: 2:44
+Punti PC: 10
+Punti Umano: 0
+Orario: 2:44
+Punti PC: 33
+Punti Umano: -1
+Orario: 2:44
+Punti PC: -2
+Punti Umano: 27
+Orario: 18:10
+Punti PC: 2
+Punti Umano: -1
+Orario: 18:10
+Punti PC: 22
+Punti Umano: -5
+Orario: 18:10
+Punti PC: 23
+Punti Umano: -2
+Orario: 18:10
+Punti PC: -5
+Punti Umano: 13
+Orario: 18:11
+Punti PC: -3
+Punti Umano: 5
+Orario: 18:11
+Punti PC: 0
+Punti Umano: 8
+Orario: 18:11
+Punti PC: 0
+Punti Umano: 33
+Orario: 18:11
+Punti PC: -2
+Punti Umano: 4
+Orario: 18:14
+Punti PC: 0
+Punti Umano: 6
+Orario: 18:14
+Punti PC: 23
+Punti Umano: -4
+Orario: 18:14
+Punti PC: 0
+Punti Umano: 23
+Orario: 18:14
+Punti PC: -4
+Punti Umano: 29
+Orario: 18:18
+Punti PC: 23
+Punti Umano: -3
+Orario: 18:18
+Punti PC: 9
+Punti Umano: -2
+Orario: 18:18
+Punti PC: 36
+Punti Umano: -1
+Orario: 18:19
+Punti PC: 10
+Punti Umano: 0
+Orario: 18:19
+Punti PC: -1
+Punti Umano: 10
+Orario: 18:19
+Punti PC: 12
+Punti Umano: -3
+Orario: 18:21
+Punti PC: 6
+Punti Umano: -2
+Orario: 18:21
+Punti PC: -6
+Punti Umano: 11
+Orario: 18:21
+Punti PC: 7
+Punti Umano: -3
+Orario: 18:24
+Punti PC: 18
+Punti Umano: -2
+Orario: 18:24
+Punti PC: 9
+Punti Umano: 0
+Orario: 18:24
+Punti PC: 0
+Punti Umano: 10
+Orario: 18:34
+Punti PC: 24
+Punti Umano: -1
+Orario: 18:34
+Punti PC: 0
+Punti Umano: 6
+Orario: 18:34
+Punti PC: 0
+Punti Umano: 6
+Orario: 18:43
+Punti PC: 25
+Punti Umano: -3
+Orario: 18:43
+Punti PC: 18
+Punti Umano: -2
+Orario: 18:43
+Punti PC: 6
+Punti Umano: -3
+Orario: 18:47
+Punti PC: -4
+Punti Umano: 10
+Orario: 18:47
+Punti PC: -2
+Punti Umano: 14
+Orario: 18:47
+Punti PC: 0
+Punti Umano: 20
+Orario: 18:48
+Punti PC: 25
+Punti Umano: 0
+Orario: 18:49
+Punti PC: 0
+Punti Umano: 14
+Orario: 18:49
+Punti PC: -2
+Punti Umano: 14
+Orario: 18:49
+Punti PC: 5
+Punti Umano: -1
+Orario: 18:49
+Punti PC: -1
+Punti Umano: 12
+Orario: 18:49
+Punti PC: 0
+Punti Umano: 5
+Orario: 18:49
+Punti PC: -1
+Punti Umano: 4
+Orario: 18:51
+Punti PC: 5
+Punti Umano: 0
+Orario: 18:51
+Punti PC: 0
+Punti Umano: 10
+Orario: 18:51
+Punti PC: 6
+Punti Umano: -6
+Orario: 18:53
+Punti PC: 5
+Punti Umano: -3
+Orario: 18:53
+Punti PC: -7
+Punti Umano: 5
+Orario: 18:53
+Punti PC: 4
+Punti Umano: -1
+Orario: 18:54
+Punti PC: -2
+Punti Umano: 2
+Orario: 18:54
+Punti PC: -2
+Punti Umano: 9
+Orario: 18:54
+Punti PC: 0
+Punti Umano: 26
+Orario: 19:8
+Punti PC: -2
+Punti Umano: 8
+Orario: 19:8
+Punti PC: 45
+Punti Umano: -2
+Orario: 19:8
