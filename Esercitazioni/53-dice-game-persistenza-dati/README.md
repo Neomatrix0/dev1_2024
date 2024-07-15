@@ -22,6 +22,7 @@ Rappresentazione del flusso di gioco e delle decisioni che vengono prese a ogni 
 
 - vengono scritti nel file registro tutte le giocate con relativo timestamp
 - viene aggiunto al file registroVittorie  solo il punteggio più alto
+- vengono presi i 3 punteggi totali più alti di ciascun giocatore e li aggiunge ad un file di testo
 
 
 ```mermaid
