@@ -3,8 +3,21 @@
 List<string> partecipanti = new List<string>();
 string nome;
 var inserimento = "";
-string path = @"lista.txt";
-string path2 = @"squadre.txt";
+const string path = @"lista.txt";
+const string path2 = @"squadre.txt";
+
+
+/*
+
+
+
+Versione del Prof provare  a integrarla e vedere le differenze
+
+if(File.Exists(path)){
+partecipanti = new List<string>(File.ReadAllLines(path));
+}
+
+*/
 
 if (!File.Exists(path) & !File.Exists(path2))
 {
@@ -58,7 +71,7 @@ do
             }
             else
             {
-                Console.WriteLine("Scelta non valida");
+                AnsiConsole.Markup("[bold red]Scelta non valida[/]");
             }
             break;
 
@@ -67,11 +80,11 @@ do
             nome = Console.ReadLine();
             if (partecipanti.Contains(nome))
             {
-                Console.WriteLine("Il partecipante è presente nella lista");
+                AnsiConsole.Markup("[green bold]Il partecipante è presente nella lista[/]");
             }
             else
             {
-                Console.WriteLine("Il partecipante non è presente nella lista");
+                AnsiConsole.Markup("[red bold]Il partecipante non è presente nella lista[/]");
             }
             break;
 
@@ -85,7 +98,7 @@ do
                     "Elimina partecipante","Modifica partecipante","Back",
                 }));
 
-            switch(partecipanteMenu)
+            switch (partecipanteMenu)
             {
                 case "Elimina partecipante":
                     Console.Write("Nome partecipante: ");
@@ -93,11 +106,12 @@ do
                     if (partecipanti.Contains(nome))
                     {
                         partecipanti.Remove(nome);
-                        Console.WriteLine("Il partecipante è stato eliminato dalla lista");
+                        File.WriteAllLines(path, partecipanti);
+                        AnsiConsole.Markup("[red green]Il partecipante è stato eliminato dalla lista[/]");
                     }
                     else
                     {
-                        Console.WriteLine("Il partecipante non è presente nella lista");
+                        AnsiConsole.Markup("[red bold]Il partecipante non è presente nella lista[/]");
                     }
                     break;
 
@@ -110,7 +124,10 @@ do
                         string nuovoNome = Console.ReadLine();
                         int indice = partecipanti.IndexOf(nome);
                         partecipanti[indice] = nuovoNome;
+                        File.WriteAllLines(path, partecipanti);
                         AnsiConsole.Markup("[bold green]Il partecipante è stato modificato nella lista![/]\n");
+
+
                     }
                     else
                     {
@@ -153,6 +170,18 @@ do
                     {
                         Console.WriteLine(partecipante);
                     }
+
+                    using (StreamWriter writer = new StreamWriter(path2))
+                    {
+                        foreach (string partecipante in squadra1)
+                        {
+                            writer.WriteLine($"Squadra 1: {partecipante}");
+                        }
+                        foreach (string partecipante in squadra2)
+                        {
+                            writer.WriteLine($"Squadra 2: {partecipante}");
+                        }
+                    }
                     break;
 
                 case "Dividi partecipanti in 2 squadre con random":
@@ -167,12 +196,12 @@ do
                         if (squadra1Random.Count < squadra2Random.Count)
                         {
                             squadra1Random.Add(partecipante);
-                            File.AppendAllText(path2, $"\n Nuovo Membro squadra 1:{partecipante}");
+                            File.AppendAllText(path2, $"\n Nuovo Membro random squadra 1: {partecipante}");
                         }
                         else
                         {
                             squadra2Random.Add(partecipante);
-                            File.AppendAllText(path2, $"\n Nuovo Membro squadra 2:{partecipante}");
+                            File.AppendAllText(path2, $"\n Nuovo Membro random squadra 2: {partecipante}");
                         }
                     }
                     Console.WriteLine("Squadra 1:");
@@ -186,6 +215,7 @@ do
                         Console.WriteLine(partecipante);
                     }
                     partecipanti.Clear();
+                    File.WriteAllLines(path, partecipanti);
                     break;
 
                 case "Back":
