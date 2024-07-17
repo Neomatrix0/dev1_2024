@@ -1,0 +1,11 @@
+{
+
+    "nome": "antonio",
+    "cognome": "rossi",
+    "eta": 20,
+    "indirizzo":{
+        "via": "via roma",
+        "citta": "roma"
+    }
+
+}
