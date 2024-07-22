@@ -97,12 +97,14 @@ class Program
             string[] dati = inserimento.Split(',');
 
             //  creazione di un oggetto dipendente contenente i dati richiesti dall'applicazione
+            DateTime dataDiNascita = DateTime.ParseExact(dati[2].Trim(), "dd/MM/yyyy", null);
+               string dataDiNascitaFormatted = dataDiNascita.ToString("dd/MM/yyyy");
 
             var dipendente = new
             {
                 Nome = dati[0].Trim(),
                 Cognome = dati[1].Trim(),
-                DataDiNascita = DateTime.Parse(dati[2].Trim()),
+                DataDiNascita = dataDiNascitaFormatted, //DateTime.Parse(dati[2].Trim()),
                 Mansione = dati[3].Trim(),
                 Stipendio = Convert.ToDecimal(dati[4].Trim()),
                 Performance = Convert.ToInt32(dati[5].Trim()),
@@ -298,7 +300,7 @@ class Program
 
 
 
-        Console.WriteLine("Dipendenti ordinati per stipendio in ordine discendente:\n");
+        Console.WriteLine("\nDipendenti ordinati per stipendio in ordine discendente:\n");
 
         foreach (var dipendente in dipendenti)
         {
@@ -347,13 +349,17 @@ class Program
             dipendenti.Add(dipendente);
         }
 
+        // reverse- modificato la funzione sort in modo da  ordinare i dipendenti dal tasso di assenteismo più alto al più basso
 
+        dipendenti.Sort((y, x) => x.Assenze.CompareTo(y.Assenze)); 
 
         foreach (var dipendente in dipendenti)
 
         {
             int assenze = dipendente.Assenze;
             double tassoAssenteismo = ((double)assenze / giorniLavorativiTotali) * 100;
+            
+            
             Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} = {tassoAssenteismo}%\n");
 
         }
@@ -411,72 +417,53 @@ class Program
             }
             
         }
-            //dipendenti.Performance.Sort();
-            //dipendenti.Performance.Reverse();
+            
 
             int split = dipendenti.Count / 2;
             List<dynamic> squadra1 = dipendenti.GetRange(0, split);
             List<dynamic> squadra2 = dipendenti.GetRange(split, dipendenti.Count - split);
 
 
-            Console.WriteLine("Gruppo con le performance più alte:");
+            Console.WriteLine("\nGruppo con le performance più alte:\n");
             foreach (var impiegato in squadra1)
             {
                 Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
                 
             }
 
-            Console.WriteLine("Gruppo con le performance più basse:");
+            Console.WriteLine("\nGruppo con le performance più basse:\n");
             foreach (var impiegato in squadra2)
             {
                 Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
                 
             }
+
+            // ordina i valori
+          
+
+         squadra2.Sort((x, y) => x.Performance.CompareTo(y.Performance));
+
+         // formula per trovare il 15% dei risultati più bassi
+
+        int index = (15 * squadra2.Count) / 100;
+
+        // Se il 15% è 0.5 o più, arrotonda per eccesso a 1
+        if (index == 0 && squadra2.Count > 0)
+        {
+            index = 1;
         }
 
-    }
+        Console.WriteLine("\nDi seguito il 15% delle performance peggiori\n");
 
+        for (int i = 0; i < index; i++)
+        {
+            var membro = squadra2[i];
+             Console.WriteLine($"{membro.Nome} {membro.Cognome}, Performance: {membro.Performance}\n");
+        }
+    
+            }
 
+            
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/* static void ValutazionePerformance(){
-         Console.WriteLine("Di seguito verranno mostrate le performance dei 10%  di tutti i dipendenti con le vautazioni migliori e il 10% con le valutazioni peggiori");
-             var files = Directory.GetFiles(directoryPath, "*.json");  //
-               string jsonRead = File.ReadAllText(filePath);
-               var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
-                int percentage; 
-             List<int> punteggi = new List<int>(); 
-
-         // verifica se c'è almeno un file per eseguire il codice
-         if (files.Length > 0)
-         {
-             Console.WriteLine("Lista dipendenti:\n");
-             // stampa i dati di tutti i dipendenti presi dai json
-
-
-
-             foreach (var file in files)
-             {
-                
-
-
-         }
-
-             }
-
-
-
-
-     } */
-
+    
