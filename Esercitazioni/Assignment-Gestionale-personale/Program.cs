@@ -54,9 +54,11 @@ class Program
                     RimuoviDipendente();
                     break;
                 case 6:
-                TassoDiAssenteismo();
+            //    TassoDiAssenteismo();
                     break;
                 case 7:
+
+             //   ValutazionePerformance();
                     break;
                 case 8:
                     break;
@@ -83,7 +85,7 @@ class Program
     {
         do
         {
-            Console.WriteLine("Inserisci nome, cognome, età, stipendio separate da virgola");
+            Console.WriteLine("Inserisci nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,voto performance da 1 a 100 separate da virgola");
 
             // accetta l'input dei dati da console
             string? inserimento = Console.ReadLine();
@@ -98,8 +100,10 @@ class Program
             {
                 Nome = dati[0].Trim(),
                 Cognome = dati[1].Trim(),
-                DataDiNascita = Convert.ToInt32(dati[2].Trim()),
-                Stipendio = Convert.ToDecimal(dati[3].Trim())
+                DataDiNascita = DateTime.Parse(dati[2].Trim()),
+                Mansione = dati[3].Trim(),
+                Stipendio = Convert.ToDecimal(dati[4].Trim()),
+                Performance = Convert.ToInt32(dati[5].Trim())
             };
 
             string jsonString = JsonConvert.SerializeObject(dipendente, Formatting.Indented);
@@ -133,15 +137,9 @@ class Program
 
             foreach (var file in files)
             {
-                // legge il contenuto completo del file json
-                string jsonRead = File.ReadAllText(file);
 
-                // deserializza la stringa JSON in un oggetto di tipo dynamic
-                var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
-                Console.WriteLine($"Nome: {dipendente.Nome}");
-                Console.WriteLine($"Cognome: {dipendente.Cognome}");
-                Console.WriteLine($"Data di nascita: {dipendente.DataDiNascita}");
-                Console.WriteLine($"Stipendio: {dipendente.Stipendio}\n");
+                StampaDati(file);
+     
             }
         }
         else
@@ -175,13 +173,8 @@ class Program
 
         if (File.Exists(filePath))
         {
-            string jsonRead = File.ReadAllText(filePath);
-            var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
-            // stampa i dati presi dal json
-            Console.WriteLine($"\nNome: {dipendente.Nome}");
-            Console.WriteLine($"Cognome: {dipendente.Cognome}");
-            Console.WriteLine($"Data di nascita: {dipendente.DataDiNascita}");
-            Console.WriteLine($"Stipendio: {dipendente.Stipendio}\n");
+  
+            StampaDati(filePath);
         }
         else
         {
@@ -209,7 +202,7 @@ class Program
 
         if (File.Exists(filePath))
         {
-            Console.WriteLine("Inserisci i nuovi dati del dipendente (nome, cognome, età, stipendio) separati da virgola");
+            Console.WriteLine("Inserisci i nuovi dati del dipendente (nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio) separati da virgola");
             string? inserimento = Console.ReadLine();
             string[] dati = inserimento.Split(',');
 
@@ -217,8 +210,10 @@ class Program
             {
                 Nome = dati[0].Trim(),
                 Cognome = dati[1].Trim(),
-                DataDiNascita = Convert.ToInt32(dati[2].Trim()),
-                Stipendio = Convert.ToDecimal(dati[3].Trim())
+                DataDiNascita = DateTime.Parse(dati[2].Trim()),
+                Mansione = dati[3].Trim(),
+                Stipendio = Convert.ToDecimal(dati[4].Trim()),
+                Performance = Convert.ToInt32(dati[5].Trim())
             };
 
             string jsonString = JsonConvert.SerializeObject(dipendente, Formatting.Indented);
@@ -258,7 +253,27 @@ class Program
         }
     }
 
-    static void TassoDiAssenteismo(){
+// metodo per leggere i dati dal json e stamparli
+    static void StampaDati(string filePath){
+            // legge il contenuto del file json
+           string jsonRead = File.ReadAllText(filePath);
+           // deserializza la stringa JSON in un oggetto di tipo dynamic
+            var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+          Console.WriteLine($"\nNome: {dipendente.Nome}");
+            Console.WriteLine($"Cognome: {dipendente.Cognome}");
+            Console.WriteLine($"Data di nascita: {dipendente.DataDiNascita}");
+            Console.WriteLine($"Mansione: {dipendente.Mansione}");
+            Console.WriteLine($"Stipendio: {dipendente.Stipendio}");
+            Console.WriteLine($"Stipendio: {dipendente.Performance}");
+
+    }
+
+   /* static void ValutazionePerformance(){
+        Console.WriteLine("Inserisci valutazione da 1 a 100");
+
+    } */
+
+   /* static void TassoDiAssenteismo(){
         Console.WriteLine("Inserisci nome e cognome del dipendente di cui vuoi calcolare il tasso di assenteismo");
 
 
@@ -266,5 +281,7 @@ class Program
        // Tasso di assenteismo = [(giorni di assenza non giustificate) / (giorni totali di lavoro)] x 100.
 
 
-    } 
+    }  */
+
+
 }
