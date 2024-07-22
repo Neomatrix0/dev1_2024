@@ -1,0 +1,9 @@
+{
+  "Nome": "maria",
+  "Cognome": "verdi",
+  "DataDiNascita": "1980-02-20T00:00:00",
+  "Mansione": "contabile",
+  "Stipendio": 32000.0,
+  "Performance": 70,
+  "Assenze": 40
+}

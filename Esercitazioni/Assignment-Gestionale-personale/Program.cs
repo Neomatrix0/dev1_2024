@@ -54,13 +54,15 @@ class Program
                     RimuoviDipendente();
                     break;
                 case 6:
-            //    TassoDiAssenteismo();
+                    TassoDiAssenteismo();
                     break;
                 case 7:
 
-             //   ValutazionePerformance();
+                    ValutazionePerformance();
                     break;
                 case 8:
+
+                    SortStipendio();
                     break;
                 case 9:
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
@@ -85,7 +87,7 @@ class Program
     {
         do
         {
-            Console.WriteLine("Inserisci nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,voto performance da 1 a 100 separate da virgola");
+            Console.WriteLine("Inserisci nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,voto performance da 1 a 100 ,giorni di assenze,separate da virgola");
 
             // accetta l'input dei dati da console
             string? inserimento = Console.ReadLine();
@@ -103,7 +105,8 @@ class Program
                 DataDiNascita = DateTime.Parse(dati[2].Trim()),
                 Mansione = dati[3].Trim(),
                 Stipendio = Convert.ToDecimal(dati[4].Trim()),
-                Performance = Convert.ToInt32(dati[5].Trim())
+                Performance = Convert.ToInt32(dati[5].Trim()),
+                Assenze = Convert.ToInt32(dati[6].Trim())
             };
 
             string jsonString = JsonConvert.SerializeObject(dipendente, Formatting.Indented);
@@ -132,14 +135,15 @@ class Program
         // verifica se c'è almeno un file per eseguire il codice
         if (files.Length > 0)
         {
-            Console.WriteLine("Lista dipendenti:\n");
+            Console.WriteLine("Lista dipendenti completa con tutti i dati:\n");
+
             // stampa i dati di tutti i dipendenti presi dai json
 
             foreach (var file in files)
             {
 
                 StampaDati(file);
-     
+
             }
         }
         else
@@ -148,10 +152,12 @@ class Program
         }
     }
 
+    // metodo per cercare il dipendente
     static void CercaDipendente()
     {
         Console.WriteLine("Inserisci nome e cognome del dipendente che vuoi cercare separati da virgola");
         var inserisciNome = Console.ReadLine();
+
         // permette l'inserimento di molteplici input separati dalla virgola
         var nomi = inserisciNome.Split(',');
 
@@ -173,7 +179,7 @@ class Program
 
         if (File.Exists(filePath))
         {
-  
+
             StampaDati(filePath);
         }
         else
@@ -181,12 +187,14 @@ class Program
             Console.WriteLine("Dipendente non trovato");
         }
     }
-
+    //cerca dipendente per nome e cognome e poi modifica le caratteristiche del dipendente a scelta
     static void ModificaDipendente()
     {
         Console.WriteLine("Inserisci nome e cognome del dipendente che vuoi modificare separati da virgola");
         var inserisciNome = Console.ReadLine();
         var nomi = inserisciNome.Split(',');
+
+        // il dipendente va cercato per nome,cognome
 
         if (nomi.Length != 2)
         {
@@ -202,7 +210,8 @@ class Program
 
         if (File.Exists(filePath))
         {
-            Console.WriteLine("Inserisci i nuovi dati del dipendente (nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio) separati da virgola");
+            //Nota: vedere se si può usare una funzione per ridurre il codice
+            Console.WriteLine("Inserisci i nuovi dati del dipendente (nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,performance,assenze) separati da virgola");
             string? inserimento = Console.ReadLine();
             string[] dati = inserimento.Split(',');
 
@@ -213,7 +222,8 @@ class Program
                 DataDiNascita = DateTime.Parse(dati[2].Trim()),
                 Mansione = dati[3].Trim(),
                 Stipendio = Convert.ToDecimal(dati[4].Trim()),
-                Performance = Convert.ToInt32(dati[5].Trim())
+                Performance = Convert.ToInt32(dati[5].Trim()),
+                Assenze = Convert.ToInt32(dati[6].Trim())
             };
 
             string jsonString = JsonConvert.SerializeObject(dipendente, Formatting.Indented);
@@ -253,35 +263,220 @@ class Program
         }
     }
 
-// metodo per leggere i dati dal json e stamparli
-    static void StampaDati(string filePath){
-            // legge il contenuto del file json
-           string jsonRead = File.ReadAllText(filePath);
-           // deserializza la stringa JSON in un oggetto di tipo dynamic
+    //metodo per ordinare gli stipendi dal più alto al più basso e vedere alcuni  dati del dipendente
+
+    static void SortStipendio()
+    {
+
+        var files = Directory.GetFiles(directoryPath, "*.json");
+
+        List<dynamic> dipendenti = new List<dynamic>();
+
+        foreach (var file in files)
+        {
+
+            string jsonRead = File.ReadAllText(file);
             var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
-          Console.WriteLine($"\nNome: {dipendente.Nome}");
+            dipendenti.Add(dipendente);
+        }
+
+        // algoritmo bubblesort modificato per ordinare il dato dello stipendio in ordine discendente 
+        for (int i = 0; i < dipendenti.Count - 1; i++)
+        {
+            for (int j = 0; j < dipendenti.Count - i - 1; j++)
+            {
+                if (dipendenti[j].Stipendio < dipendenti[j + 1].Stipendio)
+                {
+                    var temp = dipendenti[j];
+                    dipendenti[j] = dipendenti[j + 1];
+                    dipendenti[j + 1] = temp;
+                }
+
+
+            }
+        }
+
+
+
+        Console.WriteLine("Dipendenti ordinati per stipendio in ordine discendente:\n");
+
+        foreach (var dipendente in dipendenti)
+        {
+            Console.WriteLine($"Nome: {dipendente.Nome}");
             Console.WriteLine($"Cognome: {dipendente.Cognome}");
-            Console.WriteLine($"Data di nascita: {dipendente.DataDiNascita}");
-            Console.WriteLine($"Mansione: {dipendente.Mansione}");
             Console.WriteLine($"Stipendio: {dipendente.Stipendio}");
-            Console.WriteLine($"Stipendio: {dipendente.Performance}");
+            Console.WriteLine($"Performance: {dipendente.Performance}");
+            Console.WriteLine();
+        }
+    }
+
+
+
+
+    // metodo per leggere i dati dal json e stamparli
+    static void StampaDati(string filePath)
+    {
+        // legge il contenuto del file json
+        string jsonRead = File.ReadAllText(filePath);
+        // deserializza la stringa JSON in un oggetto di tipo dynamic
+        var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+        Console.WriteLine($"\nNome: {dipendente.Nome}");
+        Console.WriteLine($"Cognome: {dipendente.Cognome}");
+        Console.WriteLine($"Data di nascita: {dipendente.DataDiNascita}");
+        Console.WriteLine($"Mansione: {dipendente.Mansione}");
+        Console.WriteLine($"Stipendio: {dipendente.Stipendio}");
+        Console.WriteLine($"Performance: {dipendente.Performance}");
+        Console.WriteLine($"Giorni di assenza: {dipendente.Assenze}");
 
     }
 
-   /* static void ValutazionePerformance(){
-        Console.WriteLine("Inserisci valutazione da 1 a 100");
+
+    static void TassoDiAssenteismo()
+    {
+        Console.WriteLine("Di seguito l'elenco con il tasso di assenteismo per ogni dipendente su 250 giorni lavorativi equivalente ad 1 anno\n");
+        int giorniLavorativiTotali = 250;
+
+        var files = Directory.GetFiles(directoryPath, "*.json");
+        List<dynamic> dipendenti = new List<dynamic>();
+
+        foreach (var file in files)
+        {
+
+            string jsonRead = File.ReadAllText(file);
+            var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+            dipendenti.Add(dipendente);
+        }
+
+
+
+        foreach (var dipendente in dipendenti)
+
+        {
+            int assenze = dipendente.Assenze;
+            double tassoAssenteismo = ((double)assenze / giorniLavorativiTotali) * 100;
+            Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} = {tassoAssenteismo}%\n");
+
+        }
+
+
+        // Tasso di assenteismo = [(giorni di assenza non giustificate) / (giorni totali di lavoro)] x 100.
+
+
+    }
+
+   /* static void ReadJson(string files){
+        string files = Directory.GetFiles(directoryPath, "*.json");
+        List<dynamic> dipendenti = new List<dynamic>();
+
+        foreach (var file in files)
+        {
+
+            string jsonRead = File.ReadAllText(file);
+            var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+            dipendenti.Add(dipendente);
+        }
 
     } */
 
-   /* static void TassoDiAssenteismo(){
-        Console.WriteLine("Inserisci nome e cognome del dipendente di cui vuoi calcolare il tasso di assenteismo");
+
+    static void ValutazionePerformance()
+    {
+        var files = Directory.GetFiles(directoryPath, "*.json");
+        List<dynamic> dipendenti = new List<dynamic>();
+
+        foreach (var file in files)
+        {
+
+            string jsonRead = File.ReadAllText(file);
+            var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+            dipendenti.Add(dipendente); 
+           // ReadJson();
+        }
+
+        Console.WriteLine("Divide i dipendendenti in 2 gruppi in base al rendimento");
+
+        
+        
+             for (int i = 0; i < dipendenti.Count - 1; i++)
+        {
+            for (int j = 0; j < dipendenti.Count - i - 1; j++)
+            {
+                if (dipendenti[j].Performance < dipendenti[j + 1].Performance)
+                {
+                    var temp = dipendenti[j];
+                    dipendenti[j] = dipendenti[j + 1];
+                    dipendenti[j + 1] = temp;
+                }
+
+            }
+            
+        }
+            //dipendenti.Performance.Sort();
+            //dipendenti.Performance.Reverse();
+
+            int split = dipendenti.Count / 2;
+            List<dynamic> squadra1 = dipendenti.GetRange(0, split);
+            List<dynamic> squadra2 = dipendenti.GetRange(split, dipendenti.Count - split);
+
+
+            Console.WriteLine("Gruppo con le performance più alte:");
+            foreach (var impiegato in squadra1)
+            {
+                Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
+                
+            }
+
+            Console.WriteLine("Gruppo con le performance più basse:");
+            foreach (var impiegato in squadra2)
+            {
+                Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
+                
+            }
+        }
+
+    }
 
 
 
-       // Tasso di assenteismo = [(giorni di assenza non giustificate) / (giorni totali di lavoro)] x 100.
 
 
-    }  */
 
 
-}
+
+
+
+
+
+
+
+
+/* static void ValutazionePerformance(){
+         Console.WriteLine("Di seguito verranno mostrate le performance dei 10%  di tutti i dipendenti con le vautazioni migliori e il 10% con le valutazioni peggiori");
+             var files = Directory.GetFiles(directoryPath, "*.json");  //
+               string jsonRead = File.ReadAllText(filePath);
+               var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+                int percentage; 
+             List<int> punteggi = new List<int>(); 
+
+         // verifica se c'è almeno un file per eseguire il codice
+         if (files.Length > 0)
+         {
+             Console.WriteLine("Lista dipendenti:\n");
+             // stampa i dati di tutti i dipendenti presi dai json
+
+
+
+             foreach (var file in files)
+             {
+                
+
+
+         }
+
+             }
+
+
+
+
+     } */
+

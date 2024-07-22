@@ -1,0 +1,9 @@
+{
+  "Nome": "mario",
+  "Cognome": "cervi",
+  "DataDiNascita": "1970-09-10T00:00:00",
+  "Mansione": "impiegato",
+  "Stipendio": 30000.0,
+  "Performance": 60,
+  "Assenze": 20
+}

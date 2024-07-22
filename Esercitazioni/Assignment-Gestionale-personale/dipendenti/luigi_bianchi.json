@@ -1,0 +1,9 @@
+{
+  "Nome": "luigi",
+  "Cognome": "bianchi",
+  "DataDiNascita": "1960-02-20T00:00:00",
+  "Mansione": "dirigente",
+  "Stipendio": 120000.0,
+  "Performance": 70,
+  "Assenze": 25
+}
