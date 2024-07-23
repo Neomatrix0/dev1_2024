@@ -3,32 +3,32 @@
 
 ## GESTIONE PERSONALE   
 
-Questa applicazione console permetterà la gestione del personale in un azienda,valutando performance,costi,assunzioni,licenziamenti,ore di lavoro e tasso di assenteismo.
-Verrà segnalato il 10% dei dipendenti più performanti e il 10 % dei dipendenti meno performanti.
-Simula i costi in caso di riorganizzazione del personale e mostra il tipo di mensione il contratto adottato per ogni dipendente.
+Questa applicazione console permetterà la gestione del personale in un azienda,valutando performance,costi,mansioni,ore di lavoro e tasso di assenteismo.
+Verranno divisi i dipendenti in 2 gruppi in base al punteggio di produttività e verranno segnalati il 15 % dei dipendenti meno performanti.
+Mostra i dati relativi a stipendi e  assenze del personale calcolando in percentuale il tasso di assenteismo di ognuno
 
 ## DEFINIZIONE DEI REQUISITI E ANALISI
 
 L'applicazione consente ad una azienda di monitorare il personale,valutarne le performance e i costi
 
-- [ ] L'applicazione consente di inserire il nome e cognome della persona assunta,età,score di produttività da 1 a 10,stipendio
+- [ ] L'applicazione consente di inserire il nome e cognome della persona assunta,età,mansione,score di produttività da 1 a 10,stipendio,ore di assenza
 
 - [ ] Visualizzazione dei dipendenti inseriti con i relativi dati anagrafici 
 
-- [ ] Possibilità di visionare i costi di ogni dipendente
+- [ ] Possibilità di visionare gli stipendi annuali di ogni dipendente
 
-- [ ] Valutazione performance con sottomenu top 10 e ultimi 10  e relativi costi
+- [ ] Valutazione performance e indicazione del 15% dei dipendenti meno performanti
 
 
 ## PIANIFICAZIONE E DESIGN DELL'ARCHITETTURA
 
 - [ ] Impostazione del menu generale con opzioni di scelta
 
-- [ ] Opzione di inserimento del personale con dati inseriti in modo intervallato da virgola(Split), anagrafici,stipendio,mansione,contratto,performance, e salvataggio dati nel file json
+- [ ] Opzione di inserimento del personale con dati inseriti in modo intervallato da virgola(Split),dettagli anagrafici,stipendio,mansione,contratto,performance,assenze e salvataggio dati nel file json
 
 - [ ] Opzione di visualizzazione di tutto il personale con i relativi dati
 
-- [ ] Valutazione performance con sottomenu divisi in 2 liste top 10 e gli ultimi 10 e relativi costi,si potrebbe richiamare il dipendente e aggiungere la valutazione in questo sottomenu
+- [ ] Valutazione performance i dipendenti vengono divisi in 2 gruppi in base al livello della performance e viene segnalato il 15% dei dipendenti con le performance più basse il in questo sottomenu
 
 - [ ] Calcolo assenteismo scrivendo nome e cognome  del dipendente l'utente inserisce  le ore lavorate e viene calcolato il tasso di assenteismo(assenze/ giorni da lavorare)*100
 
@@ -107,15 +107,18 @@ gantt
 
    flowchart TD
     A[Start] --> B{Menu Principale}
-    B -- 1 --> C[Inserisci dipendente con i dati]
-    B -- 2 --> D[visualizza dipendenti]
-    B -- 3 --> E[cerca dipendente]
-    B -- 4 --> F[modifica dipendente]
-    B -- 5 --> G[rimuovi dipendente]
-    B -- 6 --> H[tasso di assenteismo ]
-    B -- 7 --> I[performance indicatore]
-    B -- 8 --> L[sorta stipendio]
-    B -- 9 --> M[salva dipende json]
+    B -- 1 --> C[Inserisci dipendente con i dati] --> Z
+    B -- 2 --> D[visualizza dipendenti] --> Z
+    B -- 3 --> E[cerca dipendente] --> Z
+    B -- 4 --> F[modifica dipendente] --> Z
+    B -- 5 --> G[rimuovi dipendente] --> Z
+    B -- 6 --> H[tasso di assenteismo ] --> Z
+    B -- 7 --> I[performance indicatore] --> O[top10] & O1[-10] --> Z
+    B -- 8 --> L[sorta stipendio] --> Z
+    B -- 9 --> M[salva dipende json] --> Z
+    B -- 9 --> N[esci dall'applicazione] --> Z
+    Z[end] --loop --> B
+
     
    
 

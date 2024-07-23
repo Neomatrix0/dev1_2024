@@ -87,35 +87,46 @@ class Program
     {
         do
         {
-            Console.WriteLine("Inserisci nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,voto performance da 1 a 100 ,giorni di assenze,separate da virgola");
-
-            // accetta l'input dei dati da console
-            string? inserimento = Console.ReadLine();
-
-            // permette l'inserimento di più valori divisi dalla virgola
-
-            string[] dati = inserimento.Split(',');
-
-            //  creazione di un oggetto dipendente contenente i dati richiesti dall'applicazione
-            DateTime dataDiNascita = DateTime.ParseExact(dati[2].Trim(), "dd/MM/yyyy", null);
-               string dataDiNascitaFormatted = dataDiNascita.ToString("dd/MM/yyyy");
-
-            var dipendente = new
+            try
             {
-                Nome = dati[0].Trim(),
-                Cognome = dati[1].Trim(),
-                DataDiNascita = dataDiNascitaFormatted, //DateTime.Parse(dati[2].Trim()),
-                Mansione = dati[3].Trim(),
-                Stipendio = Convert.ToDecimal(dati[4].Trim()),
-                Performance = Convert.ToInt32(dati[5].Trim()),
-                Assenze = Convert.ToInt32(dati[6].Trim())
-            };
+                Console.WriteLine("Inserisci nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,voto performance da 1 a 100 ,giorni di assenze,separate da virgola");
 
-            string jsonString = JsonConvert.SerializeObject(dipendente, Formatting.Indented);
+                // accetta l'input dei dati da console
+                string? inserimento = Console.ReadLine();
 
-            // Path.Combine concatena il path della cartella dipendenti al path dei file json di ogni dipendente
-            string filePath = Path.Combine(directoryPath, $"{dipendente.Nome}_{dipendente.Cognome}.json");
-            File.WriteAllText(filePath, jsonString);
+                // permette l'inserimento di più valori divisi dalla virgola
+
+                string[] dati = inserimento.Split(',');
+
+
+                //  creazione di un oggetto dipendente contenente i dati richiesti dall'applicazione
+                DateTime dataDiNascita = DateTime.ParseExact(dati[2].Trim(), "dd/MM/yyyy", null);
+                string dataDiNascitaFormatted = dataDiNascita.ToString("dd/MM/yyyy");
+
+                var dipendente = new
+                {
+                    Nome = dati[0].Trim(),
+                    Cognome = dati[1].Trim(),
+                    DataDiNascita = dataDiNascitaFormatted, //DateTime.Parse(dati[2].Trim()),
+                    Mansione = dati[3].Trim(),
+                    Stipendio = Convert.ToDecimal(dati[4].Trim()),
+                    Performance = Convert.ToInt32(dati[5].Trim()),
+                    Assenze = Convert.ToInt32(dati[6].Trim())
+                };
+
+                string jsonString = JsonConvert.SerializeObject(dipendente, Formatting.Indented);
+
+                // Path.Combine concatena il path della cartella dipendenti al path dei file json di ogni dipendente
+                string filePath = Path.Combine(directoryPath, $"{dipendente.Nome}_{dipendente.Cognome}.json");
+                File.WriteAllText(filePath, jsonString);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERRORE INSERIMENTO DATI: {e.Message}");     // messaggio eccezione
+                Console.WriteLine($"CODICE ERRORE:{e.HResult}");                //codice numerico eccezione
+                return;
+            }
 
             // se si svuole terminare l'immissione della registrazione del dipendente basta digitare n
 
@@ -157,39 +168,50 @@ class Program
     // metodo per cercare il dipendente
     static void CercaDipendente()
     {
-        Console.WriteLine("Inserisci nome e cognome del dipendente che vuoi cercare separati da virgola");
-        var inserisciNome = Console.ReadLine();
-
-        // permette l'inserimento di molteplici input separati dalla virgola
-        var nomi = inserisciNome.Split(',');
-
-        // il dipendente deve essere cercato inserendo nome,cognome
-
-        if (nomi.Length != 2)
+        try
         {
-            Console.WriteLine("Nomi non validi");
-            return;
+            Console.WriteLine("Inserisci nome e cognome del dipendente che vuoi cercare separati da virgola");
+            var inserisciNome = Console.ReadLine();
+
+            // permette l'inserimento di molteplici input separati dalla virgola
+            var nomi = inserisciNome.Split(',');
+
+            // il dipendente deve essere cercato inserendo nome,cognome se vengono inseriti più valori viene gestito l'errore
+            
+
+            if (nomi.Length != 2)
+            {
+                throw new FormatException("L'input deve contenere esattamente due valori separati da virgola: nome e cognome.");
+                //Console.WriteLine("Nomi non validi");
+                //return;
+            }
+
+            string nome = nomi[0].Trim();
+            string cognome = nomi[1].Trim();
+
+            // nome e cognome di ogni dipendente diventerenno il rispettivo nome dei file json 
+            string filePath = Path.Combine(directoryPath, $"{nome}_{cognome}.json");
+
+            // verifica se un file json esiste
+
+            if (File.Exists(filePath))
+            {
+
+                StampaDati(filePath);
+            }
+            else
+            {
+                Console.WriteLine("Dipendente non trovato");
+            }
         }
-
-        string nome = nomi[0].Trim();
-        string cognome = nomi[1].Trim();
-
-        // nome e cognome di ogni dipendente diventerenno il rispettivo nome dei file json 
-        string filePath = Path.Combine(directoryPath, $"{nome}_{cognome}.json");
-
-        // verifica se un file json esiste
-
-        if (File.Exists(filePath))
+        catch (Exception e)
         {
-
-            StampaDati(filePath);
-        }
-        else
-        {
-            Console.WriteLine("Dipendente non trovato");
+            Console.WriteLine($"Errore non trattato: {e.Message}");
+            Console.WriteLine($"CODICE ERRORE: {e.HResult}");
         }
     }
     //cerca dipendente per nome e cognome e poi modifica le caratteristiche del dipendente a scelta
+    // modificarlo con ansiconsole mettere sottomenu
     static void ModificaDipendente()
     {
         Console.WriteLine("Inserisci nome e cognome del dipendente che vuoi modificare separati da virgola");
@@ -212,12 +234,86 @@ class Program
 
         if (File.Exists(filePath))
         {
-            //Nota: vedere se si può usare una funzione per ridurre il codice
-            Console.WriteLine("Inserisci i nuovi dati del dipendente (nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,performance,assenze) separati da virgola");
-            string? inserimento = Console.ReadLine();
-            string[] dati = inserimento.Split(',');
+          Console.WriteLine("1. Cambia nome");
+            Console.WriteLine("2. Cambia cognome");
+            Console.WriteLine("3. Cambia data di nascita sempre nel formato DD/MM/YY");
+            Console.WriteLine("4. Cambia mansione");
+            Console.WriteLine("5. Cambia stipendio");
+            Console.WriteLine("6. Cambia punteggio performance");
+            Console.WriteLine("7. Cambia giorni di assenze");
+            Console.WriteLine("8. Esci");
 
-            var dipendente = new
+            string jsonRead = File.ReadAllText(filePath);
+            var lavoratore = JsonConvert.DeserializeObject<dynamic> (jsonRead);
+
+            int inserimento = Convert.ToInt32(Console.ReadLine());
+            
+
+            switch(inserimento){
+
+
+                case 1:
+
+                Console.WriteLine("Inserici il nuovo nome");
+                lavoratore.Nome = Console.ReadLine().Trim();
+                
+
+                break;
+
+                case 2:
+                Console.WriteLine("Inserici il nuovo cognome");
+                lavoratore.Cognome = Console.ReadLine().Trim();
+
+
+                break;
+
+                case 3:
+                 Console.WriteLine("Inserisci nuova data di nascita");
+                // lavoratore.DataDiNascita = parsedDate.ToString("dd/MM/yyyy"); da modificare questa parte
+
+                break;
+
+                case 4:
+                Console.WriteLine("Inserisci nuova mansione");
+                 lavoratore.Mansione = Console.ReadLine().Trim();
+
+
+                break;
+
+                case 5:
+                Console.WriteLine("Inserisci nuovo stipendio");
+                lavoratore.Stipendio = Convert.ToDecimal(Console.ReadLine());
+
+                break;
+
+                case 6:  
+                Console.WriteLine("Inserisci nuovo punteggio performance");
+                lavoratore.Performance = Convert.ToInt32(Console.ReadLine());
+
+                break;
+
+                case 7:  
+                Console.WriteLine("Modifica giorni di assenze");
+                lavoratore.Assenze= Convert.ToInt32(Console.ReadLine());
+
+                break;
+
+                case 8:
+                Console.WriteLine("L'applicazione si sta per chiudere");
+
+                break;
+
+                default:
+                Console.WriteLine("Scelta errata.Prego scegliere tra le opzioni disponibili 1-8");
+                break;
+            }
+           
+            //Nota: vedere se si può usare una funzione per ridurre il codice
+            //Console.WriteLine("Inserisci i nuovi dati del dipendente (nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,performance,assenze) separati da virgola");
+            //string? inserimento = Console.ReadLine();
+           //string[] dati = inserimento.Split(',');
+
+         /*    var dipendente = new
             {
                 Nome = dati[0].Trim(),
                 Cognome = dati[1].Trim(),
@@ -226,9 +322,9 @@ class Program
                 Stipendio = Convert.ToDecimal(dati[4].Trim()),
                 Performance = Convert.ToInt32(dati[5].Trim()),
                 Assenze = Convert.ToInt32(dati[6].Trim())
-            };
+            }; */
 
-            string jsonString = JsonConvert.SerializeObject(dipendente, Formatting.Indented);
+            string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
             File.WriteAllText(filePath, jsonString);
             Console.WriteLine("Dipendente aggiornato con successo.");
         }
@@ -237,7 +333,6 @@ class Program
             Console.WriteLine("Dipendente non trovato");
         }
     }
-
     static void RimuoviDipendente()
     {
         Console.WriteLine("Inserisci nome e cognome del dipendente che vuoi rimuovere separati da virgola");
@@ -335,7 +430,7 @@ class Program
 
     static void TassoDiAssenteismo()
     {
-        Console.WriteLine("Di seguito l'elenco con il tasso di assenteismo per ogni dipendente su 250 giorni lavorativi equivalente ad 1 anno\n");
+        Console.WriteLine("\nDi seguito l'elenco con il tasso di assenteismo per ogni dipendente su 250 giorni lavorativi equivalente ad 1 anno\n");
         int giorniLavorativiTotali = 250;
 
         var files = Directory.GetFiles(directoryPath, "*.json");
@@ -351,15 +446,15 @@ class Program
 
         // reverse- modificato la funzione sort in modo da  ordinare i dipendenti dal tasso di assenteismo più alto al più basso
 
-        dipendenti.Sort((y, x) => x.Assenze.CompareTo(y.Assenze)); 
+        dipendenti.Sort((y, x) => x.Assenze.CompareTo(y.Assenze));
 
         foreach (var dipendente in dipendenti)
 
         {
             int assenze = dipendente.Assenze;
             double tassoAssenteismo = ((double)assenze / giorniLavorativiTotali) * 100;
-            
-            
+
+
             Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} = {tassoAssenteismo}%\n");
 
         }
@@ -370,19 +465,19 @@ class Program
 
     }
 
-   /* static void ReadJson(string files){
-        string files = Directory.GetFiles(directoryPath, "*.json");
-        List<dynamic> dipendenti = new List<dynamic>();
+    /* static void ReadJson(string files){
+         string files = Directory.GetFiles(directoryPath, "*.json");
+         List<dynamic> dipendenti = new List<dynamic>();
 
-        foreach (var file in files)
-        {
+         foreach (var file in files)
+         {
 
-            string jsonRead = File.ReadAllText(file);
-            var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
-            dipendenti.Add(dipendente);
-        }
+             string jsonRead = File.ReadAllText(file);
+             var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+             dipendenti.Add(dipendente);
+         }
 
-    } */
+     } */
 
 
     static void ValutazionePerformance()
@@ -395,15 +490,15 @@ class Program
 
             string jsonRead = File.ReadAllText(file);
             var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
-            dipendenti.Add(dipendente); 
-           // ReadJson();
+            dipendenti.Add(dipendente);
+            // ReadJson();
         }
 
-        Console.WriteLine("Divide i dipendendenti in 2 gruppi in base al rendimento");
+        Console.WriteLine("\nDivide i dipendendenti in 2 gruppi in base al rendimento");
 
-        
-        
-             for (int i = 0; i < dipendenti.Count - 1; i++)
+        // ordina dipendenti per performance
+
+        for (int i = 0; i < dipendenti.Count - 1; i++)
         {
             for (int j = 0; j < dipendenti.Count - i - 1; j++)
             {
@@ -415,35 +510,35 @@ class Program
                 }
 
             }
-            
+
         }
-            
-
-            int split = dipendenti.Count / 2;
-            List<dynamic> squadra1 = dipendenti.GetRange(0, split);
-            List<dynamic> squadra2 = dipendenti.GetRange(split, dipendenti.Count - split);
 
 
-            Console.WriteLine("\nGruppo con le performance più alte:\n");
-            foreach (var impiegato in squadra1)
-            {
-                Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
-                
-            }
+        int split = dipendenti.Count / 2;
+        List<dynamic> squadra1 = dipendenti.GetRange(0, split);
+        List<dynamic> squadra2 = dipendenti.GetRange(split, dipendenti.Count - split);
 
-            Console.WriteLine("\nGruppo con le performance più basse:\n");
-            foreach (var impiegato in squadra2)
-            {
-                Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
-                
-            }
 
-            // ordina i valori
-          
+        Console.WriteLine("\nGruppo con le performance più alte:\n");
+        foreach (var impiegato in squadra1)
+        {
+            Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
 
-         squadra2.Sort((x, y) => x.Performance.CompareTo(y.Performance));
+        }
 
-         // formula per trovare il 15% dei risultati più bassi
+        Console.WriteLine("\nGruppo con le performance più basse:\n");
+        foreach (var impiegato in squadra2)
+        {
+            Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
+
+        }
+
+        // ordina i valori
+
+
+        squadra2.Sort((x, y) => x.Performance.CompareTo(y.Performance));
+
+        // formula per trovare il 15% dei risultati più bassi
 
         int index = (15 * squadra2.Count) / 100;
 
@@ -458,12 +553,12 @@ class Program
         for (int i = 0; i < index; i++)
         {
             var membro = squadra2[i];
-             Console.WriteLine($"{membro.Nome} {membro.Cognome}, Performance: {membro.Performance}\n");
-        }
-    
-            }
-
-            
+            Console.WriteLine($"{membro.Nome} {membro.Cognome}, Performance: {membro.Performance}\n");
         }
 
-    
+    }
+
+
+}
+
+
