@@ -31,7 +31,7 @@ class Program
             Console.WriteLine("6. Tasso di assenteismo");
             Console.WriteLine("7. Indicatore di performance");
             Console.WriteLine("8. Ordina per stipendio");
-            Console.WriteLine("9. Esci");
+            Console.WriteLine("9. Esci\n");
 
             // scelta del tipo di azione da svolgere
 
@@ -170,7 +170,7 @@ class Program
     {
         try
         {
-            Console.WriteLine("Inserisci nome e cognome del dipendente che vuoi cercare separati da virgola");
+            Console.WriteLine("\nInserisci nome e cognome del dipendente che vuoi cercare separati da virgola");
             var inserisciNome = Console.ReadLine();
 
             // permette l'inserimento di molteplici input separati dalla virgola
@@ -214,7 +214,7 @@ class Program
     // modificarlo con ansiconsole mettere sottomenu
     static void ModificaDipendente()
     {
-        Console.WriteLine("Inserisci nome e cognome del dipendente che vuoi modificare separati da virgola");
+        Console.WriteLine("\nInserisci nome e cognome del dipendente che vuoi modificare separati da virgola");
         var inserisciNome = Console.ReadLine();
         var nomi = inserisciNome.Split(',');
 
@@ -245,8 +245,9 @@ class Program
 
             string jsonRead = File.ReadAllText(filePath);
             var lavoratore = JsonConvert.DeserializeObject<dynamic> (jsonRead);
-
+           // string jsonString; 
             int inserimento = Convert.ToInt32(Console.ReadLine());
+             
             
 
             switch(inserimento){
@@ -256,6 +257,10 @@ class Program
 
                 Console.WriteLine("Inserici il nuovo nome");
                 lavoratore.Nome = Console.ReadLine().Trim();
+                //string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
+
+               // string newFile = Path.Combine(directoryPath, $"{lavoratore.Nome}_{lavoratore.Cognome}.json");
+                //File.WriteAllText(newFile, jsonString);
                 
 
                 break;
@@ -307,6 +312,9 @@ class Program
                 Console.WriteLine("Scelta errata.Prego scegliere tra le opzioni disponibili 1-8");
                 break;
             }
+
+            string newFilePath =   Path.Combine(directoryPath, $"{lavoratore.Nome}_{lavoratore.Cognome}.json");
+             string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
            
             //Nota: vedere se si può usare una funzione per ridurre il codice
             //Console.WriteLine("Inserisci i nuovi dati del dipendente (nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,performance,assenze) separati da virgola");
@@ -324,7 +332,7 @@ class Program
                 Assenze = Convert.ToInt32(dati[6].Trim())
             }; */
 
-            string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
+           // string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
             File.WriteAllText(filePath, jsonString);
             Console.WriteLine("Dipendente aggiornato con successo.");
         }
@@ -458,6 +466,7 @@ class Program
             Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} = {tassoAssenteismo}%\n");
 
         }
+
 
 
         // Tasso di assenteismo = [(giorni di assenza non giustificate) / (giorni totali di lavoro)] x 100.
