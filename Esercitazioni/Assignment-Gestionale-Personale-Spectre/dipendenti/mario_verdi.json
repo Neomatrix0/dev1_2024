@@ -1,0 +1,10 @@
+{
+  "Nome": "mario",
+  "Cognome": "verdi",
+  "DataDiNascita": "21/02/1990",
+  "Mansione": "muratore",
+  "Stipendio": 28000.0,
+  "Performance": 90,
+  "Assenze": 10,
+  "nuovaDataDiNascita": "1983-03-20T00:00:00"
+}

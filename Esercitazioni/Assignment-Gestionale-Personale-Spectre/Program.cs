@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-
+using Spectre.Console;
 
 class Program
 {
@@ -18,53 +18,56 @@ class Program
         }
 
         Console.WriteLine("Benvenuto nel programma di gestione del personale.");
-        int opzione;
+        var opzione = "";
 
         do
         {
             Console.Clear();
-            Console.WriteLine("1. Inserisci dipendente");
-            Console.WriteLine("2. Visualizza dipendenti");
-            Console.WriteLine("3. Cerca dipendente");
-            Console.WriteLine("4. Modifica dipendente");
-            Console.WriteLine("5. Rimuovi dipendente");
-            Console.WriteLine("6. Tasso di assenteismo");
-            Console.WriteLine("7. Indicatore di performance");
-            Console.WriteLine("8. Ordina per stipendio");
-            Console.WriteLine("9. Esci\n");
+
+
+            opzione = AnsiConsole.Prompt(
+         new SelectionPrompt<string>()
+        .Title("GESTIONALE PERSONALE")
+        .PageSize(9)
+        .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
+        .AddChoices(new[] {
+            "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
+            "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Esci",
+        }));
+
 
             // scelta del tipo di azione da svolgere
 
-            opzione = Convert.ToInt32(Console.ReadLine());
+
             switch (opzione)
             {
-                case 1:
+                case "Inserisci dipendente":
                     InserisciDipendente();
                     break;
-                case 2:
+                case "Visualizza dipendenti":
                     VisualizzaDipendenti();
                     break;
-                case 3:
+                case "Cerca dipendente":
                     CercaDipendente();
                     break;
-                case 4:
+                case "Modifica dipendente":
                     ModificaDipendente();
                     break;
-                case 5:
+                case "Rimuovi dipendente":
                     RimuoviDipendente();
                     break;
-                case 6:
+                case "Tasso di assenteismo":
                     TassoDiAssenteismo();
                     break;
-                case 7:
+                case "Valutazione performance":
 
                     ValutazionePerformance();
                     break;
-                case 8:
+                case "Ordina stipendi":
 
                     SortStipendio();
                     break;
-                case 9:
+                case "Esci":
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
                     break;
                 default:
@@ -74,13 +77,13 @@ class Program
 
             // se viene scelta l'opzione 9 il programma si chiude altrimenti prosegue
 
-            if (opzione != 9)
+            if (opzione != "Esci")
             {
                 Console.WriteLine("\nPremere un tasto per proseguire");
                 Console.ReadKey();
             }
 
-        } while (opzione != 9);
+        } while (opzione != "Esci");
     }
 
     static void InserisciDipendente()
@@ -159,14 +162,41 @@ class Program
         {
             Console.WriteLine("Lista dipendenti completa con tutti i dati:\n");
 
+            // creazione tabella dipendenti
+            var table = new Table();
+            table.Border(TableBorder.Square);
+
+
+            table.AddColumn("Nome");
+            table.AddColumn("Cognome");
+            table.AddColumn("Data di nascita");
+            table.AddColumn("Mansione");
+            table.AddColumn("Stipendio");
+            table.AddColumn("Performance");
+            table.AddColumn("Giorni di assenza");
+
+
+
+
+
+
+
+
             // stampa i dati di tutti i dipendenti presi dai json
 
             foreach (var file in files)
             {
 
-                StampaDati(file);
+                string jsonRead = File.ReadAllText(file);
+                var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+
+
+                table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}", $"{dipendente.Performance}", $"{dipendente.Assenze}");
+
 
             }
+            var final = files.AsEnumerable().OrderBy(x => x[0]);
+            AnsiConsole.Write(table);
         }
         else
         {
@@ -191,8 +221,7 @@ class Program
             if (nomi.Length != 2)
             {
                 throw new FormatException("L'input deve contenere esattamente due valori separati da virgola: nome e cognome.");
-                //Console.WriteLine("Nomi non validi");
-                //return;
+
             }
 
             // creato variabili per associarvi il valore di nome e cognome relativi all'array nomi
@@ -226,6 +255,7 @@ class Program
     static void ModificaDipendente()
     {
         Console.WriteLine("\nInserisci nome e cognome del dipendente che vuoi modificare separati da virgola");
+
         var inserisciNome = Console.ReadLine();
         var nomi = inserisciNome.Split(',');
 
@@ -247,21 +277,19 @@ class Program
         {
             string jsonRead = File.ReadAllText(filePath);
             var lavoratore = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+            var inserimento = "";
 
             // sottomenu per scegliere il valore da modificare
 
-            Console.WriteLine("1. Cambia nome");
-            Console.WriteLine("2. Cambia cognome");
-            Console.WriteLine("3. Cambia data di nascita sempre nel formato DD/MM/YY");
-            Console.WriteLine("4. Cambia mansione");
-            Console.WriteLine("5. Cambia stipendio");
-            Console.WriteLine("6. Cambia punteggio performance");
-            Console.WriteLine("7. Cambia giorni di assenze");
-            Console.WriteLine("8. Esci");
-
-            // scelta del valore da cambiare
-
-            int inserimento = Convert.ToInt32(Console.ReadLine());
+            inserimento = AnsiConsole.Prompt(
+       new SelectionPrompt<string>()
+      .Title("MODIFICA DIPENDENTE")
+      .PageSize(8)
+      .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
+      .AddChoices(new[] {
+            "Cambia nome","Cambia cognome","Cambia data di nascita formato DD/MM/YYYY",
+            "Cambia mansione","Cambia stipendio","Cambia punteggio performance","Cambia giorni di assenze","Esci",
+      }));
 
 
 
@@ -269,7 +297,7 @@ class Program
             {
 
 
-                case 1:
+                case "Cambia nome":
 
                     Console.WriteLine("Inserici il nuovo nome");
                     lavoratore.Nome = Console.ReadLine().Trim();
@@ -278,45 +306,45 @@ class Program
 
                     break;
 
-                case 2:
+                case "Cambia cognome":
                     Console.WriteLine("Inserici il nuovo cognome");
                     lavoratore.Cognome = Console.ReadLine().Trim();
 
 
                     break;
 
-                case 3:
+                case "Cambia data di nascita formato DD/MM/YYYY":
                     Console.WriteLine("Inserisci nuova data di nascita");
                     lavoratore.DataDiNascita = DateTime.ParseExact(Console.ReadLine().Trim(), "dd/MM/yyyy", null).ToString("dd/MM/yyyy");
 
                     break;
 
-                case 4:
+                case "Cambia mansione":
                     Console.WriteLine("Inserisci nuova mansione");
                     lavoratore.Mansione = Console.ReadLine().Trim();
 
 
                     break;
 
-                case 5:
+                case "Cambia stipendio":
                     Console.WriteLine("Inserisci nuovo stipendio");
                     lavoratore.Stipendio = Convert.ToDecimal(Console.ReadLine());
 
                     break;
 
-                case 6:
+                case "Cambia punteggio performance":
                     Console.WriteLine("Inserisci nuovo punteggio performance");
                     lavoratore.Performance = Convert.ToInt32(Console.ReadLine());
 
                     break;
 
-                case 7:
+                case "Cambia giorni di assenze":
                     Console.WriteLine("Modifica giorni di assenze");
                     lavoratore.Assenze = Convert.ToInt32(Console.ReadLine());
 
                     break;
 
-                case 8:
+                case "Esci":
                     Console.WriteLine("\nL'applicazione si sta per chiudere\n");
 
                     break;
@@ -415,18 +443,26 @@ class Program
             }
         }
 
+        var table = new Table();
+        table.Border(TableBorder.Square);
+
+        // Aggiune colonne
+
+        table.AddColumn("Dipendente");
+        table.AddColumn("Stipendio");
+        table.AddColumn(new TableColumn("Performance").Centered());
+
 
 
         Console.WriteLine("\nDipendenti ordinati per stipendio in ordine discendente:\n");
 
         foreach (var dipendente in dipendenti)
         {
-            Console.WriteLine($"Nome: {dipendente.Nome}");
-            Console.WriteLine($"Cognome: {dipendente.Cognome}");
-            Console.WriteLine($"Stipendio: {dipendente.Stipendio}");
-            Console.WriteLine($"Performance: {dipendente.Performance}");
-            Console.WriteLine();
+            table.AddRow($"{dipendente.Nome} {dipendente.Cognome}", $"{dipendente.Stipendio}", $"{dipendente.Performance}");
+
         }
+
+        AnsiConsole.Write(table);
     }
 
 
@@ -466,6 +502,19 @@ class Program
             dipendenti.Add(dipendente);
         }
 
+
+        // tabella
+
+        var table = new Table();
+        table.Border(TableBorder.Square);
+
+        // Aggiunge colonne 
+
+        table.AddColumn("Dipendente");
+        table.AddColumn("Tasso di assenteismo");
+
+
+
         // reverse- modificato la funzione sort in modo da  ordinare i dipendenti dal tasso di assenteismo più alto al più basso
 
         dipendenti.Sort((y, x) => x.Assenze.CompareTo(y.Assenze));
@@ -474,35 +523,23 @@ class Program
 
         {
             int assenze = dipendente.Assenze;
-          //  double tassoAssenteismo = ((double)assenze / giorniLavorativiTotali) * 100;
-             double assenteismo = ((double)assenze / giorniLavorativiTotali) * 100;     // calcolo del tasso di assenteismo
-            double tassoAssenteismo=Math.Round(assenteismo,2);     // calcolo del tasso di assenteismo
 
 
-            Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} = {tassoAssenteismo}%\n");
+            double assenteismo = ((double)assenze / giorniLavorativiTotali) * 100;     // calcolo del tasso di assenteismo
+            double tassoAssenteismo = Math.Round(assenteismo, 2);
+
+            table.AddRow($"{dipendente.Nome} {dipendente.Cognome}", $"{tassoAssenteismo}%");
+
 
         }
 
-
+        AnsiConsole.Write(table);
 
         // Tasso di assenteismo = [(giorni di assenza non giustificate) / (giorni totali di lavoro)] x 100.
 
 
     }
 
-    /* static void ReadJson(string files){
-         string files = Directory.GetFiles(directoryPath, "*.json");
-         List<dynamic> dipendenti = new List<dynamic>();
-
-         foreach (var file in files)
-         {
-
-             string jsonRead = File.ReadAllText(file);
-             var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
-             dipendenti.Add(dipendente);
-         }
-
-     } */
 
 
     static void ValutazionePerformance()
@@ -516,7 +553,7 @@ class Program
             string jsonRead = File.ReadAllText(file);
             var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
             dipendenti.Add(dipendente);
-            // ReadJson();
+
         }
 
         Console.WriteLine("\nDivide i dipendendenti in 2 gruppi in base al rendimento");
@@ -544,21 +581,57 @@ class Program
         List<dynamic> squadra1 = dipendenti.GetRange(0, split);
         List<dynamic> squadra2 = dipendenti.GetRange(split, dipendenti.Count - split);
 
+        // aggiunto tabella dipendenti con performance migliori
 
-        Console.WriteLine("\nGruppo con le performance più alte:\n");
+
+        var table = new Table();
+
+
+        table.AddColumn("Dipendente");
+        table.AddColumn(new TableColumn("Performance").Centered());
+
+        // aggiunto tabella dipendenti con performance inferiori
+
+        var table2 = new Table();
+
+
+        table2.AddColumn("Dipendente");
+        table2.AddColumn(new TableColumn("Performance").Centered());
+
+        // aggiunto tabella dipendenti con performance inferiori gli ultimi 15%
+
+        var table3 = new Table();
+
+
+        table3.AddColumn("Dipendente");
+        table3.AddColumn(new TableColumn("Performance").Centered());
+
+
+
+
+
+
         foreach (var impiegato in squadra1)
         {
-            Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
+            table.AddRow($"{impiegato.Nome} {impiegato.Cognome}", $"{impiegato.Performance}");
+
 
         }
 
-        Console.WriteLine("\nGruppo con le performance più basse:\n");
+
         foreach (var impiegato in squadra2)
         {
-            Console.WriteLine($"{impiegato.Nome} {impiegato.Cognome}, {impiegato.Performance}");
+            table2.AddRow($"{impiegato.Nome} {impiegato.Cognome}", $"{impiegato.Performance}");
+
 
         }
 
+
+        Console.WriteLine("\nGruppo con le performance più alte:\n");
+
+        AnsiConsole.Write(table);
+        Console.WriteLine("\nGruppo con le performance più basse:\n");
+        AnsiConsole.Write(table2);
         // ordina i valori
 
 
@@ -574,13 +647,16 @@ class Program
             index = 1;
         }
 
-        Console.WriteLine("\nDi seguito il 15% delle performance peggiori\n");
+        // stampa il 15% dei risultati peggiori
 
         for (int i = 0; i < index; i++)
         {
             var membro = squadra2[i];
-            Console.WriteLine($"{membro.Nome} {membro.Cognome}, Performance: {membro.Performance}\n");
+            table3.AddRow($"{membro.Nome} {membro.Cognome}", $"Performance: {membro.Performance}\n");
         }
+
+        Console.WriteLine("\nDi seguito il 15% delle performance peggiori\n");
+        AnsiConsole.Write(table3);
 
     }
 
