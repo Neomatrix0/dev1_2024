@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-//import Spectre
+
 
 class Program
 {
@@ -72,7 +72,7 @@ class Program
                     break;
             }
 
-            // se viene scelta l'opzione 9 il programma sichiude
+            // se viene scelta l'opzione 9 il programma si chiude altrimenti prosegue
 
             if (opzione != 9)
             {
@@ -98,11 +98,15 @@ class Program
 
                 string[] dati = inserimento.Split(',');
 
-
-                //  creazione di un oggetto dipendente contenente i dati richiesti dall'applicazione
+                // formattazione data di nascita
+                //ParseExact permette di specificare esattamente come vogliamo il formato della stringa di data
+                
                 DateTime dataDiNascita = DateTime.ParseExact(dati[2].Trim(), "dd/MM/yyyy", null);
+
+                //viene riconvertito in stringa
                 string dataDiNascitaFormatted = dataDiNascita.ToString("dd/MM/yyyy");
 
+                //  creazione di un oggetto dipendente contenente i dati richiesti dall'applicazione
                 var dipendente = new
                 {
                     Nome = dati[0].Trim(),
@@ -114,10 +118,15 @@ class Program
                     Assenze = Convert.ToInt32(dati[6].Trim())
                 };
 
+                // serializza l'oggetto in una stringa Json e lo indenta per renderlo più leggibile
+
                 string jsonString = JsonConvert.SerializeObject(dipendente, Formatting.Indented);
 
                 // Path.Combine concatena il path della cartella dipendenti al path dei file json di ogni dipendente
                 string filePath = Path.Combine(directoryPath, $"{dipendente.Nome}_{dipendente.Cognome}.json");
+
+                //scrive il file
+
                 File.WriteAllText(filePath, jsonString);
 
             }
@@ -173,7 +182,7 @@ class Program
             Console.WriteLine("\nInserisci nome e cognome del dipendente che vuoi cercare separati da virgola");
             var inserisciNome = Console.ReadLine();
 
-            // permette l'inserimento di molteplici input separati dalla virgola
+            // permette l'inserimento di molteplici input separati dalla virgola quindi permette un array di stringhe con nome cognome
             var nomi = inserisciNome.Split(',');
 
             // il dipendente deve essere cercato inserendo nome,cognome se vengono inseriti più valori viene gestito l'errore
@@ -185,6 +194,8 @@ class Program
                 //Console.WriteLine("Nomi non validi");
                 //return;
             }
+
+            // creato variabili per associarvi il valore di nome e cognome relativi all'array nomi
 
             string nome = nomi[0].Trim();
             string cognome = nomi[1].Trim();
@@ -211,14 +222,14 @@ class Program
         }
     }
     //cerca dipendente per nome e cognome e poi modifica le caratteristiche del dipendente a scelta
-    // modificarlo con ansiconsole mettere sottomenu
+    
     static void ModificaDipendente()
     {
         Console.WriteLine("\nInserisci nome e cognome del dipendente che vuoi modificare separati da virgola");
         var inserisciNome = Console.ReadLine();
         var nomi = inserisciNome.Split(',');
 
-        // il dipendente va cercato per nome,cognome
+        // il dipendente va cercato solo inserendo nome,cognome
 
         if (nomi.Length != 2)
         {
@@ -226,7 +237,7 @@ class Program
             return;
         }
 
-        // Trim() rimuove gli spazi vuoti
+        // Trim() rimuove gli spazi vuoti dal nome e cognome
 
         string nome = nomi[0].Trim();
         string cognome = nomi[1].Trim();
@@ -234,6 +245,11 @@ class Program
 
         if (File.Exists(filePath))
         {
+            string jsonRead = File.ReadAllText(filePath);
+            var lavoratore = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+
+            // sottomenu per scegliere il valore da modificare
+
           Console.WriteLine("1. Cambia nome");
             Console.WriteLine("2. Cambia cognome");
             Console.WriteLine("3. Cambia data di nascita sempre nel formato DD/MM/YY");
@@ -243,9 +259,8 @@ class Program
             Console.WriteLine("7. Cambia giorni di assenze");
             Console.WriteLine("8. Esci");
 
-            string jsonRead = File.ReadAllText(filePath);
-            var lavoratore = JsonConvert.DeserializeObject<dynamic> (jsonRead);
-           // string jsonString; 
+            // scelta del valore da cambiare
+           
             int inserimento = Convert.ToInt32(Console.ReadLine());
              
             
@@ -257,10 +272,7 @@ class Program
 
                 Console.WriteLine("Inserici il nuovo nome");
                 lavoratore.Nome = Console.ReadLine().Trim();
-                //string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
-
-               // string newFile = Path.Combine(directoryPath, $"{lavoratore.Nome}_{lavoratore.Cognome}.json");
-                //File.WriteAllText(newFile, jsonString);
+             
                 
 
                 break;
@@ -274,7 +286,7 @@ class Program
 
                 case 3:
                  Console.WriteLine("Inserisci nuova data di nascita");
-                // lavoratore.DataDiNascita = parsedDate.ToString("dd/MM/yyyy"); da modificare questa parte
+                 lavoratore.DataDiNascita = DateTime.ParseExact(Console.ReadLine().Trim(), "dd/MM/yyyy", null).ToString("dd/MM/yyyy");
 
                 break;
 
@@ -313,27 +325,22 @@ class Program
                 break;
             }
 
+            // se nome,cognome vengono modificati cambia anche il nome del json corrispondente
+
             string newFilePath =   Path.Combine(directoryPath, $"{lavoratore.Nome}_{lavoratore.Cognome}.json");
+
+            // Serializza i dati aggiornati del dipendente 
              string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
-           
-            //Nota: vedere se si può usare una funzione per ridurre il codice
-            //Console.WriteLine("Inserisci i nuovi dati del dipendente (nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,performance,assenze) separati da virgola");
-            //string? inserimento = Console.ReadLine();
-           //string[] dati = inserimento.Split(',');
 
-         /*    var dipendente = new
-            {
-                Nome = dati[0].Trim(),
-                Cognome = dati[1].Trim(),
-                DataDiNascita = DateTime.Parse(dati[2].Trim()),
-                Mansione = dati[3].Trim(),
-                Stipendio = Convert.ToDecimal(dati[4].Trim()),
-                Performance = Convert.ToInt32(dati[5].Trim()),
-                Assenze = Convert.ToInt32(dati[6].Trim())
-            }; */
+             //Cancella il vecchio json
 
-           // string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
-            File.WriteAllText(filePath, jsonString);
+             File.Delete(filePath);
+
+             //scrive il nuovo file json con i dati aggiornati serializzati
+
+             File.WriteAllText(newFilePath, jsonString);
+     
+            
             Console.WriteLine("Dipendente aggiornato con successo.");
         }
         else
@@ -359,7 +366,7 @@ class Program
 
         if (File.Exists(filePath))
         {
-            File.Delete(filePath);
+            File.Delete(filePath);    // rimuove file json
             Console.WriteLine("Dipendente rimosso con successo.");
         }
         else
@@ -372,15 +379,21 @@ class Program
 
     static void SortStipendio()
     {
-
+        // prende in considerazione tutti i file di estensione .json
         var files = Directory.GetFiles(directoryPath, "*.json");
 
+        // creazione di una lista di tipo dynamic permette poi di manipolare gli oggetti deserializzati da JSON 
+
         List<dynamic> dipendenti = new List<dynamic>();
+
+        //cicla dentro la directory dipendenti scorrendo tutti i file
 
         foreach (var file in files)
         {
 
             string jsonRead = File.ReadAllText(file);
+
+            //converte la stringa JSON in un oggetto  
             var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
             dipendenti.Add(dipendente);
         }
@@ -460,7 +473,7 @@ class Program
 
         {
             int assenze = dipendente.Assenze;
-            double tassoAssenteismo = ((double)assenze / giorniLavorativiTotali) * 100;
+            double tassoAssenteismo = ((double)assenze / giorniLavorativiTotali) * 100;     // calcolo del tasso di assenteismo
 
 
             Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} = {tassoAssenteismo}%\n");
@@ -522,6 +535,7 @@ class Program
 
         }
 
+        // divide i dipendenti in 2 gruppi.Nel primo vengono inseriti quelli con le performance migliori
 
         int split = dipendenti.Count / 2;
         List<dynamic> squadra1 = dipendenti.GetRange(0, split);
