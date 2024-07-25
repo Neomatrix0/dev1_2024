@@ -118,7 +118,8 @@ class Program
                     Mansione = dati[3].Trim(),
                     Stipendio = Convert.ToDecimal(dati[4].Trim()),
                     Performance = Convert.ToInt32(dati[5].Trim()),
-                    Assenze = Convert.ToInt32(dati[6].Trim())
+                    Assenze = Convert.ToInt32(dati[6].Trim()),
+                    Mail = dati[7].Trim()
                 };
 
                 // serializza l'oggetto in una stringa Json e lo indenta per renderlo più leggibile
@@ -174,6 +175,8 @@ class Program
             table.AddColumn("Stipendio");
             table.AddColumn("Performance");
             table.AddColumn("Giorni di assenza");
+            table.AddColumn("Email aziendale");
+            
 
 
 
@@ -191,7 +194,7 @@ class Program
                 var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
 
 
-                table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}", $"{dipendente.Performance}", $"{dipendente.Assenze}");
+                table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}", $"{dipendente.Performance}", $"{dipendente.Assenze}", $"{dipendente.Mail}");
 
 
             }
@@ -288,7 +291,7 @@ class Program
       .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
       .AddChoices(new[] {
             "Cambia nome","Cambia cognome","Cambia data di nascita formato DD/MM/YYYY",
-            "Cambia mansione","Cambia stipendio","Cambia punteggio performance","Cambia giorni di assenze","Esci",
+            "Cambia mansione","Cambia stipendio","Cambia punteggio performance","Cambia giorni di assenze","Cambia mail","Esci",
       }));
 
 
@@ -341,6 +344,13 @@ class Program
                 case "Cambia giorni di assenze":
                     Console.WriteLine("Modifica giorni di assenze");
                     lavoratore.Assenze = Convert.ToInt32(Console.ReadLine());
+
+                    break;
+
+                  case "Cambia mail":
+                    Console.WriteLine("Inserisci il nuovo indirizzo email aziendale");
+                    lavoratore.Mail = Console.ReadLine().Trim();
+
 
                     break;
 
@@ -482,6 +492,8 @@ class Program
         Console.WriteLine($"Stipendio: {dipendente.Stipendio}");
         Console.WriteLine($"Performance: {dipendente.Performance}");
         Console.WriteLine($"Giorni di assenza: {dipendente.Assenze}");
+        Console.WriteLine($"Mail aziendale: {dipendente.Mail}");
+
 
     }
 

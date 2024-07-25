@@ -2,8 +2,9 @@
   "Nome": "antonio",
   "Cognome": "bianchi",
   "DataDiNascita": "20/07/1960",
-  "Mansione": "dirigente",
+  "Mansione": "sales manager",
   "Stipendio": 100000.0,
   "Performance": 75,
-  "Assenze": 20
+  "Assenze": 20,
+  "Mail": "antonio.bianchi@gmail.com"
 }

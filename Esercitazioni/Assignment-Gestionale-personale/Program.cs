@@ -115,7 +115,8 @@ class Program
                     Mansione = dati[3].Trim(),
                     Stipendio = Convert.ToDecimal(dati[4].Trim()),
                     Performance = Convert.ToInt32(dati[5].Trim()),
-                    Assenze = Convert.ToInt32(dati[6].Trim())
+                    Assenze = Convert.ToInt32(dati[6].Trim()),
+                    Mail = dati[7].Trim()
                 };
 
                 // serializza l'oggetto in una stringa Json e lo indenta per renderlo più leggibile
@@ -446,6 +447,7 @@ class Program
         Console.WriteLine($"Stipendio: {dipendente.Stipendio}");
         Console.WriteLine($"Performance: {dipendente.Performance}");
         Console.WriteLine($"Giorni di assenza: {dipendente.Assenze}");
+        Console.WriteLine($"Giorni di assenza: {dipendente.Mail}");
 
     }
 

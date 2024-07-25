@@ -5,5 +5,6 @@
   "Mansione": "dirigente",
   "Stipendio": 120000.0,
   "Performance": 70,
-  "Assenze": 25
+  "Assenze": 25,
+  "Mail": "luigi.bianchi@gmail.com"
 }

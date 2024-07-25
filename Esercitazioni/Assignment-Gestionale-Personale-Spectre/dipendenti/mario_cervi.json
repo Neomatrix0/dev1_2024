@@ -5,5 +5,6 @@
   "Mansione": "impiegato",
   "Stipendio": 30000.0,
   "Performance": 60,
-  "Assenze": 20
+  "Assenze": 20,
+  "Mail": "mario.cervi@gmail.com"
 }
