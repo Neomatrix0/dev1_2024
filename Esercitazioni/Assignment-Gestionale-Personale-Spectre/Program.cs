@@ -90,8 +90,8 @@ class Program
     {
         do
         {
-            try
-            {
+            try{
+            
                 Console.WriteLine("Inserisci nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,voto performance da 1 a 100 ,giorni di assenze,separate da virgola");
 
                 // accetta l'input dei dati da console
@@ -100,6 +100,10 @@ class Program
                 // permette l'inserimento di più valori divisi dalla virgola
 
                 string[] dati = inserimento.Split(',');
+
+                if(dati.Length != 8){
+                    throw new FormatException("L'input deve contenere esattamente otto valori separati da virgola");
+                }
 
                 // formattazione data di nascita
                 //ParseExact permette di specificare esattamente come vogliamo il formato  della data converte da stringa a oggetto Datetime
@@ -132,26 +136,28 @@ class Program
                 //scrive il file
 
                 File.WriteAllText(filePath, jsonString);
-
             }
-            catch (Exception e)
+            
+           catch (Exception e)
             {
                 Console.WriteLine($"ERRORE INSERIMENTO DATI: {e.Message}");     // messaggio eccezione
                 Console.WriteLine($"CODICE ERRORE:{e.HResult}");                //codice numerico eccezione
                 return;
-            }
-
+            }  
+        
+        
             // se si svuole terminare l'immissione della registrazione del dipendente basta digitare n
 
             Console.WriteLine("Vuoi inserire un altro dipendente? (s/n)");
             string? risposta = Console.ReadLine().Trim().ToLower();
+
             if (risposta == "n")
             {
                 break;
             }
         } while (true);
+    
     }
-
     // creazione dei metodi per ogni singola funzionalità
     static void VisualizzaDipendenti()
     {
@@ -176,7 +182,7 @@ class Program
             table.AddColumn("Performance");
             table.AddColumn("Giorni di assenza");
             table.AddColumn("Email aziendale");
-            
+
 
 
 
@@ -257,145 +263,156 @@ class Program
 
     static void ModificaDipendente()
     {
-        Console.WriteLine("\nInserisci nome e cognome del dipendente che vuoi modificare separati da virgola");
 
-        var inserisciNome = Console.ReadLine();
-        var nomi = inserisciNome.Split(',');
-
-        // il dipendente va cercato solo inserendo nome,cognome
-
-        if (nomi.Length != 2)
+        try
         {
-            Console.WriteLine("Nomi non validi");
-            return;
-        }
+            Console.WriteLine("\nInserisci nome e cognome del dipendente che vuoi modificare separati da virgola");
 
-        // Trim() rimuove gli spazi vuoti dal nome e cognome
+            var inserisciNome = Console.ReadLine();
+            var nomi = inserisciNome.Split(',');
 
-        string nome = nomi[0].Trim();
-        string cognome = nomi[1].Trim();
-        string filePath = Path.Combine(directoryPath, $"{nome}_{cognome}.json");
+            // il dipendente va cercato solo inserendo nome,cognome
 
-        if (File.Exists(filePath))
-        {
-            string jsonRead = File.ReadAllText(filePath);
-            var lavoratore = JsonConvert.DeserializeObject<dynamic>(jsonRead);
-            var inserimento = "";
-
-            // sottomenu per scegliere il valore da modificare
-
-            inserimento = AnsiConsole.Prompt(
-       new SelectionPrompt<string>()
-      .Title("MODIFICA DIPENDENTE")
-      .PageSize(8)
-      .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
-      .AddChoices(new[] {
-            "Cambia nome","Cambia cognome","Cambia data di nascita formato DD/MM/YYYY",
-            "Cambia mansione","Cambia stipendio","Cambia punteggio performance","Cambia giorni di assenze","Cambia mail","Esci",
-      }));
-
-
-
-            switch (inserimento)
+            if (nomi.Length != 2)
             {
-
-
-                case "Cambia nome":
-
-                    Console.WriteLine("Inserici il nuovo nome");
-                    lavoratore.Nome = Console.ReadLine().Trim();
-
-
-
-                    break;
-
-                case "Cambia cognome":
-                    Console.WriteLine("Inserici il nuovo cognome");
-                    lavoratore.Cognome = Console.ReadLine().Trim();
-
-
-                    break;
-
-                case "Cambia data di nascita formato DD/MM/YYYY":
-                    Console.WriteLine("Inserisci nuova data di nascita");
-                    lavoratore.DataDiNascita = DateTime.ParseExact(Console.ReadLine().Trim(), "dd/MM/yyyy", null).ToString("dd/MM/yyyy");
-
-                    break;
-
-                case "Cambia mansione":
-                    Console.WriteLine("Inserisci nuova mansione");
-                    lavoratore.Mansione = Console.ReadLine().Trim();
-
-
-                    break;
-
-                case "Cambia stipendio":
-                    Console.WriteLine("Inserisci nuovo stipendio");
-                    lavoratore.Stipendio = Convert.ToDecimal(Console.ReadLine());
-
-                    break;
-
-                case "Cambia punteggio performance":
-                    Console.WriteLine("Inserisci nuovo punteggio performance");
-                    lavoratore.Performance = Convert.ToInt32(Console.ReadLine());
-
-                    break;
-
-                case "Cambia giorni di assenze":
-                    Console.WriteLine("Modifica giorni di assenze");
-                    lavoratore.Assenze = Convert.ToInt32(Console.ReadLine());
-
-                    break;
-
-                  case "Cambia mail":
-                    Console.WriteLine("Inserisci il nuovo indirizzo email aziendale");
-                    lavoratore.Mail = Console.ReadLine().Trim();
-
-
-                    break;
-
-                case "Esci":
-                    Console.WriteLine("\nL'applicazione si sta per chiudere\n");
-
-                    break;
-
-                default:
-                    Console.WriteLine("\nScelta errata.Prego scegliere tra le opzioni disponibili 1-8\n");
-                    break;
+                Console.WriteLine("Nomi non validi.Inserire nome,cognome separati da virgola");
+                return;
             }
 
-            // se nome,cognome vengono modificati cambia anche il nome del json corrispondente
+            // Trim() rimuove gli spazi vuoti dal nome e cognome
 
-            string newFilePath = Path.Combine(directoryPath, $"{lavoratore.Nome}_{lavoratore.Cognome}.json");
+            string nome = nomi[0].Trim();
+            string cognome = nomi[1].Trim();
+            string filePath = Path.Combine(directoryPath, $"{nome}_{cognome}.json");
 
-            // Serializza i dati aggiornati del dipendente 
-            string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
+            if (File.Exists(filePath))
+            {
+                string jsonRead = File.ReadAllText(filePath);
+                var lavoratore = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+                var inserimento = "";
 
-            //Cancella il vecchio json
+                // sottomenu per scegliere il valore da modificare
 
-            File.Delete(filePath);
+                inserimento = AnsiConsole.Prompt(
+           new SelectionPrompt<string>()
+          .Title("MODIFICA DIPENDENTE")
+          .PageSize(8)
+          .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
+          .AddChoices(new[] {
+            "Cambia nome","Cambia cognome","Cambia data di nascita formato DD/MM/YYYY",
+            "Cambia mansione","Cambia stipendio","Cambia punteggio performance","Cambia giorni di assenze","Cambia mail","Esci",
+          }));
 
-            //scrive il nuovo file json con i dati aggiornati serializzati
-
-            File.WriteAllText(newFilePath, jsonString);
 
 
-            Console.WriteLine("Dipendente aggiornato con successo.");
+                switch (inserimento)
+                {
+
+
+                    case "Cambia nome":
+
+                        Console.WriteLine("Inserici il nuovo nome");
+                        lavoratore.Nome = Console.ReadLine().Trim();
+
+
+
+                        break;
+
+                    case "Cambia cognome":
+                        Console.WriteLine("Inserici il nuovo cognome");
+                        lavoratore.Cognome = Console.ReadLine().Trim();
+
+
+                        break;
+
+                    case "Cambia data di nascita formato DD/MM/YYYY":
+                        Console.WriteLine("Inserisci nuova data di nascita");
+                        lavoratore.DataDiNascita = DateTime.ParseExact(Console.ReadLine().Trim(), "dd/MM/yyyy", null).ToString("dd/MM/yyyy");
+
+                        break;
+
+                    case "Cambia mansione":
+                        Console.WriteLine("Inserisci nuova mansione");
+                        lavoratore.Mansione = Console.ReadLine().Trim();
+
+
+                        break;
+
+                    case "Cambia stipendio":
+                        Console.WriteLine("Inserisci nuovo stipendio");
+                        lavoratore.Stipendio = Convert.ToDecimal(Console.ReadLine());
+
+                        break;
+
+                    case "Cambia punteggio performance":
+                        Console.WriteLine("Inserisci nuovo punteggio performance");
+                        lavoratore.Performance = Convert.ToInt32(Console.ReadLine());
+
+                        break;
+
+                    case "Cambia giorni di assenze":
+                        Console.WriteLine("Modifica giorni di assenze");
+                        lavoratore.Assenze = Convert.ToInt32(Console.ReadLine());
+
+                        break;
+
+                    case "Cambia mail":
+                        Console.WriteLine("Inserisci il nuovo indirizzo email aziendale");
+                        lavoratore.Mail = Console.ReadLine().Trim();
+
+
+                        break;
+
+                    case "Esci":
+                        Console.WriteLine("\nL'applicazione si sta per chiudere\n");
+
+                        break;
+
+                    default:
+                        Console.WriteLine("\nScelta errata.Prego scegliere tra le opzioni disponibili 1-8\n");
+                        break;
+                }
+
+                // se nome,cognome vengono modificati cambia anche il nome del json corrispondente
+
+                string newFilePath = Path.Combine(directoryPath, $"{lavoratore.Nome}_{lavoratore.Cognome}.json");
+
+                // Serializza i dati aggiornati del dipendente 
+                string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
+
+                //Cancella il vecchio json
+
+                File.Delete(filePath);
+
+                //scrive il nuovo file json con i dati aggiornati serializzati
+
+                File.WriteAllText(newFilePath, jsonString);
+
+
+                Console.WriteLine("Dipendente aggiornato con successo.");
+            }
+            else
+            {
+                Console.WriteLine("Dipendente non trovato");
+            }
         }
-        else
+        catch (Exception e)
         {
-            Console.WriteLine("Dipendente non trovato");
+            Console.WriteLine($"Errore non trattato: {e.Message}");
+            Console.WriteLine($"CODICE ERRORE: {e.HResult}");
         }
     }
+
     static void RimuoviDipendente()
     {
+
         Console.WriteLine("Inserisci nome e cognome del dipendente che vuoi rimuovere separati da virgola");
         var inserisciNome = Console.ReadLine();
         var nomi = inserisciNome.Split(',');
 
         if (nomi.Length != 2)
         {
-            Console.WriteLine("Nomi non validi");
+            Console.WriteLine("Nomi non validi.Inserire nome,cognome separati da virgola");
             return;
         }
 
@@ -403,16 +420,29 @@ class Program
         string cognome = nomi[1].Trim();
         string filePath = Path.Combine(directoryPath, $"{nome}_{cognome}.json");
 
-        if (File.Exists(filePath))
+        try
         {
-            File.Delete(filePath);    // rimuove file json
-            Console.WriteLine("Dipendente rimosso con successo.");
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);    // rimuove file json
+                Console.WriteLine("Dipendente rimosso con successo.");
+            }
+            else
+            {
+                Console.WriteLine("Dipendente non trovato");
+            }
         }
-        else
+        catch (Exception e)
         {
-            Console.WriteLine("Dipendente non trovato");
+            Console.WriteLine($"Errore durante la rimozione del dipendente: {e.Message}");
+            Console.WriteLine($"CODICE ERRORE: {e.HResult}");
         }
     }
+
+
+
+
 
     //metodo per ordinare gli stipendi dal più alto al più basso e vedere alcuni  dati del dipendente
 
@@ -503,6 +533,9 @@ class Program
         Console.WriteLine("\nDi seguito l'elenco con il tasso di assenteismo per ogni dipendente su 250 giorni lavorativi equivalente ad 1 anno\n");
         int giorniLavorativiTotali = 250;
 
+         try
+    {
+
         var files = Directory.GetFiles(directoryPath, "*.json");
         List<dynamic> dipendenti = new List<dynamic>();
 
@@ -550,9 +583,11 @@ class Program
         // Tasso di assenteismo = [(giorni di assenza non giustificate) / (giorni totali di lavoro)] x 100.
 
 
+    } catch(Exception e){
+        Console.WriteLine($"Errore generale: {e.Message}");
     }
 
-
+    }
 
     static void ValutazionePerformance()
     {
