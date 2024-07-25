@@ -66,6 +66,24 @@ Di seguito le  convenzioni di codifica e i nomi standard utilizzati.
  - [ ]  I nomi dei progetti devono essere PascalCase.
  - [ ]  I nomi dei namespace devono essere PascalCase.
 
+ ## STRUTTURA JSON
+
+ - Di seguito il modello di formattazione del file json di ogni dipendente inclusivo di tutti i dati
+
+ ```json
+
+ {
+  "Nome": "fabio",
+  "Cognome": "fabrizi",
+  "DataDiNascita": "10/02/1976",
+  "Mansione": "impiegato",
+  "Stipendio": 23000.0,
+  "Performance": 30,
+  "Assenze": 40
+}
+
+ ```
+
 
 ## SVILUPPO DEI COMPONENTI
 Ora che abbiamo definito le convenzioni di codifica e i nomi standard, possiamo iniziare a scrivere il codice. In questo caso, creeremo un progetto console per l'applicazione e un progetto di test per i test unitari.
