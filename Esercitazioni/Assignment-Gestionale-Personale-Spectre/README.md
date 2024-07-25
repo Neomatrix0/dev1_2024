@@ -40,11 +40,23 @@ L'applicazione consente ad una azienda di monitorare il personale,valutarne le p
 
 - [ ] sorta stipendio dal più alto al più basso con mansione e dati anagrafici
 
+## AGGIUNTA EXTRA
+
+- [ ]  Modificare alcune funzioni inserendo parametri
+    - [ ] Inserisci dipendente
+    - [ ] Cerca dipendente
+    - [ ] Modifica dipendente
+    - [ ] Rimuovi dipendente
+
+- [ ]  Integrare try and catch per gestione delle eccezioni
+
+- [ ]  Aggiungere un campo per identificare il dipendente che può essere il codice fiscale oppure la mail
+
 
 
 ## DEFINIZIONE DI STRUTTURE E CONVENZIONI
 
-Ora che abbiamo deciso come organizzare il codice, dobbiamo definire le convenzioni di codifica e i nomi standard. In questo caso, useremo le convenzioni di codifica di C# e .NET e i nomi standard.
+Di seguito le  convenzioni di codifica e i nomi standard utilizzati.
 
  - [ ]  I nomi delle classi devono essere PascalCase.
  - [ ]  I nomi dei metodi devono essere PascalCase.
