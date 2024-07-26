@@ -101,7 +101,7 @@ class Program
             try
             {
 
-                Console.WriteLine("Inserisci nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,voto performance da 1 a 100 ,giorni di assenze,separate da virgola");
+                Console.WriteLine("Inserisci nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,voto performance da 1 a 100 ,giorni di assenze,email,separate da virgola");
 
                 // accetta l'input dei dati da console
                 string? inserimento = Console.ReadLine();
@@ -188,7 +188,7 @@ class Program
             table.AddColumn("Cognome");
             table.AddColumn("Data di nascita");
             table.AddColumn("Mansione");
-            table.AddColumn("Stipendio");
+            table.AddColumn("Stipendio annuale");
             table.AddColumn("Performance");
             table.AddColumn("Giorni di assenza");
             table.AddColumn("Email aziendale");
