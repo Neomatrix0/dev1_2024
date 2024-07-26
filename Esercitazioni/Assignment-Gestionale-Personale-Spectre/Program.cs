@@ -742,19 +742,18 @@ class Program
         {
             // Se il file è vuoto o il contenuto non è valido, chiede il fatturato all'utente
             Console.WriteLine("Inserisci fatturato");
+            //converte fatturato in decimale
             fatturato = Convert.ToDouble(Console.ReadLine());
+            //scrive valori sul file txt convertendolo in stringa
             File.WriteAllText(fileTxt, fatturato.ToString());
         }
         else
         {
-            fatturato = Convert.ToDouble(lines[0]);
+            fatturato = Convert.ToDouble(lines[0]);     // converte in double per i calcoli
         }
     }
 
-    // Deve prendere il valore fatturato dal file txt e usarlo per calcolare il tasso di incidenza percentuale
-  
-
-       // deve prendere il valore fatturato dal file txt e usarlo per calcolare il tasso di incidenza percentuale
+    
 
         
              var files = Directory.GetFiles(directoryPath, "*.json");
@@ -791,9 +790,10 @@ class Program
             {
                 double stipendio = Convert.ToDouble(dipendente.Stipendio);
 
+               //formula Incidenza percentuale : (Cifra Inferiore / Cifra Superiore) X 100
 
-                double costoPersonale = (stipendio / fatturato) * 100;     // calcolo del tasso di assenteismo
-                double costoPercentuale = Math.Round(costoPersonale, 2);
+                double costoPersonale = (stipendio / fatturato) * 100;     // calcolo del tasso d'incidenza
+                double costoPercentuale = Math.Round(costoPersonale, 2);   // limite 2 cifre decimali
 
                 //Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} {dipendente.Stipendio} {costoPercentuale}% {dipendente.Performance}");
                    table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}",$"{costoPercentuale}%", $"{dipendente.Performance}", $"{dipendente.Assenze}");
