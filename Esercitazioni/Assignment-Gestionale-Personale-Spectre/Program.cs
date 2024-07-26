@@ -185,19 +185,13 @@ class Program
 
 
 
-
-
-
-
-
-
             // stampa i dati di tutti i dipendenti presi dai json
 
             foreach (var file in files)
             {
 
-                string jsonRead = File.ReadAllText(file);
-                var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+               
+                var dipendente = LeggiJson(file);
 
 
                 table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}", $"{dipendente.Performance}", $"{dipendente.Assenze}", $"{dipendente.Mail}");
@@ -287,8 +281,8 @@ class Program
 
             if (File.Exists(filePath))
             {
-                string jsonRead = File.ReadAllText(filePath);
-                var lavoratore = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+                
+                var lavoratore = LeggiJson(filePath);
                 var inserimento = "";
 
                 // sottomenu per scegliere il valore da modificare
@@ -460,10 +454,8 @@ class Program
         foreach (var file in files)
         {
 
-            string jsonRead = File.ReadAllText(file);
-
-            //converte la stringa JSON in un oggetto  
-            var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+            
+            var dipendente = LeggiJson(file);
             dipendenti.Add(dipendente);
         }
 
@@ -542,8 +534,8 @@ class Program
         foreach (var file in files)
         {
 
-            string jsonRead = File.ReadAllText(file);
-            var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+            
+            var dipendente = LeggiJson(file);
             dipendenti.Add(dipendente);
         }
 
@@ -589,6 +581,14 @@ class Program
 
     }
 
+    // legge file json e deserializza
+static dynamic LeggiJson(string filePath){
+   
+      string jsonRead = File.ReadAllText(filePath);
+    return JsonConvert.DeserializeObject<dynamic>(jsonRead);
+}
+
+
     static void ValutazionePerformance()
     {
         var files = Directory.GetFiles(directoryPath, "*.json");
@@ -597,8 +597,8 @@ class Program
         foreach (var file in files)
         {
 
-            string jsonRead = File.ReadAllText(file);
-            var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+            
+            var dipendente = LeggiJson(file);
             dipendenti.Add(dipendente);
 
         }
