@@ -43,11 +43,7 @@ L'applicazione consente ad una azienda di monitorare il personale,valutarne le p
 ## AGGIUNTA EXTRA
 
 - [ ]  Modificare alcune funzioni inserendo parametri
-    - [ ] Inserisci dipendente
-    - [ ] Cerca dipendente
-    - [ ] Modifica dipendente
-    - [ ] Rimuovi dipendente
-
+   
 - [ ]  Integrare try and catch per gestione delle eccezioni
 
 - [ ]  Aggiungere un campo per identificare il dipendente che può essere il codice fiscale oppure la mail
@@ -79,7 +75,8 @@ Di seguito le  convenzioni di codifica e i nomi standard utilizzati.
   "Mansione": "impiegato",
   "Stipendio": 23000.0,
   "Performance": 30,
-  "Assenze": 40
+  "Assenze": 40,
+  "Mail": "fabio.fabrizi@gmail.com"
 }
 
  ```
@@ -137,15 +134,14 @@ gantt
 
    flowchart TD
     A[Start] --> B{Menu Principale}
-    B -- 1 --> C[Inserisci dipendente con i dati] --> Z
+    B -- 1 --> C[/Inserisci dipendente con i dati/] --> Z
     B -- 2 --> D[visualizza dipendenti] --> Z
     B -- 3 --> E[cerca dipendente] --> Z
-    B -- 4 --> F[modifica dipendente] --> Z
+    B -- 4 --> F[modifica dipendente] --> F1{sottomenu scelta campo da modificare} --> F2[cambia proprietà dipendente]--> Z
     B -- 5 --> G[rimuovi dipendente] --> Z
-    B -- 6 --> H[tasso di assenteismo ] --> Z
-    B -- 7 --> I[performance indicatore] --> O[top10] & O1[-10] --> Z
-    B -- 8 --> L[sorta stipendio] --> Z
-    B -- 9 --> M[salva dipende json] --> Z
+    B -- 6 --> H[calcola tasso di assenteismo ] --> Z
+    B -- 7 --> I[performance indicatore] --> O[topPerformance] & O1[lowPerformance] --> Z
+    B -- 8 --> L[ordina stipendio] --> Z
     B -- 9 --> N[esci dall'applicazione] --> Z
     Z[end] --loop --> B
 
