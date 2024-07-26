@@ -18,6 +18,8 @@ class Program
         }
 
         Console.WriteLine("Benvenuto nel programma di gestione del personale.");
+
+        // variabile per il menu di spectre console
         var opzione = "";
 
         do
@@ -404,6 +406,7 @@ class Program
         }
     }
 
+    // metodo per rimuovere il dipendente e il relativo file json inserendo nome,cognome nella console
     static void RimuoviDipendente()
     {
 
@@ -524,7 +527,7 @@ class Program
 
     }
 
-
+// meotodo che calcola il tasso di assenteismo su un totale di 250 giorni lavorativi l'anno
     static void TassoDiAssenteismo()
     {
         Console.WriteLine("\nDi seguito l'elenco con il tasso di assenteismo per ogni dipendente su 250 giorni lavorativi equivalente ad 1 anno\n");
@@ -662,7 +665,8 @@ class Program
         table3.AddColumn(new TableColumn("Performance").Centered());
 
 
-
+        // aggiunge nella tabella i dati del dipendente mettendo in evidenza le performance
+        // in squadra1 vengono messi i migliori
 
         foreach (var impiegato in squadra1)
         {
@@ -685,6 +689,7 @@ class Program
         AnsiConsole.Write(table);
         Console.WriteLine("\nGruppo con le performance più basse:\n");
         AnsiConsole.Write(table2);
+        
         // ordina i valori
 
 
