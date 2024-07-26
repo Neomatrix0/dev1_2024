@@ -26,7 +26,7 @@ class Program
         {
             Console.Clear();
 
-    // creazione del menu con spectre console
+            // creazione del menu con spectre console
             opzione = AnsiConsole.Prompt(
          new SelectionPrompt<string>()
         .Title("GESTIONALE PERSONALE")
@@ -69,7 +69,7 @@ class Program
 
                     SortStipendio();
                     break;
-                    case "Rapporto stipendio fatturato":
+                case "Rapporto stipendio fatturato":
 
                     IncidenzaPercentuale();
                     break;
@@ -265,7 +265,7 @@ class Program
             Console.WriteLine($"CODICE ERRORE: {e.HResult}");
         }
     }
-    
+
     //cerca dipendente per nome,cognome e poi modifica le caratteristiche del dipendente a scelta
 
     static void ModificaDipendente()
@@ -454,22 +454,7 @@ class Program
 
     static void SortStipendio()
     {
-        // prende in considerazione tutti i file di estensione .json
-        var files = Directory.GetFiles(directoryPath, "*.json");
-
-        // creazione di una lista di tipo dynamic permette poi di manipolare gli oggetti deserializzati da JSON 
-
-        List<dynamic> dipendenti = new List<dynamic>();
-
-        //cicla dentro la directory dipendenti scorrendo tutti i file
-
-        foreach (var file in files)
-        {
-
-
-            var dipendente = LeggiJson(file);
-            dipendenti.Add(dipendente);
-        }
+        var dipendenti = GetDipendenti();
 
         // algoritmo bubblesort modificato per ordinare il dato dello stipendio in ordine discendente 
         for (int i = 0; i < dipendenti.Count - 1; i++)
@@ -531,7 +516,7 @@ class Program
 
     }
 
-// meotodo che calcola il tasso di assenteismo su un totale di 250 giorni lavorativi l'anno
+    // meotodo che calcola il tasso di assenteismo su un totale di 250 giorni lavorativi l'anno
     static void TassoDiAssenteismo()
     {
         Console.WriteLine("\nDi seguito l'elenco con il tasso di assenteismo per ogni dipendente su 250 giorni lavorativi equivalente ad 1 anno\n");
@@ -539,17 +524,7 @@ class Program
 
         try
         {
-
-            var files = Directory.GetFiles(directoryPath, "*.json");
-            List<dynamic> dipendenti = new List<dynamic>();
-
-            foreach (var file in files)
-            {
-
-
-                var dipendente = LeggiJson(file);
-                dipendenti.Add(dipendente);
-            }
+            var dipendenti = GetDipendenti();
 
 
             // tabella
@@ -603,20 +578,10 @@ class Program
         return JsonConvert.DeserializeObject<dynamic>(jsonRead);
     }
 
-// metodo per ordinare i dipendenti in base alle performance dividendoli in 2 gruppi in base al punteggio 
+    // metodo per ordinare i dipendenti in base alle performance dividendoli in 2 gruppi in base al punteggio 
     static void ValutazionePerformance()
     {
-        var files = Directory.GetFiles(directoryPath, "*.json");
-        List<dynamic> dipendenti = new List<dynamic>();
-
-        foreach (var file in files)
-        {
-
-
-            var dipendente = LeggiJson(file);
-            dipendenti.Add(dipendente);
-
-        }
+       var dipendenti =GetDipendenti();
 
         Console.WriteLine("\nDivide i dipendendenti in 2 gruppi in base al rendimento");
 
@@ -693,7 +658,7 @@ class Program
         AnsiConsole.Write(table);
         Console.WriteLine("\nGruppo con le performance più basse:\n");
         AnsiConsole.Write(table2);
-        
+
         // ordina i valori
 
 
@@ -722,46 +687,50 @@ class Program
 
     }
 
-// funzione che calcola l'incidenza percentuale dello stipendio in rapporto al fatturato
-  static void IncidenzaPercentuale(){
+    // funzione che calcola l'incidenza percentuale dello stipendio in rapporto al fatturato
+    static void IncidenzaPercentuale()
+    {
         string fileTxt = "fatturato.txt";
-       
-       double fatturato;
 
-        if(!File.Exists(fileTxt)){
-            Console.WriteLine("Inserisci fatturato");
-            fatturato = Convert.ToDouble(Console.ReadLine());
-            File.WriteAllText(fileTxt, fatturato.ToString());
-        
+        double fatturato;
 
-   
-               
-    }else{
-        string[] lines = File.ReadAllLines(fileTxt);
-         if (lines.Length == 0)
+        if (!File.Exists(fileTxt))
         {
-            // Se il file è vuoto o il contenuto non è valido, chiede il fatturato all'utente
             Console.WriteLine("Inserisci fatturato");
-            //converte fatturato in decimale
             fatturato = Convert.ToDouble(Console.ReadLine());
-            //scrive valori sul file txt convertendolo in stringa
             File.WriteAllText(fileTxt, fatturato.ToString());
+
+
+
+
         }
         else
         {
-            fatturato = Convert.ToDouble(lines[0]);     // converte in double per i calcoli
+            string[] lines = File.ReadAllLines(fileTxt);
+            if (lines.Length == 0)
+            {
+                // Se il file è vuoto o il contenuto non è valido, chiede il fatturato all'utente
+                Console.WriteLine("Inserisci fatturato");
+                //converte fatturato in decimale
+                fatturato = Convert.ToDouble(Console.ReadLine());
+                //scrive valori sul file txt convertendolo in stringa
+                File.WriteAllText(fileTxt, fatturato.ToString());
+            }
+            else
+            {
+                fatturato = Convert.ToDouble(lines[0]);     // converte in double per i calcoli
+            }
         }
-    }
 
-    
 
-        
-             var files = Directory.GetFiles(directoryPath, "*.json");
+
+
+        var files = Directory.GetFiles(directoryPath, "*.json");
         List<dynamic> dipendenti = new List<dynamic>();
 
         // creazione tabella 
 
-            var table = new Table();
+        var table = new Table();
         table.Border(TableBorder.Square);
 
 
@@ -783,27 +752,44 @@ class Program
 
         }
 
-             dipendenti.Sort((y, x) => x.Stipendio.CompareTo(y.Stipendio));
+        dipendenti.Sort((y, x) => x.Stipendio.CompareTo(y.Stipendio));
 
-            foreach (var dipendente in dipendenti)
+        foreach (var dipendente in dipendenti)
 
-            {
-                double stipendio = Convert.ToDouble(dipendente.Stipendio);
+        {
+            double stipendio = Convert.ToDouble(dipendente.Stipendio);
 
-               //formula Incidenza percentuale : (Cifra Inferiore / Cifra Superiore) X 100
+            //formula Incidenza percentuale : (Cifra Inferiore / Cifra Superiore) X 100
 
-                double costoPersonale = (stipendio / fatturato) * 100;     // calcolo del tasso d'incidenza
-                double costoPercentuale = Math.Round(costoPersonale, 2);   // limite 2 cifre decimali
+            double costoPersonale = (stipendio / fatturato) * 100;     // calcolo del tasso d'incidenza
+            double costoPercentuale = Math.Round(costoPersonale, 2);   // limite 2 cifre decimali
 
-                //Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} {dipendente.Stipendio} {costoPercentuale}% {dipendente.Performance}");
-                   table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}",$"{costoPercentuale}%", $"{dipendente.Performance}", $"{dipendente.Assenze}");
+            //Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} {dipendente.Stipendio} {costoPercentuale}% {dipendente.Performance}");
+            table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}", $"{costoPercentuale}%", $"{dipendente.Performance}", $"{dipendente.Assenze}");
 
-            }
-            AnsiConsole.Write(table);
+        }
+        AnsiConsole.Write(table);
     }
 
-    
-// metodo per creare la tabella con spectre console in modo da visualizzare tutti i dati del dipendente
+// metodo che consente di aggiungere alla lista dinamica i dipendenti dei file json
+    static List<dynamic> GetDipendenti()
+{
+    // prende in considerazione tutti i file di estensione .json
+
+    var files = Directory.GetFiles(directoryPath, "*.json");
+     // creazione di una lista di tipo dynamic permette poi di manipolare gli oggetti deserializzati da JSON 
+    List<dynamic> dipendenti = new List<dynamic>();
+      //cicla dentro la directory dipendenti scorrendo tutti i file e aggiungendo i dipendenti alla lista
+
+    foreach (var file in files)
+    {
+        var dipendente = LeggiJson(file);
+        dipendenti.Add(dipendente);
+    }
+
+    return dipendenti;
+}
+    // metodo per creare la tabella con spectre console in modo da visualizzare tutti i dati del dipendente
     static dynamic CreaTabella(string filePath)
     {
         string jsonRead = File.ReadAllText(filePath);
