@@ -723,12 +723,9 @@ class Program
         }
 
 
+        var dipendenti = GetDipendenti();
 
-
-        var files = Directory.GetFiles(directoryPath, "*.json");
-        List<dynamic> dipendenti = new List<dynamic>();
-
-        // creazione tabella 
+           // creazione tabella 
 
         var table = new Table();
         table.Border(TableBorder.Square);
@@ -742,15 +739,6 @@ class Program
         table.AddColumn("Incidenza stipendio lordo sul fatturato");
         table.AddColumn("Performance");
         table.AddColumn("Giorni di assenze");
-
-        foreach (var file in files)
-        {
-
-
-            var dipendente = LeggiJson(file);
-            dipendenti.Add(dipendente);
-
-        }
 
         dipendenti.Sort((y, x) => x.Stipendio.CompareTo(y.Stipendio));
 
