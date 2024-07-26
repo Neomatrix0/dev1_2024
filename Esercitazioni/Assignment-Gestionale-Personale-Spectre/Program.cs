@@ -24,7 +24,7 @@ class Program
         {
             Console.Clear();
 
-
+    // creazione del menu con spectre console
             opzione = AnsiConsole.Prompt(
          new SelectionPrompt<string>()
         .Title("GESTIONALE PERSONALE")
@@ -86,12 +86,15 @@ class Program
         } while (opzione != "Esci");
     }
 
+    // funzione per inserire i dati del dipendente e creare il relativo json
+
     static void InserisciDipendente()
     {
         do
         {
-            try{
-            
+            try
+            {
+
                 Console.WriteLine("Inserisci nome, cognome, data di nascita DD/MM/YYYY,mansione, stipendio,voto performance da 1 a 100 ,giorni di assenze,separate da virgola");
 
                 // accetta l'input dei dati da console
@@ -101,7 +104,8 @@ class Program
 
                 string[] dati = inserimento.Split(',');
 
-                if(dati.Length != 8){
+                if (dati.Length != 8)
+                {
                     throw new FormatException("L'input deve contenere esattamente otto valori separati da virgola");
                 }
 
@@ -137,15 +141,15 @@ class Program
 
                 File.WriteAllText(filePath, jsonString);
             }
-            
-           catch (Exception e)
+
+            catch (Exception e)
             {
                 Console.WriteLine($"ERRORE INSERIMENTO DATI: {e.Message}");     // messaggio eccezione
                 Console.WriteLine($"CODICE ERRORE:{e.HResult}");                //codice numerico eccezione
                 return;
-            }  
-        
-        
+            }
+
+
             // se si svuole terminare l'immissione della registrazione del dipendente basta digitare n
 
             Console.WriteLine("Vuoi inserire un altro dipendente? (s/n)");
@@ -156,9 +160,9 @@ class Program
                 break;
             }
         } while (true);
-    
+
     }
-    // creazione dei metodi per ogni singola funzionalità
+    // funzione per visualizzare tutti i dipendenti con le relative caratteristiche
     static void VisualizzaDipendenti()
     {
         // analizza tutti i file con estensione .json dentro la directoryPath(cartella dipendenti)
@@ -190,7 +194,7 @@ class Program
             foreach (var file in files)
             {
 
-               
+
                 var dipendente = LeggiJson(file);
 
 
@@ -207,7 +211,7 @@ class Program
         }
     }
 
-    // metodo per cercare il dipendente
+    // metodo per cercare il dipendente inserendo nome,cognome
     static void CercaDipendente()
     {
         try
@@ -240,7 +244,9 @@ class Program
             if (File.Exists(filePath))
             {
 
-                StampaDati(filePath);
+                // StampaDati(filePath);
+                var table = CreaTabella(filePath);
+                AnsiConsole.Write(table);
             }
             else
             {
@@ -253,7 +259,8 @@ class Program
             Console.WriteLine($"CODICE ERRORE: {e.HResult}");
         }
     }
-    //cerca dipendente per nome e cognome e poi modifica le caratteristiche del dipendente a scelta
+    
+    //cerca dipendente per nome,cognome e poi modifica le caratteristiche del dipendente a scelta
 
     static void ModificaDipendente()
     {
@@ -281,7 +288,7 @@ class Program
 
             if (File.Exists(filePath))
             {
-                
+
                 var lavoratore = LeggiJson(filePath);
                 var inserimento = "";
 
@@ -436,8 +443,6 @@ class Program
 
 
 
-
-
     //metodo per ordinare gli stipendi dal più alto al più basso e vedere alcuni  dati del dipendente
 
     static void SortStipendio()
@@ -454,7 +459,7 @@ class Program
         foreach (var file in files)
         {
 
-            
+
             var dipendente = LeggiJson(file);
             dipendenti.Add(dipendente);
         }
@@ -525,70 +530,73 @@ class Program
         Console.WriteLine("\nDi seguito l'elenco con il tasso di assenteismo per ogni dipendente su 250 giorni lavorativi equivalente ad 1 anno\n");
         int giorniLavorativiTotali = 250;
 
-         try
+        try
+        {
+
+            var files = Directory.GetFiles(directoryPath, "*.json");
+            List<dynamic> dipendenti = new List<dynamic>();
+
+            foreach (var file in files)
+            {
+
+
+                var dipendente = LeggiJson(file);
+                dipendenti.Add(dipendente);
+            }
+
+
+            // tabella
+
+            var table = new Table();
+            table.Border(TableBorder.Square);
+
+            // Aggiunge colonne 
+
+            table.AddColumn("Dipendente");
+            table.AddColumn("Tasso di assenteismo");
+
+
+
+            // reverse- modificato la funzione sort in modo da  ordinare i dipendenti dal tasso di assenteismo più alto al più basso
+
+            dipendenti.Sort((y, x) => x.Assenze.CompareTo(y.Assenze));
+
+            foreach (var dipendente in dipendenti)
+
+            {
+                int assenze = dipendente.Assenze;
+
+
+                double assenteismo = ((double)assenze / giorniLavorativiTotali) * 100;     // calcolo del tasso di assenteismo
+                double tassoAssenteismo = Math.Round(assenteismo, 2);
+
+                table.AddRow($"{dipendente.Nome} {dipendente.Cognome}", $"{tassoAssenteismo}%");
+
+
+            }
+
+            AnsiConsole.Write(table);
+
+            // Tasso di assenteismo = [(giorni di assenza non giustificate) / (giorni totali di lavoro)] x 100.
+
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Errore generale: {e.Message}");
+        }
+
+    }
+
+    //metodo che  legge il file json e lo deserializza
+    static dynamic LeggiJson(string filePath)
     {
 
-        var files = Directory.GetFiles(directoryPath, "*.json");
-        List<dynamic> dipendenti = new List<dynamic>();
-
-        foreach (var file in files)
-        {
-
-            
-            var dipendente = LeggiJson(file);
-            dipendenti.Add(dipendente);
-        }
-
-
-        // tabella
-
-        var table = new Table();
-        table.Border(TableBorder.Square);
-
-        // Aggiunge colonne 
-
-        table.AddColumn("Dipendente");
-        table.AddColumn("Tasso di assenteismo");
-
-
-
-        // reverse- modificato la funzione sort in modo da  ordinare i dipendenti dal tasso di assenteismo più alto al più basso
-
-        dipendenti.Sort((y, x) => x.Assenze.CompareTo(y.Assenze));
-
-        foreach (var dipendente in dipendenti)
-
-        {
-            int assenze = dipendente.Assenze;
-
-
-            double assenteismo = ((double)assenze / giorniLavorativiTotali) * 100;     // calcolo del tasso di assenteismo
-            double tassoAssenteismo = Math.Round(assenteismo, 2);
-
-            table.AddRow($"{dipendente.Nome} {dipendente.Cognome}", $"{tassoAssenteismo}%");
-
-
-        }
-
-        AnsiConsole.Write(table);
-
-        // Tasso di assenteismo = [(giorni di assenza non giustificate) / (giorni totali di lavoro)] x 100.
-
-
-    } catch(Exception e){
-        Console.WriteLine($"Errore generale: {e.Message}");
+        string jsonRead = File.ReadAllText(filePath);
+        return JsonConvert.DeserializeObject<dynamic>(jsonRead);
     }
 
-    }
-
-    // legge file json e deserializza
-static dynamic LeggiJson(string filePath){
-   
-      string jsonRead = File.ReadAllText(filePath);
-    return JsonConvert.DeserializeObject<dynamic>(jsonRead);
-}
-
-
+// metodo per ordinare i dipendenti in base alle performance dividendoli in 2 gruppi in base al punteggio 
     static void ValutazionePerformance()
     {
         var files = Directory.GetFiles(directoryPath, "*.json");
@@ -597,7 +605,7 @@ static dynamic LeggiJson(string filePath){
         foreach (var file in files)
         {
 
-            
+
             var dipendente = LeggiJson(file);
             dipendenti.Add(dipendente);
 
@@ -656,8 +664,6 @@ static dynamic LeggiJson(string filePath){
 
 
 
-
-
         foreach (var impiegato in squadra1)
         {
             table.AddRow($"{impiegato.Nome} {impiegato.Cognome}", $"{impiegato.Performance}");
@@ -705,6 +711,35 @@ static dynamic LeggiJson(string filePath){
         Console.WriteLine("\nDi seguito il 15% delle performance peggiori\n");
         AnsiConsole.Write(table3);
 
+    }
+
+// metodo per creare la tabella con spectre console in modo da visualizzare tutti i dati del dipendente
+    static dynamic CreaTabella(string filePath)
+    {
+        string jsonRead = File.ReadAllText(filePath);
+        // deserializza la stringa JSON in un oggetto di tipo dynamic
+        var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+
+        var table = new Table();
+        table.Border(TableBorder.Square);
+
+
+        table.AddColumn("Nome");
+        table.AddColumn("Cognome");
+        table.AddColumn("Data di nascita");
+        table.AddColumn("Mansione");
+        table.AddColumn("Stipendio");
+        table.AddColumn("Performance");
+        table.AddColumn("Giorni di assenza");
+        table.AddColumn("Email aziendale");
+
+
+
+
+
+        table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}", $"{dipendente.Performance}", $"{dipendente.Assenze}", $"{dipendente.Mail}");
+
+        return table;
     }
 
 
