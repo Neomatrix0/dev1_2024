@@ -34,7 +34,7 @@ class Program
         .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
         .AddChoices(new[] {
             "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
-            "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Esci",
+            "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Esci",
         }));
 
 
@@ -68,6 +68,10 @@ class Program
                 case "Ordina stipendi":
 
                     SortStipendio();
+                    break;
+                    case "Rapporto stipendio fatturato":
+
+                    IncidenzaPercentuale();
                     break;
                 case "Esci":
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
@@ -718,6 +722,87 @@ class Program
 
     }
 
+// funzione che calcola l'incidenza percentuale dello stipendio in rapporto al fatturato
+  static void IncidenzaPercentuale(){
+        string fileTxt = "fatturato.txt";
+       
+       double fatturato;
+
+        if(!File.Exists(fileTxt)){
+            Console.WriteLine("Inserisci fatturato");
+            fatturato = Convert.ToDouble(Console.ReadLine());
+            File.WriteAllText(fileTxt, fatturato.ToString());
+        
+
+   
+               
+    }else{
+        string[] lines = File.ReadAllLines(fileTxt);
+         if (lines.Length == 0)
+        {
+            // Se il file è vuoto o il contenuto non è valido, chiede il fatturato all'utente
+            Console.WriteLine("Inserisci fatturato");
+            fatturato = Convert.ToDouble(Console.ReadLine());
+            File.WriteAllText(fileTxt, fatturato.ToString());
+        }
+        else
+        {
+            fatturato = Convert.ToDouble(lines[0]);
+        }
+    }
+
+    // Deve prendere il valore fatturato dal file txt e usarlo per calcolare il tasso di incidenza percentuale
+  
+
+       // deve prendere il valore fatturato dal file txt e usarlo per calcolare il tasso di incidenza percentuale
+
+        
+             var files = Directory.GetFiles(directoryPath, "*.json");
+        List<dynamic> dipendenti = new List<dynamic>();
+
+        // creazione tabella 
+
+            var table = new Table();
+        table.Border(TableBorder.Square);
+
+
+        table.AddColumn("Nome");
+        table.AddColumn("Cognome");
+        table.AddColumn("Data di nascita");
+        table.AddColumn("Mansione");
+        table.AddColumn("Stipendio");
+        table.AddColumn("Incidenza stipendio lordo sul fatturato");
+        table.AddColumn("Performance");
+        table.AddColumn("Giorni di assenze");
+
+        foreach (var file in files)
+        {
+
+
+            var dipendente = LeggiJson(file);
+            dipendenti.Add(dipendente);
+
+        }
+
+             dipendenti.Sort((y, x) => x.Stipendio.CompareTo(y.Stipendio));
+
+            foreach (var dipendente in dipendenti)
+
+            {
+                double stipendio = Convert.ToDouble(dipendente.Stipendio);
+
+
+                double costoPersonale = (stipendio / fatturato) * 100;     // calcolo del tasso di assenteismo
+                double costoPercentuale = Math.Round(costoPersonale, 2);
+
+                //Console.WriteLine($"{dipendente.Nome} {dipendente.Cognome} {dipendente.Stipendio} {costoPercentuale}% {dipendente.Performance}");
+                   table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}",$"{costoPercentuale}%", $"{dipendente.Performance}", $"{dipendente.Assenze}");
+
+            }
+            AnsiConsole.Write(table);
+    }
+
+    
 // metodo per creare la tabella con spectre console in modo da visualizzare tutti i dati del dipendente
     static dynamic CreaTabella(string filePath)
     {

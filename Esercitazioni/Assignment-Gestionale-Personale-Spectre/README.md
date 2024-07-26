@@ -17,7 +17,9 @@ L'applicazione consente ad una azienda di monitorare il personale,valutarne le p
 
 - [ ] Possibilità di visionare gli stipendi annuali di ogni dipendente
 
-- [ ] Valutazione performance e indicazione del 15% dei dipendenti meno performanti
+- [ ] Valutazione performance dei dipendenti e indicazione del 15% dei dipendenti meno performanti
+
+- [ ] Incidenza percentuale dello stipendio lordo del dipendente sul fatturato su base annuale
 
 
 ## PIANIFICAZIONE E DESIGN DELL'ARCHITETTURA
@@ -40,6 +42,8 @@ L'applicazione consente ad una azienda di monitorare il personale,valutarne le p
 
 - [ ] sorta stipendio dal più alto al più basso con mansione e dati anagrafici
 
+- [ ] Calcolo incidenza percentuale dello stipendio lordo sul fatturato.Il fatturato viene registrato su un file txt che poi dovrà essere aggiornato dall'utente manualmente 
+
 ## AGGIUNTA EXTRA
 
 - [ ]  Integrazione di Spectre console per rendere il menu user friendly e per ordinare i dati in tabelle
@@ -49,6 +53,8 @@ L'applicazione consente ad una azienda di monitorare il personale,valutarne le p
 - [ ]  Integrare try and catch per gestione delle eccezioni
 
 - [ ]  Aggiungere un campo per identificare il dipendente ovvero la mail aziendale
+
+- [ ]  Aggiungere funzione per calcolare incidenza percentuale dello stipendio lordo sul fatturato.Il fatturato viene scritto su file
 
 
 
@@ -144,7 +150,8 @@ gantt
     B -- 6 --> H[calcola tasso di assenteismo ] --> Z
     B -- 7 --> I[performance indicatore] --> O[topPerformance] & O1[lowPerformance] --> Z
     B -- 8 --> L[ordina stipendio] --> Z
-    B -- 9 --> N[esci dall'applicazione] --> Z
+    B -- 9 --> L[Incidenza stipendio/fatturato] --> Z
+    B -- 10 --> N[esci dall'applicazione] --> Z
     Z[end] --loop --> B
 
     
