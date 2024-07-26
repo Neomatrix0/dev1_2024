@@ -3,15 +3,15 @@
 
 ## GESTIONE PERSONALE   
 
-Questa applicazione console permetterà la gestione del personale in un azienda,valutando performance,costi,mansioni,ore di lavoro e tasso di assenteismo.
+Questa applicazione console permetterà la gestione del personale in un azienda,valutando performance,stipendi,mansioni,ore di lavoro e tasso di assenteismo.
 Verranno divisi i dipendenti in 2 gruppi in base al punteggio di produttività e verranno segnalati il 15 % dei dipendenti meno performanti.
-Mostra i dati relativi a stipendi e  assenze del personale calcolando in percentuale il tasso di assenteismo di ognuno
+Mostra i dati relativi a stipendi e  assenze del personale calcolando in percentuale il tasso di assenteismo di ognuno.
 
 ## DEFINIZIONE DEI REQUISITI E ANALISI
 
 L'applicazione consente ad una azienda di monitorare il personale,valutarne le performance e i costi
 
-- [ ] L'applicazione consente di inserire il nome e cognome della persona assunta,età,mansione,score di produttività da 1 a 10,stipendio,ore di assenza
+- [ ] L'applicazione consente di inserire il nome e cognome della persona assunta,età,mansione,score di produttività da 0 a 100,stipendio,tasso di assenteismo,mail aziendale
 
 - [ ] Visualizzazione dei dipendenti inseriti con i relativi dati anagrafici 
 
@@ -32,9 +32,9 @@ L'applicazione consente ad una azienda di monitorare il personale,valutarne le p
 
 - [ ] Calcolo assenteismo scrivendo nome e cognome  del dipendente l'utente inserisce  le ore lavorate e viene calcolato il tasso di assenteismo(assenze/ giorni da lavorare)*100
 
-- [ ]  Opzione sottomenu  cerca dipendente e inserisci valutazione da valutare questo aspetto
+- [ ]  Opzione di ricerca del singolo dipendente inserendo nome,cognome
 
-- [ ]  Modifica dati dipendente 
+- [ ]  Modifica dati dipendente e implementazione di un sottomenu per scegliere il singolo campo da modificare
 
 - [ ] rimuovi dipendente
 
@@ -42,11 +42,13 @@ L'applicazione consente ad una azienda di monitorare il personale,valutarne le p
 
 ## AGGIUNTA EXTRA
 
+- [ ]  Integrazione di Spectre console per rendere il menu user friendly e per ordinare i dati in tabelle
+
 - [ ]  Modificare alcune funzioni inserendo parametri
    
 - [ ]  Integrare try and catch per gestione delle eccezioni
 
-- [ ]  Aggiungere un campo per identificare il dipendente che può essere il codice fiscale oppure la mail
+- [ ]  Aggiungere un campo per identificare il dipendente ovvero la mail aziendale
 
 
 
