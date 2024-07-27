@@ -167,6 +167,7 @@ class Program
             }
         } while (true);
 
+
     }
     // funzione per visualizzare tutti i dipendenti con le relative caratteristiche
     static void VisualizzaDipendenti()
@@ -180,22 +181,12 @@ class Program
             Console.WriteLine("Lista dipendenti completa con tutti i dati:\n");
 
             // creazione tabella dipendenti
-            var table = new Table();
-            table.Border(TableBorder.Square);
+      
+
+            var table = CreaColonne(new string[]{"Nome","Cognome","Data di nascita","Mansione","Stipendio annuale","Performance","Giorni di assenza","Email aziendale"});
 
 
-            table.AddColumn("Nome");
-            table.AddColumn("Cognome");
-            table.AddColumn("Data di nascita");
-            table.AddColumn("Mansione");
-            table.AddColumn("Stipendio annuale");
-            table.AddColumn("Performance");
-            table.AddColumn("Giorni di assenza");
-            table.AddColumn("Email aziendale");
-
-
-
-            // stampa i dati di tutti i dipendenti presi dai json
+            // aggiunge nella tabella i dati di tutti i dipendenti presi dai json
 
             foreach (var file in files)
             {
@@ -472,15 +463,8 @@ class Program
             }
         }
 
-        var table = new Table();
-        table.Border(TableBorder.Square);
 
-        // Aggiune colonne
-
-        table.AddColumn("Dipendente");
-        table.AddColumn("Stipendio");
-        table.AddColumn(new TableColumn("Performance").Centered());
-
+        var table = CreaColonne(new string[]{"Dipendente","Stipendio","Performance"});
 
 
         Console.WriteLine("\nDipendenti ordinati per stipendio in ordine discendente:\n");
@@ -527,16 +511,9 @@ class Program
             var dipendenti = GetDipendenti();
 
 
-            // tabella
+            // tabella 
 
-            var table = new Table();
-            table.Border(TableBorder.Square);
-
-            // Aggiunge colonne 
-
-            table.AddColumn("Dipendente");
-            table.AddColumn("Tasso di assenteismo");
-
+            var table = CreaColonne(new string[]{"Dipendente","Tasso di assenteismo"});
 
 
             // reverse- modificato la funzione sort in modo da  ordinare i dipendenti dal tasso di assenteismo più alto al più basso
@@ -611,27 +588,16 @@ class Program
         // aggiunto tabella dipendenti con performance migliori
 
 
-        var table = new Table();
-
-
-        table.AddColumn("Dipendente");
-        table.AddColumn(new TableColumn("Performance").Centered());
+       var table =  CreaColonne(new string[]{"Dipendente","Performance"});
 
         // aggiunto tabella dipendenti con performance inferiori
 
-        var table2 = new Table();
-
-
-        table2.AddColumn("Dipendente");
-        table2.AddColumn(new TableColumn("Performance").Centered());
+        var table2 =  CreaColonne(new string[]{"Dipendente","Performance"});
 
         // aggiunto tabella dipendenti con performance inferiori gli ultimi 15%
 
-        var table3 = new Table();
 
-
-        table3.AddColumn("Dipendente");
-        table3.AddColumn(new TableColumn("Performance").Centered());
+        var table3 = CreaColonne(new string[]{"Dipendente","Performance"});
 
 
         // aggiunge nella tabella i dati del dipendente mettendo in evidenza le performance
@@ -727,18 +693,7 @@ class Program
 
            // creazione tabella 
 
-        var table = new Table();
-        table.Border(TableBorder.Square);
-
-
-        table.AddColumn("Nome");
-        table.AddColumn("Cognome");
-        table.AddColumn("Data di nascita");
-        table.AddColumn("Mansione");
-        table.AddColumn("Stipendio");
-        table.AddColumn("Incidenza stipendio lordo sul fatturato");
-        table.AddColumn("Performance");
-        table.AddColumn("Giorni di assenze");
+        var table =CreaColonne(new string[]{"Nome","Cognome","Data di nascita","Mansione","Stipendio","Incidenza stipendio lordo sul fatturato","Performance","Giorni di assenze"});
 
         dipendenti.Sort((y, x) => x.Stipendio.CompareTo(y.Stipendio));
 
@@ -780,14 +735,13 @@ class Program
     // metodo per creare la tabella con spectre console in modo da visualizzare tutti i dati del dipendente
     static dynamic CreaTabella(string filePath)
     {
-        string jsonRead = File.ReadAllText(filePath);
-        // deserializza la stringa JSON in un oggetto di tipo dynamic
-        var dipendente = JsonConvert.DeserializeObject<dynamic>(jsonRead);
+         var dipendente = LeggiJson(filePath);
 
         var table = new Table();
         table.Border(TableBorder.Square);
 
 
+    
         table.AddColumn("Nome");
         table.AddColumn("Cognome");
         table.AddColumn("Data di nascita");
@@ -798,11 +752,19 @@ class Program
         table.AddColumn("Email aziendale");
 
 
-
-
-
         table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}", $"{dipendente.Performance}", $"{dipendente.Assenze}", $"{dipendente.Mail}");
 
+
+        return table;
+    }
+
+    static Table CreaColonne(string[]colonne){
+        var table = new Table().Border(TableBorder.Square);
+
+        foreach(string colonna in colonne){
+            table.AddColumn(new TableColumn(colonna).Centered());
+
+        }
         return table;
     }
 
