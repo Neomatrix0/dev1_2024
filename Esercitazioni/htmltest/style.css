@@ -1,0 +1,31 @@
+h2{
+    color: violet;
+}
+
+/* colore di sfondo */
+
+body{
+    background-color: #180161;
+}
+/* link senza sottolineatura*/
+a{
+    text-decoration: none;
+}
+
+/* colore testo link */
+
+a{
+    color:aqua;
+
+}
+/* colore testo elenco ordinato */
+
+ol {
+    color: rgb(77, 255, 0);
+}
+
+/* colore testo elenco non ordinato */
+
+ul{
+    color:rgb(253, 251, 255);
+}
