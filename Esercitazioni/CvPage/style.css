@@ -18,6 +18,9 @@ body{
 #left{
    
     flex:1;
+    margin-top: -100vh;
+    margin-left: 20vh;
+    padding-right: 20px;
     
     
 }
@@ -25,6 +28,13 @@ body{
 #right{
   
   flex:1.5;
+  padding-left: 20px;
+ 
+}
+
+#left img {
+  max-width: 100%; 
+  height: auto; 
  
 }
 
@@ -98,6 +108,63 @@ footer{
           display: block;
           text-align: left;
         }}
+
+         /* breakpoint  1025px-1200px*/
+        @media screen and (min-width:1025px) and (max-width:1200px){
+          .container{
+            flex-direction: row;
+          }
+        }
+
+        /* breakpoint  769px to 1024px */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .container {
+      flex-direction: column;
+
+  }
+
+  #left, #right {
+    width: 100%;
+    padding: 10px;
+}
+}
+
+@media screen and(min-width: 481px) and (max-width: 768px){
+  .container {
+    flex-direction: column;
+    padding: 10px;
+    max-width: 768px;
+}
+#left, #right {
+    width: 100%;
+    padding: 8px;
+}
+}
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .container {
+      flex-direction: column;
+      padding: 5px;
+      max-width: 480px;
+  }
+  #left, #right {
+      width: 100%;
+      padding: 5px;
+  }
+
+  #left img {
+    width: 100%; /* Make sure the image takes up the full width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+  .topnav a {
+      font-size: 14px;
+      padding: 10px;
+  }
+
+
+}
+
 
         /*
         .container{
