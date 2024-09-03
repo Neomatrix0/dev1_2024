@@ -1,56 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML TITLE</title>
-     <!--  stile impostato dall'interno del file html -->
-    <style>
-        h1{
-            color: red;
-        }
-        .p2{
-            color: blue;
-        }
-
-        #p1{
-            color:#EEDF7A;
-        }
-    </style>
-    <!-- foglio di stile esterno -->
-
+    <title>Landing Page</title>
     <link rel ="stylesheet" href ="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mingzat&family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=SUSE:wght@100..800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Header1</h1>
+    <header>
+        <h1>Header</h1>
+    </header>
     
-    <p id ="p1">Ciao sono il paragrafo 1</p>
-    <p class = "p2">Ciao sono il paragrafo 2</p>
+    <nav>
+        <a href="#section1">Sezione 1</a>
+        <a href="#section2">Sezione 2</a>
+        <a href="#section3">Sezione 3</a>
+    </nav>
+    <section id ="section1">
+   <!--    <img src="https://unsplash.com/random/300x200" alt="immagine1"/>--> 
+    <h2>Sezione 1</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Voluptatibus voluptas laudantium, quaerat, temporibus placeat voluptates pariatur consequuntur obcaecati exercitationem, 
+        illo similique consectetur ratione commodi sunt explicabo fugiat aperiam tempore corporis.</p>
+        <ul>
+            <li>
+                primo
+            </li>
+            <li>
+                secondo
+            </li>
+            <li>
+                terzo
+            </li>
+        </ul>
+
+        <table>
+            <tr>
+                <th>Intestazione 1</th>
+                <th>Intestazione 2</th>
+            </tr>
+            <tr>
+                <td>cella1</td>
+                <td>cella2</td>
+            </tr>
+        </table>
     
-    <!-- scritta verde stile in linea deprecato -->
+    </section>
 
-    <p style ="color:green;">Hello</p>
+    <section id ="section2">
+        <h2>Sezione 2</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Voluptatibus voluptas laudantium, quaerat, temporibus placeat voluptates pariatur consequuntur obcaecati exercitationem, 
+            illo similique consectetur ratione commodi sunt explicabo fugiat aperiam tempore corporis.</p>
+            <ol>
+                <li>primo</li>
+                <li>secondo</li>
+                <li>terzo</li>
+            </ol>
+        
+        </section>
 
-<h2>Ciao</h2>
-    <a href="https://it.wikipedia.org/wiki/Wikipedia">Ciao link</a>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png" alt="wikipedia">
-    <br>
-    <a href="https://it.wikipedia.org/wiki/Wikipedia">Ciao link</a>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png" alt="wikipedia" width="100%">
+        <section id ="section3">
+            <h2>Sezione 3</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Voluptatibus voluptas laudantium, quaerat, temporibus placeat voluptates pariatur consequuntur obcaecati exercitationem, 
+                illo similique consectetur ratione commodi sunt explicabo fugiat aperiam tempore corporis.</p>
+          
+            <!-- ancora che riporta al menu-->
+             <a href="#section1">Torna su</a>
+            </section>
 
-<!-- elenco ordinato -->
- <ol>
-    <li>primo</li>
-    <li>secondo</li>
-    <li>terzo </li>
- </ol>
-
- <!-- elenco puntato -->
- <ul>
-    <li>primo</li>
-    <li>secondo</li>
-    <li>terzo </li>
- </ul>
+             <footer>
+                <h3>Footer</h3>
+             </footer>
     
 </body>
 </html>
