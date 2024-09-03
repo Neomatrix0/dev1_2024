@@ -43,3 +43,44 @@ Contatti
 
 - quinto da 1201 in su 
 
+# esempio flexbox per creare 2 colonne
+
+ ```css
+
+        /*
+        .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height:100vh;
+    
+   
+}
+
+
+        <div class="container">
+        <div class="box">Box1</div>
+        <div class="box">Box2</div>
+        <div class="box">Box3</div>
+
+        </div>
+
+        .box{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex:1;
+
+        .box2{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex:2;
+        
+
+
+        */
+
+  ```
+
