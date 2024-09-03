@@ -44,6 +44,10 @@ footer {
   
 }
 
+.section{
+  margin-bottom:10vh;
+}
+
 /* Primo breakpoint: 320px a 480px  */
 @media screen and (min-width: 320px) and (max-width: 480px) {
   .container {
