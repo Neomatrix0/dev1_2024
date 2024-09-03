@@ -7,43 +7,36 @@ body{
 }
 .container{
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height:100vh;
+    justify-content: space-between;
+    margin:0 auto;
     
    
 }
 
-
-#right{
-    display:flex;
-    flex:1;
-    justify-content: center;
-    align-items: center;
-}
 
 #left{
-    display:flex;
-    flex:2;
-    justify-content: center;
-    align-items: center;
+   
+    flex:1;
+    
     
 }
 
+#right{
+  
+  flex:1.5;
+ 
+}
 
 
-
-   
 
 footer{
     position:static;
     background-color:#1d334a;
     color:white;
-    margin-left: auto;
-    margin:0px;
-    padding:0px;
+    padding:20px;
     width:100%;
+    
     
     
 }
@@ -54,9 +47,7 @@ footer{
     height: 40vh;
     flex-direction: column;
 }
-h2{
-    
-}
+
 
     .topnav {
         overflow: hidden;
