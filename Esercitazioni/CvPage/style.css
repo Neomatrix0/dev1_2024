@@ -90,6 +90,8 @@ footer {
   padding-right:5px;
 }
 
+
+
 /* Primo breakpoint: 320px a 480px  */
 @media screen and (min-width: 320px) and (max-width: 480px) {
   .container {
@@ -99,9 +101,7 @@ footer {
       
       
   }
-  footer{
-    
-  }
+ 
 
   #left img {
       padding-bottom: 15px;
