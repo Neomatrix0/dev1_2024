@@ -1,0 +1,90 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center; /* Centra tutti i contenuti orizzontalmente */
+}
+.header {
+    background-color: #4CAF50;
+    width: 100%;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 85%;
+}
+/* nav con bottoni affiancati in orizzontale come pulsanti invece di uno sotto l altro */
+.nav {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.nav a {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.nav a:hover {
+    background-color: #45a049;
+}
+
+.bio, .experience, .education, .contact {
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+ul {
+    padding-left: 20px;
+    list-style-type: none; /* Rimuove i punti degli elenchi */
+}
+
+li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9; /* Colore di sfondo base per ogni li */
+}
+
+li:nth-child(odd) {
+    background-color: #e9e9e9; /* Sfondo per gli elementi dispari */
+}
+
+li:nth-child(even) {
+    background-color: #ffffff; /* Sfondo per gli elementi pari */
+}
+
+.contact {
+    margin-top: auto;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+h2 {
+    color: #4CAF50; /* Stesso colore dell'intestazione per coerenza */
+    padding: 10px 0;
+}
+
+h2:nth-child(odd) {
+    color: #333; /* Alterna i colori dei titoli per un design più dinamico */
+}
