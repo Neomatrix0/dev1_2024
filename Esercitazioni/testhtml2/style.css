@@ -1,0 +1,69 @@
+body{
+    width:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.container{
+    display:flex;
+    flex-direction: column;
+   
+}
+
+#box1{
+    margin: 5px solid black;
+    background-color:red;
+    height:100px;
+    margin:10px;
+    
+ 
+}
+
+#box2{
+    margin: 5px solid black ;
+    background-color:green;
+    height:100px;
+    margin:10px;
+    
+ 
+}
+
+#box3{
+    margin: 5px solid black ;
+    background-color:yellow;
+    height:100px;
+    margin:10px;
+    
+ 
+}
+
+.box:nth-child(1) {
+    flex: 3; /* Imposta il box 1 a doppio della dimensione base */
+    background-color: violet; /* Colore differente per distinguere */
+}
+
+footer{
+    background-color:blue;
+    bottom:0;
+    width:100%;
+    position:fixed;
+    margin-top:auto;
+    text-align: center;
+}
+
+@media screen and (min-width: 600px) {
+    #box1 {
+      background-color: blue;
+    }
+
+    .container{
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+}
