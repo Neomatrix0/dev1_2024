@@ -1,0 +1,232 @@
+/*
+body{
+    font-family: "Playfair Display", serif;
+   height:100%;
+   width: auto;
+        margin: 0; 
+        padding: 0;
+        box-sizing: border-box;
+        
+    
+    
+   
+}
+
+.container{
+border: 5px solid brown;
+min-height: 100vh;
+display:flex;
+flex-direction: row;
+gap:10px;
+background-color:#EFE5D8;
+color:#A52A2A;
+
+margin:0;
+width:100%;
+padding:0;
+
+
+
+}
+
+.sidebar{
+    border: 5px solid brown;
+    margin:0;
+    padding:0;
+    background-color:rgb(238, 238, 238);
+    display:flex;
+    flex-direction: column;
+    
+   
+    height: 100%;
+    
+  }
+  
+   
+
+
+.sidebar a{
+    text-decoration: none;
+    color:#A52A2A;
+    display: block;
+}
+
+.main{
+    text-align: center;
+   
+    margin: 0;
+   
+    
+   
+}
+
+footer{
+    border: 5px solid brown;
+    width: 100%;
+    text-align: center;
+    background-color: #664228;
+    color:white;
+    bottom:0;
+    position:relative;
+}
+
+header{
+    text-align: center;
+    width: 100%;
+    background-color: #664228;
+    
+}
+
+#fronth1{
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+.sectionfront{
+    margin-bottom: 30px;
+    
+}
+
+/*
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+    .container {
+  
+  }
+}
+  
+  
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .container {
+      
+    }
+ 
+  }
+  
+ 
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+  
+    }
+  
+  
+
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .container {
+    }
+  }
+  
+ 
+  @media screen and (min-width: 1201px) {
+    .container {
+       
+    }
+  
+   
+  }
+
+  .carousel {
+    display:flex;
+    border: 2px solid green;
+    width: 40%;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+    position:relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel img {
+    width: 100%; 
+    height: 30vh;
+    object-fit: cover; 
+}
+
+*/
+
+body {
+    font-family: "Playfair Display", serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; /* Assicura che l'altezza del body e dell'html occupi l'intera altezza della pagina */
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Cambiato a colonna */
+    min-height: 100vh; /* Imposta la container a occupare l'intera altezza della viewport */
+    background-color: #EFE5D8;
+    color: #A52A2A;
+    gap: 10px;
+}
+
+.sidebar {
+    border: 5px solid brown;
+    padding: 20px;
+    background-color: rgb(238, 238, 238);
+    width: 200px; /* Fissa la larghezza della sidebar */
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #A52A2A;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.main {
+    flex-grow: 1; /* Occupa tutto lo spazio rimanente */
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+footer {
+    border: 5px solid brown;
+    width: 100%;
+    text-align: center;
+    background-color: #664228;
+    color: white;
+    padding: 10px;
+    margin-top: auto; /* Spinge il footer verso il basso */
+}
+
+header {
+    text-align: center;
+    width: 100%;
+    background-color: #664228;
+    padding: 20px;
+    color: white;
+}
+
+#fronth1 {
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+.sectionfront {
+    margin-bottom: 30px;
+}
+
+.carousel {
+    display: flex;
+    border: 2px solid #A52A2A;
+    width: 40%;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel img {
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+}

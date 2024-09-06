@@ -1,0 +1,58 @@
+.container { 
+    display: flex;
+    justify-content: center; /* Centra gli elementi orizzontalmente */
+    align-items: center; /* Centra gli elementi verticalmente */
+    height: 100vh; /* Imposta l'altezza del container al 100% dell'altezza della viewport */
+    flex-direction: column;
+    /* flex-direction: row; */
+}
+
+.box {
+    width: 100px; /* Larghezza di ogni box */
+    height: 100px; /* Altezza di ogni box */
+    background-color: rgb(73, 81, 83); /* Colore di sfondo dei box */
+    margin: 10px; /* Spazio tra i box */
+    display: flex;
+    justify-content: center; /* Allinea il testo orizzontalmente */
+    align-items: center; /* Allinea il testo verticalmente */
+    font-size: 16px; /* Dimensione del testo */
+    font-family: Arial, sans-serif; /* Tipo di font */
+    flex:1; /* Ogni box occupa la stessa quantità di spazio */
+}
+.box:nth-child(1) {
+    flex: 2; /* Imposta il box 1 a doppio della dimensione base */
+    background-color: lightcoral; /* Colore differente per distinguere */
+}
+
+.box:nth-child(2) {
+    flex: 3; /* Imposta il box 2 a triplo della dimensione base */
+    background-color: lightgreen; /* Colore differente per distinguere */
+}
+
+.box:nth-child(3) {
+    flex: 1; /* Dimensione base per il box 3 */
+    background-color: lightblue; /* Colore come gli altri per coerenza */
+}
+.box2 {
+    width: 100px; /* Larghezza di ogni box */
+    height: 100px; /* Altezza di ogni box */
+    background-color: rgb(126, 19, 148); /* Colore di sfondo dei box */
+    margin: 10px; /* Spazio tra i box */
+    display: flex;
+    justify-content: center; /* Allinea il testo orizzontalmente */
+    align-items: center; /* Allinea il testo verticalmente */
+    font-size: 16px; /* Dimensione del testo */
+    font-family: Arial, sans-serif; /* Tipo di font */
+    flex:2; /* Il box centrale occupa il doppio dello spazio */
+}
+.box3 {
+    width: 100px; /* Larghezza di ogni box */
+    height: 100px; /* Altezza di ogni box */
+    background-color: blue; /* Colore di sfondo dei box */
+    margin: 10px; /* Spazio tra i box */
+    display: flex;
+    justify-content: center; /* Allinea il testo orizzontalmente */
+    align-items: center; /* Allinea il testo verticalmente */
+    font-size: 16px; /* Dimensione del testo */
+    font-family: Arial, sans-serif; /* Tipo di font */
+}
