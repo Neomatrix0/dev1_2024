@@ -207,7 +207,11 @@ header {
 
 #fronth1 {
     font-size: 35px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+h2{
+    margin-bottom:30px;
 }
 
 .sectionfront {
@@ -231,6 +235,18 @@ header {
     object-fit: cover;
 }
 
+.nav{
+    background-color: rgb(238, 238, 238);
+    color:#A52A2A;
+    width:100%;
+}
+
+.nav a {
+    color:#A52A2A;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 800px) {
     .container {
         flex-direction: column; /* Imposta una colonna verticale per i contenuti */
@@ -239,7 +255,7 @@ header {
     .sidebar {
         width: 100%; /* Sidebar prende tutta la larghezza */
         border-bottom: 5px solid brown; /* Un bordo inferiore per separare dal contenuto */
-        height: auto; /* L'altezza si adatta al contenuto */
+        height: 100%; /* L'altezza si adatta al contenuto */
         flex-direction: row;
     }
 
