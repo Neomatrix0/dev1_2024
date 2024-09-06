@@ -80,6 +80,7 @@ body, html {
     justify-content: center;
     align-items: center;
     background-color: white;
+    
   }
   
   footer{
@@ -118,4 +119,11 @@ body, html {
     font-size: 20px;
   }
   
+  h2{ 
+    text-align: center;
+  }
+
+  section p{
+    text-align: center;
+  }
   
