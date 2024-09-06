@@ -1,3 +1,7 @@
+html{
+  scroll-behavior: smooth;
+}
+
 body {
   color: #1d334a;
   font-family: "Poppins", sans-serif;
