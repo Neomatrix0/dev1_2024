@@ -230,3 +230,20 @@ header {
     height: 30vh;
     object-fit: cover;
 }
+
+@media screen and (max-width: 800px) {
+    .container {
+        flex-direction: column; /* Imposta una colonna verticale per i contenuti */
+    }
+
+    .sidebar {
+        width: 100%; /* Sidebar prende tutta la larghezza */
+        border-bottom: 5px solid brown; /* Un bordo inferiore per separare dal contenuto */
+        height: auto; /* L'altezza si adatta al contenuto */
+        flex-direction: row;
+    }
+
+    .main {
+        width: 100%; /* Main content prende tutta la larghezza */
+    }
+}
