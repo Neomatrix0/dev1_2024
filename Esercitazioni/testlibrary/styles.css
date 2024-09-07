@@ -1,265 +1,120 @@
-/*
-body{
-    font-family: "Playfair Display", serif;
-   height:100%;
-   width: auto;
-        margin: 0; 
-        padding: 0;
-        box-sizing: border-box;
-        
-    
-    
-   
-}
-
-.container{
-border: 5px solid brown;
-min-height: 100vh;
-display:flex;
-flex-direction: row;
-gap:10px;
-background-color:#EFE5D8;
-color:#A52A2A;
-
-margin:0;
-width:100%;
-padding:0;
-
-
-
-}
-
-.sidebar{
-    border: 5px solid brown;
-    margin:0;
-    padding:0;
-    background-color:rgb(238, 238, 238);
-    display:flex;
-    flex-direction: column;
-    
-   
-    height: 100%;
-    
-  }
-  
-   
-
-
-.sidebar a{
-    text-decoration: none;
-    color:#A52A2A;
-    display: block;
-}
-
-.main{
-    text-align: center;
-   
-    margin: 0;
-   
-    
-   
-}
-
-footer{
-    border: 5px solid brown;
-    width: 100%;
-    text-align: center;
-    background-color: #664228;
-    color:white;
-    bottom:0;
-    position:relative;
-}
-
-header{
-    text-align: center;
-    width: 100%;
-    background-color: #664228;
-    
-}
-
-#fronth1{
-    font-size: 35px;
-    margin-bottom: 20px;
-}
-
-.sectionfront{
-    margin-bottom: 30px;
-    
-}
-
-/*
-
-@media screen and (min-width: 320px) and (max-width: 480px) {
-    .container {
-  
-  }
-}
-  
-  
-  @media screen and (min-width: 481px) and (max-width: 768px) {
-    .container {
-      
-    }
- 
-  }
-  
- 
-  @media screen and (min-width: 769px) and (max-width: 1024px) {
-  
-    }
-  
-  
-
-  @media screen and (min-width: 1025px) and (max-width: 1200px) {
-    .container {
-    }
-  }
-  
- 
-  @media screen and (min-width: 1201px) {
-    .container {
-       
-    }
-  
-   
-  }
-
-  .carousel {
-    display:flex;
-    border: 2px solid green;
-    width: 40%;
-    height: auto;
-    margin: 0 auto;
-    overflow: hidden;
-    position:relative;
-    justify-content: center;
-    align-items: center;
-}
-
-.carousel img {
-    width: 100%; 
-    height: 30vh;
-    object-fit: cover; 
-}
-
-*/
-
-body {
-    font-family: "Playfair Display", serif;
+/* Impostazioni generali per body e html */
+body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: "Playfair Display", serif;
+    background-color: #EFE5D8; /* Imposta il background per tutto il body */
+    overflow-x: hidden; /* Evita scrolling laterale */
+}
+
+/* Contenitore principale */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #A52A2A;
+    padding: 0;
+    width: 100vw; /* Assicura che il contenitore occupi tutta la larghezza della finestra */
+    box-sizing: border-box;
+    align-items: center;
+}
+
+/* Navbar */
+.nav {
+    background-color: rgb(238, 238, 238);
+    width: 100vw; /* Occupa tutta la larghezza della finestra */
+    padding: 15px 0; /* Spazio verticale */
+    text-align: center;
+    margin: 0;
     box-sizing: border-box;
 }
 
-html, body {
-    height: 100%; /* Assicura che l'altezza del body e dell'html occupi l'intera altezza della pagina */
-}
-
-.container {
-    display: flex;
-    flex-direction: column; /* Cambiato a colonna */
-    min-height: 100vh; /* Imposta la container a occupare l'intera altezza della viewport */
-    background-color: #EFE5D8;
+.nav a {
     color: #A52A2A;
-    gap: 10px;
-}
-
-.sidebar {
-    border: 5px solid brown;
-    padding: 20px;
-    background-color: rgb(238, 238, 238);
-    width: 200px; /* Fissa la larghezza della sidebar */
-}
-
-.sidebar a {
     text-decoration: none;
-    color: #A52A2A;
-    display: block;
-    margin-bottom: 10px;
+    font-weight: bold;
+    padding: 0 15px;
+    display: inline-block;
 }
 
-.main {
-    flex-grow: 1; /* Occupa tutto lo spazio rimanente */
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+/* Sezioni principali */
+.sectionfront {
     text-align: center;
+    width: 100vw; /* Occupa tutta la larghezza della finestra */
+    padding: 20px;
+    background-color: #EFE5D8; /* Usa il background del body */
+    box-sizing: border-box;
 }
 
+/* Footer */
 footer {
     border: 5px solid brown;
-    width: 100%;
+    width: 100vw; /* Assicura che il footer occupi tutta la larghezza */
     text-align: center;
     background-color: #664228;
     color: white;
     padding: 10px;
-    margin-top: auto; /* Spinge il footer verso il basso */
+    box-sizing: border-box;
 }
 
+/* Header */
 header {
     text-align: center;
-    width: 100%;
+    width: 100vw; /* Larghezza completa */
     background-color: #664228;
     padding: 20px;
     color: white;
 }
 
+/* Titoli */
 #fronth1 {
     font-size: 35px;
     margin-bottom: 40px;
 }
 
-h2{
-    margin-bottom:30px;
-}
-
-.sectionfront {
+h2 {
     margin-bottom: 30px;
 }
 
-.carousel {
-    display: flex;
-    border: 2px solid #A52A2A;
-    width: 40%;
-    height: auto;
-    margin: 0 auto;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
-}
-
-.carousel img {
-    width: 100%;
-    height: 30vh;
-    object-fit: cover;
-}
-
-.nav{
-    background-color: rgb(238, 238, 238);
-    color:#A52A2A;
-    width:100%;
-}
-
-.nav a {
-    color:#A52A2A;
-    text-decoration: none;
-    font-weight: bold;
-}
-
+/* Media query per dispositivi più piccoli */
 @media screen and (max-width: 800px) {
     .container {
-        flex-direction: column; /* Imposta una colonna verticale per i contenuti */
+        flex-direction: column;
+        width: 100vw; /* Assicura che il contenitore occupi tutta la larghezza */
     }
 
-    .sidebar {
-        width: 100%; /* Sidebar prende tutta la larghezza */
-        border-bottom: 5px solid brown; /* Un bordo inferiore per separare dal contenuto */
-        height: 100%; /* L'altezza si adatta al contenuto */
-        flex-direction: row;
+    .sectionfront {
+        width: 100vw;
     }
 
-    .main {
-        width: 100%; /* Main content prende tutta la larghezza */
+    .nav {
+        width: 100vw;
+    }
+}
+
+/* Media query per schermi più grandi */
+@media screen and (min-width: 801px) {
+    .container {
+        width: 100vw; /* Occupa tutta la larghezza della finestra */
+        margin: 0; /* Rimuovi margini */
+        padding: 0;
+    }
+
+    .sectionfront {
+        width: 100vw; /* Occupa tutta la larghezza */
+        padding: 40px 20px; /* Aggiungi padding per la spaziatura */
+    }
+
+    .nav {
+        width: 100vw; /* Occupa tutta la larghezza */
+        margin: 0;
+    }
+
+    footer {
+        width: 100vw; /* Assicura che il footer occupi tutta la larghezza */
+        margin: 0;
     }
 }
