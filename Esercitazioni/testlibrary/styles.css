@@ -6,7 +6,7 @@ body, html {
     width: 100%;
     box-sizing: border-box;
     font-family: "Playfair Display", serif;
-    background-color: #EFE5D8; /* Imposta il background per tutto il body */
+    background-color: #EFE5D8;
     overflow-x: hidden; /* Evita scrolling laterale */
 }
 
@@ -17,16 +17,17 @@ body, html {
     min-height: 100vh;
     color: #A52A2A;
     padding: 0;
-    width: 100vw; /* Assicura che il contenitore occupi tutta la larghezza della finestra */
+    width: 100vw;
     box-sizing: border-box;
     align-items: center;
+    justify-content: space-between; /* Assicura che il footer stia alla fine della pagina */
 }
 
 /* Navbar */
 .nav {
     background-color: rgb(238, 238, 238);
-    width: 100vw; /* Occupa tutta la larghezza della finestra */
-    padding: 15px 0; /* Spazio verticale */
+    width: 100vw;
+    padding: 15px 0;
     text-align: center;
     margin: 0;
     box-sizing: border-box;
@@ -43,27 +44,29 @@ body, html {
 /* Sezioni principali */
 .sectionfront {
     text-align: center;
-    width: 100vw; /* Occupa tutta la larghezza della finestra */
+    width: 100vw;
     padding: 20px;
-    background-color: #EFE5D8; /* Usa il background del body */
+    background-color: #EFE5D8;
     box-sizing: border-box;
+    flex-grow: 1; /* Fa sì che le sezioni crescano per riempire lo spazio */
 }
 
 /* Footer */
 footer {
     border: 5px solid brown;
-    width: 100vw; /* Assicura che il footer occupi tutta la larghezza */
+    width: 100vw;
     text-align: center;
     background-color: #664228;
     color: white;
     padding: 10px;
     box-sizing: border-box;
+    flex-shrink: 0; /* Impedisce che il footer si riduca */
 }
 
 /* Header */
 header {
     text-align: center;
-    width: 100vw; /* Larghezza completa */
+    width: 100vw;
     background-color: #664228;
     padding: 20px;
     color: white;
@@ -83,11 +86,18 @@ h2 {
 @media screen and (max-width: 800px) {
     .container {
         flex-direction: column;
-        width: 100vw; /* Assicura che il contenitore occupi tutta la larghezza */
+        width: 100vw;
+        justify-content: flex-start; /* Assicura che il contenitore cresca dall'alto */
     }
 
     .sectionfront {
         width: 100vw;
+        padding: 20px 10px; /* Riduce il padding laterale su schermi piccoli */
+        margin-bottom: 0; /* Elimina eventuali margini inferiori */
+    }
+
+    #Contact {
+        margin-bottom: 0; /* Elimina eventuali margini sotto la sezione contatti */
     }
 
     .nav {
@@ -98,23 +108,23 @@ h2 {
 /* Media query per schermi più grandi */
 @media screen and (min-width: 801px) {
     .container {
-        width: 100vw; /* Occupa tutta la larghezza della finestra */
-        margin: 0; /* Rimuovi margini */
+        width: 100vw;
+        margin: 0;
         padding: 0;
     }
 
     .sectionfront {
-        width: 100vw; /* Occupa tutta la larghezza */
-        padding: 40px 20px; /* Aggiungi padding per la spaziatura */
+        width: 100vw;
+        padding: 40px 20px;
     }
 
     .nav {
-        width: 100vw; /* Occupa tutta la larghezza */
+        width: 100vw;
         margin: 0;
     }
 
     footer {
-        width: 100vw; /* Assicura che il footer occupi tutta la larghezza */
+        width: 100vw;
         margin: 0;
     }
 }
