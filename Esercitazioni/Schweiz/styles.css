@@ -1,0 +1,59 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+body,html{
+    height:100%;
+    width: 100%;
+    box-sizing: border-box;
+
+}
+
+.hero-image{
+    background-image: url("schweizimg.jpg");
+    background-size: cover;
+    height:100%;
+    background-repeat: no-repeat;
+    position: relative;
+    color:white;
+}
+
+.hero-text{
+   text-align: center;
+}
+
+.card-deck{
+    display:flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.card{
+    width:400px;
+}
+
+
+.card-img-top {
+    width: 100%; /* L'immagine si adatta alla larghezza della card */
+    height: 250px; /* Altezza uniforme per tutte le immagini */
+    object-fit: cover; /* Assicura che l'immagine mantenga le proporzioni */
+}
+
+.container{
+    display:flex;
+    flex-direction: column;
+}
+
+footer{
+    text-align: center;
+    background-color: #b50024;
+    color:white;
+}
+
+.navbar {
+    background-color: #b50024;
+    
+}
+.navbar a{
+    color:white;
+}
