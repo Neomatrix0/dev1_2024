@@ -114,7 +114,7 @@ class Program{
         static void VisualizzaProdotti(){
             SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"); // crea la connessione al db
             connection.Open(); // apre la connessione al database
-            string sql = "SELECT categorie.nome AS categoria * FROM prodotti JOIN categorie ON prodotti.id_categoria = categorie.id;";
+            string sql = "SELECT * FROM prodotti JOIN categorie ON prodotti.id_categoria = categorie.id;";
             SQLiteCommand command = new SQLiteCommand(sql,connection);
             SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al db e salva i dati in reader che è un oggetto
             while(reader.Read()) {
@@ -256,7 +256,7 @@ class Program{
 
           static void InserisciProdottoCategoria(){
             Console.WriteLine("Inserisci la categoria prodotto in base a quelle disponibili");
-            Console.WriteLine("");
+            Console.WriteLine("nome");
             string nomeCategoria = Console.ReadLine()!;
             
             SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
