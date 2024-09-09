@@ -1,6 +1,4 @@
-﻿//dotnet add package System.Data.SQLite
-
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 
 class Program{
     static void Main(string[] args){
@@ -81,9 +79,11 @@ class Program{
             string prezzo = Console.ReadLine();
             Console.WriteLine("Inserisci la quantita del prodotto");
             string quantita = Console.ReadLine();
+             Console.WriteLine("Inserisci l'id della categoria del prodotto:");
+            string id_categoria = Console.ReadLine()!;
             SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;version=3;");
             connection.Open();
-            string sql = $"INSERT INTO prodotti (nome, prezzo, quantita) VALUES ('{name}',{prezzo},{quantita})";
+            string sql = $"INSERT INTO prodotti (nome, prezzo, quantita,id_categoria) VALUES ('{name}',{prezzo},{quantita},{id_categoria})";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.ExecuteNonQuery();
             connection.Close();
@@ -174,7 +174,7 @@ class Program{
             case 5:
                 Console.WriteLine("Inserisci la nuova quantità");
                 newName = Console.ReadLine();
-                sql = $"UPDATE prodotti SET quantit={newName} WHERE nome='{name}'";
+                sql = $"UPDATE prodotti SET quantita={newName} WHERE nome='{name}'";
              
             break;
         }
