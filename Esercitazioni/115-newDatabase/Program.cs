@@ -105,7 +105,7 @@ class Program{
            
             SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
             connection.Open(); 
-            string sql = $"INSERT INTO prodotti(nome,prezzo,quantita) VALUES('{nome}','{prezzo}','{quantita}');" ;
+            string sql = $"INSERT INTO prodotti(nome,prezzo,quantita,id_categoria) VALUES('{nome}','{prezzo}','{quantita}');" ;
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.ExecuteNonQuery();
             connection.Close();
@@ -114,11 +114,11 @@ class Program{
         static void VisualizzaProdotti(){
             SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"); // crea la connessione al db
             connection.Open(); // apre la connessione al database
-            string sql = "SELECT * FROM prodotti";
+            string sql = "SELECT categorie.nome AS categoria * FROM prodotti JOIN categorie ON prodotti.id_categoria = categorie.id;";
             SQLiteCommand command = new SQLiteCommand(sql,connection);
             SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al db e salva i dati in reader che è un oggetto
             while(reader.Read()) {
-                Console.WriteLine($"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]},quantita:{reader["quantita"]}");
+                Console.WriteLine($"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]},quantita:{reader["quantita"]},categoria:{reader["id_categoria"]}");
             }
             connection.Close(); // chiude la connessione al database
 
