@@ -7,6 +7,7 @@ body,html{
     height:100%;
     width: 100%;
     box-sizing: border-box;
+    overflow-x: hidden;
 
 }
 
@@ -48,12 +49,45 @@ footer{
     text-align: center;
     background-color: #b50024;
     color:white;
+    bottom:0;
+    position:relative;
+    width: 100%;
+    padding: 20px 0;
+    min-height: 60px;
+   
+    
 }
 
 .navbar {
     background-color: #b50024;
+    width: 100%;
     
 }
 .navbar a{
     color:white;
+}
+
+.main p {
+    max-width: 100%; /* Assicurati che i paragrafi non superino la larghezza dello schermo */
+    line-height: 1.6; /* Migliora la leggibilità */
+    text-align: justify; /* Uniforma il testo */
+    margin-bottom: 20px; /* Spazio tra i paragrafi */
+}
+
+.main h2{
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
+@media only screen and (max-width: 800px) {
+    .card-deck{
+        flex-direction: column;
+
+    }
+
+    .card{
+        width:100%;
+    }
+
+
 }
