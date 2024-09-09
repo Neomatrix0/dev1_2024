@@ -31,6 +31,8 @@ class Program{
             Console.WriteLine("6- Ordina prezzo in modo ascendente");
              Console.WriteLine("7- Ordina prezzo in modo discendente");
              Console.WriteLine("8- Modifica nome");
+             Console.WriteLine("9- Modifica categoria");
+             Console.WriteLine("10- Modifica prezzo");
             Console.WriteLine("scegli un opzione");
             string scelta =Console.ReadLine()!;
             if(scelta == "1"){
@@ -55,7 +57,15 @@ class Program{
             }
 
                 else if(scelta == "8"){
-                Modifica();
+                ModificaNome();
+            }
+
+            
+                else if(scelta == "9"){
+                ModificaCategoria();
+            }
+                 else if(scelta == "10"){
+                ModificaPrezzo();
             }
 
 
@@ -150,7 +160,7 @@ class Program{
 
         }
 
-      static void Modifica(){
+      static void ModificaNome(){
             Console.WriteLine("Inserisci il nome del prodotto da modificare");
             string nome = Console.ReadLine()!;
             Console.WriteLine("Inserisci il nuovo nome del prodotto");
@@ -158,6 +168,34 @@ class Program{
             SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
             connection.Open(); 
             string sql = $"UPDATE prodotti set nome= '{newNome}' WHERE nome = '{nome}';" ;
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+
+        }
+
+        static void ModificaCategoria(){
+             Console.WriteLine("Inserisci il nome del prodotto di cui modificare la categoria");
+            string nome = Console.ReadLine()!;
+            Console.WriteLine("Inserisci il nuovo nome della categoria");
+            string newCategoria = Console.ReadLine()!;
+            SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+            connection.Open(); 
+            string sql = $"UPDATE prodotti set categoria= '{newCategoria}' WHERE nome = '{nome}';" ;
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+
+        }
+
+          static void ModificaPrezzo(){
+             Console.WriteLine("Inserisci il nome del prodotto di cui modificare il prezzo");
+            string nome = Console.ReadLine()!;
+            Console.WriteLine("Inserisci il nuovo prezzo");
+            string newPrezzo = Console.ReadLine()!;
+            SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+            connection.Open(); 
+            string sql = $"UPDATE prodotti set prezzo= '{newPrezzo}' WHERE nome = '{nome}';" ;
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.ExecuteNonQuery();
             connection.Close();
