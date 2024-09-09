@@ -28,6 +28,9 @@ class Program{
             Console.WriteLine("3- elimina prodotto");
             Console.WriteLine("4- esci");
             Console.WriteLine("5- aggiungi categoria");
+            Console.WriteLine("6- Ordina prezzo in modo ascendente");
+             Console.WriteLine("7- Ordina prezzo in modo discendente");
+             Console.WriteLine("8- Modifica nome");
             Console.WriteLine("scegli un opzione");
             string scelta =Console.ReadLine()!;
             if(scelta == "1"){
@@ -44,6 +47,17 @@ class Program{
             else if (scelta == "5"){
                 InserisciCategoria();
             }
+            else if(scelta == "6"){
+                OrdinaPrezzoAsc();
+            }
+               else if(scelta == "7"){
+                OrdinaPrezzoDesc();
+            }
+
+                else if(scelta == "8"){
+                Modifica();
+            }
+
 
         }
     }
@@ -104,7 +118,51 @@ class Program{
 
         }
 
-      //  static void OrdinaPrezzo()
+        static void OrdinaPrezzoAsc(){
+             Console.WriteLine("ordina prezzo in ordine crescente");
+            
+            
+            SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+            connection.Open(); 
+            string sql = $"SELECT * FROM prodotti ORDER BY prezzo ASC;" ;
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+             SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al db e salva i dati in reader che è un oggetto
+            while(reader.Read()) {
+                Console.WriteLine($"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]},quantita:{reader["quantita"]},categoria:{reader["categoria"]}");
+            }
+            connection.Close();
+
+        }
+
+         static void OrdinaPrezzoDesc(){
+             Console.WriteLine("ordina prezzo in ordine crescente");
+            
+            
+            SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+            connection.Open(); 
+            string sql = $"SELECT * FROM prodotti ORDER BY prezzo DESC;" ;
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+             SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al db e salva i dati in reader che è un oggetto
+            while(reader.Read()) {
+                Console.WriteLine($"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]},quantita:{reader["quantita"]},categoria:{reader["categoria"]}");
+            }
+            connection.Close();
+
+        }
+
+      static void Modifica(){
+            Console.WriteLine("Inserisci il nome del prodotto da modificare");
+            string nome = Console.ReadLine()!;
+            Console.WriteLine("Inserisci il nuovo nome del prodotto");
+            string newNome = Console.ReadLine()!;
+            SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+            connection.Open(); 
+            string sql = $"UPDATE prodotti set nome= '{newNome}' WHERE nome = '{nome}';" ;
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+
+        }
 
 
     }
