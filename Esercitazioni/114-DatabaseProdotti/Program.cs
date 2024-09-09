@@ -55,9 +55,11 @@ class Program{
             string prezzo =Console.ReadLine()!;
             Console.WriteLine("inserisci la quantità del prodotto");
             string quantita =Console.ReadLine()!;
+             Console.WriteLine("inserisci la categoria del prodotto");
+            string categoria =Console.ReadLine()!;
             SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
             connection.Open(); 
-            string sql = $"INSERT INTO prodotti(nome,prezzo,quantita) VALUES('{nome}','{prezzo}','{quantita}')" ;
+            string sql = $"INSERT INTO prodotti(nome,prezzo,quantita,categoria) VALUES('{nome}','{prezzo}','{quantita}','{categoria}')" ;
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.ExecuteNonQuery();
             connection.Close();
@@ -101,6 +103,8 @@ class Program{
             connection.Close();
 
         }
+
+      //  static void OrdinaPrezzo()
 
 
     }
