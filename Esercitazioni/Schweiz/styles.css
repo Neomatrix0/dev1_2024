@@ -21,7 +21,10 @@ body,html{
 }
 
 .hero-text{
+   display:flex;
+   flex-direction: column;
    text-align: center;
+   justify-content: center;
 }
 
 .card-deck{
