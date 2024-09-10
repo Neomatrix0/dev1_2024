@@ -99,7 +99,7 @@ class Program
         .AddChoices(new[] {
             "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
             "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Visualizza utenti db","Inserisci utente","Elimina utente",
-            "Inserisci provenienza","Elimina provenienza","Esci",
+            "Inserisci provenienza","Elimina provenienza","Inserisci nuova mansione","Esci",
         }));
 
             // scelta del tipo di azione da svolgere
@@ -152,6 +152,9 @@ class Program
                     break;
                     case "Elimina provenienza":
                     EliminaProvenienza();
+                    break;
+                     case "Inserisci nuova mansione":
+                    InserisciMansione();
                     break;
                 case "Esci":
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
@@ -307,6 +310,21 @@ class Program
 
     static void InserisciUtente()
     {
+       SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+       connection.Open();
+
+    
+    string sqlMansioni = "SELECT * FROM mansione";
+    SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
+    SQLiteDataReader readerMansioni = commandMansioni.ExecuteReader();
+
+    Console.WriteLine("Mansioni disponibili:");
+    while (readerMansioni.Read())
+    {
+        // Mostra ID e titolo della mansione
+        Console.WriteLine($"ID: {readerMansioni["id"]}, Mansione: {readerMansioni["titolo"]}");
+    }
+    readerMansioni.Close();
 
 
         Console.WriteLine("inserisci il nome");
@@ -315,12 +333,13 @@ class Program
         string cognome = Console.ReadLine()!;
         Console.WriteLine("inserisci la data di nascita in formato YYYY-MM-DD");
         string datanascita = Console.ReadLine()!;
+       //string datanascita = DateTime.Parse(Console.ReadLine()!);
         Console.WriteLine("inserisci la mail");
         string mail = Console.ReadLine()!;
         Console.WriteLine("Inserisci l'id mansione");
         int idMansione = Convert.ToInt32(Console.ReadLine()!.Trim());
-        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-        connection.Open();
+       // SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+       // connection.Open();
         string sql = $"INSERT INTO dipendente (nome, cognome, datanascita, mail, idMansione) VALUES ('{nome}', '{cognome}', '{datanascita}', '{mail}',{idMansione})"; // crea il comando sql che inserisce un prodotto
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
@@ -365,7 +384,17 @@ static void InserisciProvenienza()
         connection.Close();
     }
 
-    
+    static void InserisciMansione()
+    {
+        Console.WriteLine("inserisci il nome della mansione da inserire nel database");
+        string nome = Console.ReadLine()!;
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"INSERT INTO mansione (titolo) VALUES ('{nome}')"; // crea il comando sql che inserisce una categoria
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
 
 
     // metodo per cercare il dipendente inserendo nome,cognome
