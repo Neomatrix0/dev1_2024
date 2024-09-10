@@ -106,14 +106,14 @@ class Program{
 {
     SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;version=3;");
     connection.Open();
-    string sql = "SELECT prodotti.id, prodotti.nome AS nome_prodotto, prodotti.prezzo, prodotti.quantita, categorie.nome AS nome_categoria FROM prodotti LEFT JOIN categorie ON prodotti.id_categoria = categorie.id;";
-    
+    //string sql = "SELECT prodotti.id, prodotti.nome AS nome_prodotto, prodotti.prezzo, prodotti.quantita, categorie.nome AS nome_categoria FROM prodotti LEFT JOIN categorie ON prodotti.id_categoria = categorie.id;";
+    string sql = "SELECT * FROM prodotti;";
     SQLiteCommand command = new SQLiteCommand(sql, connection);
     SQLiteDataReader reader = command.ExecuteReader();
     Console.Clear();
     while (reader.Read())
     {
-        Console.WriteLine($"id: {reader["id"]}, nome: {reader["nome_prodotto"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, categoria: {reader["nome_categoria"]}");
+        Console.WriteLine($"id: {reader["id"]}, nome: {reader["nome_prodotto"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, categoria: {reader["id_categoria"]}");
     }
     Console.ReadKey();
     connection.Close();
