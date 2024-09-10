@@ -10,9 +10,70 @@ class Program
     static void Main(string[] args)
 
     {
-        CreateDatabase(); 
+        // Creazione del database e delle tabelle, solo se non esistono
+        string pathDb = @"database.db";
 
-    
+        if (!File.Exists(pathDb))
+        {
+            // Crea il file del database se non esiste
+            SQLiteConnection.CreateFile(pathDb);
+
+
+            SQLiteConnection connection = new SQLiteConnection($"Data Source={pathDb};Version=3;");
+
+            connection.Open();
+
+            // Creazione delle tabelle
+            string sql = @"
+                CREATE TABLE IF NOT EXISTS mansione (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    titolo TEXT UNIQUE
+                );
+
+                CREATE TABLE IF NOT EXISTS dipendente (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    nome TEXT UNIQUE, 
+                    cognome TEXT UNIQUE, 
+                    datanascita DATE, 
+                    mail TEXT UNIQUE,
+                    idMansione INTEGER,
+                    FOREIGN KEY (idMansione) REFERENCES mansione(id)
+                );
+
+                CREATE TABLE IF NOT EXISTS provenienza (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    provincia TEXT
+                );
+
+                -- Inserisci mansioni solo se non esistono
+                INSERT OR IGNORE INTO mansione (titolo) VALUES ('impiegato');
+                INSERT OR IGNORE INTO mansione (titolo) VALUES ('manager');
+                INSERT OR IGNORE INTO mansione (titolo) VALUES ('tecnico');
+
+                -- Inserisci dipendenti di esempio solo se non esistono
+                INSERT OR IGNORE INTO dipendente (nome, cognome, datanascita, mail, idMansione) 
+                VALUES ('giacomo', 'berti', '1990-10-21', 'giacomo.berti@gmail.com', 1);
+                INSERT OR IGNORE INTO dipendente (nome, cognome, datanascita, mail, idMansione) 
+                VALUES ('elena', 'carpi', '1960-10-21', 'elena.carpi@gmail.com', 2);
+
+                -- Inserisci provenienze solo se non esistono
+                INSERT OR IGNORE INTO provenienza (provincia) VALUES ('genova');
+            ";
+
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        // Se la cartella per i file JSON non esiste, la crea
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        Console.WriteLine("Benvenuto nel programma di gestione del personale.");
+
+
         // se la cartella non esiste la crea
 
         if (!Directory.Exists(directoryPath))
@@ -37,7 +98,8 @@ class Program
         .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
         .AddChoices(new[] {
             "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
-            "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Visualizza utenti db","Inserisci utente","Elimina utente","Esci",
+            "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Visualizza utenti db","Inserisci utente","Elimina utente",
+            "Inserisci provenienza","Elimina provenienza","Esci",
         }));
 
             // scelta del tipo di azione da svolgere
@@ -74,16 +136,22 @@ class Program
 
                     IncidenzaPercentuale();
                     break;
-                    case "Visualizza utenti db":
+                case "Visualizza utenti db":
 
                     VisualizzaUtenti();
                     break;
-                    case "Inserisci utente":
+                case "Inserisci utente":
                     InserisciUtente();
                     break;
 
-                      case "Elimina utente":
+                case "Elimina utente":
                     EliminaUtente();
+                    break;
+                    case "Inserisci provenienza":
+                    InserisciProvenienza();
+                    break;
+                    case "Elimina provenienza":
+                    EliminaProvenienza();
                     break;
                 case "Esci":
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
@@ -194,9 +262,9 @@ class Program
             Console.WriteLine("Lista dipendenti completa con tutti i dati:\n");
 
             // creazione tabella dipendenti
-      
 
-            var table = CreaColonne(new string[]{"Nome","Cognome","Data di nascita","Mansione","Stipendio annuale","Performance","Giorni di assenza","Email aziendale"});
+
+            var table = CreaColonne(new string[] { "Nome", "Cognome", "Data di nascita", "Mansione", "Stipendio annuale", "Performance", "Giorni di assenza", "Email aziendale" });
 
 
             // aggiunge nella tabella i dati di tutti i dipendenti presi dai json
@@ -236,93 +304,20 @@ class Program
         }
         connection.Close(); // chiude la connessione al database se non è già chiusa
     }
-static void CreateDatabase()
-{
-    string pathDb = @"database.db";
 
-    if (!File.Exists(pathDb))
+    static void InserisciUtente()
     {
-        SQLiteConnection.CreateFile(pathDb); // crea il file del database se non esiste
-    }
-
-    using (var connection = new SQLiteConnection($"Data Source={pathDb};Version=3;"))
-    {
-        connection.Open();
-
-        // Creazione delle tabelle
-        string sql = @"
-            CREATE TABLE IF NOT EXISTS mansione (
-                id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                titolo TEXT
-               
-            );
-
-            CREATE TABLE IF NOT EXISTS dipendente (
-                id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                nome TEXT, 
-                cognome TEXT, 
-                datanascita DATE, 
-                mail TEXT,
-                idProvenienza INTEGER,
-                idMansione INTEGER,
-                FOREIGN KEY (idProvenienza) REFERENCES provenienza(id),
-                FOREIGN KEY (idMansione) REFERENCES mansione(id)
-            );
-
-             CREATE TABLE IF NOT EXISTS provenienza(
-             id INTEGER PRIMARY KEY AUTOINCREMENT,
-             provincia TEXT
-             );
-        ";
-
-        SQLiteCommand command = new SQLiteCommand(sql, connection);
-        command.ExecuteNonQuery(); // Esegui la creazione delle tabelle
-
-        // Inserimento dei dati iniziali
-        string insertMansione = @"
-            INSERT OR IGNORE INTO mansione (titolo) VALUES ('impiegato');
-            INSERT OR IGNORE INTO mansione (titolo) VALUES ('manager');
-            INSERT OR IGNORE INTO mansione (titolo) VALUES ('tecnico');
-        ";
-
-        string insertDipendenti = @"
-            INSERT OR IGNORE INTO dipendente (nome, cognome, datanascita,mail,idMansione) 
-            VALUES ('giacomo', 'berti', '1990-10-21', 'giacomo.berti@gmail.com',1);
-            INSERT OR IGNORE INTO dipendente (nome, cognome, datanascita,mail,idMansione) 
-            VALUES ('elena', 'carpi', '1960-10-21', 'elena.carpi@gmail.com', 2);
-        ";
-
-        string insertProvenienza = @"
-            INSERT OR IGNORE INTO provenienza (provincia) VALUES ('genova');
-           
-        ";
-
-        SQLiteCommand commandInsert = new SQLiteCommand(insertMansione, connection);
-        commandInsert.ExecuteNonQuery(); // Inserisci mansioni
-
-        commandInsert = new SQLiteCommand(insertDipendenti, connection);
-        commandInsert.ExecuteNonQuery(); // Inserisci dipendenti
-
-         commandInsert = new SQLiteCommand(insertProvenienza, connection);
-        commandInsert.ExecuteNonQuery(); // Inserisci dipendenti
 
 
-        connection.Close();
-    }
-}
-
-static void InserisciUtente(){
-      
-    
         Console.WriteLine("inserisci il nome");
         string nome = Console.ReadLine()!;
         Console.WriteLine("inserisci il cognome");
         string cognome = Console.ReadLine()!;
         Console.WriteLine("inserisci la data di nascita in formato YYYY-MM-DD");
         string datanascita = Console.ReadLine()!;
-         Console.WriteLine("inserisci la mail");
+        Console.WriteLine("inserisci la mail");
         string mail = Console.ReadLine()!;
-         Console.WriteLine("Inserisci l'id mansione");
+        Console.WriteLine("Inserisci l'id mansione");
         int idMansione = Convert.ToInt32(Console.ReadLine()!.Trim());
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
@@ -334,8 +329,9 @@ static void InserisciUtente(){
     }
 
 
-static void EliminaUtente(){
-     Console.WriteLine("inserisci il cognome dell'utente");
+    static void EliminaUtente()
+    {
+        Console.WriteLine("inserisci il cognome dell'utente");
         string cognome = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
@@ -343,130 +339,156 @@ static void EliminaUtente(){
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
         connection.Close();
-}
+    }
+
+static void InserisciProvenienza()
+    {
+        Console.WriteLine("inserisci il nome della provincia di provenienza");
+        string nome = Console.ReadLine()!;
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"INSERT INTO provenienza (provincia) VALUES ('{nome}')"; // crea il comando sql che inserisce una categoria
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
+    static void EliminaProvenienza()
+    {
+        Console.WriteLine("inserisci il nome della provincia");
+        string nome = Console.ReadLine()!;
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"DELETE FROM provenienza WHERE provincia = '{nome}'"; // crea il comando sql che elimina la categoria con nome uguale a quello inserito
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
     
+
 
     // metodo per cercare il dipendente inserendo nome,cognome
     static void CercaDipendente()
-{
-    try
     {
-        Console.Clear();
-        // cerca i file JSON corrispondenti al nome e cognome forniti dall'utente e ne ritorna il path 
-          string filePath = RicercaJson(out string nome, out string cognome);
-
-        if (filePath != null)
+        try
         {
-            var table = CreaTabella(filePath);
-            AnsiConsole.Write(table);
+            Console.Clear();
+            // cerca i file JSON corrispondenti al nome e cognome forniti dall'utente e ne ritorna il path 
+            string filePath = RicercaJson(out string nome, out string cognome);
+
+            if (filePath != null)
+            {
+                var table = CreaTabella(filePath);
+                AnsiConsole.Write(table);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Errore non trattato: {e.Message}");
+            Console.WriteLine($"CODICE ERRORE: {e.HResult}");
         }
     }
-    catch (Exception e)
-    {
-        Console.WriteLine($"Errore non trattato: {e.Message}");
-        Console.WriteLine($"CODICE ERRORE: {e.HResult}");
-    }
-}
-    
+
     //cerca dipendente per nome,cognome e poi modifica le caratteristiche del dipendente a scelta
 
-   static void ModificaDipendente()
-{
-    try
+    static void ModificaDipendente()
     {
-        string filePath = RicercaJson(out string nome, out string cognome);
-
-        if (filePath != null)
+        try
         {
-            var lavoratore = LeggiJson(filePath);
-            var inserimento = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                .Title("MODIFICA DIPENDENTE")
-                .PageSize(8)
-                .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
-                .AddChoices(new[] {
+            string filePath = RicercaJson(out string nome, out string cognome);
+
+            if (filePath != null)
+            {
+                var lavoratore = LeggiJson(filePath);
+                var inserimento = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("MODIFICA DIPENDENTE")
+                    .PageSize(8)
+                    .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
+                    .AddChoices(new[] {
                     "Cambia nome","Cambia cognome","Cambia data di nascita formato DD/MM/YYYY",
                     "Cambia mansione","Cambia stipendio","Cambia punteggio performance","Cambia giorni di assenze","Cambia mail","Esci",
-                }));
+                    }));
 
-            switch (inserimento)
-            {
-                case "Cambia nome":
-                    Console.WriteLine("Inserici il nuovo nome");
-                    lavoratore.Nome = Console.ReadLine().Trim();
-                    break;
-                case "Cambia cognome":
-                    Console.WriteLine("Inserici il nuovo cognome");
-                    lavoratore.Cognome = Console.ReadLine().Trim();
-                    break;
-                case "Cambia data di nascita formato DD/MM/YYYY":
-                    Console.WriteLine("Inserisci nuova data di nascita");
-                    lavoratore.DataDiNascita = DateTime.ParseExact(Console.ReadLine().Trim(), "dd/MM/yyyy", null).ToString("dd/MM/yyyy");
-                    break;
-                case "Cambia mansione":
-                    Console.WriteLine("Inserisci nuova mansione");
-                    lavoratore.Mansione = Console.ReadLine().Trim();
-                    break;
-                case "Cambia stipendio":
-                    Console.WriteLine("Inserisci nuovo stipendio");
-                    lavoratore.Stipendio = Convert.ToDecimal(Console.ReadLine());
-                    break;
-                case "Cambia punteggio performance":
-                    Console.WriteLine("Inserisci nuovo punteggio performance");
-                    lavoratore.Performance = Convert.ToInt32(Console.ReadLine());
-                    break;
-                case "Cambia giorni di assenze":
-                    Console.WriteLine("Modifica giorni di assenze");
-                    lavoratore.Assenze = Convert.ToInt32(Console.ReadLine());
-                    break;
-                case "Cambia mail":
-                    Console.WriteLine("Inserisci il nuovo indirizzo email aziendale");
-                    lavoratore.Mail = Console.ReadLine().Trim();
-                    break;
-                case "Esci":
-                    Console.WriteLine("\nL'applicazione si sta per chiudere\n");
-                    return;
-                default:
-                    Console.WriteLine("\nScelta errata. Prego scegliere tra le opzioni disponibili 1-8\n");
-                    return;
+                switch (inserimento)
+                {
+                    case "Cambia nome":
+                        Console.WriteLine("Inserici il nuovo nome");
+                        lavoratore.Nome = Console.ReadLine().Trim();
+                        break;
+                    case "Cambia cognome":
+                        Console.WriteLine("Inserici il nuovo cognome");
+                        lavoratore.Cognome = Console.ReadLine().Trim();
+                        break;
+                    case "Cambia data di nascita formato DD/MM/YYYY":
+                        Console.WriteLine("Inserisci nuova data di nascita");
+                        lavoratore.DataDiNascita = DateTime.ParseExact(Console.ReadLine().Trim(), "dd/MM/yyyy", null).ToString("dd/MM/yyyy");
+                        break;
+                    case "Cambia mansione":
+                        Console.WriteLine("Inserisci nuova mansione");
+                        lavoratore.Mansione = Console.ReadLine().Trim();
+                        break;
+                    case "Cambia stipendio":
+                        Console.WriteLine("Inserisci nuovo stipendio");
+                        lavoratore.Stipendio = Convert.ToDecimal(Console.ReadLine());
+                        break;
+                    case "Cambia punteggio performance":
+                        Console.WriteLine("Inserisci nuovo punteggio performance");
+                        lavoratore.Performance = Convert.ToInt32(Console.ReadLine());
+                        break;
+                    case "Cambia giorni di assenze":
+                        Console.WriteLine("Modifica giorni di assenze");
+                        lavoratore.Assenze = Convert.ToInt32(Console.ReadLine());
+                        break;
+                    case "Cambia mail":
+                        Console.WriteLine("Inserisci il nuovo indirizzo email aziendale");
+                        lavoratore.Mail = Console.ReadLine().Trim();
+                        break;
+                    case "Esci":
+                        Console.WriteLine("\nL'applicazione si sta per chiudere\n");
+                        return;
+                    default:
+                        Console.WriteLine("\nScelta errata. Prego scegliere tra le opzioni disponibili 1-8\n");
+                        return;
+                }
+
+                string newFilePath = Path.Combine(directoryPath, $"{lavoratore.Nome}_{lavoratore.Cognome}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.json");
+                string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
+
+                File.Delete(filePath);
+                File.WriteAllText(newFilePath, jsonString);
+
+                Console.WriteLine("Dipendente aggiornato con successo.");
             }
-
-            string newFilePath = Path.Combine(directoryPath, $"{lavoratore.Nome}_{lavoratore.Cognome}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.json");
-            string jsonString = JsonConvert.SerializeObject(lavoratore, Formatting.Indented);
-
-            File.Delete(filePath);
-            File.WriteAllText(newFilePath, jsonString);
-
-            Console.WriteLine("Dipendente aggiornato con successo.");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Errore non trattato: {e.Message}");
+            Console.WriteLine($"CODICE ERRORE: {e.HResult}");
         }
     }
-    catch (Exception e)
-    {
-        Console.WriteLine($"Errore non trattato: {e.Message}");
-        Console.WriteLine($"CODICE ERRORE: {e.HResult}");
-    }
-}
 
 
     // metodo per rimuovere il dipendente e il relativo file json inserendo nome,cognome nella console
-static void RimuoviDipendente()
-{
-    try
+    static void RimuoviDipendente()
     {
-        string filePath = RicercaJson(out string nome, out string cognome);
-
-        if (filePath != null)
+        try
         {
-            File.Delete(filePath);
-            Console.WriteLine("Dipendente rimosso con successo.");
+            string filePath = RicercaJson(out string nome, out string cognome);
+
+            if (filePath != null)
+            {
+                File.Delete(filePath);
+                Console.WriteLine("Dipendente rimosso con successo.");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Errore durante la rimozione del dipendente: {e.Message}");
+            Console.WriteLine($"CODICE ERRORE: {e.HResult}");
         }
     }
-    catch (Exception e)
-    {
-        Console.WriteLine($"Errore durante la rimozione del dipendente: {e.Message}");
-        Console.WriteLine($"CODICE ERRORE: {e.HResult}");
-    }
-}
 
 
     //metodo per ordinare gli stipendi dal più alto al più basso e vedere alcuni  dati del dipendente
@@ -491,7 +513,7 @@ static void RimuoviDipendente()
             }
         }
 
-        var table = CreaColonne(new string[]{"Dipendente","Stipendio","Performance"});
+        var table = CreaColonne(new string[] { "Dipendente", "Stipendio", "Performance" });
 
         Console.WriteLine("\nDipendenti ordinati per stipendio in ordine discendente:\n");
 
@@ -504,7 +526,7 @@ static void RimuoviDipendente()
         AnsiConsole.Write(table);
     }
 
-   
+
     // metodo che calcola il tasso di assenteismo su un totale di 250 giorni lavorativi l'anno
     static void TassoDiAssenteismo()
     {
@@ -518,7 +540,7 @@ static void RimuoviDipendente()
 
             // tabella 
 
-            var table = CreaColonne(new string[]{"Dipendente","Tasso di assenteismo"});
+            var table = CreaColonne(new string[] { "Dipendente", "Tasso di assenteismo" });
 
 
             // reverse- modificato la funzione sort in modo da  ordinare i dipendenti dal tasso di assenteismo più alto al più basso
@@ -563,7 +585,7 @@ static void RimuoviDipendente()
     // metodo per ordinare i dipendenti in base alle performance dividendoli in 2 gruppi in base al punteggio 
     static void ValutazionePerformance()
     {
-       var dipendenti =GetDipendenti();
+        var dipendenti = GetDipendenti();
 
         Console.WriteLine("\nDivide i dipendendenti in 2 gruppi in base al rendimento");
 
@@ -593,16 +615,16 @@ static void RimuoviDipendente()
         // aggiunto tabella dipendenti con performance migliori
 
 
-       var table =  CreaColonne(new string[]{"Dipendente","Performance"});
+        var table = CreaColonne(new string[] { "Dipendente", "Performance" });
 
         // aggiunto tabella dipendenti con performance inferiori
 
-        var table2 =  CreaColonne(new string[]{"Dipendente","Performance"});
+        var table2 = CreaColonne(new string[] { "Dipendente", "Performance" });
 
         // aggiunto tabella dipendenti con performance inferiori gli ultimi 15%
 
 
-        var table3 = CreaColonne(new string[]{"Dipendente","Performance"});
+        var table3 = CreaColonne(new string[] { "Dipendente", "Performance" });
 
 
         // aggiunge nella tabella i dati del dipendente mettendo in evidenza le performance
@@ -690,9 +712,9 @@ static void RimuoviDipendente()
 
         var dipendenti = GetDipendenti();
 
-           // creazione tabella 
+        // creazione tabella 
 
-        var table =CreaColonne(new string[]{"Nome","Cognome","Data di nascita","Mansione","Stipendio","Incidenza stipendio lordo sul fatturato","Performance","Giorni di assenze"});
+        var table = CreaColonne(new string[] { "Nome", "Cognome", "Data di nascita", "Mansione", "Stipendio", "Incidenza stipendio lordo sul fatturato", "Performance", "Giorni di assenze" });
 
         dipendenti.Sort((y, x) => x.Stipendio.CompareTo(y.Stipendio));
 
@@ -715,41 +737,43 @@ static void RimuoviDipendente()
 
 
 
-// metodo che consente di aggiungere alla lista dinamica i dipendenti dei file json
+    // metodo che consente di aggiungere alla lista dinamica i dipendenti dei file json
     static List<dynamic> GetDipendenti()
-{
-    // prende in considerazione tutti i file di estensione .json
-
-    var files = Directory.GetFiles(directoryPath, "*.json");
-     // creazione di una lista di tipo dynamic permette poi di manipolare gli oggetti deserializzati da JSON 
-    List<dynamic> dipendenti = new List<dynamic>();
-      //cicla dentro la directory dipendenti scorrendo tutti i file e aggiungendo i dipendenti alla lista
-
-    foreach (var file in files)
     {
-        var dipendente = LeggiJson(file);
-        dipendenti.Add(dipendente);
-    }
+        // prende in considerazione tutti i file di estensione .json
 
-    return dipendenti;
-}
+        var files = Directory.GetFiles(directoryPath, "*.json");
+        // creazione di una lista di tipo dynamic permette poi di manipolare gli oggetti deserializzati da JSON 
+        List<dynamic> dipendenti = new List<dynamic>();
+        //cicla dentro la directory dipendenti scorrendo tutti i file e aggiungendo i dipendenti alla lista
+
+        foreach (var file in files)
+        {
+            var dipendente = LeggiJson(file);
+            dipendenti.Add(dipendente);
+        }
+
+        return dipendenti;
+    }
     // metodo per creare la tabella con spectre console in modo da visualizzare tutti i dati del dipendente
     static dynamic CreaTabella(string filePath)
     {
-         var dipendente = LeggiJson(filePath);
+        var dipendente = LeggiJson(filePath);
 
-        var table = CreaColonne(new string[]{"Nome","Cognome","Data di nascita","Mansione","Stipendio annuale","Performance","Giorni di assenza","Email aziendale"});
+        var table = CreaColonne(new string[] { "Nome", "Cognome", "Data di nascita", "Mansione", "Stipendio annuale", "Performance", "Giorni di assenza", "Email aziendale" });
 
         table.AddRow($"{dipendente.Nome}", $"{dipendente.Cognome}", $"{dipendente.DataDiNascita}", $"{dipendente.Mansione}", $"{dipendente.Stipendio}", $"{dipendente.Performance}", $"{dipendente.Assenze}", $"{dipendente.Mail}");
 
         return table;
     }
 
-// metodo per creare le colonne delle tabelle con Spectre console
-    static Table CreaColonne(string[]colonne){
+    // metodo per creare le colonne delle tabelle con Spectre console
+    static Table CreaColonne(string[] colonne)
+    {
         var table = new Table().Border(TableBorder.Square);
 
-        foreach(string colonna in colonne){
+        foreach (string colonna in colonne)
+        {
             table.AddColumn(new TableColumn(colonna).Centered());
 
         }
@@ -758,61 +782,61 @@ static void RimuoviDipendente()
 
 
 
-static string RicercaJson(out string nome, out string cognome)
-{
-    // Prompt nome cognome
-    GetNomeCognome(out nome, out cognome);
-
-    // pattern di ricerca per il file json
-    string searchPattern = $"{nome}_{cognome}_*.json";
-
-    // prende files corrispondenti dalla directory
-    var matchingFiles = Directory.GetFiles(directoryPath, searchPattern);
-
-    // Controlla corrispondenza pattern del file
-    if (matchingFiles.Length == 0)
+    static string RicercaJson(out string nome, out string cognome)
     {
-        Console.WriteLine("Dipendente non trovato");
-        return null;
+        // Prompt nome cognome
+        GetNomeCognome(out nome, out cognome);
+
+        // pattern di ricerca per il file json
+        string searchPattern = $"{nome}_{cognome}_*.json";
+
+        // prende files corrispondenti dalla directory
+        var matchingFiles = Directory.GetFiles(directoryPath, searchPattern);
+
+        // Controlla corrispondenza pattern del file
+        if (matchingFiles.Length == 0)
+        {
+            Console.WriteLine("Dipendente non trovato");
+            return null;
+        }
+
+        // Select(Path.GetFileName) estrae i nomi di ogni file json dal path e poi li converte in una lista per poi usarli nel menu
+        var fileNames = matchingFiles.Select(Path.GetFileName).ToList();
+
+        // Menu di scelta del file per l'utente
+        var selectedFile = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("Seleziona il file del dipendente:")
+            .PageSize(10)
+            .AddChoices(fileNames)); // contiene i nomi dei file json trovati nella directory che corrispondono al pattern di ricerca.
+
+        // Ritorna path completo del file scelto.Questo percorso può poi essere utilizzato dal programma per leggere, modificare o cancellare il file.
+        return Path.Combine(directoryPath, selectedFile);
     }
 
-    // Select(Path.GetFileName) estrae i nomi di ogni file json dal path e poi li converte in una lista per poi usarli nel menu
-    var fileNames = matchingFiles.Select(Path.GetFileName).ToList();
 
-    // Menu di scelta del file per l'utente
-    var selectedFile = AnsiConsole.Prompt(
-        new SelectionPrompt<string>()
-        .Title("Seleziona il file del dipendente:")
-        .PageSize(10)
-        .AddChoices(fileNames)); // contiene i nomi dei file json trovati nella directory che corrispondono al pattern di ricerca.
-
-    // Ritorna path completo del file scelto.Questo percorso può poi essere utilizzato dal programma per leggere, modificare o cancellare il file.
-    return Path.Combine(directoryPath, selectedFile);
-}
-
-
-//metodo per inserire l'input da console nome,cognome
+    //metodo per inserire l'input da console nome,cognome
     static void GetNomeCognome(out string nome, out string cognome)
-{
-    // while utilizzato per ripetere la richiesta di input fino a quando l'utente inserisce dati validi.
-
-    while (true)
     {
-        Console.WriteLine("\nInserisci nome e cognome del dipendente separati da virgola");
-        var inserisciNome = Console.ReadLine();
-        var nomi = inserisciNome.Split(',');
+        // while utilizzato per ripetere la richiesta di input fino a quando l'utente inserisce dati validi.
 
-        if (nomi.Length == 2)
+        while (true)
         {
-            nome = nomi[0].Trim();
-            cognome = nomi[1].Trim();
-            return;
-        }
-        else
-        {
-            Console.WriteLine("L'input deve contenere esattamente due valori separati da virgola: nome e cognome.");
+            Console.WriteLine("\nInserisci nome e cognome del dipendente separati da virgola");
+            var inserisciNome = Console.ReadLine();
+            var nomi = inserisciNome.Split(',');
+
+            if (nomi.Length == 2)
+            {
+                nome = nomi[0].Trim();
+                cognome = nomi[1].Trim();
+                return;
+            }
+            else
+            {
+                Console.WriteLine("L'input deve contenere esattamente due valori separati da virgola: nome e cognome.");
+            }
         }
     }
+
 }
-
-    }
