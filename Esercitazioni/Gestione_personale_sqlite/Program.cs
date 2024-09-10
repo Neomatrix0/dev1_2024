@@ -37,7 +37,9 @@ class Program
                     datanascita DATE, 
                     mail TEXT UNIQUE,
                     idMansione INTEGER,
-                    FOREIGN KEY (idMansione) REFERENCES mansione(id)
+                    idProvenienza INTEGER,
+                    FOREIGN KEY (idMansione) REFERENCES mansione(id),
+                    FOREIGN KEY (idProvenienza) REFERENCES provenienza(id)
                 );
 
                 CREATE TABLE IF NOT EXISTS provenienza (
@@ -51,10 +53,10 @@ class Program
                 INSERT OR IGNORE INTO mansione (titolo) VALUES ('tecnico');
 
                 -- Inserisci dipendenti di esempio solo se non esistono
-                INSERT OR IGNORE INTO dipendente (nome, cognome, datanascita, mail, idMansione) 
-                VALUES ('giacomo', 'berti', '1990-10-21', 'giacomo.berti@gmail.com', 1);
-                INSERT OR IGNORE INTO dipendente (nome, cognome, datanascita, mail, idMansione) 
-                VALUES ('elena', 'carpi', '1960-10-21', 'elena.carpi@gmail.com', 2);
+                INSERT OR IGNORE INTO dipendente (nome, cognome, datanascita, mail, idMansione,idProvenienza) 
+                VALUES ('giacomo', 'berti', '1990-10-21', 'giacomo.berti@gmail.com', 1,1);
+                INSERT OR IGNORE INTO dipendente (nome, cognome, datanascita, mail, idMansione,idProvenienza) 
+                VALUES ('elena', 'carpi', '1960-10-21', 'elena.carpi@gmail.com', 2,2);
 
                 -- Inserisci provenienze solo se non esistono
                 INSERT OR IGNORE INTO provenienza (provincia) VALUES ('genova');
@@ -99,7 +101,7 @@ class Program
         .AddChoices(new[] {
             "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
             "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Visualizza utenti db","Inserisci utente","Elimina utente",
-            "Inserisci provenienza","Elimina provenienza","Inserisci nuova mansione","Esci",
+            "Inserisci provenienza","Elimina provenienza","Inserisci nuova mansione","Visualizzazione totale utenti db","Esci",
         }));
 
             // scelta del tipo di azione da svolgere
@@ -155,6 +157,9 @@ class Program
                     break;
                      case "Inserisci nuova mansione":
                     InserisciMansione();
+                    break;
+                      case "Visualizzazione totale utenti db":
+                    VisualizzaTutto();
                     break;
                 case "Esci":
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
@@ -326,6 +331,18 @@ class Program
     }
     readerMansioni.Close();
 
+    // Mostra le provenienze disponibili
+    string sqlProvenienze = "SELECT * FROM provenienza";
+    SQLiteCommand commandProvenienze = new SQLiteCommand(sqlProvenienze, connection);
+    SQLiteDataReader readerProvenienze = commandProvenienze.ExecuteReader();
+
+    Console.WriteLine("Provenienze disponibili:");
+     while (readerProvenienze.Read())
+    {
+        Console.WriteLine($"ID: {readerProvenienze["id"]}, Provincia: {readerProvenienze["provincia"]}");
+    }
+    readerProvenienze.Close();
+
 
         Console.WriteLine("inserisci il nome");
         string nome = Console.ReadLine()!;
@@ -338,15 +355,45 @@ class Program
         string mail = Console.ReadLine()!;
         Console.WriteLine("Inserisci l'id mansione");
         int idMansione = Convert.ToInt32(Console.ReadLine()!.Trim());
+         Console.WriteLine("Inserisci l'ID della provenienza:");
+         int idProvenienza = Convert.ToInt32(Console.ReadLine()!.Trim());
+
        // SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
        // connection.Open();
-        string sql = $"INSERT INTO dipendente (nome, cognome, datanascita, mail, idMansione) VALUES ('{nome}', '{cognome}', '{datanascita}', '{mail}',{idMansione})"; // crea il comando sql che inserisce un prodotto
+        string sql = $"INSERT INTO dipendente (nome, cognome, datanascita, mail, idMansione,idProvenienza) VALUES ('{nome}', '{cognome}', '{datanascita}', '{mail}',{idMansione},{idProvenienza})"; // crea il comando sql che inserisce un prodotto
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
         connection.Close();
         Console.WriteLine($"{nome} {cognome} inserito con successo nel database");
     }
 
+    static void VisualizzaTutto()
+{
+    
+    SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+    connection.Open();
+
+    // Query SQL per ottenere i dati dei dipendenti con le relative mansioni e provenienze
+    string sql = @"
+        SELECT d.nome, d.cognome, d.datanascita, d.mail, m.titolo AS mansione, p.provincia 
+        FROM dipendente d
+        JOIN mansione m ON d.idMansione = m.id
+        JOIN provenienza p ON d.idProvenienza = p.id";
+
+    SQLiteCommand command = new SQLiteCommand(sql, connection);
+    SQLiteDataReader reader = command.ExecuteReader();
+
+    // Cicla sui risultati e stampa i dati di ogni dipendente
+    while (reader.Read())
+    {
+        
+        Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["datanascita"]}, Email: {reader["mail"]}, Provincia: {reader["provincia"]}, Mansione: {reader["mansione"]}");
+    }
+
+    
+    reader.Close();
+    connection.Close();
+}
 
     static void EliminaUtente()
     {
