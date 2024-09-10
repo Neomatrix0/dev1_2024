@@ -325,7 +325,7 @@ class Program
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
         connection.Close();
-        Console.WriteLine($"{nome}inserito con successo nel database");
+        Console.WriteLine($"{nome} {cognome} inserito con successo nel database");
     }
 
 
