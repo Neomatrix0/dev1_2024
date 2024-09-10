@@ -17,9 +17,9 @@ class Program{
                         INSERT INTO categorie (nome) VALUES ('c1');
                         INSERT INTO categorie (nome) VALUES ('c2');
                         INSERT INTO categorie (nome) VALUES ('c3');
-                        INSERT INTO prodotti (nome,prezzo,quantita) VALUES ('p1',1,10);
-                        INSERT INTO prodotti (nome,prezzo,quantita) VALUES ('p2',2,20);
-                        INSERT INTO prodotti (nome,prezzo,quantita) VALUES ('p3',3,30);
+                        INSERT INTO prodotti (nome,prezzo,quantita,id_categoria) VALUES ('p1',1,10,1);
+                        INSERT INTO prodotti (nome,prezzo,quantita,id_categoria) VALUES ('p2',2,20,2);
+                        INSERT INTO prodotti (nome,prezzo,quantita,id_categoria) VALUES ('p3',3,30,3);
                         ";
             SQLiteCommand command = new SQLiteCommand(sql, connection); 
             command.ExecuteNonQuery();
@@ -81,9 +81,11 @@ class Program{
             string prezzo = Console.ReadLine();
             Console.WriteLine("Inserisci la quantita del prodotto");
             string quantita = Console.ReadLine();
+            Console.WriteLine("Inserisci l'ID della categoria del prodotto");
+            string idCategoria = Console.ReadLine();
             SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;version=3;");
             connection.Open();
-            string sql = $"INSERT INTO prodotti (nome, prezzo, quantita) VALUES ('{name}',{prezzo},{quantita})";
+            string sql = $"INSERT INTO prodotti (nome, prezzo, quantita,id_categoria) VALUES ('{name}',{prezzo},{quantita},{idCategoria})";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.ExecuteNonQuery();
             connection.Close();
@@ -100,19 +102,22 @@ class Program{
 
     }
 
-    static void VisualizzaProdotti(){
-        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;version=3;");
-        connection.Open();
-        string sql = $"SELECT * FROM prodotti JOIN categorie ON prodotti.id_categoria = categorie.id;";
-        SQLiteCommand command = new SQLiteCommand(sql, connection);
-        SQLiteDataReader reader = command.ExecuteReader();
-        Console.Clear();
-        while(reader.Read()){
-            Console.WriteLine($"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, categoria: {reader["id_categoria"]}");
-        }
-        Console.ReadKey();
-        connection.Close();
+   static void VisualizzaProdotti()
+{
+    SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;version=3;");
+    connection.Open();
+    string sql = "SELECT prodotti.id, prodotti.nome AS nome_prodotto, prodotti.prezzo, prodotti.quantita, categorie.nome AS nome_categoria FROM prodotti LEFT JOIN categorie ON prodotti.id_categoria = categorie.id;";
+    
+    SQLiteCommand command = new SQLiteCommand(sql, connection);
+    SQLiteDataReader reader = command.ExecuteReader();
+    Console.Clear();
+    while (reader.Read())
+    {
+        Console.WriteLine($"id: {reader["id"]}, nome: {reader["nome_prodotto"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, categoria: {reader["nome_categoria"]}");
     }
+    Console.ReadKey();
+    connection.Close();
+}
 
     static void VisualizzaCategorie(){
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;version=3;");
@@ -174,7 +179,7 @@ class Program{
             case 5:
                 Console.WriteLine("Inserisci la nuova quantità");
                 newName = Console.ReadLine();
-                sql = $"UPDATE prodotti SET quantit={newName} WHERE nome='{name}'";
+                sql = $"UPDATE prodotti SET quantita={newName} WHERE nome='{name}'";
              
             break;
         }
