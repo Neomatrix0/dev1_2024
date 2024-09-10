@@ -37,7 +37,7 @@ class Program
         .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
         .AddChoices(new[] {
             "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
-            "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Visualizza utenti db","Inserisci utente","Esci",
+            "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Visualizza utenti db","Inserisci utente","Elimina utente","Esci",
         }));
 
             // scelta del tipo di azione da svolgere
@@ -80,6 +80,10 @@ class Program
                     break;
                     case "Inserisci utente":
                     InserisciUtente();
+                    break;
+
+                      case "Elimina utente":
+                    EliminaUtente();
                     break;
                 case "Esci":
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
@@ -330,7 +334,16 @@ static void InserisciUtente(){
     }
 
 
-
+static void EliminaUtente(){
+     Console.WriteLine("inserisci il cognome dell'utente");
+        string cognome = Console.ReadLine()!;
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"DELETE FROM dipendente WHERE cognome = '{cognome}'"; // crea il comando sql che elimina il prodotto con nome uguale a quello inserito
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery();
+        connection.Close();
+}
     
 
     // metodo per cercare il dipendente inserendo nome,cognome
