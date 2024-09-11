@@ -95,13 +95,13 @@ class Program
             // creazione del menu con spectre console
             opzione = AnsiConsole.Prompt(
          new SelectionPrompt<string>()
-        .Title("GESTIONALE PERSONALE")
+        .Title("GESTIONALE UTENTI DATABASE")
         .PageSize(9)
         .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
         .AddChoices(new[] {
-            "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
-            "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Visualizza utenti db","Inserisci utente","Elimina utente",
-            "Inserisci provenienza","Elimina provenienza","Inserisci nuova mansione","Visualizzazione totale utenti db","Cerca utente","Modifica utente","Esci",
+       /*     "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
+            "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato",*/"Visualizza utenti db","Inserisci utente","Elimina utente",
+            "Inserisci nuova provincia di provenienza","Elimina provenienza","Inserisci nuovo tipo di mansione","Visualizzazione totale utenti db","Cerca utente","Modifica utente","Esci",
         }));
 
             // scelta del tipo di azione da svolgere
@@ -149,13 +149,13 @@ class Program
                 case "Elimina utente":
                     EliminaUtente();
                     break;
-                    case "Inserisci provenienza":
+                    case "Inserisci nuova provincia di provenienza":
                     InserisciProvenienza();
                     break;
                     case "Elimina provenienza":
                     EliminaProvenienza();
                     break;
-                     case "Inserisci nuova mansione":
+                     case "Inserisci nuovo tipo di mansione":
                     InserisciMansione();
                     break;
                       case "Visualizzazione totale utenti db":
