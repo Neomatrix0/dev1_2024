@@ -101,7 +101,7 @@ class Program
         .AddChoices(new[] {
             "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
             "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Visualizza utenti db","Inserisci utente","Elimina utente",
-            "Inserisci provenienza","Elimina provenienza","Inserisci nuova mansione","Visualizzazione totale utenti db","Esci",
+            "Inserisci provenienza","Elimina provenienza","Inserisci nuova mansione","Visualizzazione totale utenti db","Cerca utente","Esci",
         }));
 
             // scelta del tipo di azione da svolgere
@@ -160,6 +160,9 @@ class Program
                     break;
                       case "Visualizzazione totale utenti db":
                     VisualizzaTutto();
+                    break;
+                       case "Cerca utente":
+                    CercaUtente();
                     break;
                 case "Esci":
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
@@ -397,13 +400,35 @@ class Program
 
     static void EliminaUtente()
     {
+        Console.WriteLine("inserisci il nome dell'utente da eliminare");
+        string nome = Console.ReadLine()!;
         Console.WriteLine("inserisci il cognome dell'utente");
         string cognome = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"DELETE FROM dipendente WHERE cognome = '{cognome}'"; // crea il comando sql che elimina il prodotto con nome uguale a quello inserito
+        
+        string sql = $"DELETE FROM dipendente WHERE nome = '{nome}' AND  cognome = '{cognome}'"; // crea il comando sql che elimina il prodotto con nome uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
+        connection.Close();
+          Console.WriteLine($"{nome} {cognome} rimosso con successo dal database");
+    }
+
+     static void CercaUtente()
+    {
+         Console.WriteLine("Inserisci il nome dell'utente da cercare:");
+    string nome = Console.ReadLine()!;
+        Console.WriteLine("inserisci il cognome dell'utente da cercare");
+        string cognome = Console.ReadLine()!;
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"SELECT * FROM dipendente WHERE nome='{nome}' AND cognome = '{cognome}'"; // crea il comando sql che elimina il prodotto con nome uguale a quello inserito
+       SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database
+        SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al database e salva i dati in reader che è un oggetto di tipo SQLiteDataReader incaricato di leggere i dati
+        while (reader.Read())
+        {
+            Console.WriteLine($"nome: {reader["nome"]}, cognome: {reader["cognome"]},datanascita: {reader["datanascita"]},mail: {reader["mail"]} , idMansione:{reader["idMansione"]}");
+        }
         connection.Close();
     }
 
