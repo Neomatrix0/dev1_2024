@@ -101,7 +101,7 @@ class Program
         .AddChoices(new[] {
             "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
             "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato","Visualizza utenti db","Inserisci utente","Elimina utente",
-            "Inserisci provenienza","Elimina provenienza","Inserisci nuova mansione","Visualizzazione totale utenti db","Cerca utente","Esci",
+            "Inserisci provenienza","Elimina provenienza","Inserisci nuova mansione","Visualizzazione totale utenti db","Cerca utente","Modifica utente","Esci",
         }));
 
             // scelta del tipo di azione da svolgere
@@ -163,6 +163,9 @@ class Program
                     break;
                        case "Cerca utente":
                     CercaUtente();
+                    break;
+                        case "Modifica utente":
+                   ModificaUtente();
                     break;
                 case "Esci":
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
@@ -415,23 +418,46 @@ class Program
           Console.WriteLine($"{nome} {cognome} rimosso con successo dal database");
     }
 
-     static void CercaUtente()
-    {
-         Console.WriteLine("Inserisci il nome dell'utente da cercare:");
+       static void CercaUtente()
+{
+    Console.WriteLine("Inserisci il nome dell'utente da cercare:");
     string nome = Console.ReadLine()!;
-        Console.WriteLine("inserisci il cognome dell'utente da cercare");
-        string cognome = Console.ReadLine()!;
-        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-        connection.Open();
-        string sql = $"SELECT * FROM dipendente WHERE nome='{nome}' AND cognome = '{cognome}'"; // crea il comando sql che elimina il prodotto con nome uguale a quello inserito
-       SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database
-        SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al database e salva i dati in reader che è un oggetto di tipo SQLiteDataReader incaricato di leggere i dati
+
+    Console.WriteLine("Inserisci il cognome dell'utente da cercare:");
+    string cognome = Console.ReadLine()!;
+
+    SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+    connection.Open();
+
+    // Query SQL corretta per cercare il dipendente
+    string sql = $@"
+        SELECT d.nome, d.cognome, strftime('%d/%m/%Y', d.datanascita) AS data_formattata, d.mail, 
+               m.titolo AS mansione, p.provincia
+        FROM dipendente d
+        JOIN mansione m ON d.idMansione = m.id
+        JOIN provenienza p ON d.idProvenienza = p.id
+        WHERE d.nome = '{nome}' AND d.cognome = '{cognome}'";
+
+    SQLiteCommand command = new SQLiteCommand(sql, connection);
+    SQLiteDataReader reader = command.ExecuteReader();
+
+    // Verifica se ci sono risultati
+    if (reader.HasRows)
+    {
         while (reader.Read())
         {
-            Console.WriteLine($"nome: {reader["nome"]}, cognome: {reader["cognome"]},datanascita: {reader["datanascita"]},mail: {reader["mail"]} , idMansione:{reader["idMansione"]}");
+            Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["data_formattata"]}, Email: {reader["mail"]}, Mansione: {reader["mansione"]}, Provincia: {reader["provincia"]}");
         }
-        connection.Close();
     }
+    else
+    {
+        Console.WriteLine("Nessun dipendente trovato con il nome e cognome specificati.");
+    }
+
+    reader.Close();
+    connection.Close();
+}
+
 
 static void InserisciProvenienza()
     {
@@ -469,6 +495,159 @@ static void InserisciProvenienza()
         connection.Close();
     }
 
+    static void ModificaUtente(){
+        Console.WriteLine("Scegli il campo da modificare");
+        Console.WriteLine("1 - modifica nome");
+        Console.WriteLine("2 - modifica cognome");
+        Console.WriteLine("3 - cambia mansione");
+        Console.WriteLine("4 - cambia mail");
+        int scelta = Convert.ToInt32(Console.ReadLine()!.Trim());  
+        switch (scelta) {
+
+            case 1:
+            ModificaNomeUtente();
+            break;
+
+            case 2:
+            ModificaCognomeUtente();
+            break;
+            case 3:
+
+            ModificaMansioneUtente();
+
+            break;
+            case 4:
+             ModificaMailUtente();
+
+            break;
+            case 5:
+             ModificaProvenienzaUtente();
+
+            break;
+        }
+
+    }
+
+          static void ModificaMansioneUtente()
+    {
+          SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+    connection.Open();
+
+          string sqlMansioni = "SELECT * FROM mansione";
+    SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
+    SQLiteDataReader reader = commandMansioni.ExecuteReader();
+
+    Console.WriteLine("Id Mansioni disponibili:");
+     while (reader.Read())
+    {
+        Console.WriteLine($"ID: {reader["id"]}, Mansione: {reader["titolo"]}");
+    }
+    reader.Close();
+
+        Console.WriteLine("inserisci il nome dell'utente di cui cambiare mansione"); 
+        string nome = Console.ReadLine()!;
+        Console.WriteLine("inserisci il cognome dell'utente di cui cambiare mansione");
+        string cognome = Console.ReadLine()!;
+        Console.WriteLine("inserisci l'id della nuova mansione scegliendo tra quelli disponibili"); 
+        int mansioneId= Convert.ToInt32(Console.ReadLine())!; 
+      
+        string sql = $"UPDATE dipendente SET idMansione = {mansioneId}  WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        connection.Close();
+        Console.WriteLine($"L'utente {nome} {cognome} ha cambiato mansione con successo");
+    }
+
+    static void ModificaNomeUtente(){
+        Console.WriteLine("inserisci il nome dell'utente che vuoi modificare"); 
+        string nome = Console.ReadLine()!;
+        Console.WriteLine("inserisci il cognome dell'utente");
+        string cognome = Console.ReadLine()!;
+         Console.WriteLine("inserisci il nuovo nome dell'utente"); 
+        string nuovoNome = Console.ReadLine()!;
+         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"UPDATE dipendente SET nome = '{nuovoNome}' WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        connection.Close();
+
+        Console.WriteLine($"Utente {nome} {cognome} ha cambiato il nome in {nuovoNome} con successo");
+
+
+    }
+
+      static void ModificaCognomeUtente(){
+        Console.WriteLine("inserisci il nome dell'utente che vuoi modificare"); 
+        string nome = Console.ReadLine()!;
+        Console.WriteLine("inserisci il cognome dell'utente");
+        string cognome = Console.ReadLine()!;
+         Console.WriteLine("inserisci il nuovo cognome dell'utente"); 
+        string nuovoCognome = Console.ReadLine()!;
+         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"UPDATE dipendente SET cognome = '{nuovoCognome}' WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        connection.Close();
+
+        Console.WriteLine($"Utente {nome} {cognome} ha cambiato il cognome in {nuovoCognome} con successo");
+
+
+    }
+
+       static void ModificaMailUtente(){
+        Console.WriteLine("inserisci il nome dell'utente per cui vuoi modificare la mail"); 
+        string nome = Console.ReadLine()!;
+        Console.WriteLine("inserisci il cognome dell'utente");
+        string cognome = Console.ReadLine()!;
+         Console.WriteLine("inserisci la nuova mail aziendale dell'utente"); 
+        string nuovaMail = Console.ReadLine()!;
+         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"UPDATE dipendente SET mail = '{nuovaMail}' WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        connection.Close();
+
+        Console.WriteLine($"Utente {nome} {cognome} ha cambiato la mail in {nuovaMail} con successo");
+
+
+    }
+
+ static void ModificaProvenienzaUtente(){
+       
+          SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+    connection.Open();
+
+          string sqlMansioni = "SELECT * FROM provenienza";
+    SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
+    SQLiteDataReader reader = commandMansioni.ExecuteReader();
+
+    Console.WriteLine("Id città disponibili:");
+     while (reader.Read())
+    {
+        Console.WriteLine($"ID: {reader["id"]}, Provincia: {reader["provincia"]}");
+    }
+    reader.Close();
+
+        Console.WriteLine("inserisci il nome dell'utente di cui cambiare la città di provenienza"); 
+        string nome = Console.ReadLine()!;
+        Console.WriteLine("inserisci il cognome dell'utente");
+        string cognome = Console.ReadLine()!;
+        Console.WriteLine("inserisci l'id della nuova provenienza scegliendo tra quelli disponibili"); 
+        int provenienzaId= Convert.ToInt32(Console.ReadLine())!; 
+      
+        string sql = $"UPDATE dipendente SET idProvenienza = {provenienzaId}  WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        connection.Close();
+        Console.WriteLine($"L'utente {nome} {cognome} ha cambiato provenienza con successo");
+    }
+
+
+
+ 
 
     // metodo per cercare il dipendente inserendo nome,cognome
     static void CercaDipendente()
