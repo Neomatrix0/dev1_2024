@@ -501,6 +501,7 @@ static void InserisciProvenienza()
         Console.WriteLine("2 - modifica cognome");
         Console.WriteLine("3 - cambia mansione");
         Console.WriteLine("4 - cambia mail");
+        Console.WriteLine("5 - cambia provenienza");
         int scelta = Convert.ToInt32(Console.ReadLine()!.Trim());  
         switch (scelta) {
 
