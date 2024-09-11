@@ -311,13 +311,38 @@ class Program
         connection.Open();
         string sql = "SELECT nome, cognome, strftime('%d/%m/%Y', datanascita) AS data_formattata, mail, idMansione FROM dipendente"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti
         SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database
-        SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al database e salva i dati in reader che è un oggetto di tipo SQLiteDataReader incaricato di leggere i dati
-        while (reader.Read())
+        SQLiteDataReader reader = command.ExecuteReader();
+
+        var table = new Table();
+    
+    // Aggiunta delle colonne alla tabella
+    table.AddColumn("Nome");
+    table.AddColumn("Cognome");
+    table.AddColumn("Data di nascita");
+    table.AddColumn("Email aziendale");
+   
+    table.Border(TableBorder.Rounded); // Aggiunge bordi arrotondati
+    table.Centered(); // Centra la tabella nel terminale
+    table.Title("Lista Utenti Database"); // Aggiunge un titolo alla tabella
+    table.UseSafeBorder = true; 
+     while (reader.Read())
+        
+          
         {
-               Console.WriteLine($"nome: {reader["nome"]}, cognome: {reader["cognome"]}, datanascita: {reader["data_formattata"]}, mail: {reader["mail"]}, idMansione: {reader["idMansione"]}");
-            //Console.WriteLine($"nome: {reader["nome"]}, cognome: {reader["cognome"]},datanascita: {reader["datanascita"]},mail: {reader["mail"]} , idMansione:{reader["idMansione"]}");
+           table.AddRow(
+            reader["nome"].ToString(), 
+            reader["cognome"].ToString(), 
+            reader["data_formattata"].ToString(), 
+             
+            reader["mail"].ToString()
+            
+        );
         }
-        connection.Close(); // chiude la connessione al database se non è già chiusa
+        reader.Close();
+    connection.Close();
+
+    // Stampa la tabella con Spectre.Console
+    AnsiConsole.Write(table); // chiude la connessione al database se non è già chiusa
     }
 
     static void InserisciUtente()
@@ -390,16 +415,43 @@ class Program
     SQLiteCommand command = new SQLiteCommand(sql, connection);
     SQLiteDataReader reader = command.ExecuteReader();
 
+        var table = new Table();
+    
+    // Aggiunta delle colonne alla tabella
+    table.AddColumn("Nome");
+    table.AddColumn("Cognome");
+    table.AddColumn("Data di nascita");
+    table.AddColumn("Email aziendale");
+    table.AddColumn("Provincia");
+    table.AddColumn("Mansione");
+   
+    table.Border(TableBorder.Rounded); // Aggiunge bordi arrotondati
+    table.Centered(); // Centra la tabella nel terminale
+    table.Title("Lista dati completi utenti Database"); // Aggiunge un titolo alla tabella
+    table.UseSafeBorder = true; 
+
     // Cicla sui risultati e stampa i dati di ogni dipendente
     while (reader.Read())
     {
         
-        Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["data_formattata"]}, Email: {reader["mail"]}, Provincia: {reader["provincia"]}, Mansione: {reader["mansione"]}");
+        
+        //Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["data_formattata"]}, Email: {reader["mail"]}, Provincia: {reader["provincia"]}, Mansione: {reader["mansione"]}");
+            
+           table.AddRow(
+            reader["nome"].ToString(), 
+            reader["cognome"].ToString(), 
+            reader["data_formattata"].ToString(), 
+             reader["mail"].ToString(),
+              reader["provincia"].ToString(),
+               reader["mansione"].ToString()
+            
+        );
     }
 
     
     reader.Close();
     connection.Close();
+    AnsiConsole.Write(table);
 }
 
     static void EliminaUtente()
