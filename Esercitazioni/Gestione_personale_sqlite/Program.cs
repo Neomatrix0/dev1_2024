@@ -306,12 +306,13 @@ class Program
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"); // crea la connessione di nuovo perché è stata chiusa alla fine del while in modo da poter visualizzare i dati aggiornati
         connection.Open();
-        string sql = "SELECT * FROM dipendente"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti
+        string sql = "SELECT nome, cognome, strftime('%d/%m/%Y', datanascita) AS data_formattata, mail, idMansione FROM dipendente"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti
         SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database
         SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al database e salva i dati in reader che è un oggetto di tipo SQLiteDataReader incaricato di leggere i dati
         while (reader.Read())
         {
-            Console.WriteLine($"nome: {reader["nome"]}, cognome: {reader["cognome"]},datanascita: {reader["datanascita"]},mail: {reader["mail"]} , idMansione:{reader["idMansione"]}");
+               Console.WriteLine($"nome: {reader["nome"]}, cognome: {reader["cognome"]}, datanascita: {reader["data_formattata"]}, mail: {reader["mail"]}, idMansione: {reader["idMansione"]}");
+            //Console.WriteLine($"nome: {reader["nome"]}, cognome: {reader["cognome"]},datanascita: {reader["datanascita"]},mail: {reader["mail"]} , idMansione:{reader["idMansione"]}");
         }
         connection.Close(); // chiude la connessione al database se non è già chiusa
     }
@@ -363,7 +364,7 @@ class Program
 
        // SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
        // connection.Open();
-        string sql = $"INSERT INTO dipendente (nome, cognome, datanascita, mail, idMansione,idProvenienza) VALUES ('{nome}', '{cognome}', '{datanascita}', '{mail}',{idMansione},{idProvenienza})"; // crea il comando sql che inserisce un prodotto
+        string sql = $"INSERT INTO dipendente (nome, cognome, datanascita, mail, idMansione,idProvenienza) VALUES ('{nome}', '{cognome}',strftime('%Y-%m-%d', '{datanascita}'), '{mail}',{idMansione},{idProvenienza})"; // crea il comando sql che inserisce un prodotto
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
         connection.Close();
@@ -378,7 +379,7 @@ class Program
 
     // Query SQL per ottenere i dati dei dipendenti con le relative mansioni e provenienze
     string sql = @"
-        SELECT d.nome, d.cognome, d.datanascita, d.mail, m.titolo AS mansione, p.provincia 
+        SELECT d.nome, d.cognome, strftime('%d/%m/%Y', d.datanascita) AS data_formattata, d.mail, m.titolo AS mansione, p.provincia 
         FROM dipendente d
         JOIN mansione m ON d.idMansione = m.id
         JOIN provenienza p ON d.idProvenienza = p.id";
@@ -390,7 +391,7 @@ class Program
     while (reader.Read())
     {
         
-        Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["datanascita"]}, Email: {reader["mail"]}, Provincia: {reader["provincia"]}, Mansione: {reader["mansione"]}");
+        Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["data_formattata"]}, Email: {reader["mail"]}, Provincia: {reader["provincia"]}, Mansione: {reader["mansione"]}");
     }
 
     
