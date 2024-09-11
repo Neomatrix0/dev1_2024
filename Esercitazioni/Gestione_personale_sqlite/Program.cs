@@ -101,7 +101,7 @@ class Program
         .AddChoices(new[] {
        /*     "Inserisci dipendente","Visualizza dipendenti","Cerca dipendente",
             "Modifica dipendente","Rimuovi dipendente","Tasso di assenteismo","Valutazione performance","Ordina stipendi","Rapporto stipendio fatturato",*/"Visualizza utenti db","Inserisci utente","Elimina utente",
-            "Inserisci nuova provincia di provenienza","Elimina provenienza","Inserisci nuovo tipo di mansione","Visualizzazione totale utenti db","Cerca utente","Modifica utente","Esci",
+            "Inserisci nuova provincia di provenienza","Elimina provenienza","Inserisci nuovo tipo di mansione","Modifica categoria mansione","Visualizzazione totale utenti db","Cerca utente","Modifica utente","Esci",
         }));
 
             // scelta del tipo di azione da svolgere
@@ -149,23 +149,27 @@ class Program
                 case "Elimina utente":
                     EliminaUtente();
                     break;
-                    case "Inserisci nuova provincia di provenienza":
+                case "Inserisci nuova provincia di provenienza":
                     InserisciProvenienza();
                     break;
-                    case "Elimina provenienza":
+                case "Elimina provenienza":
                     EliminaProvenienza();
                     break;
-                     case "Inserisci nuovo tipo di mansione":
+                case "Inserisci nuovo tipo di mansione":
                     InserisciMansione();
                     break;
-                      case "Visualizzazione totale utenti db":
+                case "Visualizzazione totale utenti db":
                     VisualizzaTutto();
                     break;
-                       case "Cerca utente":
+                case "Cerca utente":
                     CercaUtente();
                     break;
-                        case "Modifica utente":
-                   ModificaUtente();
+                case "Modifica utente":
+                    ModificaUtente();
+                    break;
+
+                case "Modifica categoria mansione":
+                    ModificaCategoriaMansione();
                     break;
                 case "Esci":
                     Console.WriteLine("Il programma verrà chiuso. Attendere prego.");
@@ -314,66 +318,66 @@ class Program
         SQLiteDataReader reader = command.ExecuteReader();
 
         var table = new Table();
-    
-    // Aggiunta delle colonne alla tabella
-    table.AddColumn("Nome");
-    table.AddColumn("Cognome");
-    table.AddColumn("Data di nascita");
-    table.AddColumn("Email aziendale");
-   
-    table.Border(TableBorder.Rounded); // Aggiunge bordi arrotondati
-    table.Centered(); // Centra la tabella nel terminale
-    table.Title("Lista Utenti Database"); // Aggiunge un titolo alla tabella
-    table.UseSafeBorder = true; 
-     while (reader.Read())
-        
-          
+
+        // Aggiunta delle colonne alla tabella
+        table.AddColumn("Nome");
+        table.AddColumn("Cognome");
+        table.AddColumn("Data di nascita");
+        table.AddColumn("Email aziendale");
+
+        table.Border(TableBorder.Rounded); // Aggiunge bordi arrotondati
+        table.Centered(); // Centra la tabella nel terminale
+        table.Title("Lista Utenti Database"); // Aggiunge un titolo alla tabella
+        table.UseSafeBorder = true;
+        while (reader.Read())
+
+
         {
-           table.AddRow(
-            reader["nome"].ToString(), 
-            reader["cognome"].ToString(), 
-            reader["data_formattata"].ToString(), 
-             
-            reader["mail"].ToString()
-            
-        );
+            table.AddRow(
+             reader["nome"].ToString(),
+             reader["cognome"].ToString(),
+             reader["data_formattata"].ToString(),
+
+             reader["mail"].ToString()
+
+         );
         }
         reader.Close();
-    connection.Close();
+        connection.Close();
 
-    // Stampa la tabella con Spectre.Console
-    AnsiConsole.Write(table); // chiude la connessione al database se non è già chiusa
+        // Stampa la tabella con Spectre.Console
+        AnsiConsole.Write(table);
     }
 
     static void InserisciUtente()
     {
-       SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-       connection.Open();
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
 
-    
-    string sqlMansioni = "SELECT * FROM mansione";
-    SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
-    SQLiteDataReader readerMansioni = commandMansioni.ExecuteReader();
 
-    Console.WriteLine("Mansioni disponibili:");
-    while (readerMansioni.Read())
-    {
-        // Mostra ID e titolo della mansione
-        Console.WriteLine($"ID: {readerMansioni["id"]}, Mansione: {readerMansioni["titolo"]}");
-    }
-    readerMansioni.Close();
+        string sqlMansioni = "SELECT * FROM mansione";
+        SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
+        SQLiteDataReader readerMansioni = commandMansioni.ExecuteReader();
 
-    // Mostra le provenienze disponibili
-    string sqlProvenienze = "SELECT * FROM provenienza";
-    SQLiteCommand commandProvenienze = new SQLiteCommand(sqlProvenienze, connection);
-    SQLiteDataReader readerProvenienze = commandProvenienze.ExecuteReader();
+        Console.WriteLine("Mansioni disponibili:");
+        while (readerMansioni.Read())
+        {
+            // Mostra ID e titolo della mansione
+            Console.WriteLine($"ID: {readerMansioni["id"]}, Mansione: {readerMansioni["titolo"]}");
+        }
+        readerMansioni.Close();
 
-    Console.WriteLine("Provenienze disponibili:");
-     while (readerProvenienze.Read())
-    {
-        Console.WriteLine($"ID: {readerProvenienze["id"]}, Provincia: {readerProvenienze["provincia"]}");
-    }
-    readerProvenienze.Close();
+        // Mostra le provenienze disponibili
+        string sqlProvenienze = "SELECT * FROM provenienza";
+        SQLiteCommand commandProvenienze = new SQLiteCommand(sqlProvenienze, connection);
+        SQLiteDataReader readerProvenienze = commandProvenienze.ExecuteReader();
+
+        Console.WriteLine("Provenienze disponibili:");
+        while (readerProvenienze.Read())
+        {
+            Console.WriteLine($"ID: {readerProvenienze["id"]}, Provincia: {readerProvenienze["provincia"]}");
+        }
+        readerProvenienze.Close();
 
 
         Console.WriteLine("inserisci il nome");
@@ -382,16 +386,16 @@ class Program
         string cognome = Console.ReadLine()!;
         Console.WriteLine("inserisci la data di nascita in formato YYYY-MM-DD");
         string datanascita = Console.ReadLine()!;
-       //string datanascita = DateTime.Parse(Console.ReadLine()!);
+        //string datanascita = DateTime.Parse(Console.ReadLine()!);
         Console.WriteLine("inserisci la mail");
         string mail = Console.ReadLine()!;
         Console.WriteLine("Inserisci l'id mansione");
         int idMansione = Convert.ToInt32(Console.ReadLine()!.Trim());
-         Console.WriteLine("Inserisci l'ID della provenienza:");
-         int idProvenienza = Convert.ToInt32(Console.ReadLine()!.Trim());
+        Console.WriteLine("Inserisci l'ID della provenienza:");
+        int idProvenienza = Convert.ToInt32(Console.ReadLine()!.Trim());
 
-       // SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-       // connection.Open();
+        // SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        // connection.Open();
         string sql = $"INSERT INTO dipendente (nome, cognome, datanascita, mail, idMansione,idProvenienza) VALUES ('{nome}', '{cognome}',strftime('%Y-%m-%d', '{datanascita}'), '{mail}',{idMansione},{idProvenienza})"; // crea il comando sql che inserisce un prodotto
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
@@ -400,59 +404,59 @@ class Program
     }
 
     static void VisualizzaTutto()
-{
-    
-    SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-    connection.Open();
+    {
 
-    // Query SQL per ottenere i dati dei dipendenti con le relative mansioni e provenienze
-    string sql = @"
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+
+        // Query SQL per ottenere i dati dei dipendenti con le relative mansioni e provenienze
+        string sql = @"
         SELECT d.nome, d.cognome, strftime('%d/%m/%Y', d.datanascita) AS data_formattata, d.mail, m.titolo AS mansione, p.provincia 
         FROM dipendente d
         JOIN mansione m ON d.idMansione = m.id
         JOIN provenienza p ON d.idProvenienza = p.id";
 
-    SQLiteCommand command = new SQLiteCommand(sql, connection);
-    SQLiteDataReader reader = command.ExecuteReader();
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        SQLiteDataReader reader = command.ExecuteReader();
 
         var table = new Table();
-    
-    // Aggiunta delle colonne alla tabella
-    table.AddColumn("Nome");
-    table.AddColumn("Cognome");
-    table.AddColumn("Data di nascita");
-    table.AddColumn("Email aziendale");
-    table.AddColumn("Provincia");
-    table.AddColumn("Mansione");
-   
-    table.Border(TableBorder.Rounded); // Aggiunge bordi arrotondati
-    table.Centered(); // Centra la tabella nel terminale
-    table.Title("Lista dati completi utenti Database"); // Aggiunge un titolo alla tabella
-    table.UseSafeBorder = true; 
 
-    // Cicla sui risultati e stampa i dati di ogni dipendente
-    while (reader.Read())
-    {
-        
-        
-        //Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["data_formattata"]}, Email: {reader["mail"]}, Provincia: {reader["provincia"]}, Mansione: {reader["mansione"]}");
-            
-           table.AddRow(
-            reader["nome"].ToString(), 
-            reader["cognome"].ToString(), 
-            reader["data_formattata"].ToString(), 
-             reader["mail"].ToString(),
-              reader["provincia"].ToString(),
-               reader["mansione"].ToString()
-            
-        );
+
+        table.AddColumn("Nome");
+        table.AddColumn("Cognome");
+        table.AddColumn("Data di nascita");
+        table.AddColumn("Email aziendale");
+        table.AddColumn("Provincia");
+        table.AddColumn("Mansione");
+
+        table.Border(TableBorder.Rounded);
+        table.Centered();
+        table.Title("Lista dati completi utenti Database");
+        table.UseSafeBorder = true;
+
+
+        while (reader.Read())
+        {
+
+
+            //Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["data_formattata"]}, Email: {reader["mail"]}, Provincia: {reader["provincia"]}, Mansione: {reader["mansione"]}");
+
+            table.AddRow(
+             reader["nome"].ToString(),
+             reader["cognome"].ToString(),
+             reader["data_formattata"].ToString(),
+              reader["mail"].ToString(),
+               reader["provincia"].ToString(),
+                reader["mansione"].ToString()
+
+         );
+        }
+
+
+        reader.Close();
+        connection.Close();
+        AnsiConsole.Write(table);
     }
-
-    
-    reader.Close();
-    connection.Close();
-    AnsiConsole.Write(table);
-}
 
     static void EliminaUtente()
     {
@@ -462,27 +466,27 @@ class Program
         string cognome = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        
+
         string sql = $"DELETE FROM dipendente WHERE nome = '{nome}' AND  cognome = '{cognome}'"; // crea il comando sql che elimina il prodotto con nome uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
         connection.Close();
-          Console.WriteLine($"{nome} {cognome} rimosso con successo dal database");
+        Console.WriteLine($"{nome} {cognome} rimosso con successo dal database");
     }
 
-       static void CercaUtente()
-{
-    Console.WriteLine("Inserisci il nome dell'utente da cercare:");
-    string nome = Console.ReadLine()!;
+    static void CercaUtente()
+    {
+        Console.WriteLine("Inserisci il nome dell'utente da cercare:");
+        string nome = Console.ReadLine()!;
 
-    Console.WriteLine("Inserisci il cognome dell'utente da cercare:");
-    string cognome = Console.ReadLine()!;
+        Console.WriteLine("Inserisci il cognome dell'utente da cercare:");
+        string cognome = Console.ReadLine()!;
 
-    SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-    connection.Open();
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
 
-    // Query SQL corretta per cercare il dipendente
-    string sql = $@"
+        // Query SQL  per cercare il dipendente
+        string sql = $@"
         SELECT d.nome, d.cognome, strftime('%d/%m/%Y', d.datanascita) AS data_formattata, d.mail, 
                m.titolo AS mansione, p.provincia
         FROM dipendente d
@@ -490,28 +494,61 @@ class Program
         JOIN provenienza p ON d.idProvenienza = p.id
         WHERE d.nome = '{nome}' AND d.cognome = '{cognome}'";
 
-    SQLiteCommand command = new SQLiteCommand(sql, connection);
-    SQLiteDataReader reader = command.ExecuteReader();
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        SQLiteDataReader reader = command.ExecuteReader();
 
-    // Verifica se ci sono risultati
-    if (reader.HasRows)
-    {
+        if (!reader.HasRows)
+        {
+
+            Console.WriteLine("Nessun dipendente trovato con il nome e cognome specificati.");
+            reader.Close();
+            connection.Close();
+            return;
+
+        }
+
+        var table = new Table();
+
+
+        table.AddColumn("Nome");
+        table.AddColumn("Cognome");
+        table.AddColumn("Data di nascita");
+        table.AddColumn("Email aziendale");
+        table.AddColumn("Provincia");
+        table.AddColumn("Mansione");
+
+        table.Border(TableBorder.Rounded);
+        table.Centered();
+        table.Title("Lista dati completi utenti Database");
+        table.UseSafeBorder = true;
+
+        // Cicla sui risultati e stampa i dati di ogni dipendente
         while (reader.Read())
         {
-            Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["data_formattata"]}, Email: {reader["mail"]}, Mansione: {reader["mansione"]}, Provincia: {reader["provincia"]}");
+
+
+            //Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["data_formattata"]}, Email: {reader["mail"]}, Provincia: {reader["provincia"]}, Mansione: {reader["mansione"]}");
+
+            table.AddRow(
+             reader["nome"].ToString(),
+             reader["cognome"].ToString(),
+             reader["data_formattata"].ToString(),
+              reader["mail"].ToString(),
+               reader["provincia"].ToString(),
+                reader["mansione"].ToString()
+
+         );
+
         }
+
+        reader.Close();
+        connection.Close();
+        AnsiConsole.Write(table);
+
     }
-    else
-    {
-        Console.WriteLine("Nessun dipendente trovato con il nome e cognome specificati.");
-    }
-
-    reader.Close();
-    connection.Close();
-}
 
 
-static void InserisciProvenienza()
+    static void InserisciProvenienza()
     {
         Console.WriteLine("inserisci il nome della provincia di provenienza");
         string nome = Console.ReadLine()!;
@@ -541,88 +578,133 @@ static void InserisciProvenienza()
         string nome = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"INSERT INTO mansione (titolo) VALUES ('{nome}')"; // crea il comando sql che inserisce una categoria
+        string sql = $"INSERT INTO mansione (titolo) VALUES ('{nome}')";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
         connection.Close();
     }
 
-    static void ModificaUtente(){
+    static void ModificaCategoriaMansione()
+    {
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+
+        string sqlMansioni = "SELECT * FROM mansione";
+        SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
+        SQLiteDataReader reader = commandMansioni.ExecuteReader();
+
+        Console.WriteLine("Id Mansioni disponibili:");
+        while (reader.Read())
+        {
+            Console.WriteLine($"ID: {reader["id"]}, Mansione: {reader["titolo"]}");
+        }
+        reader.Close();
+
+        Console.WriteLine("inserisci l'id della mansione che vuoi modificare");
+
+
+        int mansioneId = Convert.ToInt32(Console.ReadLine())!;
+
+        Console.WriteLine("inserisci il nuovo nome della mansione");
+        string nuovoNomeMansione = Console.ReadLine()!;
+
+        string sql = $"UPDATE mansione SET titolo = '{nuovoNomeMansione}'  WHERE id={mansioneId}";
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery();
+        connection.Close();
+        Console.WriteLine($"mansione aggiornata con successo");
+    }
+
+
+    static void ModificaUtente()
+    {
         Console.WriteLine("Scegli il campo da modificare");
         Console.WriteLine("1 - modifica nome");
         Console.WriteLine("2 - modifica cognome");
         Console.WriteLine("3 - cambia mansione");
         Console.WriteLine("4 - cambia mail");
         Console.WriteLine("5 - cambia provenienza");
-        int scelta = Convert.ToInt32(Console.ReadLine()!.Trim());  
-        switch (scelta) {
+        Console.WriteLine("6 - esci");
+        int scelta = Convert.ToInt32(Console.ReadLine()!.Trim());
+        switch (scelta)
+        {
 
             case 1:
-            ModificaNomeUtente();
-            break;
+                ModificaNomeUtente();
+                break;
 
             case 2:
-            ModificaCognomeUtente();
-            break;
+                ModificaCognomeUtente();
+                break;
             case 3:
 
-            ModificaMansioneUtente();
+                ModificaMansioneUtente();
 
-            break;
+                break;
             case 4:
-             ModificaMailUtente();
+                ModificaMailUtente();
 
-            break;
+                break;
             case 5:
-             ModificaProvenienzaUtente();
+                ModificaProvenienzaUtente();
 
-            break;
+                break;
+
+            case 6:
+
+                Console.WriteLine("\nL'applicazione si sta per chiudere\n");
+                return;
+
+            default:
+                Console.WriteLine("Opzione errata");
+                return;
         }
 
     }
 
-          static void ModificaMansioneUtente()
+    static void ModificaMansioneUtente()
     {
-          SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-    connection.Open();
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
 
-          string sqlMansioni = "SELECT * FROM mansione";
-    SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
-    SQLiteDataReader reader = commandMansioni.ExecuteReader();
+        string sqlMansioni = "SELECT * FROM mansione";
+        SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
+        SQLiteDataReader reader = commandMansioni.ExecuteReader();
 
-    Console.WriteLine("Id Mansioni disponibili:");
-     while (reader.Read())
-    {
-        Console.WriteLine($"ID: {reader["id"]}, Mansione: {reader["titolo"]}");
-    }
-    reader.Close();
+        Console.WriteLine("Id Mansioni disponibili:");
+        while (reader.Read())
+        {
+            Console.WriteLine($"ID: {reader["id"]}, Mansione: {reader["titolo"]}");
+        }
+        reader.Close();
 
-        Console.WriteLine("inserisci il nome dell'utente di cui cambiare mansione"); 
+        Console.WriteLine("inserisci il nome dell'utente di cui cambiare mansione");
         string nome = Console.ReadLine()!;
         Console.WriteLine("inserisci il cognome dell'utente di cui cambiare mansione");
         string cognome = Console.ReadLine()!;
-        Console.WriteLine("inserisci l'id della nuova mansione scegliendo tra quelli disponibili"); 
-        int mansioneId= Convert.ToInt32(Console.ReadLine())!; 
-      
-        string sql = $"UPDATE dipendente SET idMansione = {mansioneId}  WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        Console.WriteLine("inserisci l'id della nuova mansione scegliendo tra quelli disponibili");
+        int mansioneId = Convert.ToInt32(Console.ReadLine())!;
+
+        string sql = $"UPDATE dipendente SET idMansione = {mansioneId}  WHERE nome = '{nome}' AND cognome = '{cognome}'";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
-        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        command.ExecuteNonQuery();
         connection.Close();
         Console.WriteLine($"L'utente {nome} {cognome} ha cambiato mansione con successo");
     }
 
-    static void ModificaNomeUtente(){
-        Console.WriteLine("inserisci il nome dell'utente che vuoi modificare"); 
+    static void ModificaNomeUtente()
+    {
+        Console.WriteLine("inserisci il nome dell'utente che vuoi modificare");
         string nome = Console.ReadLine()!;
         Console.WriteLine("inserisci il cognome dell'utente");
         string cognome = Console.ReadLine()!;
-         Console.WriteLine("inserisci il nuovo nome dell'utente"); 
+        Console.WriteLine("inserisci il nuovo nome dell'utente");
         string nuovoNome = Console.ReadLine()!;
-         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"UPDATE dipendente SET nome = '{nuovoNome}' WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        string sql = $"UPDATE dipendente SET nome = '{nuovoNome}' WHERE nome = '{nome}' AND cognome = '{cognome}'";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
-        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        command.ExecuteNonQuery();
         connection.Close();
 
         Console.WriteLine($"Utente {nome} {cognome} ha cambiato il nome in {nuovoNome} con successo");
@@ -630,18 +712,17 @@ static void InserisciProvenienza()
 
     }
 
-      static void ModificaCognomeUtente(){
-        Console.WriteLine("inserisci il nome dell'utente che vuoi modificare"); 
+    static void ModificaCognomeUtente()
+    {
+        Console.WriteLine("inserisci il nome dell'utente che vuoi modificare");
         string nome = Console.ReadLine()!;
         Console.WriteLine("inserisci il cognome dell'utente");
         string cognome = Console.ReadLine()!;
-         Console.WriteLine("inserisci il nuovo cognome dell'utente"); 
+        Console.WriteLine("inserisci il nuovo cognome dell'utente");
         string nuovoCognome = Console.ReadLine()!;
-         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"UPDATE dipendente SET cognome = '{nuovoCognome}' WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
-        SQLiteCommand command = new SQLiteCommand(sql, connection);
-        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        string sql = $"UPDATE dipendente SET cognome = '{nuovoCognome}' WHERE nome = '{nome}' AND cognome = '{cognome}'";
         connection.Close();
 
         Console.WriteLine($"Utente {nome} {cognome} ha cambiato il cognome in {nuovoCognome} con successo");
@@ -649,18 +730,19 @@ static void InserisciProvenienza()
 
     }
 
-       static void ModificaMailUtente(){
-        Console.WriteLine("inserisci il nome dell'utente per cui vuoi modificare la mail"); 
+    static void ModificaMailUtente()
+    {
+        Console.WriteLine("inserisci il nome dell'utente per cui vuoi modificare la mail");
         string nome = Console.ReadLine()!;
         Console.WriteLine("inserisci il cognome dell'utente");
         string cognome = Console.ReadLine()!;
-         Console.WriteLine("inserisci la nuova mail aziendale dell'utente"); 
+        Console.WriteLine("inserisci la nuova mail aziendale dell'utente");
         string nuovaMail = Console.ReadLine()!;
-         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"UPDATE dipendente SET mail = '{nuovaMail}' WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        string sql = $"UPDATE dipendente SET mail = '{nuovaMail}' WHERE nome = '{nome}' AND cognome = '{cognome}'";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
-        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        command.ExecuteNonQuery();
         connection.Close();
 
         Console.WriteLine($"Utente {nome} {cognome} ha cambiato la mail in {nuovaMail} con successo");
@@ -668,39 +750,40 @@ static void InserisciProvenienza()
 
     }
 
- static void ModificaProvenienzaUtente(){
-       
-          SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-    connection.Open();
-
-          string sqlMansioni = "SELECT * FROM provenienza";
-    SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
-    SQLiteDataReader reader = commandMansioni.ExecuteReader();
-
-    Console.WriteLine("Id città disponibili:");
-     while (reader.Read())
+    static void ModificaProvenienzaUtente()
     {
-        Console.WriteLine($"ID: {reader["id"]}, Provincia: {reader["provincia"]}");
-    }
-    reader.Close();
 
-        Console.WriteLine("inserisci il nome dell'utente di cui cambiare la città di provenienza"); 
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+
+        string sqlMansioni = "SELECT * FROM provenienza";
+        SQLiteCommand commandMansioni = new SQLiteCommand(sqlMansioni, connection);
+        SQLiteDataReader reader = commandMansioni.ExecuteReader();
+
+        Console.WriteLine("Id città disponibili:");
+        while (reader.Read())
+        {
+            Console.WriteLine($"ID: {reader["id"]}, Provincia: {reader["provincia"]}");
+        }
+        reader.Close();
+
+        Console.WriteLine("inserisci il nome dell'utente di cui cambiare la città di provenienza");
         string nome = Console.ReadLine()!;
         Console.WriteLine("inserisci il cognome dell'utente");
         string cognome = Console.ReadLine()!;
-        Console.WriteLine("inserisci l'id della nuova provenienza scegliendo tra quelli disponibili"); 
-        int provenienzaId= Convert.ToInt32(Console.ReadLine())!; 
-      
-        string sql = $"UPDATE dipendente SET idProvenienza = {provenienzaId}  WHERE nome = '{nome}' AND cognome = '{cognome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        Console.WriteLine("inserisci l'id della nuova provenienza scegliendo tra quelli disponibili");
+        int provenienzaId = Convert.ToInt32(Console.ReadLine())!;
+
+        string sql = $"UPDATE dipendente SET idProvenienza = {provenienzaId}  WHERE nome = '{nome}' AND cognome = '{cognome}'";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
-        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        command.ExecuteNonQuery();
         connection.Close();
         Console.WriteLine($"L'utente {nome} {cognome} ha cambiato provenienza con successo");
     }
 
 
 
- 
+
 
     // metodo per cercare il dipendente inserendo nome,cognome
     static void CercaDipendente()
