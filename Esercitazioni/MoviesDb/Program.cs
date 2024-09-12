@@ -49,72 +49,72 @@ class Program
             Console.WriteLine("5 - eliminare un film");
             Console.WriteLine("6 - uscire");
             Console.WriteLine("scegli un'opzione");
-            string scelta = Console.ReadLine()!;
-            if (scelta == "1")
-            {
+            int scelta = Convert.ToInt32(Console.ReadLine()!);
+            switch (scelta){
+            case 1:
+            VisualizzaFilm();
+            break;
                 
-            }
-            else if (scelta == "2")
-            {
-                
-            }
-            else if (scelta == "3")
-            {
-                
-            }
-            else if (scelta == "4")
-            {
-               
-            }
-            else if (scelta == "5")
-            {
-               
-            }
-            else if (scelta == "6")
-            {
-                
-            }
-            else if (scelta == "7")
-            {
-               
-            }
-            else if (scelta == "8")
-            {
-               
-            }
-            else if (scelta == "9")
-            {
-                
-            }
-            else if (scelta == "10")
-            {
-               
-            }
-            else if (scelta == "11")
-            {
-               
-            }
-            else if (scelta == "12")
-            {
+            case 2:
+            break;
+            default:
             
-            }
-            else if (scelta == "13")
-            {
-                
-            }
-            else if (scelta == "14")
-            {
-               
-            }
-            else if (scelta == "15")
-            {
-                break;
-            }
-            else
-            {
                 Console.WriteLine("scelta non valida");
-            }
+                break;
+            
 
+        }
+
+        static void VisualizzaFilm(){
+            
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+
+        // Query SQL per ottenere i dati dei dipendenti con le relative mansioni e provenienze
+        string sql = @""
+
+        ;
+
+          SQLiteCommand command = new SQLiteCommand(sql, connection);
+        SQLiteDataReader reader = command.ExecuteReader();
+
+        var table = new Table();
+
+
+        table.AddColumn("Film");
+        table.AddColumn("Regista");
+        table.AddColumn("Data di uscita");
+        table.AddColumn("Genere");
+        table.AddColumn("Produttore");
+        table.AddColumn("Provenienza");
+
+        table.Border(TableBorder.Rounded);
+        table.Centered();
+        table.Title("Lista film");
+        table.UseSafeBorder = true;
+
+
+        while (reader.Read())
+        {
+
+
+            //Console.WriteLine($"Nome: {reader["nome"]}, Cognome: {reader["cognome"]}, Data di nascita: {reader["data_formattata"]}, Email: {reader["mail"]}, Provincia: {reader["provincia"]}, Mansione: {reader["mansione"]}");
+
+            table.AddRow(
+             reader["film"].ToString(),
+             reader["cognome"].ToString(),
+             reader["data_formattata"].ToString(),
+              reader["mail"].ToString(),
+               reader["provincia"].ToString(),
+                reader["mansione"].ToString()
+
+         );
+        }
+
+
+        reader.Close();
+        connection.Close();
+        AnsiConsole.Write(table);
         }
 
     }

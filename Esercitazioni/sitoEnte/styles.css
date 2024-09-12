@@ -1,0 +1,117 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    
+}
+body{
+    background-color: #D90429;
+}
+
+.container-fluid{
+    display:flex;
+    flex-direction: column;
+}
+.footer{
+    background-color: #901010;
+    color:white;
+    text-align: center;
+    bottom:0;
+    position:fixed;
+    width: 100%;
+    padding: 20px 0;
+    min-height: 60px;
+   
+}
+
+nav{
+    background-color: #D90429;
+    width: 100%;
+    color:white;
+    
+}
+
+.navbar .nav-link {
+    color: white;
+}
+
+#navp{
+    color:white;
+}
+
+#searchbtn{
+    background-color: white;
+}
+
+.section{
+    background-color: #D90429;
+    color:white;
+    width: 100%;
+    margin-bottom: 20px; 
+
+
+}
+
+#section1{
+    background-color:white;
+    color:black;
+    width: 100%;
+  /*  margin-top:20px;
+    margin-bottom:20px;*/
+    margin: 0;
+    display:flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+}
+#section2{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+#subsection3{
+    margin-top: 20px;
+    background-color: #D90429;
+    color:white;
+    margin-bottom: 0;
+
+}
+
+.row{
+    color:white;
+}
+
+
+
+br{
+    background-color:white;
+}
+
+.subsection{
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px; /* Aggiunge uno spazio tra le sezioni */
+    margin-left: 20px; 
+}
+
+@media screen and (max-width: 800px) {
+    #section2 {
+        display: flex;
+        flex-direction: column;
+    }
+}
+#subsection3 {
+    padding: 20px; /* Aggiungi spazio interno */
+}
+
+.col-md-4 {
+    margin-bottom: 20px; /* Spazio tra le colonne sui dispositivi più piccoli */
+}
+
+@media (max-width: 768px) {
+    .col-md-4 {
+        text-align: center; /* Allinea il testo al centro sui dispositivi mobili */
+    }
+}
