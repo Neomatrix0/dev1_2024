@@ -11,18 +11,23 @@ body{
 .container-fluid{
     display:flex;
     flex-direction: column;
-    padding:20px;
+    margin-top:1.5rem;
+    
 }
 .footer{
     background-color: #901010;
     color:white;
     text-align: center;
     bottom:0;
-    position:fixed;
+    position:relative;
     width: 100%;
     padding: 20px 0;
     min-height: 60px;
    
+}
+#subtop{
+    background-color: #901010;
+    width: 100%;
 }
 
 nav{
@@ -56,12 +61,15 @@ nav{
 #section1{
     background-color:white;
     color:black;
-    width: 100%;
-  /*  margin-top:20px;
-    margin-bottom:20px;*/
-    margin: 0;
+    width: 100vw;
+  /*  margin-top:20px;*/
+    margin-bottom:20px;
+    
+    padding-left: 40px;
+    padding-top:20px;
     display:flex;
     flex-direction: column;
+    justify-content: flex-start;
     box-sizing: border-box;
 
 }
@@ -107,6 +115,31 @@ h4 {
     margin-bottom: 15px;
 }
 
+#subtop{
+    background-color: rgba(144, 3, 27, 0.9);
+    margin:0;
+    height: 3rem;
+    padding-top:1rem;
+}
+
+/*.fa-brands{
+    
+    width: 100px;
+    height: 100px;
+    margin-left: 7rem;
+}*/
+
+#loremImg{
+    width: 200px;
+    margin-left: 5rem;
+    margin-top:2rem;
+    margin-bottom: 2rem;
+}
+
+.btn{
+    background-color: white;
+    border-radius: 50px;
+}
 @media screen and (max-width: 800px) {
     #section2 {
         display: flex;
@@ -130,3 +163,21 @@ h4 {
         text-align: center; /* Allinea il testo al centro sui dispositivi mobili */
     }
 }
+
+.navbar {
+    background-color: #D90429; /* Cambia il colore di sfondo della navbar */
+    padding: 10px 20px; /* Aggiunge spazio interno per una navbar più spaziata */
+}
+
+.navbar-brand, .nav-link {
+    color: white !important; /* Colore del testo per la navbar */
+}
+
+.navbar-toggler {
+    border-color: white; /* Colore del pulsante toggle */
+}
+
+.form-control {
+    width: auto; /* Adatta la larghezza del campo di ricerca */
+}
+

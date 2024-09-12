@@ -11,140 +11,79 @@
 
 </head>
 <body>
-    <header>
-    <nav class="navbar navbar-expand-lg" id="#myNavbar">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <p class="nav-link active" aria-current="page" href="#" id="navp">Seguici su</p>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-             
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit" id="searchbtn">Cerca</button>
-            </form>
-          </div>
-        </div>
-      </nav>
-      <!--new navabr-->
-      <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-         <!-- <a class="navbar-brand" href="#">Navbar scroll</a>  -->
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarScroll">
-            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-             
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link1 attivo</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link2</a>
-              </li>
-              <li class="nav-item"></li>
-              <a class="nav-link disabled" aria-disabled="true">Link3 disabilitato</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                 Esempio di dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                 Esempio di Megamenu
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-             
-            </ul>
+    <div class="top-container">
+      <!--  <div class="container text-center" id="subtop"> -->
+        <div class="container-fluid text-center" id="subtop">
+            <div class="row">
             
+        
+              <div class="col-4">
+                Ente appartenenza
+              </div>
+              <div class="col-4">
+                Link1<span>Link 2 active</span>
+              </div>
+              <div class="col-4">
+                Accedi
+              </div>
+            </div>
           </div>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!--<a class="navbar-brand" href="#">Navbar</a>  -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Link1 attivo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link3 disabilitato</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Esempio di dropdown
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Esempio di Megamenu
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn" type="submit">Cerca</button>
+                </form>
+            </div>
         </div>
-      </nav>
-    </header>
-    <div class="container-fluid">
+    </nav>
+    </div>
+  <!--- <div class="container-fluid" id=""> -->
         <div class="section" id="section1">
         <h1>Lorem Ipsum</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus fugiat iusto aliquam reiciendis natus similique provident adipisci sunt tempora?</p>
         <p> Laborum quos eaque necessitatibus minima quam ipsam ratione voluptatum distinctio adipisci.</p>
     </div>
 
-   <!--- <div class="section" id="section2">
-    <div class="subsection">
-        <h4>Amministrazione</h4>
-        <a>Giunta e consiglio</a>
-        <a>Aree di competenza</a>
-        <a>Dipedenti</a>
-        <a>Luoghi</a>
-        <a>Associazioni e società</a>
-    </div>
-
-    <div class="subsection">
-        <h4>Servizi</h4>
-        <a>Pagamenti</a>
-        <a>Sostegno</a>
-        <a>Domande e iscrizioni</a>
-        <a>Segnalazioni</a>
-        <a>Autorizzazioni e certificazioni</a>
-        <a>Certificati e dichiarazioni</a>
-    </div>
-
-    <div class="subsection">
-        <h4>Servizi</h4>
-        <a>Pagamenti</a>
-        <a>Sostegno</a>
-        <a>Domande e iscrizioni</a>
-        <a>Segnalazioni</a>
-        <a>Autorizzazioni e certificazioni</a>
-        <a>Certificati e dichiarazioni</a>
-    </div>
-
-    <div class="subsection">
-        <h4>Novità</h4>
-        <a>Notizie</a>
-        <a>Eventi</a>
-        <a>Comunicati stampa</a>
-       
-    </div>
-
-    <div class="subsection">
-        <h4>Documenti</h4>
-        <a>Progetti</a>
-        <a>Delibere</a>
-        <a>Bandi</a>
-        <a>Concorsi</a>
-        <a>Albo pretorio</a>
-       
-    </div> -->
+   
     <div class="container-fluid">
+      <!--  <i class="fa-brands fa-html5 fa-3x"></i>  Ingrossa l'icona di 3 volte -->
+        
+        <img src="lorem.svg" class="img-thumbnail" alt="..." id="loremImg">
         <div class="row text-center">
             <div class="col-md-3">
                 <h4>Amministrazione</h4>
