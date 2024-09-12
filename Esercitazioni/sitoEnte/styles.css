@@ -12,6 +12,7 @@ body{
     display:flex;
     flex-direction: column;
     margin-top:1.5rem;
+    max-width: 100%;
     
 }
 .footer{
@@ -56,6 +57,12 @@ nav{
     margin-bottom: 20px; 
 
 
+
+}
+
+.btn-primary{
+    background-color: #901010;
+    color:white;
 }
 
 #section1{
