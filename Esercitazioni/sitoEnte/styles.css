@@ -12,7 +12,7 @@ body{
     display:flex;
     flex-direction: column;
     margin-top:1.5rem;
-    max-width: 100%;
+   
     
 }
 .footer{
@@ -63,6 +63,11 @@ nav{
 .btn-primary{
     background-color: #901010;
     color:white;
+}
+
+.container2{
+    display:flex;
+    flex-direction: row;
 }
 
 #section1{
@@ -188,3 +193,6 @@ h4 {
     width: auto; /* Adatta la larghezza del campo di ricerca */
 }
 
+#top{
+    background-color: #901010;
+}
