@@ -152,6 +152,12 @@ h4 {
     padding-top:1rem;
 }
 
+#btnAccedi{
+    background-color: #7f1b19;
+    color: white;
+    border-radius: 0%;
+}
+
 /*.mt-3{
     background-color: #b32624;
     display: flex;
