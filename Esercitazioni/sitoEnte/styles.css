@@ -14,14 +14,14 @@ body{
     height: 100%;
 }*/
 
-.container-fluid{
+/*.container-fluid{
     display:flex;
     flex-direction: column;
     margin-top:1.5rem;
     
    
     
-}
+}*/
 #top{
     width: 100%;
     background-color: #990300;
@@ -92,7 +92,10 @@ nav{
     flex-direction: row;
 }
 
-
+.navbar-brand {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
 
 #section1{
     background-color:white;
