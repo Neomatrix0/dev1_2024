@@ -152,6 +152,34 @@ h4 {
     padding-top:1rem;
 }
 
+/*.mt-3{
+    background-color: #b32624;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 50px;
+}*/
+
+#footer-bottom{
+  
+    
+    background-color: #990300;
+    min-height: 60px; 
+    display: flex; 
+    align-items: center; 
+      
+}
+
+#footer-bottom a{
+    color:white;
+    text-decoration: none;
+}
+
+.mt-3 a{
+    color:white;
+    text-decoration: none;
+}
+
 /*.fa-brands{
     
     width: 100px;
