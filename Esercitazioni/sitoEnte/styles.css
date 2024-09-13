@@ -10,18 +10,7 @@ body{
     display:flex;
     flex-direction: column;
 }
-/*html, body {
-    height: 100%;
-}*/
 
-/*.container-fluid{
-    display:flex;
-    flex-direction: column;
-    margin-top:1.5rem;
-    
-   
-    
-}*/
 #top{
     width: 100%;
     background-color: #990300;
@@ -145,7 +134,7 @@ br{
 .subsection{
     display: flex;
     flex-direction: column;
-    margin-right: 20px; /* Aggiunge uno spazio tra le sezioni */
+    margin-right: 20px; 
     margin-left: 20px; 
 }
 
@@ -167,13 +156,7 @@ h4 {
     border-radius: 0%;
 }
 
-/*.mt-3{
-    background-color: #b32624;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    min-height: 50px;
-}*/
+
 
 #footer-bottom{
   
@@ -220,146 +203,18 @@ h4 {
     }
 }
 #subsection3 {
-    padding: 20px; /* Aggiungi spazio interno */
+    padding: 20px; 
 }
 
 .col-md-4 {
-    margin-bottom: 20px; /* Spazio tra le colonne sui dispositivi più piccoli */
+    margin-bottom: 20px; 
 }
 .col-md-3 {
     margin-bottom: 20px;
-    text-align: center; /* Assicura che il testo sia centrato su dispositivi mobili */
+    text-align: center; 
 }
 
 
-
-
-/*#navbarNav2{
-    margin-left:-200px;
-}*/
-
-/*
-
-@media (max-width: 768px) {
-    .col-md-4 {
-        text-align: center; 
-    }
-}
-
-.navbar {
-    background-color: #D90429; 
-    padding: 10px 20px;
-
-.navbar-brand, .nav-link {
-    color: white !important; 
-}
-
-.navbar-toggler {
-    border-color: white; 
-}
-
-.form-control {
-    width: auto; 
-}
-
-#top{
-    background-color: #901010;
-}
-
-@media (max-width: 768px) {
-   
-    .middle-section {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .navbar-nav {
-        flex-direction: column;
-    }
-
-    .navbar .nav-link {
-        margin: 10px 0;
-    }
-
-    .container-fluid {
-        padding: 0 10px;
-    }
-
-    #lorem {
-        text-align: center;
-    }
-
-    
-    .col-md-3, .col-md-4 {
-        width: 100%;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    #section1 {
-        padding: 15px;
-    }
-}
-
-@media (max-width: 576px) {
-
-    .middle-section {
-        flex-direction: column;
-    }
-
-    .navbar-toggler {
-        font-size: 18px;
-    }
-
-    .container-fluid {
-        padding: 0 5px;
-    }
-
-    .navbar {
-        padding: 10px;
-    }
-
-    #loremImg {
-        width: 100%;
-        max-width: 150px;
-        margin: 1.5rem auto;
-    }
-
-    .footer {
-        padding: 10px;
-    }
-
-    
-    .footer .col {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-}
-
-@media (max-width: 1200px) {
-    
-    .middle-section {
-        padding: 15px;
-    }
-
-    .footer {
-        padding: 15px;
-    }
-}
-
-@media (max-width: 992px) {
-    
-    .navbar-nav {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .navbar .nav-link {
-        margin-bottom: 10px;
-    }
-}
-
-*/
 
 
 @media screen and (min-width: 320px) and (max-width: 480px) {
