@@ -1,0 +1,48 @@
+*{
+    margin:0;
+    padding:0;
+    
+}
+
+.container{
+    display:flex;
+    flex-direction: row;
+}
+
+body{
+    min-height: 100vh;
+}
+#profileImg{
+
+    width: auto;
+    
+}
+
+#leftcol{
+    background-color:#1d334a;
+    color:white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+}
+
+#rightcol{
+    color:#1d334a;
+
+}
+
+.list-group{
+    background-color: #1d334a;
+    color: white;
+}
+
+.list-group a{
+    color:white;
+    text-decoration: none;
+}
+
+.btn{
+    background-color: white;
+    color: #1d334a;
+}
