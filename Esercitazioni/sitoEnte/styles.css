@@ -22,8 +22,12 @@ body{
    
     
 }
+#top{
+    width: 100%;
+    background-color: #990300;
+}
 .footer{
-    background-color: #901010;
+    background-color: #990300;
     color:white;
     text-align: center;
     bottom:0;
@@ -221,6 +225,10 @@ h4 {
     margin-bottom: 20px;
     text-align: center; /* Assicura che il testo sia centrato su dispositivi mobili */
 }
+
+/*#navbarNav2{
+    margin-left:-200px;
+}*/
 
 /*
 

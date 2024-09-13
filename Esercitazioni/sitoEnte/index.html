@@ -14,14 +14,14 @@
  
     
        
-        <nav class="navbar navbar-expand" id="top">
+    <!--   <nav class="navbar navbar-expand" id="top">
             <div class="container">
                 <a class="navbar-brand" href="#">
                     <i class="bi bi-code-slash"></i> Ente appartenenza/Owner
                 </a>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-link">Link1</li>
+                        <li class="nav-link ">Link1</li>
                         <li class="nav-link">Link2 Active</li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" data-bs-toggle="dropdown">ITA</a>
@@ -35,7 +35,35 @@
                     </ul>
                 </div>
             </div>
+        </nav>  -->
+
+        <nav class="navbar navbar-expand-lg" id="top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-code-slash"></i> Ente appartenenza/Owner
+                </a>
+                <!-- Bottone per mostrare la navbar su schermi piccoli -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-link me-3">Link1</li>
+                        <li class="nav-link me-3">Link2 Active</li>
+                        <li class="nav-item dropdown me-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" data-bs-toggle="dropdown">ITA</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">ENG</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline" href="#" id="btnAccedi">Accedi</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
+        
     
         
         <div class="middle-section d-flex justify-content-lg-start d-none d-sm-block">
@@ -73,16 +101,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link"  href="#">Link1 attivo</a>
+                        <a class="nav-link me-3"  href="#">Link1 attivo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link2</a>
+                        <a class="nav-link me-3" href="#">Link2</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Link3 disabilitato</a>
+                        <a class="nav-link disabled me-3" href="#">Link3 disabilitato</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle me-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Esempio di dropdown
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
