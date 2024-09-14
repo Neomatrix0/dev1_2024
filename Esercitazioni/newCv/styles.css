@@ -46,3 +46,14 @@ body{
     background-color: white;
     color: #1d334a;
 }
+
+
+#profileh2{
+    margin-top:1rem;
+}
+
+#profileImg{
+    border:4px solid #152238;
+    border-radius: 80%;
+
+}
