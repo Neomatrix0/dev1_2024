@@ -42,7 +42,8 @@ body{
 #rightcol{
     color:#1d334a;
     padding: 20px;
-    background-color: hsl(0, 0%, 90%);
+  /*  background-color: hsl(0, 0%, 90%);*/
+  background-color: #D5DBE0;
 
 }
 
@@ -75,6 +76,10 @@ body{
     margin-bottom: 1rem;
     
 
+}
+
+h5{
+    margin-top: 2rem;
 }
 
 ul {
