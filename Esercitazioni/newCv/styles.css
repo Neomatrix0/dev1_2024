@@ -46,15 +46,37 @@ body{
   background-color: #D5DBE0;
 
 }
+.list-group .contact-item {
+    display: flex;               /* Imposta l'elemento come flex container */
+    align-items: center;          /* Allinea verticalmente l'icona e il testo */
+    margin-bottom: 10px;          /* Spazio tra le voci della lista */
+    color: white;                 /* Mantieni il colore bianco */
+    text-decoration: none; 
+    justify-content: flex-start;      /* Rimuovi la sottolineatura */
+}
+
+.contact-item i {
+    margin-right: 10px; 
+    vertical-align: middle;     
+    font-size: 1rem; 
+    line-height: 1;     
+            
+}
 
 .list-group{
     background-color: #1d334a;
     color: white;
+    padding: 0;
+    display: flex;
+   
+   
 }
 
 .list-group a{
     color:white;
     text-decoration: none;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .btn{
@@ -80,11 +102,13 @@ body{
 
 h5{
     margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
 .progress-bar{
     background-color: #D5DBE0;
     color: #1d334a;
+    font-weight: bold;
 }
 
 ul {
