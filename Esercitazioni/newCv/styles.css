@@ -82,6 +82,11 @@ h5{
     margin-top: 2rem;
 }
 
+.progress-bar{
+    background-color: #D5DBE0;
+    color: #1d334a;
+}
+
 ul {
     list-style-type: none; /* Rimuove i puntini dalla lista */
     padding: 0; /* Rimuove il padding sinistro predefinito */
