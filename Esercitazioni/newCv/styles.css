@@ -116,12 +116,21 @@ ul {
     padding: 0; /* Rimuove il padding sinistro predefinito */
     margin: 0; /* Rimuove il margine predefinito */
 }
+.nav-item a {
+    border-left: 1px solid white;
+   
+}
 @media (max-width: 768px) {
     .container-fluid {
         display: flex;
         flex-direction: column;
     }
 
+    .middle-section{
+        
+            flex-direction: column; /* Assicurati che sia in colonna su schermi piccoli */
+        
+    }
     #profileImg{
         margin-top: 1rem;
         margin-bottom: 1rem;
