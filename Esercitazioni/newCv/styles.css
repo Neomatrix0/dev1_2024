@@ -243,6 +243,10 @@ ul {
     color: white;
 }
 
+#hero-p{
+    margin-bottom: 4rem;
+}
+
 @media (max-width: 1024px) {
     #hero-container {
         flex-direction: column;
