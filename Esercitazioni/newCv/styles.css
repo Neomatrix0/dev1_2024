@@ -198,6 +198,7 @@ ul {
     flex-direction: column;
     justify-content: center;
     padding:40px;
+    
 
 
 }
@@ -235,6 +236,11 @@ ul {
     font-weight: bold;
    
 
+}
+
+.social-icons i {
+    margin-left: 10px;
+    color: white;
 }
 
 @media (max-width: 1024px) {
