@@ -193,11 +193,55 @@ ul {
 #hero-right{
     background-color:#131122;
     color:white;
-    margin-right: 0;
+    flex: 1;
+    padding: 20px;
 
 }
 
+#hero-left{
+    flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+}
+
 #hero-container{
+    min-height: 100vh ;
     color:white;
-    width: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#hero-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+@media (max-width: 768px) {
+    #hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #hero-right {
+        margin-top: 20px;
+    }
+}
+
+@media (min-width: 1025px) {
+    #hero-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #hero-left img {
+        margin-top: 0;
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
