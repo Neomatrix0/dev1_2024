@@ -42,17 +42,16 @@ body{
 #rightcol{
     color:#1d334a;
     padding: 20px;
-  /*  background-color: hsl(0, 0%, 90%);*/
   background-color: #D5DBE0;
 
 }
 .list-group .contact-item {
-    display: flex;               /* Imposta l'elemento come flex container */
-    align-items: center;          /* Allinea verticalmente l'icona e il testo */
-    margin-bottom: 10px;          /* Spazio tra le voci della lista */
-    color: #D5DBE0;                 /* Mantieni il colore bianco */
+    display: flex;               
+    align-items: center;          
+    margin-bottom: 10px;         
+    color: #D5DBE0;                
     text-decoration: none; 
-    justify-content: flex-start;      /* Rimuovi la sottolineatura */
+    justify-content: flex-start;      
 }
 
 .contact-item i {
@@ -112,9 +111,9 @@ h5{
 }
 
 ul {
-    list-style-type: none; /* Rimuove i puntini dalla lista */
-    padding: 0; /* Rimuove il padding sinistro predefinito */
-    margin: 0; /* Rimuove il margine predefinito */
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
 }
 .nav-item a {
     border-left: 1px solid white;
@@ -128,7 +127,7 @@ ul {
 
     .middle-section{
         
-            flex-direction: column; /* Assicurati che sia in colonna su schermi piccoli */
+            flex-direction: column; 
         
     }
     #profileImg{
@@ -151,8 +150,8 @@ ul {
 
 @media (min-width: 769px) and (max-width: 1024px) {
     #leftcol {
-        justify-content: flex-start; /* Allinea il contenuto all'inizio (top) */
-        align-items: center; /* Centra solo orizzontalmente */
+        justify-content: flex-start; 
+        align-items: center; 
     }
 
     .header-left {
@@ -163,8 +162,8 @@ ul {
 
     #profileImg{
        
-            margin-top: 1rem; /* Lascia un po' di spazio dall'alto */
-            align-self: center; /* Mantieni l'immagine centrata orizzontalmente */
+            margin-top: 1rem;
+            align-self: center; 
         
     }
 
@@ -175,7 +174,7 @@ ul {
 
 @media (min-width: 1025px) {
     #leftcol{
-        justify-content: flex-start; /* Assicura che il contenuto parta dall'alto */
+        justify-content: flex-start;
         align-items: center;
     }
 
