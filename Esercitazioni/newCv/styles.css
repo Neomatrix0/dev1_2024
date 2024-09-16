@@ -181,12 +181,23 @@ ul {
 
     #profileImg{
        
-        margin-top: 1rem; /* Lascia un po' di spazio dall'alto */
-        align-self: center; /* Mantieni l'immagine centrata orizzontalmente */
+        margin-top: 1rem; 
+        align-self: center; 
     
 }
    
 }
 
-/*@media (min-width: 768px) and (max-width: 991px) {*/
-   
+/* hero page style*/
+
+#hero-right{
+    background-color:#131122;
+    color:white;
+    margin-right: 0;
+
+}
+
+#hero-container{
+    color:white;
+    width: 80%;
+}

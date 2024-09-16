@@ -196,7 +196,7 @@ h4 {
     background-color: white;
     border-radius: 50px;
 }
-@media screen and (max-width: 800px) {
+/*@media screen and (max-width: 800px) {
     #section2 {
         display: flex;
         flex-direction: column;
@@ -214,7 +214,7 @@ h4 {
     text-align: center; 
 }
 
-
+*/
 
 
 @media screen and (min-width: 320px) and (max-width: 480px) {
@@ -236,6 +236,14 @@ h4 {
     #loremImg {
         width: 100%;
         margin: 1rem auto;
+    }
+
+    #lorem h1 {
+        font-size: 2rem; /* Riduce il titolo per schermi piccoli */
+    }
+
+    .middle-section .col-lg-5, .middle-section .col-lg-4, .middle-section .col-lg-3 {
+        text-align: center; /* Centra il testo su schermi piccoli */
     }
 }
 
@@ -264,6 +272,17 @@ h4 {
 
     .footer {
         padding: 15px;
+    }
+
+    .middle-section input[type="search"] {
+        width: 70%;  /* Riduce la larghezza dell'input */
+        font-size: 0.9rem;  /* Riduce la dimensione del testo */
+    }
+
+    .middle-section button {
+        width: auto;  /* Rende il bottone delle dimensioni dell'icona */
+        padding: 5px 10px;  /* Regola il padding del bottone */
+        font-size: 1rem;  /* Riduce leggermente la dimensione del bottone */
     }
 }
 
@@ -312,6 +331,8 @@ h4 {
         width: 200px;
         margin: 2rem auto;
     }
+
+    
 }
 
 
