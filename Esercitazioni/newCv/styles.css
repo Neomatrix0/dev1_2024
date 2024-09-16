@@ -193,16 +193,21 @@ ul {
 #hero-right{
     background-color:#131122;
     color:white;
-    flex: 1;
+    /*flex: 1;*/
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
 
 }
 
 #hero-left{
-    flex: 1;
-            display: flex;
+    flex:1;
+    height: 100vh;
+ /*           display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center;*/
 }
 
 #hero-container{
@@ -210,8 +215,7 @@ ul {
     color:white;
     width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+   align-items: stretch;
 }
 
 #hero-left img {
@@ -221,27 +225,30 @@ ul {
     object-position: center;
 }
 
+#cvbtn ,#contactbtn{
+    color: #152238;
+    font-weight: bold;
+    background-color: white;
+}
+
 @media (max-width: 768px) {
     #hero-container {
         flex-direction: column;
         text-align: center;
     }
 
+    #hero-left {
+        height: 50vh;
+    }
+
     #hero-right {
         margin-top: 20px;
-    }
-}
+        height: auto;
+    }}
+
 
 @media (min-width: 1025px) {
-    #hero-container {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
     #hero-left img {
-        margin-top: 0;
-        max-width: 90%;
-        margin-left: auto;
-        margin-right: auto;
+        max-width: 100%;
     }
 }

@@ -13,12 +13,12 @@
 <body>
     <div class="container-fluid" id="hero-container">
         
-        <div class="row w-100"> 
+        <div class="row w-100 g-0"> 
             <div class="col-md-6 d-flex justify-content-center align-items-center bg-dark" id="hero-left">
               <img src="programmer2.jpg" class="img-fluid" alt="programmer image">
             </div>
-            <div class="col-md-6" id="hero-right">
-                <div class="social-icons mb-4">
+            <div class="col-md-6 d-flex flex-column justify-content-center align-items-start p-5" id="hero-right">
+                <div class="social-icons mb-4" id="hero-icons">
                     <i class="fa-brands fa-facebook-f"></i>
                     <i class="fa-brands fa-github"></i>
                     <i class="fa-brands fa-twitter"></i>
@@ -28,8 +28,10 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt officia accusantium incidunt nesciunt.</p>
            <!--<button ><a>Show CV</a></button>
            <button><a href="">Contact me</a> </button>  -->
-           <button type="button" class="btn btn-primary btn-sm">Show cv</button>
-           <button type="button" class="btn btn-primary btn-sm">Contact me</button>
+           <div class="d-grid gap-2 d-md-block">
+           <button type="button" class="btn  btn-sm" id="cvbtn">Show cv</button>
+           <button type="button" class="btn btn-sm" id="contactbtn">Contact me</button>
+        </div>
           </div>
         </div>
        </div> 
