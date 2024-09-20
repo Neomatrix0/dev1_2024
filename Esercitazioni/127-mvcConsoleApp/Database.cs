@@ -16,7 +16,8 @@ class Database
 
     public void AddUser(string name)
     {
-        var command = new SQLiteCommand($"INSERT INTO users (name) VALUES ('{name}')", _connection);
+        var command = new SQLiteCommand($"INSERT INTO users (name) VALUES (@name)", _connection);
+        command.Parameters.AddWithValue("@name", name);
         command.ExecuteNonQuery();  // Esecuzione del comando
     }
 
@@ -47,7 +48,10 @@ class Database
 
     public void UpdateUser(string oldName, string newName)
     {
-        var command = new SQLiteCommand($"UPDATE users SET name = '{newName}' WHERE name = '{oldName}'", _connection);
+        var command = new SQLiteCommand($"UPDATE users SET name = @newName  WHERE name = '{oldName}'", _connection);//WHERE id= @id
+        command.Parameters.AddWithValue("@newName",newName);
+        command.Parameters.AddWithValue("@oldName",oldName);
+        //command.Parameters.AddWithValue("@id",id);
         command.ExecuteNonQuery(); 
     }
 
@@ -55,5 +59,11 @@ class Database
     {
         var command = new SQLiteCommand($"DELETE FROM users WHERE name = '{name}'", _connection);
         command.ExecuteNonQuery(); 
+    }
+
+    public void CloseConnection(){
+        if(_connection.State != System.Data.ConnectionState.Closed){
+            _connection.Close();
+        }
     }
 }
