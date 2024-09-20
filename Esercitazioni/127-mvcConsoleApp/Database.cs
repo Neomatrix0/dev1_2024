@@ -10,24 +10,25 @@ class Database
     {
         _connection = new SQLiteConnection("Data Source=database.db");  // Creazione di una connessione al database
         _connection.Open(); // Apertura della connessione
-        var command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)", _connection);
+        var command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, active BOOLEAN)", _connection);
         command.ExecuteNonQuery();  // Esecuzione del comando
     }
 
-    public void AddUser(string name)
+    public void AddUser(string name,bool active)
     {
-        var command = new SQLiteCommand($"INSERT INTO users (name) VALUES (@name)", _connection);
+        var command = new SQLiteCommand($"INSERT INTO users (name,active) VALUES (@name,@active)", _connection);
         command.Parameters.AddWithValue("@name", name);
+         command.Parameters.AddWithValue("@active", active ? 1 : 0); // converte il valore booleano true o false in 1 o 0 compatibile con sqlite
         command.ExecuteNonQuery();  // Esecuzione del comando
     }
 
     public List<User> SearchUserByName(string name){
-        var command = new SQLiteCommand($"SELECT id, name FROM users WHERE name = '{name}'", _connection);
+        var command = new SQLiteCommand($"SELECT id, name,active FROM users WHERE name = '{name}'", _connection);
         var reader = command.ExecuteReader();
         var users = new List<User>(); 
         while (reader.Read())
         {
-            User tmp = new User(reader.GetInt32(0),reader.GetString(1));
+            User tmp = new User(reader.GetInt32(0),reader.GetString(1),reader.GetBoolean(2));
             users.Add(tmp);
         }
         return users; 
@@ -35,22 +36,24 @@ class Database
 
     public List<User> GetUsers()
     {
-        var command = new SQLiteCommand("SELECT id, name FROM users", _connection); // Creazione di un comando per leggere gli utenti
+        var command = new SQLiteCommand("SELECT id, name,active FROM users", _connection); // Creazione di un comando per leggere gli utenti
         var reader = command.ExecuteReader();   // Esecuzione del comando e creazione di un oggetto per leggere i risultati
         var users = new List<User>(); // Creazione di una lista per memorizzare i nomi degli utenti
         while (reader.Read())
         {
-            User tmp = new User(reader.GetInt32(0),reader.GetString(1));
+            User tmp = new User(reader.GetInt32(0),reader.GetString(1),reader.GetBoolean(2));
             users.Add(tmp); // Aggiunta del nome dell'utente alla lista
         }
         return users;   // Restituzione della lista
     }
 
-    public void UpdateUser(string oldName, string newName)
+    public void UpdateUser(string oldName, string newName,bool newActive)
     {
-        var command = new SQLiteCommand($"UPDATE users SET name = @newName  WHERE name = '{oldName}'", _connection);//WHERE id= @id
+        var command = new SQLiteCommand($"UPDATE users SET name = @newName,active = @newActive  WHERE name = '{oldName}'", _connection);//WHERE id= @id
         command.Parameters.AddWithValue("@newName",newName);
         command.Parameters.AddWithValue("@oldName",oldName);
+       
+          command.Parameters.AddWithValue("@newActive", newActive ? 1 : 0);
         //command.Parameters.AddWithValue("@id",id);
         command.ExecuteNonQuery(); 
     }

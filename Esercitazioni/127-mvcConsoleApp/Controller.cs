@@ -78,15 +78,45 @@ class Controller
     {
         Console.WriteLine("Old name:");
         var oldName = _view.GetInput();
-        Console.WriteLine("New name:");
-        var newName = _view.GetInput();
-        if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrWhiteSpace(newName))
+       
+        if (string.IsNullOrWhiteSpace(oldName))
         {
             Console.WriteLine("Error: Names cannot be empty or null.");
             return;
         }
-        _db.UpdateUser(oldName, newName);
-        Console.WriteLine($"{oldName} updated in {newName}");
+        Console.WriteLine("What do you want to update?");
+    Console.WriteLine("1. Name");
+    Console.WriteLine("2. Active status");
+    Console.WriteLine("3. Both name and active status");
+    var choice = _view.GetInput();  
+switch (choice){
+    case "1":     // update nome
+     Console.WriteLine("New name:");
+        var newName = _view.GetInput();
+         if (string.IsNullOrWhiteSpace(newName))
+            {
+                Console.WriteLine("Error: New name cannot be empty or null.");
+                return;
+            }
+              _db.UpdateUser(oldName, newName, null);  // Passa null per non aggiornare lo stato attivo
+            Console.WriteLine($"{oldName} updated to {newName}.");
+            break;
+
+
+            case "2":
+              Console.WriteLine("Is the user active? (Y/N):");
+         var activeInput  = _view.GetInput();
+         bool isActive = activeInput.ToUpper()=="Y";
+        _db.UpdateUser(oldName, null,isActive);
+        Console.WriteLine($"{oldName} updated  status is {isActive}");
+        break;
+
+        default:
+        Console.WriteLine("Error: Invalid option. Try again.");
+            break;
+
+}
+       
     }
     private void AddUser()
     {
@@ -97,7 +127,10 @@ class Controller
             Console.WriteLine("Error: Names cannot be empty or null.");
             return;
         }
-        _db.AddUser(name);
+        Console.WriteLine("Is the user active? (Y/N):");
+        var activeInput = _view.GetInput();
+        bool isActive = activeInput.ToUpper() == "Y";
+        _db.AddUser(name,isActive);
         Console.WriteLine($"{name} added to the database");
     }
     private void ShowUser()

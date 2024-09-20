@@ -17,7 +17,7 @@ class View{
     public void ShowUsers(List<User> users){
         Console.WriteLine("************************************");
         foreach (var user in users) {
-            Console.WriteLine($"id -> {user.Id}\nName -> {user.Name}");
+            Console.WriteLine($"id -> {user.Id}\nName -> {user.Name}\nStatus -> {user.Active}");
             Console.WriteLine("************************************");
         }
     }
