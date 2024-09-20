@@ -6,12 +6,13 @@ class View{
     }
 
     public void ShowMainMenu(){
-        Console.WriteLine("1. aggiungi user");
-        Console.WriteLine("2. Visualizza users");
-        Console.WriteLine("3. Modifica user");
-        Console.WriteLine("4. Elimina user");
-        Console.WriteLine("5. cerca user/s by name");
-        Console.WriteLine("6. esci");
+        Console.WriteLine("1. Add user");
+        Console.WriteLine("2. View users");
+        Console.WriteLine("3. Modify user");
+        Console.WriteLine("4. Delete user by name");
+        Console.WriteLine("5. Delete user by id");
+        Console.WriteLine("6. Search user/s by name");
+        Console.WriteLine("7. Exit");
     }
 
     public void ShowUsers(List<User> users){

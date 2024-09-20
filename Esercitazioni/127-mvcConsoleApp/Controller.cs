@@ -15,29 +15,45 @@ class Controller
         {
             _view.ShowMainMenu();
             var input = _view.GetInput();
-            if (input == "1")
+
+              // Converto l'input da stringa a intero
+            if (int.TryParse(input, out int option))
             {
+            switch(option){
+                case 1:
+
                 AddUser();
-            }
-            else if (input == "2")
-            {
+                break;
+
+                  case 2:
+
                 ShowUser();
-            }
-            else if (input == "3")
-            {
+                break;
+
+
+                  case 3:
+
                 UpdateUser();
-            }
-            else if (input == "4")
-            {
+                break;
+
+                  case 4:
+
                 DeleteUser();
-            }
-            else if (input == "5")
-            {
+                break;
+
+                  case 5:
+
+                DeleteUserById();
+                break;
+
+                  case 6:
+
                 SearchUserByName();
-            }
-            else if (input == "6")
-            {
-                try
+                break;
+
+                case 7:
+
+                 try
                 {
                     _db.CloseConnection();
                     Console.WriteLine("Connection closed successfully.");
@@ -47,17 +63,31 @@ class Controller
                     Console.WriteLine($"An error occurred while closing the connection: {ex.Message}");
                 }
 
-                // _db.CloseConnection();
-                break;
+                
+                return;
+            
+           default:
+           Console.WriteLine("Error: Invalid option. Try again.");
+                        break;
+            
             }
-            else
+            }
+              else
             {
-                Console.WriteLine("Error: Invalid option. Try again.");
+                Console.WriteLine("Error: Please enter a valid number.");
             }
             Thread.Sleep(1000);
-        }
-    }
+
+                
+
+            }
+            }
+      
     /*fallo anche per id*/
+
+    private void DeleteUserById(){
+        Console.WriteLine("Work in progress");
+    }
     private void DeleteUser()
     {
         Console.WriteLine("User name u want to delete:");
@@ -84,40 +114,24 @@ class Controller
             Console.WriteLine("Error: Names cannot be empty or null.");
             return;
         }
-        Console.WriteLine("What do you want to update?");
-    Console.WriteLine("1. Name");
-    Console.WriteLine("2. Active status");
-    Console.WriteLine("3. Both name and active status");
-    var choice = _view.GetInput();  
-switch (choice){
-    case "1":     // update nome
-     Console.WriteLine("New name:");
+
+         Console.WriteLine("New name:");
         var newName = _view.GetInput();
-         if (string.IsNullOrWhiteSpace(newName))
-            {
-                Console.WriteLine("Error: New name cannot be empty or null.");
-                return;
-            }
-              _db.UpdateUser(oldName, newName, null);  // Passa null per non aggiornare lo stato attivo
-            Console.WriteLine($"{oldName} updated to {newName}.");
-            break;
-
-
-            case "2":
-              Console.WriteLine("Is the user active? (Y/N):");
-         var activeInput  = _view.GetInput();
-         bool isActive = activeInput.ToUpper()=="Y";
-        _db.UpdateUser(oldName, null,isActive);
-        Console.WriteLine($"{oldName} updated  status is {isActive}");
-        break;
-
-        default:
-        Console.WriteLine("Error: Invalid option. Try again.");
-            break;
-
-}
-       
+         if (string.IsNullOrWhiteSpace(newName)) {
+        Console.WriteLine("Error: Name cannot be empty or null.");
+        return;
     }
+
+      Console.WriteLine("Is the user active? (Y/N):");
+               var activeInput = _view.GetInput();
+               bool isActive = activeInput.ToUpper() == "Y";
+                _db.UpdateUser(oldName, newName, isActive);
+                Console.WriteLine($"{oldName} updated to {newName} with active status: {isActive}");
+               
+       
+    
+    }
+
     private void AddUser()
     {
         Console.WriteLine("Enter user name:");
