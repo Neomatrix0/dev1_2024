@@ -84,11 +84,34 @@ class Controller
             }
       
     /*fallo anche per id*/
+    private void DeleteUserById()
+{
+    ShowUser();  // Mostra tutti gli utenti prima della cancellazione
+    Console.WriteLine("Insert the ID number of the user you want to delete:");
+    var input = _view.GetInput();
 
-    private void DeleteUserById(){
-        Console.WriteLine("Work in progress");
+    // Converto l'input da stringa a intero
+    if (int.TryParse(input, out int id))
+    {
+        var user = _db.GetUserById(id);  // Recupera l'utente per ID
+        if (user != null)
+        {
+            _db.DeleteUserById(id);  // Cancella l'utente con l'ID specificato
+            Console.WriteLine($"{user.Id} - {user.Name} deleted");  // Stampa l'ID e il nome dell'utente eliminato
+        }
+        else
+        {
+            Console.WriteLine($"Error: No user found with ID {id}");
+        }
     }
-    private void DeleteUser()
+    else
+    {
+        Console.WriteLine("Error: Invalid ID entered.");
+    }
+}
+
+
+       private void DeleteUser()
     {
         Console.WriteLine("User name u want to delete:");
         var name = _view.GetInput();

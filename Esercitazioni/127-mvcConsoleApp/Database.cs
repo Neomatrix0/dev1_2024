@@ -23,7 +23,8 @@ class Database
     }
 
     public List<User> SearchUserByName(string name){
-        var command = new SQLiteCommand($"SELECT id, name,active FROM users WHERE name = '{name}'", _connection);
+        var command = new SQLiteCommand($"SELECT id, name,active FROM users WHERE name = @name", _connection);
+        command.Parameters.AddWithValue("@name", name);
         var reader = command.ExecuteReader();
         var users = new List<User>(); 
         while (reader.Read())
@@ -61,6 +62,23 @@ class Database
     public void DeleteUser(string name)
     {
         var command = new SQLiteCommand($"DELETE FROM users WHERE name = '{name}'", _connection);
+        command.ExecuteNonQuery(); 
+    }
+
+    public User GetUserById(int id){
+        var command = new SQLiteCommand("SELECT id,name,active FROM users WHERE id= @id", _connection);
+        command.Parameters.AddWithValue("@id", id);
+         var reader = command.ExecuteReader();
+          if (reader.Read())
+    {
+           return new User(reader.GetInt32(0), reader.GetString(1), reader.GetBoolean(2));
+    }
+    return null;
+    }
+
+    public void DeleteUserById(int id){
+         var command = new SQLiteCommand($"DELETE FROM users WHERE id = @id", _connection);
+         command.Parameters.AddWithValue("@id", id);
         command.ExecuteNonQuery(); 
     }
 
