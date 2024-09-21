@@ -155,21 +155,33 @@ class Controller
     
     }
 
-    private void AddUser()
+   private void AddUser()
     {
+        Console.WriteLine("Enter user email:");
+        var mail = _view.GetInput();
+        if (string.IsNullOrWhiteSpace(mail))
+        {
+            Console.WriteLine("Error: Email cannot be empty or null.");
+            return;
+        }
+
         Console.WriteLine("Enter user name:");
         var name = _view.GetInput();
         if (string.IsNullOrWhiteSpace(name))
         {
-            Console.WriteLine("Error: Names cannot be empty or null.");
+            Console.WriteLine("Error: Name cannot be empty or null.");
             return;
         }
+
         Console.WriteLine("Is the user active? (Y/N):");
         var activeInput = _view.GetInput();
         bool isActive = activeInput.ToUpper() == "Y";
-        _db.AddUser(name,isActive);
-        Console.WriteLine($"{name} added to the database");
+
+        _db.AddUser(name, mail, isActive);
+        Console.WriteLine($"{name} added to the database.");
     }
+
+
     private void ShowUser()
     {
         var users = _db.GetUsers();
