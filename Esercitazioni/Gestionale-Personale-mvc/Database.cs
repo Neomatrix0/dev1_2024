@@ -44,7 +44,8 @@ class Database
         command.Parameters.AddWithValue("@titolo",mansione.Titolo);
          command.Parameters.AddWithValue("@stipendio",mansione.Stipendio);
 
-           command.ExecuteNonQuery(); 
+          // command.ExecuteNonQuery(); 
+           return Convert.ToInt32(command.ExecuteScalar());
            
 
     }
@@ -64,7 +65,7 @@ class Database
 
         
         var checkCommand = new SQLiteCommand("SELECT COUNT(*) FROM mansione WHERE titolo = @titolo", _connection);
-        checkCommand.Parameters.AddWithValue("@titolo", Mansione.Titolo);
+        checkCommand.Parameters.AddWithValue("@titolo", mansione.Titolo);
         var count = Convert.ToInt32(checkCommand.ExecuteScalar());
 
          if (count == 0)
@@ -77,12 +78,12 @@ class Database
 
     public List<string> GetUsers()
     {
-        var command = new SQLiteCommand("SELECT dipendente.nome,dipendente.cognome,strftime('%d/%m/%Y', dataDiNascita) AS data_formattata,dipendente.mail,mansione.titolo FROM dipendente JOIN MANSIONE mansione ON dipendente.mansioneId =mansione.id;", _connection); // Creazione di un comando per leggere gli utenti
+        var command = new SQLiteCommand("SELECT dipendente.nome,dipendente.cognome,strftime('%d/%m/%Y', dataDiNascita) AS data_formattata,dipendente.mail,mansione.titolo,mansione.stipendio FROM dipendente JOIN MANSIONE mansione ON dipendente.mansioneId =mansione.id;", _connection); // Creazione di un comando per leggere gli utenti
         var reader = command.ExecuteReader(); // Esecuzione del comando e creazione di un oggetto per leggere i risultati
         var users = new List<string>(); // Creazione di una lista per memorizzare i nomi degli utenti
         while (reader.Read())
         {
-            string anagrafica = $"{reader.GetString(0)} {reader.GetString(1)} (Data di nascita: {reader.GetString(2)}) - Mail: {reader.GetString(3)} - Mansione: {reader.GetString(4)}"; // Aggiunta dati utente alla lista
+            string anagrafica = $"{reader.GetString(0)} {reader.GetString(1)} - Data di nascita: {reader.GetString(2)} - Mail: {reader.GetString(3)} - Mansione: {reader.GetString(4)} - Stipendio: {reader.GetDouble(5)}"; // Aggiunta dati utente alla lista
             users.Add(anagrafica); 
         }
         return users; // Restituzione della lista
