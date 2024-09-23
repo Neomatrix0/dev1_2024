@@ -71,7 +71,12 @@ class Controller
 
     private void MostraDipendenti()
     {
-        var users = _db.GetUsers(); // Lettura degli utenti dal database
-        _view.MostraDipendenti(users); // Visualizzazione degli utenti
+        var dipendenti = _db.GetUsers(); // Lettura degli utenti dal database
+      //  _view.MostraDipendenti(dipendenti); // Visualizzazione degli utenti
+    foreach (var dipendente in dipendenti)
+    {
+        // Utilizza il metodo ToString della classe Dipendente per mostrare i dettagli
+        Console.WriteLine(dipendente.ToString());
     }
+}
 }

@@ -12,7 +12,8 @@ class View
     {
         Console.WriteLine("1. Aggiungi dipendente");
         Console.WriteLine("2. Vedi dipendente");
-        Console.WriteLine("3. Esci");
+        Console.WriteLine("3. Rimuovi dipendente");
+        Console.WriteLine("7. Esci");
     }
 
     public void MostraDipendenti(List<string> users)

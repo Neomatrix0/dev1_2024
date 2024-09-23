@@ -13,6 +13,10 @@ public Dipendente(string nome,string cognome,string dataNascita,string mansione,
     this.Mail = mail;
     this.Stipendio = stipendio;
 }
+  public override string ToString()
+    {
+        return $"Nome: {Nome}, Cognome: {Cognome}, Data di nascita: {DataNascita}, Mansione: {Mansione}, Mail: {Mail}, Stipendio: {Stipendio}";
+    }
 
 }
 

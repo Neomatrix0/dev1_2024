@@ -76,17 +76,19 @@ class Database
     }
     }
 
-    public List<string> GetUsers()
+    public List<Dipendente> GetUsers()
     {
         var command = new SQLiteCommand("SELECT dipendente.nome,dipendente.cognome,strftime('%d/%m/%Y', dataDiNascita) AS data_formattata,dipendente.mail,mansione.titolo,mansione.stipendio FROM dipendente JOIN MANSIONE mansione ON dipendente.mansioneId =mansione.id;", _connection); // Creazione di un comando per leggere gli utenti
         var reader = command.ExecuteReader(); // Esecuzione del comando e creazione di un oggetto per leggere i risultati
-        var users = new List<string>(); // Creazione di una lista per memorizzare i nomi degli utenti
+        //var users = new List<string>(); // Creazione di una lista per memorizzare i nomi degli utenti
+        var dipendenti = new List<Dipendente>();
+
         while (reader.Read())
         {
-            string anagrafica = $"{reader.GetString(0)} {reader.GetString(1)} - Data di nascita: {reader.GetString(2)} - Mail: {reader.GetString(3)} - Mansione: {reader.GetString(4)} - Stipendio: {reader.GetDouble(5)}"; // Aggiunta dati utente alla lista
-            users.Add(anagrafica); 
+           var dipendente = new Dipendente(reader.GetString(0), reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetString(4),reader.GetDouble(5)); // Aggiunta dati utente alla lista
+            dipendenti.Add(dipendente); 
         }
-        return users; // Restituzione della lista
+        return dipendenti; // Restituzione della lista
     }
 
     public List<Mansione>MostraMansioni(){
