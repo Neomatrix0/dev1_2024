@@ -16,29 +16,41 @@ class Controller
     {
         while (true)
         {
-            _view.ShowMainMenu(); // Visualizzazione del menu principale
-            var input = _view.GetInput(); // Lettura dell'input dell'utente
-            if (input == "1")
+          //  _view.ShowMainMenu(); // Visualizzazione del menu principale
+           // var input = _view.GetInput(); // Lettura dell'input dell'utente
+            var input = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("GESTIONALE DIPENDENTI")
+            .PageSize(6)
+            .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
+            .AddChoices(new[] {
+                "Aggiungi Dipendente", "Mostra Dipendenti", "Rimuovi Dipendente",
+                "Cerca Dipendente", "Modifica Dipendente", "Esci",
+            }));
+
+        
+
+            if (input == "Aggiungi Dipendente")
             {
                 AggiungiDipendente(); // Aggiunta di un utente
             }
-            else if (input == "2")
+            else if (input == "Mostra Dipendenti")
             {
                 MostraDipendenti(); // Visualizzazione degli utenti
             }
-            else if (input == "3")
+            else if (input == "Rimuovi Dipendente")
             {
                 RimuoviDipendente();
             }
-              else if (input == "4")
+              else if (input == "Cerca Dipendente")
         {
             CercaDipendente(); // Cerca un dipendente tramite email
         }
-          else if (input == "5")
+          else if (input == "Modifica Dipendente")
         {
             ModificaDipendente(); // Cerca un dipendente tramite email
         }
-            else if (input == "7")
+            else if (input == "Esci")
             {
                 break; // Uscita dal programma
             }
