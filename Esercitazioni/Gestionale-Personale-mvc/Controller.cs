@@ -34,23 +34,39 @@ class Controller
 
     private void AggiungiDipendente()
     {
-        Console.WriteLine("Digita il nome:"); // Richiesta del nome dell'utente
+        Console.WriteLine("Inserisci il nome:"); // Richiesta del nome dell'utente
         var nome = _view.GetInput(); // Lettura del nome dell'utente
-         Console.WriteLine("Digita il cognome:"); // Richiesta del nome dell'utente
+         Console.WriteLine("Inserisci il cognome:"); 
         var cognome = _view.GetInput();
-        Console.WriteLine("Digita la data di nascita DD/MM/YYYY:"); // Richiesta del nome dell'utente
+        Console.WriteLine("Inserisci la data di nascita DD/MM/YYYY:"); 
         var dataDiNascitaString = _view.GetInput();
-         Console.WriteLine("Digita la mail aziendale:");
+         Console.WriteLine("Inserisci la mail aziendale:");
         var mail = _view.GetInput();
+
+            var mansioni=_db.MostraMansioni();
+            foreach(var mansione in mansioni){
+                Console.WriteLine(mansione);
+            }
+
+         Console.WriteLine("Scegli tra le mansioni disponibili per id:");
+        var mansioneInput = _view.GetInput();
+         if (int.TryParse(mansioneInput, out int mansioneId))
+    {
+        var mansioneid = Console.ReadLine();
+
         if (DateTime.TryParseExact(dataDiNascitaString, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime dataDiNascita))
     {
-        _db.AggiungiDipendente(nome, cognome, dataDiNascita,mail); // Aggiunta del dipendente al database
+        _db.AggiungiDipendente(nome, cognome, dataDiNascita,mail,mansioneId);
+        Console.WriteLine("Dipendente aggiunto con successo."); // Aggiunta del dipendente al database
     }
     else
     {
-        Console.WriteLine("Formato data non valido. Riprova.");
+        Console.WriteLine("Formato data di nascita non valido. Riprova.");
     }
-    //    _db.AggiungiDipendente(nome,cognome,dataDiNascita); // Aggiunta dell'utente al database
+   
+    }else{
+        Console.WriteLine("ID mansione non valido. Riprova.");
+    }
     }
 
     private void MostraDipendenti()
