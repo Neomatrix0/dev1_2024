@@ -25,7 +25,7 @@ class Controller
             .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
             .AddChoices(new[] {
                 "Aggiungi Dipendente", "Mostra Dipendenti", "Rimuovi Dipendente",
-                "Cerca Dipendente", "Modifica Dipendente", "Esci",
+                "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi", "Esci",
             }));
 
         
@@ -49,6 +49,9 @@ class Controller
           else if (input == "Modifica Dipendente")
         {
             ModificaDipendente(); // Cerca un dipendente tramite email
+        }
+        else if(input == "Ordina stipendi"){
+            OrdinaStipendi();
         }
             else if (input == "Esci")
             {
@@ -192,6 +195,10 @@ private void ModificaDipendente()
 }
 
 */
+
+private void OrdinaStipendi(){
+
+}
 
 private void ModificaDipendente()
 {
