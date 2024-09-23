@@ -1,4 +1,5 @@
 using System.Data.SQLite;
+using Spectre.Console;
 
 class Controller
 {
@@ -32,6 +33,10 @@ class Controller
               else if (input == "4")
         {
             CercaDipendente(); // Cerca un dipendente tramite email
+        }
+          else if (input == "5")
+        {
+            ModificaDipendente(); // Cerca un dipendente tramite email
         }
             else if (input == "7")
             {
@@ -132,4 +137,161 @@ private void CercaDipendente(){
         Console.WriteLine(dipendente.ToString());
     }
 }
+/*
+private void ModificaDipendente()
+{
+    Console.WriteLine("Elenco dei dipendenti:");
+    var dipendentiConId = _db.GetDipendentiConId();
+    
+    foreach (var dipendente in dipendentiConId)
+    {
+        Console.WriteLine(dipendente);
+    }
 
+    Console.WriteLine("Inserisci l'ID del dipendente che desideri modificare:");
+    var dipendenteId = Convert.ToInt32(_view.GetInput());
+
+    // Lista dei campi validi
+    string[] campiValidi = { "nome", "cognome", "mail", "dataDiNascita", "mansione", "stipendio" };
+
+    Console.WriteLine("Quale campo desideri modificare? (nome, cognome, mail, dataDiNascita, mansione, stipendio):");
+    var campoDaModificare = _view.GetInput();
+
+    // Controlla se il campo inserito è valido
+    if (!Array.Exists(campiValidi, campo => campo.Equals(campoDaModificare, StringComparison.OrdinalIgnoreCase)))
+    {
+        Console.WriteLine("Campo non valido. Riprova.");
+        return;
+    }
+
+    Console.WriteLine($"Inserisci il nuovo valore per {campoDaModificare}:");
+    var nuovoValore = _view.GetInput();
+
+    bool successo = _db.ModificaDipendente(dipendenteId, campoDaModificare, nuovoValore);
+
+    if (successo)
+    {
+        Console.WriteLine($"{campoDaModificare} aggiornato con successo per il dipendente con ID {dipendenteId}.");
+    }
+    else
+    {
+        Console.WriteLine("Errore durante la modifica del dipendente. Verifica l'ID o il campo inserito.");
+    }
+}
+
+*/
+
+private void ModificaDipendente()
+{
+    try
+    {
+        Console.WriteLine("Elenco dei dipendenti:");
+        var dipendentiConId = _db.GetDipendentiConId();
+        
+        // Mostra l'elenco dei dipendenti con ID
+        foreach (var dipendente in dipendentiConId)
+        {
+            Console.WriteLine(dipendente);
+        }
+
+        // Richiedi l'ID del dipendente
+        Console.WriteLine("Inserisci l'ID del dipendente da modificare:");
+        int dipendenteId = Convert.ToInt32(_view.GetInput());
+
+        // Menu di selezione per i campi da modificare
+        var inserimento = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("MODIFICA DIPENDENTE")
+            .PageSize(8)
+            .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
+            .AddChoices(new[] {
+                "Cambia nome", "Cambia cognome", "Cambia data di nascita formato DD/MM/YYYY",
+                "Cambia mansione", "Cambia stipendio", "Cambia punteggio performance", "Cambia giorni di assenze", "Cambia mail", "Esci",
+            }));
+
+        string campoDaModificare = "";
+        string nuovoValore = "";
+
+        // Switch case per la modifica del campo selezionato
+        switch (inserimento)
+        {
+            case "Cambia nome":
+                Console.WriteLine("Inserisci il nuovo nome");
+                campoDaModificare = "nome";
+                nuovoValore = Console.ReadLine().Trim();
+                break;
+
+            case "Cambia cognome":
+                Console.WriteLine("Inserisci il nuovo cognome");
+                campoDaModificare = "cognome";
+                nuovoValore = Console.ReadLine().Trim();
+                break;
+
+            case "Cambia data di nascita formato DD/MM/YYYY":
+                Console.WriteLine("Inserisci nuova data di nascita");
+                DateTime dataDiNascita = DateTime.ParseExact(Console.ReadLine().Trim(), "dd/MM/yyyy", null);
+                campoDaModificare = "dataDiNascita";
+                nuovoValore = dataDiNascita.ToString("yyyy-MM-dd");  // Formattazione per SQLite
+                break;
+
+            case "Cambia mansione":
+                Console.WriteLine("Inserisci la nuova mansione (ID):");
+                int mansioneId = Convert.ToInt32(Console.ReadLine().Trim());
+                campoDaModificare = "mansioneId";
+                nuovoValore = mansioneId.ToString();
+                break;
+
+            case "Cambia stipendio":
+                Console.WriteLine("Inserisci il nuovo stipendio:");
+                campoDaModificare = "stipendio";
+                nuovoValore = Console.ReadLine().Trim();
+                break;
+
+            case "Cambia punteggio performance":
+                Console.WriteLine("Inserisci il nuovo punteggio performance:");
+                campoDaModificare = "performance";
+                nuovoValore = Console.ReadLine().Trim();
+                break;
+
+            case "Cambia giorni di assenze":
+                Console.WriteLine("Inserisci il numero di giorni di assenze:");
+                campoDaModificare = "assenze";
+                nuovoValore = Console.ReadLine().Trim();
+                break;
+
+            case "Cambia mail":
+                Console.WriteLine("Inserisci il nuovo indirizzo email aziendale:");
+                campoDaModificare = "mail";
+                nuovoValore = Console.ReadLine().Trim();
+                break;
+
+            case "Esci":
+                Console.WriteLine("\nL'applicazione si sta per chiudere\n");
+                return;
+
+            default:
+                Console.WriteLine("\nScelta errata. Prego scegliere tra le opzioni disponibili\n");
+                return;
+        }
+
+        // Modifica il campo nel database
+        bool successo = _db.ModificaDipendente(dipendenteId, campoDaModificare, nuovoValore);
+
+        if (successo)
+        {
+            Console.WriteLine($"{campoDaModificare} aggiornato con successo per il dipendente con ID {dipendenteId}.");
+        }
+        else
+        {
+            Console.WriteLine("Errore durante la modifica del dipendente. Verifica l'ID o il campo inserito.");
+        }
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine($"Errore non trattato: {e.Message}");
+        Console.WriteLine($"CODICE ERRORE: {e.HResult}");
+    }
+}
+
+
+}

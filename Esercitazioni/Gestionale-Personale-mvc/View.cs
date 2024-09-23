@@ -1,4 +1,5 @@
 using System.Data.SQLite;
+using Spectre.Console;
 class View
 {
     private Database _db; // Riferimento al modello

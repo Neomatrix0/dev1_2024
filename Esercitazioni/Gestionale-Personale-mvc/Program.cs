@@ -1,4 +1,5 @@
 ﻿using System.Data.SQLite;
+using Spectre.Console;
 
 class Program
 {

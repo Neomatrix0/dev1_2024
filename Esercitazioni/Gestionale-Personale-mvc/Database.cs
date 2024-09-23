@@ -1,4 +1,5 @@
 using System.Data.SQLite;
+using Spectre.Console;
 class Database
 {
     private SQLiteConnection _connection; // SQLiteConnection è una classe che rappresenta una connessione a un database SQLite si definisce classe
@@ -144,5 +145,37 @@ class Database
         }
         return mansioni; 
     }
+
+ public bool ModificaDipendente(int dipendenteId, string campoDaModificare, string nuovoValore)
+{
+    try
+    {
+        // Prepara la query di aggiornamento
+        string query = $"UPDATE dipendente SET {campoDaModificare} = @nuovoValore WHERE id = @id";
+
+        using (var command = new SQLiteCommand(query, _connection))
+        {
+            command.Parameters.AddWithValue("@nuovoValore", nuovoValore);
+            command.Parameters.AddWithValue("@id", dipendenteId);
+
+            // Esegui l'aggiornamento e controlla il numero di righe modificate
+            int rowsAffected = command.ExecuteNonQuery();
+            
+            // Restituisci true se almeno una riga è stata modificata
+            return rowsAffected > 0;
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Errore durante la modifica del dipendente: " + ex.Message);
+        return false;
+    }
+}
+
+
+
+
+
+
 }
 
