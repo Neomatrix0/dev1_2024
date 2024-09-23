@@ -29,6 +29,10 @@ class Controller
             {
                 RimuoviDipendente();
             }
+              else if (input == "4")
+        {
+            CercaDipendente(); // Cerca un dipendente tramite email
+        }
             else if (input == "7")
             {
                 break; // Uscita dal programma
@@ -74,25 +78,49 @@ class Controller
     }
 
     private void RimuoviDipendente(){
+         Console.WriteLine("Elenco dei dipendenti:");
+        var dipendentiConId = _db.GetDipendentiConId();
+        foreach(var dipendente in dipendentiConId){
+            Console.WriteLine(dipendente);
+        }
         Console.WriteLine("Inserisci l'ID del dipendente da rimuovere:");
-         if (int.TryParse(dipendenteIdString, out int dipendenteId))
+       try
+    {
+        // Usa Convert.ToInt32 per convertire l'input in un intero
+        var dipendenteId = Convert.ToInt32(Console.ReadLine());
+
+        // Prova a rimuovere il dipendente
+        bool successo = _db.RimuoviDipendente(dipendenteId);
+        if (successo)
         {
-            bool successo = _db.RimuoviDipendente(dipendenteId);
-            if (successo)
-            {
-                Console.WriteLine("Dipendente rimosso con successo.");
-            }
-            else
-            {
-                Console.WriteLine("Dipendente non trovato.");
-            }
+            Console.WriteLine("Dipendente rimosso con successo.");
         }
         else
         {
-            Console.WriteLine("ID non valido. Riprova.");
+            Console.WriteLine("Dipendente non trovato o ID non valido.");
         }
-
     }
+    catch (FormatException)
+    {
+        // Gestisce l'errore se l'input non è un numero valido
+        Console.WriteLine("ID non valido. Inserisci un numero.");
+    }
+   
+}
+
+private void CercaDipendente(){
+     Console.WriteLine("Cerca il dipendente usando la sua mail aziendale:");
+      var cercaMail = _view.GetInput();
+      var dipendente= _db.CercaDipendentePerMail(cercaMail);
+      if(dipendente != null){
+        Console.WriteLine("Dettagli del dipendente:");
+        Console.WriteLine(dipendente.ToString());
+      }else{
+        // Messaggio se il dipendente non viene trovato
+        Console.WriteLine("Dipendente non trovato con questa email.");
+      }
+
+}
 
     private void MostraDipendenti()
     {
@@ -104,4 +132,4 @@ class Controller
         Console.WriteLine(dipendente.ToString());
     }
 }
-}
+

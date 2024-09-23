@@ -11,8 +11,10 @@ class View
     public void ShowMainMenu()
     {
         Console.WriteLine("1. Aggiungi dipendente");
-        Console.WriteLine("2. Vedi dipendente");
+        Console.WriteLine("2. Vedi tutti i dipendenti");
         Console.WriteLine("3. Rimuovi dipendente");
+        Console.WriteLine("4. Cerca dipendente per mail");
+        Console.WriteLine("5. Modifica dipendente");
         Console.WriteLine("7. Esci");
     }
 

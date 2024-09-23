@@ -76,9 +76,28 @@ class Database
     }
     }
 
-    public void RimuoviDipendente(){
-        var command = new SQLiteCommand("DELETE from dipendenti WHERE id= @id",) // continuare
+    public bool RimuoviDipendente(int dipendenteId){
+        var command = new SQLiteCommand("DELETE from dipendente WHERE id= @id", _connection); 
+        command.Parameters.AddWithValue("@id", dipendenteId);// continuare
+        int affectedRows = command.ExecuteNonQuery(); // Restituisce il numero di righe interessate
+    return affectedRows > 0;
+    
     }
+
+    public List<string> GetDipendentiConId()
+{
+    var command = new SQLiteCommand("SELECT id, nome, cognome FROM dipendente", _connection);
+    var reader = command.ExecuteReader();
+    var dipendenti = new List<string>();
+
+    while (reader.Read())
+    {
+        string info = $"ID: {reader.GetInt32(0)}, Nome: {reader.GetString(1)}, Cognome: {reader.GetString(2)}";
+        dipendenti.Add(info);
+    }
+
+    return dipendenti;
+}
 
     public List<Dipendente> GetUsers()
     {
@@ -95,6 +114,24 @@ class Database
         return dipendenti; // Restituzione della lista
     }
 
+    public Dipendente CercaDipendentePerMail(string email){
+        
+        var command = new SQLiteCommand("SELECT dipendente.nome,dipendente.cognome,strftime('%d/%m/%Y', dataDiNascita) AS data_formattata,dipendente.mail,mansione.titolo,mansione.stipendio FROM dipendente JOIN MANSIONE mansione ON dipendente.mansioneId =mansione.id WHERE dipendente.mail =@mail;", _connection); // Creazione di un comando per leggere gli utenti
+        command.Parameters.AddWithValue("@mail", email);
+        var reader = command.ExecuteReader();
+        if(reader.Read()){
+            var dipendente = new Dipendente(  reader.GetString(0), // Nome
+            reader.GetString(1), // Cognome
+            reader.GetString(2), // Data di Nascita
+            reader.GetString(3), // Mail
+            reader.GetString(4), // Mansione
+            reader.GetDouble(5)  // Stipendio
+            );
+            return dipendente;
+        }
+        return null;
+    }
+
     public List<Mansione>MostraMansioni(){
         var command = new SQLiteCommand("SELECT id, titolo, stipendio FROM mansione;",_connection);
         var reader = command.ExecuteReader(); // Esecuzione del comando e creazione di un oggetto per leggere i risultati
@@ -109,6 +146,3 @@ class Database
     }
 }
 
-/*
-
-strftime('%d/%m/%Y', dataDiNascita) AS data_formattata,*/
