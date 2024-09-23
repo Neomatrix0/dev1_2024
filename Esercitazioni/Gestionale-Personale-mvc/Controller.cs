@@ -38,7 +38,19 @@ class Controller
         var nome = _view.GetInput(); // Lettura del nome dell'utente
          Console.WriteLine("Digita il cognome:"); // Richiesta del nome dell'utente
         var cognome = _view.GetInput();
-        _db.AggiungiDipendente(nome,cognome); // Aggiunta dell'utente al database
+        Console.WriteLine("Digita la data di nascita DD/MM/YYYY:"); // Richiesta del nome dell'utente
+        var dataDiNascitaString = _view.GetInput();
+         Console.WriteLine("Digita la mail aziendale:");
+        var mail = _view.GetInput();
+        if (DateTime.TryParseExact(dataDiNascitaString, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime dataDiNascita))
+    {
+        _db.AggiungiDipendente(nome, cognome, dataDiNascita,mail); // Aggiunta del dipendente al database
+    }
+    else
+    {
+        Console.WriteLine("Formato data non valido. Riprova.");
+    }
+    //    _db.AggiungiDipendente(nome,cognome,dataDiNascita); // Aggiunta dell'utente al database
     }
 
     private void MostraDipendenti()
