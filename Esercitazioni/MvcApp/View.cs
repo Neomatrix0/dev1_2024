@@ -14,13 +14,20 @@ class View
         Console.WriteLine("3. exit");
     }
 
-    public void ShowProducts(List<string>products)
+    public void ShowItems(List<string>products)
     {
+        if (products.Count == 0)
+        {
+            Console.WriteLine("No products available.");
+        }
+        else
+        {
+            Console.WriteLine("Products:");
         foreach (var product in products)
         {
             Console.WriteLine(product); 
         }
-    }
+    } }
 
     public string GetInput()
     {

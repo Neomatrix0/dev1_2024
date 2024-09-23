@@ -12,8 +12,8 @@ public Database(){
     }
 
     public void AddItem(string name,string category,int quantity){
-         var command = new SQLiteCommand($"INSERT INTO products (productName,category,quantity) VALUES (@productName. @category,@quantity)", _connection);
-        command.Parameters.AddWithValue("@productName",productName);
+         var command = new SQLiteCommand($"INSERT INTO products (productName,category,quantity) VALUES (@productName, @category,@quantity)", _connection);
+        command.Parameters.AddWithValue("@productName",name);
          command.Parameters.AddWithValue("@category",category);
           command.Parameters.AddWithValue("@quantity",quantity);
           command.ExecuteNonQuery();
@@ -25,10 +25,10 @@ public Database(){
         var items= new List<string>();
             while (reader.Read())
         {
-            products.Add(reader.GetString(0)); // Aggiunta del nome dell'utente alla lista
+            items.Add(reader.GetString(0)); // Aggiunta del nome dell'utente alla lista
                                             // utilizzo (0) perche il nome è il primo campo 
         }
-        return products; // Restituzione della lis
+        return items; // Restituzione della lista
     }
 
      public void CloseConnection(){
