@@ -40,7 +40,7 @@ class Database
     }
 
     public int AggiungiMansione(Mansione mansione){
-        var command = new SQLiteCommand("INSERT INTO mansione(titolo,stipendio) VALUES (@titolo,@stipendio)",_connection);
+        var command = new SQLiteCommand("INSERT INTO mansione(titolo,stipendio) VALUES (@titolo,@stipendio);SELECT last_insert_rowid()",_connection);
         command.Parameters.AddWithValue("@titolo",mansione.Titolo);
          command.Parameters.AddWithValue("@stipendio",mansione.Stipendio);
 
@@ -76,6 +76,10 @@ class Database
     }
     }
 
+    public void RimuoviDipendente(){
+        var command = new SQLiteCommand("DELETE from dipendenti WHERE id= @id",) // continuare
+    }
+
     public List<Dipendente> GetUsers()
     {
         var command = new SQLiteCommand("SELECT dipendente.nome,dipendente.cognome,strftime('%d/%m/%Y', dataDiNascita) AS data_formattata,dipendente.mail,mansione.titolo,mansione.stipendio FROM dipendente JOIN MANSIONE mansione ON dipendente.mansioneId =mansione.id;", _connection); // Creazione di un comando per leggere gli utenti
@@ -85,7 +89,7 @@ class Database
 
         while (reader.Read())
         {
-           var dipendente = new Dipendente(reader.GetString(0), reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetString(4),reader.GetDouble(5)); // Aggiunta dati utente alla lista
+           var dipendente = new Dipendente(reader.GetString(0), reader.GetString(1),reader.GetString(2),reader.GetString(4),reader.GetString(3),reader.GetDouble(5)); // Aggiunta dati utente alla lista
             dipendenti.Add(dipendente); 
         }
         return dipendenti; // Restituzione della lista

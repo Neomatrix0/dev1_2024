@@ -27,6 +27,10 @@ class Controller
             }
             else if (input == "3")
             {
+                RimuoviDipendente();
+            }
+            else if (input == "7")
+            {
                 break; // Uscita dal programma
             }
         }
@@ -67,6 +71,27 @@ class Controller
     }else{
         Console.WriteLine("ID mansione non valido. Riprova.");
     }
+    }
+
+    private void RimuoviDipendente(){
+        Console.WriteLine("Inserisci l'ID del dipendente da rimuovere:");
+         if (int.TryParse(dipendenteIdString, out int dipendenteId))
+        {
+            bool successo = _db.RimuoviDipendente(dipendenteId);
+            if (successo)
+            {
+                Console.WriteLine("Dipendente rimosso con successo.");
+            }
+            else
+            {
+                Console.WriteLine("Dipendente non trovato.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("ID non valido. Riprova.");
+        }
+
     }
 
     private void MostraDipendenti()
