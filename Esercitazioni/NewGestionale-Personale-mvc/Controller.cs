@@ -226,15 +226,15 @@ private void ModificaDipendente()
                 nuovoValore = Console.ReadLine().Trim();
                 break;
 
-            case "Cambia punteggio performance":
-                Console.WriteLine("Inserisci il nuovo punteggio performance:");
-                campoDaModificare = "performance";
+            case "Cambia fatturato":
+                Console.WriteLine("Inserisci il nuovo fatturato:");
+                campoDaModificare = "fatturato";
                 nuovoValore = Console.ReadLine().Trim();
                 break;
 
-            case "Cambia giorni di assenze":
-                Console.WriteLine("Inserisci il numero di giorni di assenze:");
-                campoDaModificare = "assenze";
+            case "Cambia giorni di presenza":
+                Console.WriteLine("Inserisci il numero di giorni di presenze:");
+                campoDaModificare = "presenze";
                 nuovoValore = Console.ReadLine().Trim();
                 break;
 
