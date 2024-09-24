@@ -12,13 +12,13 @@ class Database
         _connection = new SQLiteConnection("Data Source=database.db"); // Creazione di una connessione al database
         _connection.Open(); // Apertura della connessione
       var command1 = new SQLiteCommand(
-        "CREATE TABLE IF NOT EXISTS dipendente (id INTEGER PRIMARY KEY, nome TEXT, cognome TEXT, dataDiNascita DATE, mail TEXT,  mansioneId INTEGER,FOREIGN KEY(mansioneId) REFERENCES mansione(id)) ;", 
+        "CREATE TABLE IF NOT EXISTS dipendente (id INTEGER PRIMARY KEY, nome TEXT, cognome TEXT, dataDiNascita DATE, mail TEXT,  mansioneId INTEGER,statisticheId INTEGER,  FOREIGN KEY(mansioneId) REFERENCES mansione(id),FOREIGN KEY(statisticheId) REFERENCES statistiche(id)) ;", 
         _connection);
     command1.ExecuteNonQuery(); // Esecuzione del comando
 
     // Creazione della tabella mansione
     var command2 = new SQLiteCommand(
-        "CREATE TABLE IF NOT EXISTS mansione (id INTEGER PRIMARY KEY AUTOINCREMENT, titolo TEXT UNIQUE,stipendio REAL,statisticheId INTEGER,FOREIGN KEY(statisticheId) REFERENCES statistiche(id));", 
+        "CREATE TABLE IF NOT EXISTS mansione (id INTEGER PRIMARY KEY AUTOINCREMENT, titolo TEXT UNIQUE,stipendio REAL);", 
         _connection);
     command2.ExecuteNonQuery(); // Esecuzione del comando
 
@@ -29,14 +29,15 @@ class Database
        AggiungiMansioniPredefinite();
     }
 
-    public void AggiungiDipendente(string nome,string cognome,DateTime dataDiNascita,string mail,int mansioneId)
+    public void AggiungiDipendente(string nome,string cognome,DateTime dataDiNascita,string mail,int mansioneId,Statistiche statistiche)
     {
-        var command = new SQLiteCommand($"INSERT INTO dipendente (nome,cognome,dataDiNascita,mail,mansioneId) VALUES (@nome,@cognome,@dataDiNascita,@mail,@mansioneId)", _connection); // Creazione di un comando per inserire un nuovo utente
+        var command = new SQLiteCommand($"INSERT INTO dipendente (nome,cognome,dataDiNascita,mail,mansioneId,@statisticheId) VALUES (@nome,@cognome,@dataDiNascita,@mail,@mansioneId,@statisticheId)", _connection); // Creazione di un comando per inserire un nuovo utente
        command.Parameters.AddWithValue("@nome", nome);
        command.Parameters.AddWithValue("@cognome", cognome);
        command.Parameters.AddWithValue("@dataDiNascita", dataDiNascita.ToString("yyyy-MM-dd"));
        command.Parameters.AddWithValue("@mail", mail);
         command.Parameters.AddWithValue("@mansioneId", mansioneId);
+        command.Parameters.AddWithValue("@statisticheId", statisticheId);
         command.ExecuteNonQuery(); // Esecuzione del comando
     }
 
@@ -106,7 +107,7 @@ public List<Dipendente> GetUsers()
         "SELECT dipendente.nome, dipendente.cognome, strftime('%d/%m/%Y', dataDiNascita) AS data_formattata, dipendente.mail, mansione.titolo, mansione.stipendio, statistiche.performance, statistiche.assenze " +
         "FROM dipendente " +
         "JOIN mansione ON dipendente.mansioneId = mansione.id " +
-        "LEFT JOIN statistiche ON mansione.statisticheId = statistiche.id;", 
+        "LEFT JOIN statistiche ON dipendente.statisticheId = statistiche.id;",  // Modificato per prendere le statistiche dal dipendente
         _connection);
 
     var reader = command.ExecuteReader(); 
@@ -136,7 +137,6 @@ public List<Dipendente> GetUsers()
 
     return dipendenti;
 }
-
 
 
 
@@ -224,7 +224,36 @@ public Dipendente CercaDipendentePerMail(string email)
     }
 }
 
+public int AggiungiStatistiche(Statistiche statistiche){
+    var command = new SQLiteCommand("INSERT INTO statistiche (performance, assenze) VALUES (@performance, @assenze); SELECT last_insert_rowid();",_connection);
+     command.Parameters.AddWithValue("@performance", statistiche.performance);
+            command.Parameters.AddWithValue("@assenze", statistiche.assenze);
+            return Convert.ToInt32(command.ExecuteScalar()); // Restituisce l'ID della statistica appena aggiunta
+}
 
+public bool ModificaStatistiche(int dipendenteId, string campo, string nuovoValore)
+{
+    try
+    {
+        // Trova l'ID delle statistiche per il dipendente
+        var command = new SQLiteCommand("SELECT statisticheId FROM dipendente WHERE id = @id", _connection);
+        command.Parameters.AddWithValue("@id", dipendenteId);
+        var statisticheId = Convert.ToInt32(command.ExecuteScalar());
+
+        // Aggiorna il campo nelle statistiche
+        var updateCommand = new SQLiteCommand($"UPDATE statistiche SET {campo} = @nuovoValore WHERE id = @id", _connection);
+        updateCommand.Parameters.AddWithValue("@nuovoValore", nuovoValore);
+        updateCommand.Parameters.AddWithValue("@id", statisticheId);
+
+        int rowsAffected = updateCommand.ExecuteNonQuery();
+        return rowsAffected > 0;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Errore durante la modifica delle statistiche: " + ex.Message);
+        return false;
+    }
+}
 
 
 

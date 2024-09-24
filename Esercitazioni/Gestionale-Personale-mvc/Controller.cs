@@ -36,11 +36,11 @@ class Controller
             }
             else if (input == "Mostra Dipendenti")
             {
-                MostraDipendenti(); // Visualizzazione degli utenti
+                MostraDipendenti(); // Visualizzazione dei dipendenti
             }
             else if (input == "Rimuovi Dipendente")
             {
-                RimuoviDipendente();
+                RimuoviDipendente(); //rimuovi dipendente
             }
               else if (input == "Cerca Dipendente")
         {
@@ -48,7 +48,7 @@ class Controller
         }
           else if (input == "Modifica Dipendente")
         {
-            ModificaDipendente(); // Cerca un dipendente tramite email
+            ModificaDipendente(); // Modifica
         }
         else if(input == "Ordina stipendi"){
             OrdinaStipendi();
@@ -152,49 +152,6 @@ private void CercaDipendente(){
         Console.WriteLine(dipendente.ToString());
     }
 }
-/*
-private void ModificaDipendente()
-{
-    Console.WriteLine("Elenco dei dipendenti:");
-    var dipendentiConId = _db.GetDipendentiConId();
-    
-    foreach (var dipendente in dipendentiConId)
-    {
-        Console.WriteLine(dipendente);
-    }
-
-    Console.WriteLine("Inserisci l'ID del dipendente che desideri modificare:");
-    var dipendenteId = Convert.ToInt32(_view.GetInput());
-
-    // Lista dei campi validi
-    string[] campiValidi = { "nome", "cognome", "mail", "dataDiNascita", "mansione", "stipendio" };
-
-    Console.WriteLine("Quale campo desideri modificare? (nome, cognome, mail, dataDiNascita, mansione, stipendio):");
-    var campoDaModificare = _view.GetInput();
-
-    // Controlla se il campo inserito è valido
-    if (!Array.Exists(campiValidi, campo => campo.Equals(campoDaModificare, StringComparison.OrdinalIgnoreCase)))
-    {
-        Console.WriteLine("Campo non valido. Riprova.");
-        return;
-    }
-
-    Console.WriteLine($"Inserisci il nuovo valore per {campoDaModificare}:");
-    var nuovoValore = _view.GetInput();
-
-    bool successo = _db.ModificaDipendente(dipendenteId, campoDaModificare, nuovoValore);
-
-    if (successo)
-    {
-        Console.WriteLine($"{campoDaModificare} aggiornato con successo per il dipendente con ID {dipendenteId}.");
-    }
-    else
-    {
-        Console.WriteLine("Errore durante la modifica del dipendente. Verifica l'ID o il campo inserito.");
-    }
-}
-
-*/
 
 private void OrdinaStipendi(){
 
