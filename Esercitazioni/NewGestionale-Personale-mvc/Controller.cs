@@ -156,12 +156,33 @@ private void CercaDipendente(){
     private void MostraDipendenti()
     {
         var dipendenti = _db.GetUsers(); // Lettura degli utenti dal database
+        var table = new Table();
+         // Aggiungere le colonne alla tabella
+    table.AddColumn("Nome");
+    table.AddColumn("Cognome");
+    table.AddColumn("Data di Nascita");
+    table.AddColumn("Mansione");
+    table.AddColumn("Stipendio annuale");
+    table.AddColumn("Fatturato");
+    table.AddColumn("Presenze");
+    table.AddColumn("Email aziendale");
       //  _view.MostraDipendenti(dipendenti); // Visualizzazione degli utenti
-    foreach (var dipendente in dipendenti)
+      foreach (var dipendente in dipendenti)
     {
-        // Utilizza il metodo ToString della classe Dipendente per mostrare i dettagli
-        Console.WriteLine(dipendente.ToString());
+        table.AddRow(
+            dipendente.Nome,
+            dipendente.Cognome,
+            dipendente.DataDiNascita,
+            dipendente.Mansione.Titolo,
+            $"{dipendente.Stipendio}",
+            $"{dipendente.Statistiche.Fatturato}",
+            $"{dipendente.Statistiche.Presenze}",
+            dipendente.Mail
+        );
     }
+
+    // Visualizzare la tabella
+    AnsiConsole.Write(table);
 }
 
 private void TassoDiPresenza()
@@ -333,6 +354,15 @@ private void OrdinaStipendi()
     // Recupera i dipendenti dal database
     var dipendenti = _db.GetUsers(); 
 
+    var table = new Table();
+    
+    table.AddColumn("Nome");
+    table.AddColumn("Cognome");
+    table.AddColumn("Stipendio");
+     table.AddColumn("Mansione");
+    table.AddColumn("Fatturato");
+    table.AddColumn("Presenze");
+
     // Algoritmo bubble sort per ordinare i dipendenti in base allo stipendio in ordine discendente
     for (int i = 0; i < dipendenti.Count - 1; i++)
     {
@@ -348,12 +378,21 @@ private void OrdinaStipendi()
         }
     }
 
-    // Mostra i dipendenti ordinati per stipendio
-    Console.WriteLine("Dipendenti ordinati per stipendio (dal più alto al più basso):");
-    foreach (var dipendente in dipendenti)
+   foreach (var dipendente in dipendenti)
     {
-        Console.WriteLine(dipendente.ToString()); // Utilizza il metodo ToString() di Dipendente per visualizzare i dettagli
+        table.AddRow(
+            dipendente.Nome,
+            dipendente.Cognome,
+            dipendente.Stipendio.ToString(),
+            dipendente.Mansione.Titolo.ToString(),
+            dipendente.Statistiche.Fatturato.ToString(),
+            dipendente.Statistiche.Presenze.ToString()
+        );
     }
+
+    // Mostra la tabella ordinata
+    Console.WriteLine("\nDipendenti ordinati per stipendio (dal più alto al più basso):\n");
+    AnsiConsole.Write(table);
 }
 
 
