@@ -182,10 +182,8 @@ private void AggiungiIndicatoriDipendente()
     Console.WriteLine("Indicatori aggiunti con successo.");
 }
 
-private void OrdinaStipendi(){
 
-}
-
+// da rivedere
 private void AggiornaIndicatoriDipendente()
 {
     // Mostra elenco dipendenti con ID
@@ -213,6 +211,35 @@ private void AggiornaIndicatoriDipendente()
     // Conferma che gli indicatori sono stati aggiornati
     Console.WriteLine("Indicatori aggiornati con successo.");
 }
+
+private void OrdinaStipendi()
+{
+    // Recupera i dipendenti dal database
+    var dipendenti = _db.GetUsers(); 
+
+    // Algoritmo bubble sort per ordinare i dipendenti in base allo stipendio in ordine discendente
+    for (int i = 0; i < dipendenti.Count - 1; i++)
+    {
+        for (int j = 0; j < dipendenti.Count - i - 1; j++)
+        {
+            if (dipendenti[j].Stipendio < dipendenti[j + 1].Stipendio)
+            {
+                // Scambia i dipendenti se lo stipendio del primo è inferiore a quello del successivo
+                var temp = dipendenti[j];
+                dipendenti[j] = dipendenti[j + 1];
+                dipendenti[j + 1] = temp;
+            }
+        }
+    }
+
+    // Mostra i dipendenti ordinati per stipendio
+    Console.WriteLine("Dipendenti ordinati per stipendio (dal più alto al più basso):");
+    foreach (var dipendente in dipendenti)
+    {
+        Console.WriteLine(dipendente.ToString()); // Utilizza il metodo ToString() di Dipendente per visualizzare i dettagli
+    }
+}
+
 
 
 private void ModificaDipendente()
