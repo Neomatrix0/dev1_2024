@@ -225,7 +225,7 @@ private void TassoDiPresenza()
         table.AddColumn("Tasso di Presenza (%)");
 
         // Ordina i dipendenti dal tasso di presenza più basso al più alto
-        dipendenti.Sort((x, y) => x.Statistiche.Presenze.CompareTo(y.Statistiche.Presenze));
+        dipendenti.Sort((y, x) => x.Statistiche.Presenze.CompareTo(y.Statistiche.Presenze));
 
         foreach (var dipendente in dipendenti)
         {
