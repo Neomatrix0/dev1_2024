@@ -25,7 +25,7 @@ class Controller
             .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
             .AddChoices(new[] {
                 "Aggiungi Dipendente", "Mostra Dipendenti", "Rimuovi Dipendente",
-                "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi","Aggiungi indicatori", "Esci",
+                "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi","Aggiungi indicatori","Tasso di presenza","Valutazione per fatturato", "Esci",
             }));
 
         
@@ -55,6 +55,12 @@ class Controller
         }
         else if( input == "Aggiungi indicatori"){
             AggiungiIndicatoriDipendente();
+        }
+
+         else if( input == "Tasso di presenza"){
+            TassoDiPresenza();
+        }else if(input == "Valutazione per fatturato"){
+            ValutazioneFatturatoProdotto();
         }
             else if (input == "Esci")
             {
@@ -157,6 +163,116 @@ private void CercaDipendente(){
         Console.WriteLine(dipendente.ToString());
     }
 }
+
+private void TassoDiPresenza()
+{
+    Console.WriteLine("\nDi seguito l'elenco con il tasso di presenza per ogni dipendente su 250 giorni lavorativi equivalente ad 1 anno\n");
+    int giorniLavorativiTotali = 250; // Numero di giorni lavorativi in un anno
+
+    try
+    {
+        var dipendenti = _db.GetUsers(); // Ottieni la lista dei dipendenti dal database
+
+        // Crea una tabella per visualizzare i risultati
+        var table = new Table();
+        table.AddColumn("Dipendente");
+        table.AddColumn("Tasso di Presenza (%)");
+
+        // Ordina i dipendenti dal tasso di presenza più basso al più alto
+        dipendenti.Sort((x, y) => x.Statistiche.Presenze.CompareTo(y.Statistiche.Presenze));
+
+        foreach (var dipendente in dipendenti)
+        {
+            int presenze = dipendente.Statistiche.Presenze;
+
+            // Calcolo del tasso di presenza
+            double tassoPresenza = ((double)presenze / giorniLavorativiTotali) * 100;
+            tassoPresenza = Math.Round(tassoPresenza, 2); // Arrotonda il risultato a due cifre decimali
+
+            // Aggiungi una riga alla tabella con il nome del dipendente e il tasso di presenza
+            table.AddRow($"{dipendente.Nome} {dipendente.Cognome}", $"{tassoPresenza}%");
+        }
+
+        // Visualizza la tabella nella console
+        AnsiConsole.Write(table);
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine($"Errore generale: {e.Message}");
+    }
+}
+
+private void ValutazioneFatturatoProdotto()
+{
+    Console.WriteLine("\nDivide i dipendenti in 2 gruppi in base al fatturato prodotto");
+
+    var dipendenti = _db.GetUsers(); // Ottiene la lista dei dipendenti dal database
+
+    // Ordina i dipendenti per fatturato in ordine decrescente (dal più alto al più basso)
+    dipendenti.Sort((x, y) => y.Statistiche.Fatturato.CompareTo(x.Statistiche.Fatturato));
+
+    // Divide i dipendenti in due gruppi: i migliori e i peggiori
+    int split = dipendenti.Count / 2;
+    List<Dipendente> gruppoMigliori = dipendenti.GetRange(0, split);
+    List<Dipendente> gruppoPeggiori = dipendenti.GetRange(split, dipendenti.Count - split);
+
+    // Crea le tabelle per visualizzare i risultati
+    var tableMigliori = new Table();
+    tableMigliori.AddColumn("Dipendente");
+    tableMigliori.AddColumn("Fatturato");
+
+    var tablePeggiori = new Table();
+    tablePeggiori.AddColumn("Dipendente");
+    tablePeggiori.AddColumn("Fatturato");
+
+    var tablePeggiori15 = new Table();
+    tablePeggiori15.AddColumn("Dipendente");
+    tablePeggiori15.AddColumn("Fatturato");
+
+    // Aggiungi i dipendenti con fatturato più alto nella prima tabella
+    foreach (var dipendente in gruppoMigliori)
+    {
+        tableMigliori.AddRow($"{dipendente.Nome} {dipendente.Cognome}", $"{dipendente.Statistiche.Fatturato}");
+    }
+
+    // Aggiungi i dipendenti con fatturato più basso nella seconda tabella
+    foreach (var dipendente in gruppoPeggiori)
+    {
+        tablePeggiori.AddRow($"{dipendente.Nome} {dipendente.Cognome}", $"{dipendente.Statistiche.Fatturato}");
+    }
+
+    // Mostra la tabella dei dipendenti con fatturato più alto
+    Console.WriteLine("\nGruppo con il fatturato più alto:\n");
+    AnsiConsole.Write(tableMigliori);
+
+    // Mostra la tabella dei dipendenti con fatturato più basso
+    Console.WriteLine("\nGruppo con il fatturato più basso:\n");
+    AnsiConsole.Write(tablePeggiori);
+
+    // Ordina il gruppo con fatturato più basso per trovare il 15% delle performance peggiori
+    gruppoPeggiori.Sort((x, y) => x.Statistiche.Fatturato.CompareTo(y.Statistiche.Fatturato));
+
+    // Calcola il 15% dei dipendenti con fatturato più basso
+    int index = (15 * gruppoPeggiori.Count) / 100;
+
+    // Se il 15% è 0 ma ci sono dipendenti, mostra almeno un dipendente
+    if (index == 0 && gruppoPeggiori.Count > 0)
+    {
+        index = 1;
+    }
+
+    // Aggiungi i dipendenti con il peggior 15% di fatturato alla terza tabella
+    for (int i = 0; i < index; i++)
+    {
+        var dipendente = gruppoPeggiori[i];
+        tablePeggiori15.AddRow($"{dipendente.Nome} {dipendente.Cognome}", $"{dipendente.Statistiche.Fatturato}");
+    }
+
+    // Mostra il 15% dei dipendenti con fatturato più basso
+    Console.WriteLine("\nDi seguito il 15% delle performance peggiori per fatturato\n");
+    AnsiConsole.Write(tablePeggiori15);
+}
+
 
 private void AggiungiIndicatoriDipendente()
 {
