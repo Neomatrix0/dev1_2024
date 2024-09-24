@@ -194,9 +194,17 @@ public Dipendente CercaDipendentePerMail(string email)
 
     if (reader.Read())
     {
+        // Creazione dell'oggetto Mansione con i campi corretti
         var mansione = new Mansione(reader.GetString(4), reader.GetDouble(5));
-        var statistiche = new Statistiche(reader.IsDBNull(6) ? 0 : reader.GetInt32(6), reader.IsDBNull(7) ? 0 : reader.GetInt32(7));
 
+        // Gestione dei campi indicatori con controlli per i valori NULL
+        double fatturato = reader.IsDBNull(6) ? 0.0 : reader.GetDouble(6); // Usa GetDouble per i valori reali
+        int presenze = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);        // Usa GetInt32 per valori interi
+
+        // Creazione dell'oggetto Statistiche con fatturato e presenze
+        var statistiche = new Statistiche(fatturato, presenze);
+
+        // Creazione dell'oggetto Dipendente
         var dipendente = new Dipendente(
             reader.GetString(0),  // Nome
             reader.GetString(1),  // Cognome
@@ -209,9 +217,9 @@ public Dipendente CercaDipendentePerMail(string email)
         return dipendente;
     }
 
+    // Restituisci null se il dipendente non viene trovato
     return null;
 }
-
 
 
 
