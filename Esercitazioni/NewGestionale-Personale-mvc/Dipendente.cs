@@ -23,7 +23,7 @@ public Dipendente(string nome,string cognome,string dataNascita,string mail,Mans
   // Metodo ToString per visualizzare i dettagli del dipendente
     public override string ToString()
     {
-        return $"Nome: {Nome}, Cognome: {Cognome}, Data di Nascita: {DataNascita}, Mail: {Mail}, Mansione: {Mansione.Titolo}, Stipendio: {Stipendio}, Performance: {Statistiche.Fatturato}, Assenze: {Statistiche.Presenze}";
+        return $"Nome: {Nome}, Cognome: {Cognome}, Data di Nascita: {DataNascita}, Mail: {Mail}, Mansione: {Mansione.Titolo}, Stipendio: {Stipendio}, Fatturato: {Statistiche.Fatturato}, Presenze: {Statistiche.Presenze}";
     }
 
 }

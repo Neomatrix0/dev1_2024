@@ -201,23 +201,59 @@ public Dipendente CercaDipendentePerMail(string email)
         return mansioni; 
     }
 
- public bool ModificaDipendente(int dipendenteId, string campoDaModificare, string nuovoValore)
+public bool ModificaDipendente(int dipendenteId, string campoDaModificare, string nuovoValore)
 {
     try
     {
-        // Prepara la query di aggiornamento
-        string query = $"UPDATE dipendente SET {campoDaModificare} = @nuovoValore WHERE id = @id";
+        string query = "";
+        object indicatoriId = null;  // Dichiarazione esterna di indicatoriId
+
+        // Verifica se stai modificando "fatturato" o "presenze", che appartengono alla tabella `indicatori`
+        if (campoDaModificare == "fatturato" || campoDaModificare == "presenze")
+        {
+            // Prima controlla se l'`indicatoriId` esiste
+            var checkCommand = new SQLiteCommand("SELECT indicatoriId FROM dipendente WHERE id = @id", _connection);
+            checkCommand.Parameters.AddWithValue("@id", dipendenteId);
+            indicatoriId = checkCommand.ExecuteScalar();
+
+            if (indicatoriId == null || indicatoriId == DBNull.Value)
+            {
+                Console.WriteLine("Errore: Il dipendente non ha un ID indicatori associato.");
+                return false;
+            }
+
+            // Aggiorna la tabella `indicatori`
+            query = $"UPDATE indicatori SET {campoDaModificare} = @nuovoValore WHERE id = @indicatoriId";
+        }
+        else
+        {
+            // Aggiorna la tabella `dipendente` per altri campi
+            query = $"UPDATE dipendente SET {campoDaModificare} = @nuovoValore WHERE id = @id";
+        }
 
         using (var command = new SQLiteCommand(query, _connection))
         {
             command.Parameters.AddWithValue("@nuovoValore", nuovoValore);
             command.Parameters.AddWithValue("@id", dipendenteId);
 
-            // Esegui l'aggiornamento e controlla il numero di righe modificate
-            int rowsAffected = command.ExecuteNonQuery();
-            
-            // Restituisci true se almeno una riga è stata modificata
-            return rowsAffected > 0;
+            // Aggiungi il parametro indicatoriId solo se necessario
+            if (campoDaModificare == "fatturato" || campoDaModificare == "presenze")
+            {
+                command.Parameters.AddWithValue("@indicatoriId", indicatoriId);
+            }
+
+            int rowsAffected = command.ExecuteNonQuery(); // Esegui l'aggiornamento
+
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine("Aggiornamento riuscito.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Nessuna riga modificata.");
+                return false;
+            }
         }
     }
     catch (Exception ex)
@@ -226,7 +262,6 @@ public Dipendente CercaDipendentePerMail(string email)
         return false;
     }
 }
-
 
 
 

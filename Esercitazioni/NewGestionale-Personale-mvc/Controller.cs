@@ -185,7 +185,7 @@ private void ModificaDipendente()
             .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
             .AddChoices(new[] {
                 "Cambia nome", "Cambia cognome", "Cambia data di nascita formato DD/MM/YYYY",
-                "Cambia mansione", "Cambia stipendio", "Cambia punteggio performance", "Cambia giorni di assenze", "Cambia mail", "Esci",
+                "Cambia mansione", "Cambia stipendio", "Cambia fatturato", "Cambia giorni di presenza", "Cambia mail", "Esci",
             }));
 
         string campoDaModificare = "";
