@@ -12,7 +12,7 @@ class Database
         _connection = new SQLiteConnection("Data Source=database.db"); // Creazione di una connessione al database
         _connection.Open(); // Apertura della connessione
       var command1 = new SQLiteCommand(
-        "CREATE TABLE IF NOT EXISTS dipendente (id INTEGER PRIMARY KEY, nome TEXT, cognome TEXT, dataDiNascita DATE, mail TEXT,  mansioneId INTEGER,statisticheId INTEGER,  FOREIGN KEY(mansioneId) REFERENCES mansione(id),FOREIGN KEY(statisticheId) REFERENCES statistiche(id)) ;", 
+        "CREATE TABLE IF NOT EXISTS dipendente (id INTEGER PRIMARY KEY, nome TEXT, cognome TEXT, dataDiNascita DATE, mail TEXT,  mansioneId INTEGER,indicatoriId INTEGER,  FOREIGN KEY(mansioneId) REFERENCES mansione(id),FOREIGN KEY(indicatoriId) REFERENCES indicatori(id)) ;", 
         _connection);
     command1.ExecuteNonQuery(); // Esecuzione del comando
 
@@ -23,21 +23,20 @@ class Database
     command2.ExecuteNonQuery(); // Esecuzione del comando
 
     var command3 = new SQLiteCommand(
-        "CREATE TABLE IF NOT EXISTS statistiche (id INTEGER PRIMARY KEY AUTOINCREMENT, performance INTEGER,assenze INTEGER);", 
+        "CREATE TABLE IF NOT EXISTS indicatori (id INTEGER PRIMARY KEY AUTOINCREMENT, fatturato REAL,presenze INTEGER);", 
         _connection);
     command3.ExecuteNonQuery(); // Esecuzione del comando
        AggiungiMansioniPredefinite();
     }
 
-    public void AggiungiDipendente(string nome,string cognome,DateTime dataDiNascita,string mail,int mansioneId,Statistiche statistiche)
+    public void AggiungiDipendente(string nome,string cognome,DateTime dataDiNascita,string mail,int mansioneId)
     {
-        var command = new SQLiteCommand($"INSERT INTO dipendente (nome,cognome,dataDiNascita,mail,mansioneId,@statisticheId) VALUES (@nome,@cognome,@dataDiNascita,@mail,@mansioneId,@statisticheId)", _connection); // Creazione di un comando per inserire un nuovo utente
+        var command = new SQLiteCommand($"INSERT INTO dipendente (nome,cognome,dataDiNascita,mail,mansioneId) VALUES (@nome,@cognome,@dataDiNascita,@mail,@mansioneId)", _connection); // Creazione di un comando per inserire un nuovo utente
        command.Parameters.AddWithValue("@nome", nome);
        command.Parameters.AddWithValue("@cognome", cognome);
        command.Parameters.AddWithValue("@dataDiNascita", dataDiNascita.ToString("yyyy-MM-dd"));
        command.Parameters.AddWithValue("@mail", mail);
         command.Parameters.AddWithValue("@mansioneId", mansioneId);
-        command.Parameters.AddWithValue("@statisticheId", statisticheId);
         command.ExecuteNonQuery(); // Esecuzione del comando
     }
 
@@ -104,10 +103,10 @@ class Database
 public List<Dipendente> GetUsers()
 {
     var command = new SQLiteCommand(
-        "SELECT dipendente.nome, dipendente.cognome, strftime('%d/%m/%Y', dataDiNascita) AS data_formattata, dipendente.mail, mansione.titolo, mansione.stipendio, statistiche.performance, statistiche.assenze " +
+        "SELECT dipendente.nome, dipendente.cognome, strftime('%d/%m/%Y', dataDiNascita) AS data_formattata, dipendente.mail, mansione.titolo, mansione.stipendio, indicatori.fatturato, indicatori.presenze " +
         "FROM dipendente " +
         "JOIN mansione ON dipendente.mansioneId = mansione.id " +
-        "LEFT JOIN statistiche ON dipendente.statisticheId = statistiche.id;",  // Modificato per prendere le statistiche dal dipendente
+        "LEFT JOIN indicatori ON dipendente.indicatoriId = indicatori.id;", 
         _connection);
 
     var reader = command.ExecuteReader(); 
@@ -115,21 +114,24 @@ public List<Dipendente> GetUsers()
 
     while (reader.Read())
     {
-        // Lettura delle statistiche
-        var statistiche = new Statistiche(
-            reader.IsDBNull(6) ? 0 : reader.GetInt32(6),  // Performance
-            reader.IsDBNull(7) ? 0 : reader.GetInt32(7)   // Assenze
-        );
+        // Leggi il titolo e lo stipendio dalla mansione
+        var mansione = new Mansione(reader.GetString(4), reader.GetDouble(5));
 
-        // Creazione del dipendente
+        // Gestione dei dati nullable per fatturato (double) e presenze (int)
+        double fatturato = reader.IsDBNull(6) ? 0.0 : reader.GetDouble(6);  // Usa 0.0 come valore di default se NULL
+        int presenze = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);          // Usa 0 come valore di default se NULL
+
+        // Crea un oggetto Statistiche
+        var statistiche = new Statistiche(fatturato, presenze);
+
+        // Crea il dipendente
         var dipendente = new Dipendente(
             reader.GetString(0), // Nome
             reader.GetString(1), // Cognome
             reader.GetString(2), // Data di nascita
-            reader.GetString(4), // Mansione
             reader.GetString(3), // Mail
-            reader.GetDouble(5), // Stipendio
-            statistiche          // Oggetto Statistiche
+            mansione,            // Mansione
+            statistiche          // Statistiche
         );
 
         dipendenti.Add(dipendente);
@@ -137,6 +139,9 @@ public List<Dipendente> GetUsers()
 
     return dipendenti;
 }
+
+
+
 
 
 
@@ -149,11 +154,11 @@ public Dipendente CercaDipendentePerMail(string email)
                  dipendente.mail, 
                  mansione.titolo, 
                  mansione.stipendio, 
-                 statistiche.performance, 
-                 statistiche.assenze 
+                 indicatori.fatturato, 
+                 indicatori.presenze
           FROM dipendente
           JOIN mansione ON dipendente.mansioneId = mansione.id
-          LEFT JOIN statistiche ON mansione.statisticheId = statistiche.id 
+          LEFT JOIN indicatori ON dipendente.indicatoriId = indicatori.id 
           WHERE dipendente.mail = @mail;", 
         _connection);
 
@@ -162,18 +167,15 @@ public Dipendente CercaDipendentePerMail(string email)
 
     if (reader.Read())
     {
-        var statistiche = new Statistiche(
-            reader.IsDBNull(6) ? 0 : reader.GetInt32(6),  // Performance
-            reader.IsDBNull(7) ? 0 : reader.GetInt32(7)   // Assenze
-        );
+        var mansione = new Mansione(reader.GetString(4), reader.GetDouble(5));
+        var statistiche = new Statistiche(reader.IsDBNull(6) ? 0 : reader.GetInt32(6), reader.IsDBNull(7) ? 0 : reader.GetInt32(7));
 
         var dipendente = new Dipendente(
             reader.GetString(0),  // Nome
             reader.GetString(1),  // Cognome
             reader.GetString(2),  // Data di Nascita
-            reader.GetString(4),  // Mansione
             reader.GetString(3),  // Mail
-            reader.GetDouble(5),  // Stipendio
+            mansione,             // Mansione
             statistiche           // Statistiche
         );
 
@@ -182,6 +184,7 @@ public Dipendente CercaDipendentePerMail(string email)
 
     return null;
 }
+
 
 
 
@@ -224,36 +227,7 @@ public Dipendente CercaDipendentePerMail(string email)
     }
 }
 
-public int AggiungiStatistiche(Statistiche statistiche){
-    var command = new SQLiteCommand("INSERT INTO statistiche (performance, assenze) VALUES (@performance, @assenze); SELECT last_insert_rowid();",_connection);
-     command.Parameters.AddWithValue("@performance", statistiche.Performance);
-            command.Parameters.AddWithValue("@assenze", statistiche.Assenze);
-            return Convert.ToInt32(command.ExecuteScalar()); // Restituisce l'ID della statistica appena aggiunta
-}
 
-public bool ModificaStatistiche(int dipendenteId, string campo, string nuovoValore)
-{
-    try
-    {
-        // Trova l'ID delle statistiche per il dipendente
-        var command = new SQLiteCommand("SELECT statisticheId FROM dipendente WHERE id = @id", _connection);
-        command.Parameters.AddWithValue("@id", dipendenteId);
-        var statisticheId = Convert.ToInt32(command.ExecuteScalar());
-
-        // Aggiorna il campo nelle statistiche
-        var updateCommand = new SQLiteCommand($"UPDATE statistiche SET {campo} = @nuovoValore WHERE id = @id", _connection);
-        updateCommand.Parameters.AddWithValue("@nuovoValore", nuovoValore);
-        updateCommand.Parameters.AddWithValue("@id", statisticheId);
-
-        int rowsAffected = updateCommand.ExecuteNonQuery();
-        return rowsAffected > 0;
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine("Errore durante la modifica delle statistiche: " + ex.Message);
-        return false;
-    }
-}
 
 
 

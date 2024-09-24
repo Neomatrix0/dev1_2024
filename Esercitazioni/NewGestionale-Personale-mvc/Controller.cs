@@ -36,11 +36,11 @@ class Controller
             }
             else if (input == "Mostra Dipendenti")
             {
-                MostraDipendenti(); // Visualizzazione dei dipendenti
+                MostraDipendenti(); // Visualizzazione degli utenti
             }
             else if (input == "Rimuovi Dipendente")
             {
-                RimuoviDipendente(); //rimuovi dipendente
+                RimuoviDipendente();
             }
               else if (input == "Cerca Dipendente")
         {
@@ -48,7 +48,7 @@ class Controller
         }
           else if (input == "Modifica Dipendente")
         {
-            ModificaDipendente(); // Modifica
+            ModificaDipendente(); // Cerca un dipendente tramite email
         }
         else if(input == "Ordina stipendi"){
             OrdinaStipendi();
@@ -71,10 +71,12 @@ class Controller
          Console.WriteLine("Inserisci la mail aziendale:");
         var mail = _view.GetInput();
 
-            var mansioni=_db.MostraMansioni();
-            foreach(var mansione in mansioni){
-                Console.WriteLine(mansione);
-            }
+        var mansioni = _db.MostraMansioni();
+    foreach (var mansione in mansioni)
+    {
+        // Stampa ogni mansione con il suo ID e altri dettagli
+        Console.WriteLine($"ID: {mansione.Id}, Titolo: {mansione.Titolo}, Stipendio: {mansione.Stipendio}");
+    }
 
          Console.WriteLine("Scegli tra le mansioni disponibili per id:");
         var mansioneInput = _view.GetInput();
@@ -153,39 +155,6 @@ private void CercaDipendente(){
     }
 }
 
-private void AggiungiStatistiche(){
-    Console.WriteLine("Elenco dei dipendenti:");
-    var dipendentiConId = _db.GetDipendentiConId();
-    foreach(var dipendente in dipendentiConId){
-        Console.WriteLine(dipendente);
-    }
-
-    Console.WriteLine("Inserisci l'ID del dipendente a cui vuoi assegnare le statistiche:");
-    if (int.TryParse(_view.GetInput(), out int dipendenteId))
-    {
-        // Richiedi le performance
-        Console.WriteLine("Inserisci le performance del dipendente:");
-        var performance = Convert.ToInt32(_view.GetInput());
-
-        // Richiedi le assenze
-        Console.WriteLine("Inserisci i giorni di assenza del dipendente:");
-        var assenze = Convert.ToInt32(_view.GetInput());
-
-        // Creazione dell'oggetto statistiche
-        var statistiche = new Statistiche(0, performance, assenze); // L'ID sarà auto-incrementato nel database
-
-        // Aggiungi statistiche al database e ottieni il loro ID
-        int statisticheId = _db.AggiungiStatistiche(statistiche);
-
-        // Collega le statistiche al dipendente
-        _db.CollegaStatisticheAlDipendente(dipendenteId, statisticheId);
-        Console.WriteLine("Statistiche assegnate con successo al dipendente.");
-    }
-    else
-    {
-        Console.WriteLine("ID del dipendente non valido. Riprova.");
-    }
-}
 
 private void OrdinaStipendi(){
 
