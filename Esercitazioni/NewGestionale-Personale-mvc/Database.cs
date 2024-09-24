@@ -66,6 +66,9 @@ class Database
     commandDipendente.ExecuteNonQuery(); // Esegui l'aggiornamento
 }
 
+
+
+
 public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuovePresenze)
 {
     // Aggiorna il record nella tabella `indicatori` collegato al dipendente
@@ -126,6 +129,33 @@ public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuov
 
     return dipendenti;
 }
+/*
+public List<Dipendente> GetDipendentiConId()
+{
+    var command = new SQLiteCommand("SELECT id, nome, cognome, strftime('%d/%m/%Y', dataDiNascita), mail FROM dipendente", _connection);
+    var reader = command.ExecuteReader();
+    var dipendenti = new List<Dipendente>();
+
+    while (reader.Read())
+    {
+        // Crea un nuovo oggetto Dipendente per ogni riga letta
+        var dipendente = new Dipendente(
+            reader.GetString(1),   // Nome
+            reader.GetString(2),   // Cognome
+            reader.GetString(3),   // Data di Nascita
+            reader.GetString(4),   // Mail
+            null                   // Mansione (null per ora)
+        );
+
+        dipendente.Id = reader.GetInt32(0);  // Imposta l'ID del dipendente
+
+        // Aggiungi il dipendente alla lista
+        dipendenti.Add(dipendente);
+    }
+
+    return dipendenti;
+}
+*/
 
 public List<Dipendente> GetUsers()
 {

@@ -144,8 +144,33 @@ private void CercaDipendente(){
       var cercaMail = _view.GetInput();
       var dipendente= _db.CercaDipendentePerMail(cercaMail);
       if(dipendente != null){
-        Console.WriteLine("Dettagli del dipendente:");
-        Console.WriteLine(dipendente.ToString());
+
+           var table = new Table();
+        table.AddColumn("Nome");
+        table.AddColumn("Cognome");
+        table.AddColumn("Data di Nascita");
+        table.AddColumn("Mansione");
+        table.AddColumn("Stipendio");
+        table.AddColumn("Fatturato");
+        table.AddColumn("Presenze");
+        table.AddColumn("Email");
+
+        // Aggiungi i dati del dipendente nella tabella
+        table.AddRow(
+            dipendente.Nome,
+            dipendente.Cognome,
+            dipendente.DataDiNascita,
+            dipendente.Mansione.Titolo,
+            dipendente.Stipendio.ToString(),
+            dipendente.Statistiche.Fatturato.ToString(),
+            dipendente.Statistiche.Presenze.ToString(),
+            dipendente.Mail
+        );
+
+        // Mostra la tabella
+        AnsiConsole.Write(table);
+       // Console.WriteLine("Dettagli del dipendente:");
+       // Console.WriteLine(dipendente.ToString());
       }else{
         // Messaggio se il dipendente non viene trovato
         Console.WriteLine("Dipendente non trovato con questa email.");
