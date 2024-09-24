@@ -51,6 +51,33 @@ class Database
 
     }
 
+    public void AggiungiIndicatori(int dipendenteId, double fatturato, int presenze)
+{
+    // Creare un nuovo record nella tabella `indicatori`
+    var commandIndicatori = new SQLiteCommand("INSERT INTO indicatori (fatturato, presenze) VALUES (@fatturato, @presenze); SELECT last_insert_rowid();", _connection);
+    commandIndicatori.Parameters.AddWithValue("@fatturato", fatturato);
+    commandIndicatori.Parameters.AddWithValue("@presenze", presenze);
+    int indicatoriId = Convert.ToInt32(commandIndicatori.ExecuteScalar());
+
+    // Aggiorna il dipendente con il nuovo `indicatoriId`
+    var commandDipendente = new SQLiteCommand("UPDATE dipendente SET indicatoriId = @indicatoriId WHERE id = @dipendenteId", _connection);
+    commandDipendente.Parameters.AddWithValue("@indicatoriId", indicatoriId);
+    commandDipendente.Parameters.AddWithValue("@dipendenteId", dipendenteId);
+    commandDipendente.ExecuteNonQuery(); // Esegui l'aggiornamento
+}
+
+public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuovePresenze)
+{
+    // Aggiorna il record nella tabella `indicatori` collegato al dipendente
+    var command = new SQLiteCommand("UPDATE indicatori SET fatturato = @fatturato, presenze = @presenze WHERE id = (SELECT indicatoriId FROM dipendente WHERE id = @dipendenteId)", _connection);
+    command.Parameters.AddWithValue("@fatturato", nuovoFatturato);
+    command.Parameters.AddWithValue("@presenze", nuovePresenze);
+    command.Parameters.AddWithValue("@dipendenteId", dipendenteId);
+    command.ExecuteNonQuery(); // Esegui l'aggiornamento
+}
+
+
+
     private void AggiungiMansioniPredefinite(){
 
         var mansioni = new List <Mansione>{

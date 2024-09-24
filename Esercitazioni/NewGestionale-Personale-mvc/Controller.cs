@@ -21,11 +21,11 @@ class Controller
             var input = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("GESTIONALE DIPENDENTI")
-            .PageSize(6)
+            .PageSize(8)
             .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
             .AddChoices(new[] {
                 "Aggiungi Dipendente", "Mostra Dipendenti", "Rimuovi Dipendente",
-                "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi", "Esci",
+                "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi","Aggiungi indicatori", "Esci",
             }));
 
         
@@ -52,6 +52,9 @@ class Controller
         }
         else if(input == "Ordina stipendi"){
             OrdinaStipendi();
+        }
+        else if( input == "Aggiungi indicatori"){
+            AggiungiIndicatoriDipendente();
         }
             else if (input == "Esci")
             {
@@ -155,10 +158,62 @@ private void CercaDipendente(){
     }
 }
 
+private void AggiungiIndicatoriDipendente()
+{
+    Console.WriteLine("Elenco dei dipendenti:");
+    var dipendentiConId = _db.GetUsers();
+    foreach(var dipendente in dipendentiConId)
+    {
+        Console.WriteLine(dipendente);
+    }
+
+    Console.WriteLine("Inserisci l'ID del dipendente per aggiungere indicatori:");
+    int dipendenteId = Convert.ToInt32(Console.ReadLine());
+
+    Console.WriteLine("Inserisci il fatturato del dipendente:");
+    double fatturato = Convert.ToDouble(Console.ReadLine());
+
+    Console.WriteLine("Inserisci il numero di presenze del dipendente:");
+    int presenze = Convert.ToInt32(Console.ReadLine());  // Definisci la variabile 'presenze'
+
+    // Chiamata al metodo AggiungiIndicatori del Database
+    _db.AggiungiIndicatori(dipendenteId, fatturato, presenze);  // Usa 'presenze' ora definita
+    
+    Console.WriteLine("Indicatori aggiunti con successo.");
+}
 
 private void OrdinaStipendi(){
 
 }
+
+private void AggiornaIndicatoriDipendente()
+{
+    // Mostra elenco dipendenti con ID
+    Console.WriteLine("Elenco dei dipendenti:");
+    var dipendentiConId = _db.GetDipendentiConId(); // Ottieni la lista dei dipendenti con ID
+    foreach (var dipendente in dipendentiConId)
+    {
+        Console.WriteLine(dipendente); // Mostra ID e nome di ogni dipendente
+    }
+
+    // Richiedi l'ID del dipendente per il quale aggiornare gli indicatori
+    Console.WriteLine("Inserisci l'ID del dipendente per aggiornare gli indicatori:");
+    int dipendenteId = Convert.ToInt32(Console.ReadLine()); // Legge l'ID del dipendente
+
+    // Chiedi i nuovi valori di fatturato e presenze
+    Console.WriteLine("Inserisci il nuovo fatturato del dipendente:");
+    double nuovoFatturato = Convert.ToDouble(Console.ReadLine()); // Legge il nuovo fatturato
+
+    Console.WriteLine("Inserisci il nuovo numero di presenze del dipendente:");
+    int nuovePresenze = Convert.ToInt32(Console.ReadLine()); // Legge il nuovo numero di presenze
+
+    // Chiamata al metodo AggiornaIndicatori del Database
+    _db.AggiornaIndicatori(dipendenteId, nuovoFatturato, nuovePresenze);
+
+    // Conferma che gli indicatori sono stati aggiornati
+    Console.WriteLine("Indicatori aggiornati con successo.");
+}
+
 
 private void ModificaDipendente()
 {
@@ -181,11 +236,11 @@ private void ModificaDipendente()
         var inserimento = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("MODIFICA DIPENDENTE")
-            .PageSize(8)
+            .PageSize(10)
             .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
             .AddChoices(new[] {
                 "Cambia nome", "Cambia cognome", "Cambia data di nascita formato DD/MM/YYYY",
-                "Cambia mansione", "Cambia stipendio", "Cambia fatturato", "Cambia giorni di presenza", "Cambia mail", "Esci",
+                "Cambia mansione", "Cambia stipendio", "Cambia fatturato", "Cambia giorni di presenza", "Cambia mail","Aggiorna indicatori", "Esci",
             }));
 
         string campoDaModificare = "";
@@ -244,6 +299,8 @@ private void ModificaDipendente()
                 nuovoValore = Console.ReadLine().Trim();
                 break;
 
+                
+
             case "Esci":
                 Console.WriteLine("\nL'applicazione si sta per chiudere\n");
                 return;
@@ -271,6 +328,8 @@ private void ModificaDipendente()
         Console.WriteLine($"CODICE ERRORE: {e.HResult}");
     }
 }
+
+
 
 
 }

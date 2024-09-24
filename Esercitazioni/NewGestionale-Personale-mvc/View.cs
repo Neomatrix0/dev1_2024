@@ -16,6 +16,7 @@ class View
         Console.WriteLine("3. Rimuovi dipendente");
         Console.WriteLine("4. Cerca dipendente per mail");
         Console.WriteLine("5. Modifica dipendente");
+        Console.WriteLine("6. Aggiungi indicatori dipendente");
         Console.WriteLine("7. Esci");
     }
 
