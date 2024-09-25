@@ -3,9 +3,9 @@ using Spectre.Console;
 class Database
 {
     private SQLiteConnection _connection; // SQLiteConnection è una classe che rappresenta una connessione a un database SQLite si definisce classe
-                                          // perche è un oggetto che rappresenta il modello
-                                          // Si utilizza l'underscore davanti al nome 
-                                          // della variabile per indicare che è privata e non accessibile dall'esterno
+                                          
+                                          
+                                         
 
     public Database()
     {
@@ -65,9 +65,6 @@ class Database
     commandDipendente.Parameters.AddWithValue("@dipendenteId", dipendenteId);
     commandDipendente.ExecuteNonQuery(); // Esegui l'aggiornamento
 }
-
-
-
 
 public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuovePresenze)
 {
@@ -129,38 +126,11 @@ public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuov
 
     return dipendenti;
 }
-/*
-public List<Dipendente> GetDipendentiConId()
-{
-    var command = new SQLiteCommand("SELECT id, nome, cognome, strftime('%d/%m/%Y', dataDiNascita), mail FROM dipendente", _connection);
-    var reader = command.ExecuteReader();
-    var dipendenti = new List<Dipendente>();
-
-    while (reader.Read())
-    {
-        // Crea un nuovo oggetto Dipendente per ogni riga letta
-        var dipendente = new Dipendente(
-            reader.GetString(1),   // Nome
-            reader.GetString(2),   // Cognome
-            reader.GetString(3),   // Data di Nascita
-            reader.GetString(4),   // Mail
-            null                   // Mansione (null per ora)
-        );
-
-        dipendente.Id = reader.GetInt32(0);  // Imposta l'ID del dipendente
-
-        // Aggiungi il dipendente alla lista
-        dipendenti.Add(dipendente);
-    }
-
-    return dipendenti;
-}
-*/
 
 public List<Dipendente> GetUsers()
 {
     var command = new SQLiteCommand(
-        "SELECT dipendente.nome, dipendente.cognome, strftime('%d/%m/%Y', dataDiNascita) AS data_formattata, dipendente.mail, mansione.titolo, mansione.stipendio, indicatori.fatturato, indicatori.presenze " +
+        "SELECT dipendente.id, dipendente.nome, dipendente.cognome, strftime('%d/%m/%Y', dataDiNascita) AS data_formattata, dipendente.mail, mansione.titolo, mansione.stipendio, indicatori.fatturato, indicatori.presenze " +
         "FROM dipendente " +
         "JOIN mansione ON dipendente.mansioneId = mansione.id " +
         "LEFT JOIN indicatori ON dipendente.indicatoriId = indicatori.id;", 
@@ -171,22 +141,22 @@ public List<Dipendente> GetUsers()
 
     while (reader.Read())
     {
-        // Leggi il titolo e lo stipendio dalla mansione
-        var mansione = new Mansione(reader.GetString(4), reader.GetDouble(5));
-
-        // Gestione dei dati nullable per fatturato (double) e presenze (int)
-        double fatturato = reader.IsDBNull(6) ? 0.0 : reader.GetDouble(6);  // Usa 0.0 come valore di default se NULL
-        int presenze = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);          // Usa 0 come valore di default se NULL
+        // Crea un oggetto Mansione
+        var mansione = new Mansione(reader.GetString(5), reader.GetDouble(6));
 
         // Crea un oggetto Statistiche
-        var statistiche = new Statistiche(fatturato, presenze);
+        var statistiche = new Statistiche(
+            reader.IsDBNull(7) ? 0 : reader.GetDouble(7),  // Fatturato
+            reader.IsDBNull(8) ? 0 : reader.GetInt32(8)     // Presenze
+        );
 
-        // Crea il dipendente
+        // Crea un nuovo oggetto Dipendente utilizzando il nuovo costruttore con l'ID
         var dipendente = new Dipendente(
-            reader.GetString(0), // Nome
-            reader.GetString(1), // Cognome
-            reader.GetString(2), // Data di nascita
-            reader.GetString(3), // Mail
+            reader.GetInt32(0),  // ID
+            reader.GetString(1), // Nome
+            reader.GetString(2), // Cognome
+            reader.GetString(3), // Data di Nascita
+            reader.GetString(4), // Mail
             mansione,            // Mansione
             statistiche          // Statistiche
         );
@@ -199,13 +169,11 @@ public List<Dipendente> GetUsers()
 
 
 
-
-
-
 public Dipendente CercaDipendentePerMail(string email)
 {
     var command = new SQLiteCommand(
-        @"SELECT dipendente.nome, 
+        @"SELECT dipendente.id, 
+                 dipendente.nome, 
                  dipendente.cognome, 
                  strftime('%d/%m/%Y', dataDiNascita) AS data_formattata, 
                  dipendente.mail, 
@@ -225,21 +193,22 @@ public Dipendente CercaDipendentePerMail(string email)
     if (reader.Read())
     {
         // Creazione dell'oggetto Mansione con i campi corretti
-        var mansione = new Mansione(reader.GetString(4), reader.GetDouble(5));
+        var mansione = new Mansione(reader.GetString(5), reader.GetDouble(6));
 
         // Gestione dei campi indicatori con controlli per i valori NULL
-        double fatturato = reader.IsDBNull(6) ? 0.0 : reader.GetDouble(6); // Usa GetDouble per i valori reali
-        int presenze = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);        // Usa GetInt32 per valori interi
+        double fatturato = reader.IsDBNull(7) ? 0.0 : reader.GetDouble(7); // Usa GetDouble per i valori reali
+        int presenze = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);        // Usa GetInt32 per valori interi
 
         // Creazione dell'oggetto Statistiche con fatturato e presenze
         var statistiche = new Statistiche(fatturato, presenze);
 
-        // Creazione dell'oggetto Dipendente
+        // Creazione dell'oggetto Dipendente con ID
         var dipendente = new Dipendente(
-            reader.GetString(0),  // Nome
-            reader.GetString(1),  // Cognome
-            reader.GetString(2),  // Data di Nascita
-            reader.GetString(3),  // Mail
+            reader.GetInt32(0),  // ID
+            reader.GetString(1),  // Nome
+            reader.GetString(2),  // Cognome
+            reader.GetString(3),  // Data di Nascita
+            reader.GetString(4),  // Mail
             mansione,             // Mansione
             statistiche           // Statistiche
         );
@@ -250,6 +219,7 @@ public Dipendente CercaDipendentePerMail(string email)
     // Restituisci null se il dipendente non viene trovato
     return null;
 }
+
 
 
 
@@ -333,4 +303,3 @@ public bool ModificaDipendente(int dipendenteId, string campoDaModificare, strin
 
 
 }
-

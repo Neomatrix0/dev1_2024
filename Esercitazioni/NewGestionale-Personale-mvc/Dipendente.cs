@@ -5,9 +5,10 @@ public class Dipendente : Persona
     public string Mail { get; set; }
     public Statistiche Statistiche { get; set; } // connette Dipendente a Statistiche
 
-    public Dipendente(string nome, string cognome, string dataDiNascita, string mail, Mansione mansione, Statistiche statistiche = null)
+    public Dipendente(int id,string nome, string cognome, string dataDiNascita, string mail, Mansione mansione, Statistiche statistiche = null)
         : base(nome, cognome, dataDiNascita) // Fa riferimento alla proprietà 'DataDiNascita' della classe base 'Persona'
     {
+        this.Id =id;
         this.Mansione = mansione;
         this.Mail = mail;
         this.Statistiche = statistiche ?? new Statistiche(0, 0); // Imposta le statistiche
@@ -19,6 +20,6 @@ public class Dipendente : Persona
     // Metodo ToString per visualizzare i dettagli del dipendente
     public override string ToString()
     {
-        return $"Nome: {Nome}, Cognome: {Cognome}, Data di Nascita: {DataDiNascita}, Mail: {Mail}, Mansione: {Mansione.Titolo}, Stipendio: {Stipendio}, Fatturato: {Statistiche.Fatturato}, Presenze: {Statistiche.Presenze}";
+        return $"ID:{Id},Nome: {Nome}, Cognome: {Cognome}, Data di Nascita: {DataDiNascita}, Mail: {Mail}, Mansione: {Mansione.Titolo}, Stipendio: {Stipendio}, Fatturato: {Statistiche.Fatturato}, Presenze: {Statistiche.Presenze}";
     }
 }

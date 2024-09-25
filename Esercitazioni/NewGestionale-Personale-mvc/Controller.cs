@@ -320,7 +320,7 @@ private void ValutazioneFatturatoProdotto()
 }
 
 
-private void AggiungiIndicatoriDipendente()
+/*private void AggiungiIndicatoriDipendente()
 {
     Console.WriteLine("Elenco dei dipendenti:");
     var dipendentiConId = _db.GetUsers();
@@ -342,7 +342,59 @@ private void AggiungiIndicatoriDipendente()
     _db.AggiungiIndicatori(dipendenteId, fatturato, presenze);  // Usa 'presenze' ora definita
     
     Console.WriteLine("Indicatori aggiunti con successo.");
+} */
+
+private void AggiungiIndicatoriDipendente()
+{
+    Console.WriteLine("Elenco dei dipendenti:");
+
+    // Recupera i dipendenti con ID
+    var dipendentiConId = _db.GetUsers(); // Ottieni la lista dei dipendenti
+
+    // Crea una tabella per visualizzare i dipendenti
+    var table = new Table();
+    table.AddColumn("ID");
+    table.AddColumn("Nome");
+    table.AddColumn("Cognome");
+    table.AddColumn("Mansione");
+    table.AddColumn("Stipendio");
+    table.AddColumn("Fatturato");
+    table.AddColumn("Presenze");
+
+    // Aggiungi le righe con i dati dei dipendenti
+    foreach (var dipendente in dipendentiConId)
+    {
+        table.AddRow(
+            dipendente.Id.ToString(), // Visualizza l'ID del dipendente
+            dipendente.Nome,
+            dipendente.Cognome,
+            dipendente.Mansione.Titolo,
+            dipendente.Stipendio.ToString(),
+            dipendente.Statistiche.Fatturato.ToString(),
+            dipendente.Statistiche.Presenze.ToString()
+        );
+    }
+
+    // Mostra la tabella
+    AnsiConsole.Write(table);
+
+    // Chiedi all'utente l'ID del dipendente
+    Console.WriteLine("Inserisci l'ID del dipendente per aggiungere indicatori:");
+    int dipendenteId = Convert.ToInt32(Console.ReadLine());
+
+    // Chiedi i nuovi valori per fatturato e presenze
+    Console.WriteLine("Inserisci il fatturato del dipendente:");
+    double fatturato = Convert.ToDouble(Console.ReadLine());
+
+    Console.WriteLine("Inserisci il numero di presenze del dipendente:");
+    int presenze = Convert.ToInt32(Console.ReadLine());
+
+    // Chiamata al metodo AggiungiIndicatori del Database
+    _db.AggiungiIndicatori(dipendenteId, fatturato, presenze);
+
+    Console.WriteLine("Indicatori aggiunti con successo.");
 }
+
 
 
 // da rivedere
