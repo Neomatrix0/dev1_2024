@@ -25,7 +25,7 @@ class Controller
             .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
             .AddChoices(new[] {
                 "Aggiungi Dipendente", "Mostra Dipendenti", "Rimuovi Dipendente",
-                "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi","Aggiungi indicatori","Tasso di presenza","Valutazione per fatturato", "Esci",
+                "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi","Aggiungi indicatori","Tasso di presenza","Valutazione per fatturato","Incidenza percentuale", "Esci",
             }));
 
         
@@ -61,6 +61,9 @@ class Controller
             TassoDiPresenza();
         }else if(input == "Valutazione per fatturato"){
             ValutazioneFatturatoProdotto();
+        }
+         else if(input == "Incidenza percentuale"){
+            IncidenzaPercentuale();
         }
             else if (input == "Esci")
             {
@@ -319,30 +322,65 @@ private void ValutazioneFatturatoProdotto()
     AnsiConsole.Write(tablePeggiori15);
 }
 
-
-/*private void AggiungiIndicatoriDipendente()
+public void IncidenzaPercentuale()
 {
-    Console.WriteLine("Elenco dei dipendenti:");
-    var dipendentiConId = _db.GetUsers();
-    foreach(var dipendente in dipendentiConId)
+   /* Console.WriteLine("Calcolo dell'incidenza percentuale dello stipendio in rapporto al fatturato.");
+
+    // Recupera i dipendenti dal database
+    var dipendenti = _db.GetUsers();
+
+    // Verifica se ci sono dipendenti nel database
+    if (dipendenti.Count == 0)
     {
-        Console.WriteLine(dipendente);
+        Console.WriteLine("Non ci sono dipendenti nel sistema.");
+        return;
     }
 
-    Console.WriteLine("Inserisci l'ID del dipendente per aggiungere indicatori:");
-    int dipendenteId = Convert.ToInt32(Console.ReadLine());
+    // Chiedi l'inserimento del fatturato totale, potrebbe essere ottenuto anche da un altro metodo
+    Console.WriteLine("Inserisci il fatturato totale dell'azienda:");
+    double fatturatoTotale = Convert.ToDouble(Console.ReadLine());
 
-    Console.WriteLine("Inserisci il fatturato del dipendente:");
-    double fatturato = Convert.ToDouble(Console.ReadLine());
+    // Crea una tabella per visualizzare i dati
+    var table = new Table();
+    table.AddColumn("Nome");
+    table.AddColumn("Cognome");
+    table.AddColumn("Data di Nascita");
+    table.AddColumn("Mansione");
+    table.AddColumn("Stipendio");
+    table.AddColumn("Incidenza sul fatturato (%)");
+    table.AddColumn("Fatturato prodotto");
+    table.AddColumn("Presenze");
 
-    Console.WriteLine("Inserisci il numero di presenze del dipendente:");
-    int presenze = Convert.ToInt32(Console.ReadLine());  // Definisci la variabile 'presenze'
+    // Ordina i dipendenti per stipendio in ordine discendente
+    dipendenti.Sort((x, y) => y.Stipendio.CompareTo(x.Stipendio));
 
-    // Chiamata al metodo AggiungiIndicatori del Database
-    _db.AggiungiIndicatori(dipendenteId, fatturato, presenze);  // Usa 'presenze' ora definita
-    
-    Console.WriteLine("Indicatori aggiunti con successo.");
-} */
+    // Itera sui dipendenti e calcola l'incidenza percentuale
+    foreach (var dipendente in dipendenti)
+    {
+        double stipendio = dipendente.Stipendio;
+        
+        // Calcola l'incidenza percentuale dello stipendio rispetto al fatturato totale
+        double incidenza = (stipendio / fatturatoTotale) * 100;
+        double incidenzaPercentuale = Math.Round(incidenza, 2); // Arrotonda a 2 cifre decimali
+
+        // Aggiungi i dati del dipendente alla tabella
+        table.AddRow(
+            dipendente.Nome,
+            dipendente.Cognome,
+            dipendente.DataDiNascita,
+            dipendente.Mansione.Titolo,
+            stipendio.ToString(),
+            $"{incidenzaPercentuale}%",
+            dipendente.Statistiche.Fatturato.ToString(),
+            dipendente.Statistiche.Presenze.ToString()
+        );
+    }
+
+    // Mostra la tabella nella console
+    AnsiConsole.Write(table); */
+}
+
+
 
 private void AggiungiIndicatoriDipendente()
 {

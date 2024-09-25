@@ -1,5 +1,8 @@
+// importazione librerie
 using System.Data.SQLite;
 using Spectre.Console;
+
+// creazione classe Database
 class Database
 {
     private SQLiteConnection _connection; // SQLiteConnection è una classe che rappresenta una connessione a un database SQLite si definisce classe
@@ -11,24 +14,28 @@ class Database
     {
         _connection = new SQLiteConnection("Data Source=database.db"); // Creazione di una connessione al database
         _connection.Open(); // Apertura della connessione
+
+    // creazione della tabella principale chiamata dipendente
       var command1 = new SQLiteCommand(
         "CREATE TABLE IF NOT EXISTS dipendente (id INTEGER PRIMARY KEY, nome TEXT, cognome TEXT, dataDiNascita DATE, mail TEXT,  mansioneId INTEGER,indicatoriId INTEGER,  FOREIGN KEY(mansioneId) REFERENCES mansione(id),FOREIGN KEY(indicatoriId) REFERENCES indicatori(id)) ;", 
         _connection);
     command1.ExecuteNonQuery(); // Esecuzione del comando
 
-    // Creazione della tabella mansione
+    // Creazione della tabella mansione collegata alla tabella dipendente
     var command2 = new SQLiteCommand(
         "CREATE TABLE IF NOT EXISTS mansione (id INTEGER PRIMARY KEY AUTOINCREMENT, titolo TEXT UNIQUE,stipendio REAL);", 
         _connection);
     command2.ExecuteNonQuery(); // Esecuzione del comando
 
+// creazione della tabella indicatori collegata alla tabella dipendente
     var command3 = new SQLiteCommand(
         "CREATE TABLE IF NOT EXISTS indicatori (id INTEGER PRIMARY KEY AUTOINCREMENT, fatturato REAL,presenze INTEGER);", 
         _connection);
     command3.ExecuteNonQuery(); // Esecuzione del comando
-       AggiungiMansioniPredefinite();
+       AggiungiMansioniPredefinite();  // metodo che aggiunge delle mansioni di default nella tabella mansione
     }
 
+// metodo che permette l'aggiunta del dipendente nel database mettendo come input i valori richiesti
     public void AggiungiDipendente(string nome,string cognome,DateTime dataDiNascita,string mail,int mansioneId)
     {
         var command = new SQLiteCommand($"INSERT INTO dipendente (nome,cognome,dataDiNascita,mail,mansioneId) VALUES (@nome,@cognome,@dataDiNascita,@mail,@mansioneId)", _connection); // Creazione di un comando per inserire un nuovo utente
@@ -40,12 +47,17 @@ class Database
         command.ExecuteNonQuery(); // Esecuzione del comando
     }
 
+// metodo che permette l'aggiunta della mansione alla tabella mansione con valori titolo e stipendio
     public int AggiungiMansione(Mansione mansione){
+        // SELECT last_insert_rowid():  seleziona l'ID della riga che è stata appena inserita
         var command = new SQLiteCommand("INSERT INTO mansione(titolo,stipendio) VALUES (@titolo,@stipendio);SELECT last_insert_rowid()",_connection);
         command.Parameters.AddWithValue("@titolo",mansione.Titolo);
          command.Parameters.AddWithValue("@stipendio",mansione.Stipendio);
 
-          // command.ExecuteNonQuery(); 
+          
+          //esegue la query SQL e restituisce il valore della prima colonna della prima riga del risultato (in questo caso, l'ID appena inserito).
+        //Convert.ToInt32(...) converte il risultato (che è di tipo object) in un tipo int.
+
            return Convert.ToInt32(command.ExecuteScalar());
            
 
@@ -76,7 +88,7 @@ public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuov
     command.ExecuteNonQuery(); // Esegui l'aggiornamento
 }
 
-
+// aggiunge mansioni di default al database
 
     private void AggiungiMansioniPredefinite(){
 
@@ -104,9 +116,10 @@ public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuov
     }
     }
 
+    // rimuove il dipendente cercato per id
     public bool RimuoviDipendente(int dipendenteId){
         var command = new SQLiteCommand("DELETE from dipendente WHERE id= @id", _connection); 
-        command.Parameters.AddWithValue("@id", dipendenteId);// continuare
+        command.Parameters.AddWithValue("@id", dipendenteId);
         int affectedRows = command.ExecuteNonQuery(); // Restituisce il numero di righe interessate
     return affectedRows > 0;
     
@@ -114,29 +127,39 @@ public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuov
 
     public List<string> GetDipendentiConId()
 {
+      // Crea un comando SQL per selezionare l'ID, il nome e il cognome di tutti i dipendenti
+
     var command = new SQLiteCommand("SELECT id, nome, cognome FROM dipendente", _connection);
     var reader = command.ExecuteReader();
+
+    // Crea una lista di stringhe per memorizzare i risultati (ID, Nome, Cognome dei dipendenti)
     var dipendenti = new List<string>();
+
+     // Cicla attraverso i risultati letti dal database
 
     while (reader.Read())
     {
+         // Crea una stringa con l'ID, il nome e il cognome del dipendente
         string info = $"ID: {reader.GetInt32(0)}, Nome: {reader.GetString(1)}, Cognome: {reader.GetString(2)}";
+         // Aggiunge la stringa alla lista 'dipendenti'
         dipendenti.Add(info);
     }
-
+    //restituisce lista dipendenti
     return dipendenti;
 }
 
+// Metodo che permette la lettura dei dati dei dipendenti dal database SQLite, dell'aggregazione di questi dati in oggetti Dipendente e della restituzione di una lista di questi oggetti. 
 public List<Dipendente> GetUsers()
 {
     var command = new SQLiteCommand(
         "SELECT dipendente.id, dipendente.nome, dipendente.cognome, strftime('%d/%m/%Y', dataDiNascita) AS data_formattata, dipendente.mail, mansione.titolo, mansione.stipendio, indicatori.fatturato, indicatori.presenze " +
         "FROM dipendente " +
-        "JOIN mansione ON dipendente.mansioneId = mansione.id " +
-        "LEFT JOIN indicatori ON dipendente.indicatoriId = indicatori.id;", 
+        "JOIN mansione ON dipendente.mansioneId = mansione.id " +           //JOIN  collega la tabella mansione alla tabella dipendente
+        "LEFT JOIN indicatori ON dipendente.indicatoriId = indicatori.id;", //Left Join permette di includere anche valori nulli negli indicatori
         _connection);
 
     var reader = command.ExecuteReader(); 
+    // Crea una lista vuota di oggetti Dipendente
     var dipendenti = new List<Dipendente>();
 
     while (reader.Read())
@@ -167,7 +190,7 @@ public List<Dipendente> GetUsers()
     return dipendenti;
 }
 
-
+// metodo che permette di cercare il dipendente tramite mail
 
 public Dipendente CercaDipendentePerMail(string email)
 {
@@ -212,7 +235,7 @@ public Dipendente CercaDipendentePerMail(string email)
             mansione,             // Mansione
             statistiche           // Statistiche
         );
-
+// Restituisce la lista di dipendenti
         return dipendente;
     }
 
@@ -221,7 +244,7 @@ public Dipendente CercaDipendentePerMail(string email)
 }
 
 
-
+// metodo che permette la lettura dei dati dalla tabella mansione per id,titolo,stipendio 
 
     public List<Mansione>MostraMansioni(){
         var command = new SQLiteCommand("SELECT id, titolo, stipendio FROM mansione;",_connection);
@@ -236,21 +259,22 @@ public Dipendente CercaDipendentePerMail(string email)
         return mansioni; 
     }
 
+// permette di modificare il singolo campo del dipendente nel database 
 public bool ModificaDipendente(int dipendenteId, string campoDaModificare, string nuovoValore)
 {
     try
     {
-        string query = "";
-        object indicatoriId = null;  // Dichiarazione esterna di indicatoriId
+        string query = "";  // Variabile per memorizzare la query SQL che verrà eseguita
+        object indicatoriId = null;   // Variabile per memorizzare l'ID degli indicatori, se necessario
 
         // Verifica se stai modificando "fatturato" o "presenze", che appartengono alla tabella `indicatori`
         if (campoDaModificare == "fatturato" || campoDaModificare == "presenze")
         {
-            // Prima controlla se l'`indicatoriId` esiste
+            // Prima controlla se il dipendente ha un ID indicatori associato
             var checkCommand = new SQLiteCommand("SELECT indicatoriId FROM dipendente WHERE id = @id", _connection);
             checkCommand.Parameters.AddWithValue("@id", dipendenteId);
-            indicatoriId = checkCommand.ExecuteScalar();
-
+            indicatoriId = checkCommand.ExecuteScalar(); // Esegue la query per recuperare l'ID degli indicatori
+            // Se il dipendente non ha un indicatoriId associato, restituisce un errore
             if (indicatoriId == null || indicatoriId == DBNull.Value)
             {
                 Console.WriteLine("Errore: Il dipendente non ha un ID indicatori associato.");
@@ -262,23 +286,29 @@ public bool ModificaDipendente(int dipendenteId, string campoDaModificare, strin
         }
         else
         {
-            // Aggiorna la tabella `dipendente` per altri campi
+            // Se il campo da modificare non è "fatturato" o "presenze", costruisce la query per aggiornare la tabella `dipendente`
             query = $"UPDATE dipendente SET {campoDaModificare} = @nuovoValore WHERE id = @id";
         }
 
+         // Crea il comando SQLite utilizzando la query costruita
+
         using (var command = new SQLiteCommand(query, _connection))
         {
+            // Aggiunge i parametri alla query
             command.Parameters.AddWithValue("@nuovoValore", nuovoValore);
             command.Parameters.AddWithValue("@id", dipendenteId);
 
-            // Aggiungi il parametro indicatoriId solo se necessario
+            // Se stiamo aggiornando la tabella `indicatori`, aggiunge anche l'ID degli indicatori come parametro
             if (campoDaModificare == "fatturato" || campoDaModificare == "presenze")
             {
                 command.Parameters.AddWithValue("@indicatoriId", indicatoriId);
             }
 
-            int rowsAffected = command.ExecuteNonQuery(); // Esegui l'aggiornamento
+            // Esegue l'aggiornamento e restituisce il numero di righe modificate
 
+            int rowsAffected = command.ExecuteNonQuery(); 
+
+             // Verifica se almeno una riga è stata modificata
             if (rowsAffected > 0)
             {
                 Console.WriteLine("Aggiornamento riuscito.");
@@ -293,6 +323,7 @@ public bool ModificaDipendente(int dipendenteId, string campoDaModificare, strin
     }
     catch (Exception ex)
     {
+        // Se si verifica un errore, viene gestito qui
         Console.WriteLine("Errore durante la modifica del dipendente: " + ex.Message);
         return false;
     }
