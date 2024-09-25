@@ -1,4 +1,4 @@
-// importazione librerie
+// importazione librerie per Sqlite per la gestone del database e Spectre Console per la visualizzazione in console
 using System.Data.SQLite;
 using Spectre.Console;
 
@@ -9,7 +9,7 @@ class Database
 
 
 
-    // costruttore della classe Database
+    // costruttore della classe Database  si occupa di aprire la connessione e creare le tabelle se non esistono
     public Database()
     {
         _connection = new SQLiteConnection("Data Source=database.db"); // Creazione di una connessione al database
@@ -35,7 +35,9 @@ class Database
         AggiungiMansioniPredefinite();  // metodo che aggiunge delle mansioni di default nella tabella mansione
     }
 
-    // metodo che permette l'aggiunta del dipendente nel database mettendo come input i valori richiesti
+    // metodo AggiungiDipendente che permette l'aggiunta del dipendente nel database 
+    //mettendo come input i valori richiesti  nome, cognome, data di nascita, email e ID della mansione
+    
     public void AggiungiDipendente(string nome, string cognome, DateTime dataDiNascita, string mail, int mansioneId)
     {
         var command = new SQLiteCommand($"INSERT INTO dipendente (nome,cognome,dataDiNascita,mail,mansioneId) VALUES (@nome,@cognome,@dataDiNascita,@mail,@mansioneId)", _connection); // Creazione di un comando per inserire un nuovo utente
@@ -47,10 +49,10 @@ class Database
         command.ExecuteNonQuery(); // Esecuzione del comando
     }
 
-    // metodo che permette l'aggiunta della mansione alla tabella mansione con valori titolo e stipendio
+    // metodo AggiungiMansione che permette l'aggiunta della mansione alla tabella mansione con valori titolo e stipendio
     public int AggiungiMansione(Mansione mansione)
     {
-        // SELECT last_insert_rowid():  seleziona l'ID della riga che è stata appena inserita
+        // Il comando SELECT last_insert_rowid():  seleziona l'ID della riga che è stata appena inserita
         var command = new SQLiteCommand("INSERT INTO mansione(titolo,stipendio) VALUES (@titolo,@stipendio);SELECT last_insert_rowid()", _connection);
         command.Parameters.AddWithValue("@titolo", mansione.Titolo);
         command.Parameters.AddWithValue("@stipendio", mansione.Stipendio);
@@ -64,7 +66,7 @@ class Database
 
     }
 
-    // meotdo che aggiunge valori del fatturato e delle presenze del dipendente
+    // metodo AggiungiIndicatori che aggiunge valori del fatturato e delle presenze del dipendente nel database
 
     public void AggiungiIndicatori(int dipendenteId, double fatturato, int presenze)
     {
@@ -84,7 +86,7 @@ class Database
     }
 
 
-    // Metodo che aggiorna i valori di fatturato e presenze di un dipendente specifico
+    // Metodo AggiornaIndicatori che aggiorna i valori di fatturato e presenze di un dipendente specifico
     public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuovePresenze)
     {
         // Aggiorna il record nella tabella `indicatori` collegato al dipendente
@@ -96,11 +98,12 @@ class Database
         command.ExecuteNonQuery(); // Esegui l'aggiornamento
     }
 
-    // aggiunge mansioni di default al database
+    // metodo AggiungiMansioniPredefinite inserisce delle mansioni di default al database nella tabella mansione
+    //Ogni mansione è un oggetto della classe Mansione  con valori predefiniti per titolo e stipendio
 
     private void AggiungiMansioniPredefinite()
     {
-        // Crea una lista di mansioni predefinite con titolo e stipendio
+        // Crea una lista di mansioni di tipo Mansione predefinite con titolo e stipendio
         var mansioni = new List<Mansione>{
             new Mansione("impiegato",20000),
              new Mansione("programmatore",25000),
@@ -130,7 +133,7 @@ class Database
         }
     }
 
-    // rimuove il dipendente dalla tabella `dipendente` cercandolo per id
+    // Metodo RimuoviDipendente per eliminare un dipendente dal database usando il suo ID
     public bool RimuoviDipendente(int dipendenteId)
     {
         var command = new SQLiteCommand("DELETE from dipendente WHERE id= @id", _connection);
@@ -167,7 +170,8 @@ class Database
         return dipendenti;
     }
 
-    // Metodo che permette la lettura dei dati dei dipendenti dal database SQLite, dell'aggregazione di questi dati in oggetti Dipendente e della restituzione di una lista di questi oggetti. 
+    // Metodo GetUsers permette la lettura dei dati dei dipendenti dal database SQLite 
+    //aggrega questi dati in oggetti Dipendente infine restituisce una lista di questi oggetti. 
     public List<Dipendente> GetUsers()
     {
         var command = new SQLiteCommand(
@@ -209,7 +213,7 @@ class Database
         return dipendenti;
     }
 
-    // metodo che permette di cercare il dipendente tramite mail e visionare i dettagli correlati una volta trovato
+    // metodo CercaDipendentePerMail  permette di cercare il dipendente tramite mail e mostra nel terminale i dettagli correlati una volta trovato
 
     public Dipendente CercaDipendentePerMail(string email)
     {
@@ -263,7 +267,7 @@ class Database
     }
 
 
-    // metodo che permette la lettura dei dati dalla tabella mansione per id,titolo,stipendio 
+    // metodo MostraMansioni permette la lettura dei dati dalla tabella mansione per id,titolo,stipendio 
 
     public List<Mansione> MostraMansioni()
     {
@@ -279,7 +283,8 @@ class Database
         return mansioni;
     }
 
-    // permette di modificare il singolo campo del dipendente nel database 
+    // il metodo ModificaDipendente permette di modificare un singolo campo del dipendente nel database 
+    // Restituisce `true` se la modifica ha successo e `false` se si verifica un errore o nessuna riga viene modificata
     public bool ModificaDipendente(int dipendenteId, string campoDaModificare, string nuovoValore)
     {
         try
