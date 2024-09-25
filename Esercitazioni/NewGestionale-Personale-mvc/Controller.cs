@@ -18,6 +18,8 @@ class Controller
         {
           //  _view.ShowMainMenu(); // Visualizzazione del menu principale
            // var input = _view.GetInput(); // Lettura dell'input dell'utente
+
+           // menu con spectre console
             var input = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("GESTIONALE DIPENDENTI")
@@ -28,7 +30,7 @@ class Controller
                 "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi","Aggiungi indicatori","Tasso di presenza","Valutazione per fatturato","Incidenza percentuale", "Esci",
             }));
 
-        
+         // Esegui le operazioni in base alla scelta dell'utente
 
             if (input == "Aggiungi Dipendente")
             {
@@ -40,7 +42,7 @@ class Controller
             }
             else if (input == "Rimuovi Dipendente")
             {
-                RimuoviDipendente();
+                RimuoviDipendente();    // Rimuove un dipendente
             }
               else if (input == "Cerca Dipendente")
         {
@@ -48,21 +50,21 @@ class Controller
         }
           else if (input == "Modifica Dipendente")
         {
-            ModificaDipendente(); // Cerca un dipendente tramite email
+            ModificaDipendente(); // Modifica un dipendente
         }
         else if(input == "Ordina stipendi"){
-            OrdinaStipendi();
+            OrdinaStipendi();           // Ordina i dipendenti per stipendio
         }
         else if( input == "Aggiungi indicatori"){
-            AggiungiIndicatoriDipendente();
+            AggiungiIndicatoriDipendente(); // Aggiungi indicatori fatturato e presenze a un dipendente
         }
 
          else if( input == "Tasso di presenza"){
-            TassoDiPresenza();
+            TassoDiPresenza();                               // Calcola e visualizza il tasso di presenza in percentuale e in ordine decrescente
         }else if(input == "Valutazione per fatturato"){
             ValutazioneFatturatoProdotto();
         }
-         else if(input == "Incidenza percentuale"){
+         else if(input == "Incidenza percentuale"){         //da completare mostra percentuale del proprio stipendio rispetto al fatturato
             IncidenzaPercentuale();
         }
             else if (input == "Esci")
@@ -86,18 +88,20 @@ class Controller
         var mansioni = _db.MostraMansioni();
     foreach (var mansione in mansioni)
     {
-        // Stampa ogni mansione con il suo ID e altri dettagli
+        // Stampa ogni mansione con il suo ID e altri dettagli per visionare l'id di quale mansione  aggiungere
         Console.WriteLine($"ID: {mansione.Id}, Titolo: {mansione.Titolo}, Stipendio: {mansione.Stipendio}");
     }
 
          Console.WriteLine("Scegli tra le mansioni disponibili per id:");
         var mansioneInput = _view.GetInput();
+        // Verifica se l'input della mansione è un intero valido
          if (int.TryParse(mansioneInput, out int mansioneId))
     {
         var mansioneid = Console.ReadLine();
-
+    // Verifica se la data di nascita inserita è valida nel formato "dd/MM/yyyy"
         if (DateTime.TryParseExact(dataDiNascitaString, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime dataDiNascita))
     {
+        // Aggiunta del dipendente nel database con nome, cognome, data di nascita, email e ID della mansione
         _db.AggiungiDipendente(nome, cognome, dataDiNascita,mail,mansioneId);
         Console.WriteLine("Dipendente aggiunto con successo."); // Aggiunta del dipendente al database
     }
@@ -112,18 +116,20 @@ class Controller
     }
 
     private void RimuoviDipendente(){
+         // Mostra l'elenco dei dipendenti con il loro ID, nome e cognome
          Console.WriteLine("Elenco dei dipendenti:");
         var dipendentiConId = _db.GetDipendentiConId();
+     // Itera attraverso i dipendenti e visualizza le loro informazioni
         foreach(var dipendente in dipendentiConId){
             Console.WriteLine(dipendente);
         }
         Console.WriteLine("Inserisci l'ID del dipendente da rimuovere:");
        try
     {
-        // Usa Convert.ToInt32 per convertire l'input in un intero
+        // Usa Convert.ToInt32 per convertire l'input dell'utnete (ID) in un intero
         var dipendenteId = Convert.ToInt32(Console.ReadLine());
 
-        // Prova a rimuovere il dipendente
+        // Prova a rimuovere il dipendente con l'ID specificato
         bool successo = _db.RimuoviDipendente(dipendenteId);
         if (successo)
         {
@@ -172,8 +178,7 @@ private void CercaDipendente(){
 
         // Mostra la tabella
         AnsiConsole.Write(table);
-       // Console.WriteLine("Dettagli del dipendente:");
-       // Console.WriteLine(dipendente.ToString());
+       
       }else{
         // Messaggio se il dipendente non viene trovato
         Console.WriteLine("Dipendente non trovato con questa email.");
@@ -227,7 +232,7 @@ private void TassoDiPresenza()
         table.AddColumn("Dipendente");
         table.AddColumn("Tasso di Presenza (%)");
 
-        // Ordina i dipendenti dal tasso di presenza più basso al più alto
+        // Ordina i dipendenti dal tasso di presenza più alto al più basso
         dipendenti.Sort((y, x) => x.Statistiche.Presenze.CompareTo(y.Statistiche.Presenze));
 
         foreach (var dipendente in dipendenti)
@@ -381,7 +386,7 @@ public void IncidenzaPercentuale()
 }
 
 
-
+// metodo per aggiungere fatturato e presenze da assegnare al dipendente
 private void AggiungiIndicatoriDipendente()
 {
     Console.WriteLine("Elenco dei dipendenti:");
@@ -464,6 +469,7 @@ private void AggiornaIndicatoriDipendente()
     Console.WriteLine("Indicatori aggiornati con successo.");
 }
 
+// metodo che ordina nel terminale stipendi dal più alto al più basso
 private void OrdinaStipendi()
 {
     // Recupera i dipendenti dal database
@@ -560,8 +566,11 @@ private void ModificaDipendente()
 
             case "Cambia data di nascita formato DD/MM/YYYY":
                 Console.WriteLine("Inserisci nuova data di nascita");
+                // Legge l'input dell'utente rimuove eventuali spazi vuoti e lo converte in un oggetto DateTime
+                // Utilizza il formato "dd/MM/yyyy" per garantire che la data sia inserita correttamente (giorno/mese/anno)
                 DateTime dataDiNascita = DateTime.ParseExact(Console.ReadLine().Trim(), "dd/MM/yyyy", null);
                 campoDaModificare = "dataDiNascita";
+                // Converte l'oggetto DateTime in una stringa formattata per essere compatibile con SQLite
                 nuovoValore = dataDiNascita.ToString("yyyy-MM-dd");  // Formattazione per SQLite
                 break;
 

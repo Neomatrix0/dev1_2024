@@ -2,13 +2,15 @@ using System.Data.SQLite;
 using Spectre.Console;
 class View
 {
-    private Database _db; // Riferimento al modello
+    private Database _db; // Riferimento al modello Database
 
+// Costruttore della classe View che riceve un oggetto 'Database' come argomento e lo assegna al campo privato _db.
     public View(Database db)
     {
-        _db = db; // Inizializzazione del riferimento al modello
+        _db = db; // Inizializzazione del riferimento al modello Database
     }
 
+// Metodo per mostrare il menu principale all'utente
     public void ShowMainMenu()
     {
         Console.WriteLine("1. Aggiungi dipendente");
@@ -20,16 +22,18 @@ class View
         Console.WriteLine("7. Esci");
     }
 
+  // Metodo per mostrare la lista dei dipendenti (come stringhe) ricevuta in input
     public void MostraDipendenti(List<string> users)
     {
         foreach (var user in users)
         {
-            Console.WriteLine(user); // Visualizzazione dei nomi degli utenti
+            Console.WriteLine(user); // Visualizzazione dei nomi dei dipendenti
         }
     }
 
+// Metodo per raccogliere input dell'utente da console
     public string GetInput()
     {
-        return Console.ReadLine(); // Lettura dell'input dell'utente
+        return Console.ReadLine();  // Ritorna il testo inserito dall'utente nella console
     }
 }
