@@ -1,3 +1,5 @@
+// classe gneerica Persona con dati anagrafici come proprietà
+// verrà estesa dalla classe Dipendente per sfruttare i campi relativi all'anagrafica
 public class Persona{
     public string Nome{get;set;}
     public string Cognome{get;set;}

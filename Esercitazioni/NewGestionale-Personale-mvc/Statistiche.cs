@@ -1,4 +1,5 @@
 public class Statistiche{
+// Proprietà 'Id' per identificare in modo univoco ogni record di statistiche
     public int Id{ get; set; }
 
     // Proprietà per memorizzare il fatturato generato da un dipendente
@@ -8,9 +9,10 @@ public class Statistiche{
     public int Presenze{ get; set; }
 
 // costruttore classe Statistiche
+// Riceve i valori iniziali per 'Fatturato' e 'Presenze' e li assegna alle rispettive proprietà
     public Statistiche(double fatturato,int presenze){
         
-        Fatturato = fatturato;
+        Fatturato = fatturato; // Assegna il valore di fatturato alla proprietà Fatturato
         Presenze = presenze;
     }
 }

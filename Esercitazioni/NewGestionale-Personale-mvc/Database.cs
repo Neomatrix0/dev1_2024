@@ -2,20 +2,20 @@
 using System.Data.SQLite;
 using Spectre.Console;
 
-// creazione classe Database
+// creazione classe Database per creare e gestire il database del gestionale tramite operazioni CRUD 
 class Database
 {
     private SQLiteConnection _connection; // SQLiteConnection è una classe che rappresenta una connessione a un database SQLite si definisce classe
                                           
                                           
                                          
-
+// costruttore della classe Database
     public Database()
     {
         _connection = new SQLiteConnection("Data Source=database.db"); // Creazione di una connessione al database
         _connection.Open(); // Apertura della connessione
 
-    // creazione della tabella principale chiamata dipendente
+    // creazione della tabella principale chiamata dipendente se non esiste
       var command1 = new SQLiteCommand(
         "CREATE TABLE IF NOT EXISTS dipendente (id INTEGER PRIMARY KEY, nome TEXT, cognome TEXT, dataDiNascita DATE, mail TEXT,  mansioneId INTEGER,indicatoriId INTEGER,  FOREIGN KEY(mansioneId) REFERENCES mansione(id),FOREIGN KEY(indicatoriId) REFERENCES indicatori(id)) ;", 
         _connection);
@@ -63,24 +63,31 @@ class Database
 
     }
 
+    // meotdo che aggiunge valori del fatturato e delle presenze del dipendente
+
     public void AggiungiIndicatori(int dipendenteId, double fatturato, int presenze)
 {
-    // Creare un nuovo record nella tabella `indicatori`
+    // Creare un nuovo record nella tabella `indicatori` che memorizza il fatturato e le presenze del dipendente
     var commandIndicatori = new SQLiteCommand("INSERT INTO indicatori (fatturato, presenze) VALUES (@fatturato, @presenze); SELECT last_insert_rowid();", _connection);
+    // Aggiunge i valori di fatturato e presenze come parametri per evitare SQL injection
     commandIndicatori.Parameters.AddWithValue("@fatturato", fatturato);
     commandIndicatori.Parameters.AddWithValue("@presenze", presenze);
+       // Esegue l'inserimento e ottiene l'ID del nuovo record `indicatori` appena inserito.
     int indicatoriId = Convert.ToInt32(commandIndicatori.ExecuteScalar());
 
-    // Aggiorna il dipendente con il nuovo `indicatoriId`
+    // Aggiorna il record del dipendente associando il nuovo `indicatoriId` al campo `indicatoriId` nella tabella `dipendente`
     var commandDipendente = new SQLiteCommand("UPDATE dipendente SET indicatoriId = @indicatoriId WHERE id = @dipendenteId", _connection);
     commandDipendente.Parameters.AddWithValue("@indicatoriId", indicatoriId);
     commandDipendente.Parameters.AddWithValue("@dipendenteId", dipendenteId);
     commandDipendente.ExecuteNonQuery(); // Esegui l'aggiornamento
 }
 
+
+// Metodo che aggiorna i valori di fatturato e presenze di un dipendente specifico
 public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuovePresenze)
 {
     // Aggiorna il record nella tabella `indicatori` collegato al dipendente
+    // Si seleziona l'`indicatoriId` dalla tabella `dipendente`, corrispondente al dipendente con `dipendenteId` fornito
     var command = new SQLiteCommand("UPDATE indicatori SET fatturato = @fatturato, presenze = @presenze WHERE id = (SELECT indicatoriId FROM dipendente WHERE id = @dipendenteId)", _connection);
     command.Parameters.AddWithValue("@fatturato", nuovoFatturato);
     command.Parameters.AddWithValue("@presenze", nuovePresenze);
@@ -91,7 +98,7 @@ public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuov
 // aggiunge mansioni di default al database
 
     private void AggiungiMansioniPredefinite(){
-
+        // Crea una lista di mansioni predefinite con titolo e stipendio
         var mansioni = new List <Mansione>{
             new Mansione("impiegato",20000),
              new Mansione("programmatore",25000),
@@ -99,15 +106,20 @@ public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuov
               new Mansione("receptionist",15000),
                new Mansione("general manager",120000),
                 new Mansione("ceo",4000000)
-        };   
+        };  
+          // Itera attraverso ciascuna mansione predefinita 
          foreach (var mansione in mansioni)
     {
 
-        
+        // Crea un comando SQL per verificare se una mansione con lo stesso titolo esiste già nel database
+         // SELECT COUNT(*) conta quante righe nella tabella `mansione` hanno un valore nel campo `titolo`
         var checkCommand = new SQLiteCommand("SELECT COUNT(*) FROM mansione WHERE titolo = @titolo", _connection);
-        checkCommand.Parameters.AddWithValue("@titolo", mansione.Titolo);
+        checkCommand.Parameters.AddWithValue("@titolo", mansione.Titolo);  // Aggiunge il titolo della mansione come parametro
+         // Esegue la query e restituisce il conteggio delle righe con lo stesso titolo di mansione
+         // Se il conteggio restituito è maggiore di 0, significa che esiste già una mansione con quel titolo e quindi non verrà aggiunta al database
         var count = Convert.ToInt32(checkCommand.ExecuteScalar());
-
+    // Se il titolo della mansione non esiste nel database (count == 0), la mansione viene aggiunta
+       
          if (count == 0)
             {
                 AggiungiMansione(mansione);
@@ -116,15 +128,19 @@ public void AggiornaIndicatori(int dipendenteId, double nuovoFatturato, int nuov
     }
     }
 
-    // rimuove il dipendente cercato per id
+    // rimuove il dipendente dalla tabella `dipendente` cercandolo per id
     public bool RimuoviDipendente(int dipendenteId){
         var command = new SQLiteCommand("DELETE from dipendente WHERE id= @id", _connection); 
+        // Aggiunge il parametro `@id` al comando SQL e lo imposta come l'ID del dipendente che si vuole rimuovere
         command.Parameters.AddWithValue("@id", dipendenteId);
-        int affectedRows = command.ExecuteNonQuery(); // Restituisce il numero di righe interessate
+         // Esegue il comando di eliminazione e restituisce il numero di righe interessate
+        int affectedRows = command.ExecuteNonQuery(); 
+        // Restituisce `true` se almeno una riga è stata eliminata, altrimenti `false`
     return affectedRows > 0;
     
     }
-
+    
+// Il metodo GetDipendentiConId ha il compito di recuperare l'ID, il nome e il cognome di tutti i dipendenti nel database e restituirli in una lista di stringhe.
     public List<string> GetDipendentiConId()
 {
       // Crea un comando SQL per selezionare l'ID, il nome e il cognome di tutti i dipendenti

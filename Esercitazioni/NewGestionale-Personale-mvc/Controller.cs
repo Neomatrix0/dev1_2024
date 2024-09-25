@@ -1,17 +1,19 @@
 using System.Data.SQLite;
 using Spectre.Console;
-
+// classe Controller funge da collegamento tra il Model Database e View
+// gestice la logica dell'applicazione
 class Controller
 {
     private Database _db; // Riferimento al modello
     private View _view; // Riferimento alla vista
 
+ // Costruttore della classe Controller
     public Controller(Database db, View view)
     {
         _db = db; // Inizializzazione del riferimento al modello
         _view = view; // Inizializzazione del riferimento alla vista
     }
-
+   // Metodo principale che gestisce il menu
     public void MainMenu()
     {
         while (true)
@@ -218,6 +220,7 @@ private void CercaDipendente(){
     AnsiConsole.Write(table);
 }
 
+// meotod che mostra in percentuale il tasso di presenza
 private void TassoDiPresenza()
 {
     Console.WriteLine("\nDi seguito l'elenco con il tasso di presenza per ogni dipendente su 250 giorni lavorativi equivalente ad 1 anno\n");
@@ -256,6 +259,9 @@ private void TassoDiPresenza()
     }
 }
 
+// metodo che divide in 2 gruppi i dipendenti in base al fatturato 
+//il primo gruppo sono i più performanti e l'ultimo gruppo i meno performanti
+// mostra anche il 15% dei dipendenti meno performanti
 private void ValutazioneFatturatoProdotto()
 {
     Console.WriteLine("\nDivide i dipendenti in 2 gruppi in base al fatturato prodotto");
@@ -327,6 +333,8 @@ private void ValutazioneFatturatoProdotto()
     AnsiConsole.Write(tablePeggiori15);
 }
 
+// metodo che mostra l'incidenza percentuale dello stipendi osul fatturato
+// il metodo è da costruire
 public void IncidenzaPercentuale()
 {
    /* Console.WriteLine("Calcolo dell'incidenza percentuale dello stipendio in rapporto al fatturato.");

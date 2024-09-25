@@ -1,20 +1,22 @@
 public class Mansione
 {
-    public int Id { get; set; }  // L'Id sarà gestito dal database
-    public string Titolo { get; set; }
-    public double Stipendio { get; set; }
+    public int Id { get; set; }  // Proprietà 'Id' che rappresenta l'identificatore univoco della mansione, gestito dal database
+    public string Titolo { get; set; } // proprietà relativa al nome della mansione
+    public double Stipendio { get; set; }    // proprietà relativa allo stipendio
 
-    // Costruttore che accetta solo titolo e stipendio
+    // Costruttore che accetta id titolo e stipendio
+    // Questo costruttore viene usato quando abbiamo già un 'Id', probabilmente assegnato dal database
     public Mansione(int id,string titolo, double stipendio)
     {
         Id =id;
-        Titolo = titolo;
-        Stipendio = stipendio;
+        Titolo = titolo;        // Assegna il titolo della mansione
+        Stipendio = stipendio;  // Assegna lo stipendio della mansione
     }
-    // Costruttore che accetta solo titolo e stipendio
+    // Nuovo costruttore che accetta solo titolo e stipendio
+    // Questo costruttore può essere usato quando l'Id non è necessario al momento della creazione
     public Mansione(string titolo, double stipendio)
     {
-        Titolo = titolo;
-        Stipendio = stipendio;
+        Titolo = titolo;            // Assegna il titolo della mansione
+        Stipendio = stipendio;     // Assegna lo stipendio per la mansione
     }
 }
