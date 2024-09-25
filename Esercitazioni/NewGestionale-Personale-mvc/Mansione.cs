@@ -1,3 +1,4 @@
+// classe relativa alla mansione con le proprietà Id,Titolo(nome mansione) e stipendio
 public class Mansione
 {
     public int Id { get; set; }  // Proprietà 'Id' che rappresenta l'identificatore univoco della mansione, gestito dal database
@@ -16,7 +17,7 @@ public class Mansione
     // Questo costruttore può essere usato quando l'Id non è necessario al momento della creazione
     public Mansione(string titolo, double stipendio)
     {
-        Titolo = titolo;            // Assegna il titolo della mansione
-        Stipendio = stipendio;     // Assegna lo stipendio per la mansione
+        Titolo = titolo;           
+        Stipendio = stipendio;     
     }
 }

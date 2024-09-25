@@ -1,3 +1,4 @@
+// classe Statistiche con proprietà relative al fatturato e alle presenze del dipendente
 public class Statistiche{
 // Proprietà 'Id' per identificare in modo univoco ogni record di statistiche
     public int Id{ get; set; }

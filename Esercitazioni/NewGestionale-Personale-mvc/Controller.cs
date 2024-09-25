@@ -150,12 +150,16 @@ class Controller
    
 }
 
+// cerca il dipendente per mail aziendale ad esempio nome.cognome@gmail.com
 private void CercaDipendente(){
      Console.WriteLine("Cerca il dipendente usando la sua mail aziendale:");
+     // Lettura dell'input dell'utente
       var cercaMail = _view.GetInput();
+       // Cerca il dipendente nel database usando la mail fornita
       var dipendente= _db.CercaDipendentePerMail(cercaMail);
+       // Se il dipendente viene trovato
       if(dipendente != null){
-
+// Crea una nuova tabella per visualizzare i dati del dipendente
            var table = new Table();
         table.AddColumn("Nome");
         table.AddColumn("Cognome");
@@ -166,7 +170,7 @@ private void CercaDipendente(){
         table.AddColumn("Presenze");
         table.AddColumn("Email");
 
-        // Aggiungi i dati del dipendente nella tabella
+        // Aggiungi i dati del dipendente alla tabella come una nuova riga
         table.AddRow(
             dipendente.Nome,
             dipendente.Cognome,
@@ -178,7 +182,7 @@ private void CercaDipendente(){
             dipendente.Mail
         );
 
-        // Mostra la tabella
+        // Mostra la tabella con i dettagli del dipendente 
         AnsiConsole.Write(table);
        
       }else{
@@ -188,9 +192,10 @@ private void CercaDipendente(){
 
 }
 
+// metodo per mostrare a schermo i dipendenti con i dati correlati
     private void MostraDipendenti()
     {
-        var dipendenti = _db.GetUsers(); // Lettura degli utenti dal database
+        var dipendenti = _db.GetUsers(); // Lettura di tutti i dipendenti dal database
         var table = new Table();
          // Aggiungere le colonne alla tabella
     table.AddColumn("Nome");
@@ -202,21 +207,23 @@ private void CercaDipendente(){
     table.AddColumn("Presenze");
     table.AddColumn("Email aziendale");
       //  _view.MostraDipendenti(dipendenti); // Visualizzazione degli utenti
+
+      // Itera attraverso ogni dipendente recuperato dal database
       foreach (var dipendente in dipendenti)
     {
         table.AddRow(
-            dipendente.Nome,
-            dipendente.Cognome,
-            dipendente.DataDiNascita,
-            dipendente.Mansione.Titolo,
-            $"{dipendente.Stipendio}",
-            $"{dipendente.Statistiche.Fatturato}",
-            $"{dipendente.Statistiche.Presenze}",
-            dipendente.Mail
+            dipendente.Nome,                            // Nome del dipendente
+            dipendente.Cognome,                         // Cognome del dipendente
+            dipendente.DataDiNascita,                   // Data di nascita
+            dipendente.Mansione.Titolo,                 // Nome della mansione
+            $"{dipendente.Stipendio}",                  // stipendio
+            $"{dipendente.Statistiche.Fatturato}",      // Fatturato generato dal dipendente
+            $"{dipendente.Statistiche.Presenze}",        // Giorni di presenza del dipendente
+            dipendente.Mail                             // mail 
         );
     }
 
-    // Visualizzare la tabella
+   
     AnsiConsole.Write(table);
 }
 
