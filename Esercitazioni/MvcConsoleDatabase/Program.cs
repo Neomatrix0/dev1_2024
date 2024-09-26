@@ -247,16 +247,17 @@ private void ShowSubscriptions(){
 
 
 private void ShowTransactions(){
-    // Recupera tutte le transazioni
+    // Recupera tutte le transazioni e converte in lista
     var transactions = _db.Transactions.ToList();
 
    
     foreach (var trans in transactions){
         // Cerca l'utente associato alla transazione
-        User user = null;
-        foreach (var u in _db.Users){
+        User user = null;  //usata per memorizzare l'oggetto user
+        foreach (var u in _db.Users){ //per ogni user  trovato la variabile u contiene un oggetto user
             if (u.Id == trans.User?.Id){  // Verifica che trans.User non sia null
-                user = u;
+                user = u;  //Se l'ID dell'utente corrente u.Id corrisponde all'ID dell'utente associato alla transazione 
+                            //significa che l'utente associato alla transazione è stato trovato.
                 break;
             }
         }
@@ -313,7 +314,11 @@ private void AddTransaction(){
     Subscription subscription = null;
     foreach(var s in _db.Subscription){
         if(s.Name == subscriptionName){
-            subscription = s;
+            subscription = s;  //subscription da null ora invece contiene il riferimento ad oggetto abbonamento
+           //Se viene trovata una corrispondenza (il nome dell'abbonamento s.Name corrisponde a subscriptionName) questa riga assegna l'oggetto Subscription corrente s alla variabile subscription.  
+           //subscription ora contiene un riferimento all'oggetto abbonamento trovato.
+
+
             break;  
         }
     }
