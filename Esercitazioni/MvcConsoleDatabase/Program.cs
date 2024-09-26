@@ -47,6 +47,7 @@ class View{
          Console.WriteLine("6. Disattiva utente");
            Console.WriteLine("7. Aggiungi subscription");
             Console.WriteLine("8. Mostra subscription");
+             Console.WriteLine("9. Aggiorna subscription");
        
     }
 //metodo showusers che prende una lista utenti e li mostra
@@ -196,23 +197,7 @@ class View{
             }
         }
 //aggiungi sttoscrizione
-/*private void AddSubscription(){
-    Console.WriteLine("Enter subscription name (e.g., 'Premium'):");
-    var name = _view.GetInput();  // Legge il nome dell'abbonamento
 
-    Console.WriteLine("Enter subscription price (e.g., '9.99'):");
-    var priceInput = _view.GetInput();  // Legge il prezzo dell'abbonamento
-    decimal price;
-    
-    // Verifica se il valore inserito è un numero decimale valido
-    if(decimal.TryParse(priceInput, out price)){
-        _db.Subscription.Add(new Subscription{Name = name, Price = price});
-        _db.SaveChanges();  // Salva modifiche
-        Console.WriteLine("Subscription added successfully.");
-    } else {
-        Console.WriteLine("Invalid price. Please enter a valid decimal number.");
-    }
-}*/
 
 private void AddSubscription(){
     Console.WriteLine("Enter subscription name ( 'Premium'):");
@@ -261,11 +246,11 @@ private void UpdateSubscription(){
 
         // Aggiorna il prezzo
         Console.WriteLine("Enter new subscription price:");
-        decimal newPrice;
-        while(!decimal.TryParse(_view.GetInput(), out newPrice)){
-            Console.WriteLine("Invalid price. Please enter a valid decimal number:");
-        }
-        subscription.Price = newPrice;
+      
+    var price = decimal.Parse(_view.GetInput());
+    
+     
+        subscription.Price = price;
 
         // Salva le modifiche nel database
         _db.SaveChanges();
