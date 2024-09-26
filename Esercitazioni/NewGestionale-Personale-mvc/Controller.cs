@@ -13,27 +13,16 @@ class Controller
         _db = db; // Inizializzazione del riferimento al modello
         _view = view; // Inizializzazione del riferimento alla vista
     }
-    // Metodo principale che gestisce il menu
+    
+  // Metodo principale che gestisce il menu tramite spectre console  richiamato dalla funzione MonstraMenuPrincipale
     public void MainMenu()
     {
         while (true)
         {
-            //  _view.ShowMainMenu(); // Visualizzazione del menu principale
-            // var input = _view.GetInput(); // Lettura dell'input dell'utente
-
-            // menu con spectre console
-            var input = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-            .Title("GESTIONALE DIPENDENTI")
-            .PageSize(8)
-            .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
-            .AddChoices(new[] {
-                "Aggiungi Dipendente", "Mostra Dipendenti", "Rimuovi Dipendente",
-                "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi","Aggiungi indicatori","Tasso di presenza","Valutazione per fatturato","Incidenza percentuale", "Esci",
-            }));
+            // Chiede alla View di mostrare il menu e restituisce la scelta dell'utente
+            var input = _view.MostraMenuPrincipale();
 
             // Esegui le operazioni in base alla scelta dell'utente
-
             if (input == "Aggiungi Dipendente")
             {
                 AggiungiDipendente(); // Aggiunta di un utente
@@ -56,24 +45,23 @@ class Controller
             }
             else if (input == "Ordina stipendi")
             {
-                OrdinaStipendi();           // Ordina i dipendenti per stipendio
+                OrdinaStipendi(); // Ordina i dipendenti per stipendio
             }
             else if (input == "Aggiungi indicatori")
             {
                 AggiungiIndicatoriDipendente(); // Aggiungi indicatori fatturato e presenze a un dipendente
             }
-
             else if (input == "Tasso di presenza")
             {
-                TassoDiPresenza();                               // Calcola e visualizza il tasso di presenza in percentuale e in ordine decrescente
+                TassoDiPresenza(); // Calcola e visualizza il tasso di presenza in percentuale
             }
             else if (input == "Valutazione per fatturato")
             {
-                ValutazioneFatturatoProdotto();
+                ValutazioneFatturatoProdotto(); // Valutazione dei dipendenti per fatturato
             }
             else if (input == "Incidenza percentuale")
-            {         //da completare mostra percentuale del proprio stipendio rispetto al fatturato
-                IncidenzaPercentuale();
+            {
+                IncidenzaPercentuale(); // Da completare
             }
             else if (input == "Esci")
             {
@@ -81,7 +69,7 @@ class Controller
             }
         }
     }
-
+ 
 // il metodo AggiungiDipendente gestisce l'intero processo di raccolta dei dati per un nuovo dipendente
 // verifica la validità delle informazioni e inserisce il nuovo dipendente nel database del sistema.
     private void AggiungiDipendente()

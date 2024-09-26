@@ -10,6 +10,23 @@ class View
         _db = db; // Inizializzazione del riferimento al modello Database
     }
 
+      // Metodo per mostrare il menu principale e restituire la scelta dell'utente
+    public string MostraMenuPrincipale()
+    {
+        // Genera e visualizza il menu con Spectre.Console
+        var input = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("GESTIONALE DIPENDENTI")
+            .PageSize(8)
+            .MoreChoicesText("[grey](Move up and down to reveal more)[/]")
+            .AddChoices(new[] {
+                "Aggiungi Dipendente", "Mostra Dipendenti", "Rimuovi Dipendente",
+                "Cerca Dipendente", "Modifica Dipendente","Ordina stipendi","Aggiungi indicatori","Tasso di presenza","Valutazione per fatturato","Incidenza percentuale", "Esci",
+            }));
+
+        return input; // Restituisce la scelta dell'utente
+    }
+
 // Metodo per mostrare il menu principale all'utente
   /*  public void ShowMainMenu()
     {
