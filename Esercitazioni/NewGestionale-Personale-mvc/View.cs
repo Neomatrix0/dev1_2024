@@ -27,18 +27,7 @@ class View
         return input; // Restituisce la scelta dell'utente
     }
 
-// Metodo per mostrare il menu principale all'utente
-  /*  public void ShowMainMenu()
-    {
-        Console.WriteLine("1. Aggiungi dipendente");
-        Console.WriteLine("2. Vedi tutti i dipendenti");
-        Console.WriteLine("3. Rimuovi dipendente");
-        Console.WriteLine("4. Cerca dipendente per mail");
-        Console.WriteLine("5. Modifica dipendente");
-        Console.WriteLine("6. Aggiungi indicatori dipendente");
-        Console.WriteLine("7. Esci");
-    }
-*/
+
   // Metodo per mostrare la lista dei dipendenti (come stringhe) ricevuta in input
     public void MostraDipendenti(List<string> users)
     {
