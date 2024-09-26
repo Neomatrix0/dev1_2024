@@ -13,17 +13,23 @@ class Program{
 class User{
     public int Id { get; set; }  //chiave primaria
     public string Name { get; set; }  //nome utente
+
+    public bool IsActive { get; set; }  // stato user se attivo o disattivo
+}
+
+class Subscription{
+    public int Id { get; set; }  // chiave primaria
+    public string Name { get; set; }  // nome dell'abbonamento
+    public decimal Price { get; set; }  // prezzo dell'abbonamento
 }
 
 class Database : DbContext{
     public DbSet<User> Users { get; set; }  //tabella degli utenti
+    public DbSet<Subscription> Subscription{ get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder options){
         options.UseSqlite("Data Source =database.db");  //usa un database sqlite
     }
- /*    public Database()
-    {
-        Database.EnsureCreated();  // Ensure the database and tables are created
-    }*/
+ 
 }
 
 class View{
@@ -34,10 +40,13 @@ class View{
 
     public void ShowMainMenu(){
            Console.WriteLine("1. Aggiungi user");
-        Console.WriteLine("2. Leggi users");
+        Console.WriteLine("2. Leggi users attivi");
         Console.WriteLine("3. Modifica users");
         Console.WriteLine("4. Elimina users");
         Console.WriteLine("5. Esci");
+         Console.WriteLine("6. Disattiva utente");
+           Console.WriteLine("7. Aggiungi subscription");
+            Console.WriteLine("8. Mostra subscription");
        
     }
 //metodo showusers che prende una lista utenti e li mostra
@@ -82,56 +91,91 @@ class View{
                    break;
 
                 }
+                  else if(input == "6"){
+                    StatusUser();
+                   break;
+
+                }
+                 else if(input == "7"){
+                    AddSubscription();
+                   break;
+
+                }
+                else if(input == "8"){
+                    ShowSubscriptions();
+                    break;
+                } else if(input == "9"){
+                    UpdateSubscription();
+                    break;
+                }
             }
         }
 
         private void AddUser(){
             Console.WriteLine("Enter user name:");
-            var name = _view.GetInput();  // Legge l'input del nome dell'utente
-            _db.Users.Add(new User{Name =name}); //Aggiunge un utente al database
+            var name = _view.GetInput();  
+             Console.WriteLine("Is user active? (yes/no)");
+    var isActiveInput = _view.GetInput().ToLower();
+    bool isActive = isActiveInput == "yes";
+    _db.Users.Add(new User{Name = name, IsActive = isActive}); 
+           
             _db.SaveChanges(); // Salva modifiche
         }
 
 
+
+// mostra tutti gli utenti attivi
         private void ShowUsers(){
-            var users = _db.Users.ToList();     // prende tutti gli utenti dal database
-            _view.ShowUsers(users);     //mostra gli utenti
+    List<User> activeUsers = new List<User>();  // crea una lista per gli utenti attivi
+
+    foreach(var user in _db.Users){  
+        if(user.IsActive){            // se vogliamo anche users non attivi  || !user.IsActive
+            activeUsers.Add(user);  
         }
+    }
 
-/*
- private void UpdateUser(){
-            Console.WriteLine("Enter user name:");
-            var oldName = _view.GetInput();
-            Console.WriteLine("Enter ne wuser name");
-            var newName = _view.GetInput();
-            si può usare una lambda per abbreviare il codice
-            var user = _dbUsersFirstOrrDefault(u=> u.Name == oldName);
+    _view.ShowUsers(activeUsers); 
+}
 
 
-*/
 
-// versione senza lambda 
+        // metodo per aggiornare il nome e lo stato dello user
+
         private void UpdateUser(){
-            Console.WriteLine("Enter user name:");
-            var oldName = _view.GetInput();
-            Console.WriteLine("Enter ne wuser name");
-            var newName = _view.GetInput();
+    Console.WriteLine("Enter the name of the user to update:");
+    var oldName = _view.GetInput();  
 
-            User user = null;       //inizializza utente a null
-            foreach(var u in _db.Users){
-                if(u.Name == oldName){
-                    if(u.Name == oldName){
-                        user =u;        //trova utente con il nome specificato
-                        break;          //esce dal ciclo una volta trovato l'utente
-                    }
-                }
-                if(user != null){
-                    user.Name = newName;  //modifica nome utente
-                    _db.SaveChanges();   // Salva modifiche
-                }
-            }
-
+    // Trova l'utente nel database
+    User user = null;
+    foreach(var u in _db.Users){
+        if(u.Name == oldName){
+            user = u;  // Assegna l'utente trovato a user
+            break;   
         }
+    }
+
+    if(user != null){
+      
+        Console.WriteLine("Enter new user name:");
+        var newName = _view.GetInput(); 
+        user.Name = newName;  
+
+        
+        Console.WriteLine("Is the user active? (yes/no):");
+        var isActiveInput = _view.GetInput().ToLower();  
+        bool isActive = isActiveInput == "yes"; 
+        user.IsActive = isActive;  
+
+        
+        _db.SaveChanges();
+
+        Console.WriteLine($"User '{user.Name}' has been updated with status '{(user.IsActive ? "Active" : "Inactive")}'.");
+    }
+    else{
+        Console.WriteLine("User not found.");
+    }
+}
+
 
 // metodo DeleteUser che elimina un utente
         private void DeleteUser(){
@@ -151,8 +195,123 @@ class View{
                 _db.SaveChanges(); // Salva le modifiche
             }
         }
+//aggiungi sttoscrizione
+/*private void AddSubscription(){
+    Console.WriteLine("Enter subscription name (e.g., 'Premium'):");
+    var name = _view.GetInput();  // Legge il nome dell'abbonamento
 
+    Console.WriteLine("Enter subscription price (e.g., '9.99'):");
+    var priceInput = _view.GetInput();  // Legge il prezzo dell'abbonamento
+    decimal price;
+    
+    // Verifica se il valore inserito è un numero decimale valido
+    if(decimal.TryParse(priceInput, out price)){
+        _db.Subscription.Add(new Subscription{Name = name, Price = price});
+        _db.SaveChanges();  // Salva modifiche
+        Console.WriteLine("Subscription added successfully.");
+    } else {
+        Console.WriteLine("Invalid price. Please enter a valid decimal number.");
     }
+}*/
+
+private void AddSubscription(){
+    Console.WriteLine("Enter subscription name ( 'Premium'):");
+    var name = Console.ReadLine();  // Legge il nome direttamente dalla console
+
+    //decimal price;
+    Console.WriteLine("Enter subscription price (, '9,99'):");
+    var price = decimal.Parse(_view.GetInput());
+    
+
+    // Aggiunge il nuovo abbonamento al database
+    _db.Subscription.Add(new Subscription{Name = name, Price = price});
+    _db.SaveChanges();  // Salva le modifiche
+    Console.WriteLine("Subscription added successfully.");
+}
+
+
+// metodo che mostra sottoscrizioni
+private void ShowSubscriptions(){
+    var subscriptions = _db.Subscription.ToList();  // Recupera tutti gli abbonamenti
+    foreach (var sub in subscriptions){
+        Console.WriteLine($"Subscription ID: {sub.Id}, Name: {sub.Name}, Price: {sub.Price:C}"); // ":C" formatta il prezzo in valuta
+    }
+}
+
+//aggiorna subscriptions
+
+private void UpdateSubscription(){
+    Console.WriteLine("Enter the name of the subscription to update:");
+    var oldName = _view.GetInput();  // Legge il nome dell'abbonamento
+
+    // Trova l'abbonamento nel database
+    Subscription subscription = null;
+    foreach(var sub in _db.Subscription){
+        if(sub.Name == oldName){
+            subscription = sub;  // Assegna l'abbonamento trovato a subscription
+            break;   
+        }
+    }
+
+    if(subscription != null){
+        // Aggiorna il nome
+        Console.WriteLine("Enter new subscription name:");
+        var newName = _view.GetInput(); 
+        subscription.Name = newName;  
+
+        // Aggiorna il prezzo
+        Console.WriteLine("Enter new subscription price:");
+        decimal newPrice;
+        while(!decimal.TryParse(_view.GetInput(), out newPrice)){
+            Console.WriteLine("Invalid price. Please enter a valid decimal number:");
+        }
+        subscription.Price = newPrice;
+
+        // Salva le modifiche nel database
+        _db.SaveChanges();
+
+        Console.WriteLine($"Subscription '{subscription.Name}' has been updated with new price {subscription.Price:C}.");
+    }
+    else{
+        Console.WriteLine("Subscription not found.");
+    }
+}
+
+
+    
+      private void StatusUser(){
+    Console.WriteLine("Enter the name of the user to change status:");
+    var name = _view.GetInput();  // Ottieni il nome dell'utente
+
+    // Trova l'utente nel database
+    User userToChange = null;
+    foreach(var user in _db.Users){
+        if(user.Name == name){
+            userToChange = user;
+            break;  // esce dal ciclo quando trova l'utente
+        }
+    }
+
+    if(userToChange != null){
+        Console.WriteLine("Is the user active? (yes/no):");
+        var isActiveInput = _view.GetInput().ToLower();  // Input per sapere se l'utente è attivo o meno
+        bool isActive = isActiveInput == "yes";  // Converte l'input in un valore booleano
+
+        // Modifica lo stato attivo dell'utente
+        userToChange.IsActive = isActive;
+        _db.SaveChanges();  // Salva le modifiche nel database
+
+        Console.WriteLine($"User '{userToChange.Name}' status has been updated.");
+    }
+    else{
+        Console.WriteLine("User not found.");
+    }
+}
+
+//
+        }
+
+    
 
 
 //dotnet add package Microsoft.EntityFrameworkCore.Design
@@ -160,3 +319,45 @@ class View{
 // Comandi per la migrazione obbligatori
 //dotnet ef migrations add InitialCreate
 //dotnet ef database update
+
+/*
+ private void UpdateUser(){
+            Console.WriteLine("Enter user name:");
+            var oldName = _view.GetInput();
+            Console.WriteLine("Enter ne wuser name");
+            var newName = _view.GetInput();
+            si può usare una lambda per abbreviare il codice
+            var user = _dbUsersFirstOrrDefault(u=> u.Name == oldName);
+
+
+*/
+
+// versione senza lambda 
+
+/*
+        private void UpdateUser(){
+            Console.WriteLine("Enter user name:");
+            var oldName = _view.GetInput();
+            Console.WriteLine("Enter ne wuser name");
+            var newName = _view.GetInput();
+
+            User user = null;       //inizializza utente a null
+            foreach(var u in _db.Users){
+                if(u.Name == oldName){
+                    if(u.Name == oldName){
+                        user =u;        //trova utente con il nome specificato
+                        break;          //esce dal ciclo una volta trovato l'utente
+                    }
+                }
+                if(user != null){
+                    user.Name = newName;
+                    // Aggiorna lo stato attivo/disattivo dell'utente  //modifica nome utente
+                    _db.SaveChanges();   // Salva modifiche
+                }
+            }
+
+        }  */ // metodo che funziona
+ /*      private void ShowUsers(){
+            var users = _db.Users.ToList();     // prende tutti gli utenti dal database
+            _view.ShowUsers(users);     //mostra gli utenti
+        }*/
