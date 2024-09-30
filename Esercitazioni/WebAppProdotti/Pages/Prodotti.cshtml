@@ -1,0 +1,32 @@
+@page
+@model _86_RazorApp.Pages.ProdottiModel
+@{
+    ViewData["Title"] = "Prodotti";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Immagine</th>
+                <th>Nome</th>
+                <th>Prezzo</th>
+                <th>Dettaglio</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prodotto in Model.Prodotti) //model è una variabile che contiene i dati e le funzionalità di quella pagina
+                                                        // se vuoi accedere a qualcosa all'interno di Model devi specificare che stai prendendo quell'informazione tipo Model.Prodotti
+            {
+                <tr>
+                    <td><img src="~/@prodotto.Immagine" alt="@prodotto.Nome" width="300" height="300" /></td>  <!-- Mostra l'immagine -->
+                    <td>@prodotto.Nome</td>
+                    <td>@prodotto.Prezzo</td>
+                    <td>@prodotto.Dettaglio</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
