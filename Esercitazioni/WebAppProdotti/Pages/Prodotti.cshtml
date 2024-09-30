@@ -6,6 +6,19 @@
 <h1>@ViewData["Title"]</h1>
 
 <div>
+    <form method ="get">
+        <div class="form-group">
+        <label for ="minPrezzo">Min prezzo</label>
+        <input type="number" class="form-control" name = "minPrezzo"/>
+        </div>
+<div class="form-group">
+        <label for ="maxPrezzo">Max prezzo</label>
+        <input type="number" class="form-control" name = "maxPrezzo"/>
+        <button type="submit" class="btn btn-primary">Filtra</button>
+        </div>
+
+    </form>
+    <br>
     <table class="table">
         <thead>
             <tr>
@@ -13,6 +26,7 @@
                 <th>Nome</th>
                 <th>Prezzo</th>
                 <th>Dettaglio</th>
+                <th>Link</th>
                
             </tr>
         </thead>
@@ -25,6 +39,7 @@
                     <td>@prodotto.Nome</td>
                     <td>@prodotto.Prezzo</td>
                     <td>@prodotto.Dettaglio</td>
+                    <td><a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio">Dettaglio</a></td>
                 </tr>
             }
         </tbody>
