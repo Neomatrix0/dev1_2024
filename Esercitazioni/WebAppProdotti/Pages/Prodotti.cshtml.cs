@@ -10,6 +10,7 @@ public class ProdottiModel : PageModel
     public ProdottiModel(ILogger<ProdottiModel> logger)
     {
         _logger = logger;
+        _logger.LogInformation("Prodotti Caricati");
     }
 
     public IEnumerable<Prodotto> Prodotti { get; set; } 
