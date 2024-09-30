@@ -57,6 +57,47 @@ public class ProdottiModel : PageModel
         Prodotti = prodottiFiltrati;
     } */
 
+    /* //metodo giusto
+// Dichiarazione della lista di prodotti filtrati, inizialmente vuota
+var prodottiFiltrati = new List<Prodotto>();
+
+// Ciclo attraverso tutti i prodotti per applicare i filtri
+foreach (var prodotto in tuttiProdotti)
+{
+    bool aggiungi = true;  // Variabile di controllo per determinare se il prodotto deve essere aggiunto
+
+    // Filtra per prezzo minimo se minPrezzo è specificato
+    if (minPrezzo.HasValue)
+    {
+        if (prodotto.Prezzo < minPrezzo.Value)
+        {
+            aggiungi = false;  // Se il prezzo è inferiore al minPrezzo, non aggiungere il prodotto
+        }
+    }
+
+    // Filtra per prezzo massimo se maxPrezzo è specificato
+    if (maxPrezzo.HasValue)
+    {
+        if (prodotto.Prezzo > maxPrezzo.Value)
+        {
+            aggiungi = false;  // Se il prezzo è superiore al maxPrezzo, non aggiungere il prodotto
+        }
+    }
+
+    // Se il prodotto soddisfa entrambi i filtri, aggiungilo alla lista filtrata
+    if (aggiungi)
+    {
+        prodottiFiltrati.Add(prodotto);  // Aggiungi il prodotto alla lista dei prodotti filtrati
+    }
+}
+
+// Assegna la lista filtrata alla proprietà Prodotti
+Prodotti = prodottiFiltrati;
+
+
+
+    */
+
      // viene assegnata a una copia di riferimento della lista tuttiProdotti
      //Creando la variabile prodottiFiltrati, possiamo modificare l'elenco dei prodotti senza alterare l'elenco originale di tuttiProdotti.
      //  Questo è utile se vogliamo conservare l'elenco originale di prodotti non filtrati e modificarne una versione separata
