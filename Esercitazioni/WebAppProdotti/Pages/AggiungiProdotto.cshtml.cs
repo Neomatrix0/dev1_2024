@@ -30,7 +30,12 @@ using  Newtonsoft.Json;
              
             var json = System.IO.File.ReadAllText("wwwroot/json/prodotti.json");
             var tuttiProdotti = JsonConvert.DeserializeObject<List<Prodotto>>(json);
+            int id =1;
+            if(tuttiProdotti.Count >0){
+                id = tuttiProdotti[tuttiProdotti.Count-1].Id+1;
+            }
             tuttiProdotti.Add(new Prodotto{
+                Id =id,
                 Nome = nome,
                 Prezzo = prezzo,
                 Dettaglio = dettaglio

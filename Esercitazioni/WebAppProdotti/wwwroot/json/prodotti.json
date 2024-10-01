@@ -112,17 +112,10 @@
     "Immagine": "img/sunglasses.webp"
   },
   {
-    "Id": 0,
-    "Nome": "maglioni",
-    "Prezzo": 300.0,
-    "Dettaglio": "dettaglio16",
-    "Immagine": null
-  },
-  {
-    "Id": 0,
-    "Nome": "tshirt",
-    "Prezzo": 80.0,
-    "Dettaglio": "dettaglio18",
+    "Id": 17,
+    "Nome": "cellulare",
+    "Prezzo": 1200.0,
+    "Dettaglio": "dettaglio17",
     "Immagine": null
   }
 ]
