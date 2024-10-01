@@ -6,7 +6,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <div>
-    <form method ="get">
+   <form method ="get">
         <div class="form-group">
         <label for ="minPrezzo">Min prezzo</label>
         <input type="number" class="form-control" name = "minPrezzo"/>
@@ -19,6 +19,7 @@
 
     </form>
     <br>
+    @*
     <table class="table">
         <thead>
             <tr>
@@ -30,8 +31,8 @@
                
             </tr>
         </thead>
-        <tbody>
-            @foreach (var prodotto in Model.Prodotti) //model è una variabile che contiene i dati e le funzionalità di quella pagina
+        <tbody>  
+           @foreach (var prodotto in Model.Prodotti) //model è una variabile che contiene i dati e le funzionalità di quella pagina
                                                         // se vuoi accedere a qualcosa all'interno di Model devi specificare che stai prendendo quell'informazione tipo Model.Prodotti
             {
                 <tr>
@@ -43,7 +44,28 @@
                 </tr>
             }
         </tbody>
-    </table>
+    </table> 
+    *@
+
+   <!-- Container per le card -->
+    <div class="row">
+        @foreach (var prodotto in Model.Prodotti)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="~/@prodotto.Immagine" class="card-img-top" alt="@prodotto.Nome" style="height: 300px; object-fit: cover;" />
+                    <div class="card-body">
+                        <h5 class="card-title">@prodotto.Nome</h5>
+                        <p class="card-text">Prezzo: @prodotto.Prezzo€</p>
+                        <p class="card-text">Dettaglio: @prodotto.Dettaglio</p>
+                        <button type="button" class="btn btn-warning">
+                        <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio">Dettaglio</a>
+                    </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
     <form method ="get">
         <input type="hidden" name ="minPrezzo" value ="@Request.Query["minPrezzo"]"/> <!-- per mantenere il valore del filtro quando si cambia la pagina-->
         <input type="hidden" name ="maxPrezzo" value ="@Request.Query["maxPrezzo"]"/> <!-- per mantenere il valore del filtro quando si cambia la pagina-->
