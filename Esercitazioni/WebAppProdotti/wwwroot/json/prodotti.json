@@ -59,7 +59,7 @@
         "Id": 9,
         "Nome": "prodotto 9",
         "Prezzo": 900,
-        "Immagine": "img/apple.jpg",
+        "Immagine": "img/pens.jpg",
         "Dettaglio": "Dettaglio9"
     },
     {
@@ -108,7 +108,7 @@
         "Id": 16,
         "Nome": "prodotto 16",
         "Prezzo": 1300,
-        "Immagine": "img/books.jfif",
+        "Immagine": "img/sunglasses.webp",
         "Dettaglio": "Dettaglio16"
     }
 ]
