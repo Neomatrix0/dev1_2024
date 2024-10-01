@@ -56,11 +56,67 @@
                     <img src="~/@prodotto.Immagine" class="card-img-top" alt="@prodotto.Nome" style="height: 300px; object-fit: cover;" />
                     <div class="card-body">
                         <h5 class="card-title">@prodotto.Nome</h5>
-                        <p class="card-text">Prezzo: @prodotto.Prezzo€</p>
+                        
+                         @if (prodotto.Prezzo < 300)
+                        {
+                            <p class="card-text text-success">
+                                Prezzo: @prodotto.Prezzo €
+                            </p>
+                     
+                        }
+                         else if(prodotto.Prezzo < 600)
+                        {
+                            <p class="card-text text-dark">
+
+                                Prezzo: @prodotto.Prezzo €
+                            </p>
+                        } 
+                        else
+                        {
+                            <p class="card-text text-danger">
+                                Prezzo: @prodotto.Prezzo €
+                            </p>
+                        } 
+
+                    @*    @switch(prodotto.Prezzo){
+                            case var expression when expression <300:
+                            <p class="card-text text-success">@prodotto.Prezzo</p>
+                            break;
+
+                            case var expression when expression <600:
+                            <p class="card-text text-warning">@prodotto.Prezzo</p>
+                            break;
+
+                           default:
+                            <p class="card-text text-danger">@prodotto.Prezzo</p>
+                            break;
+                        } *@
+                     @*  <p class="card-text">Prezzo: @prodotto.Prezzo€</p>*@ 
                         <p class="card-text">Dettaglio: @prodotto.Dettaglio</p>
-                        <button type="button" class="btn btn-warning">
+
+                           <!-- Cambia colore del bottone in base al prezzo -->
+                        @if (prodotto.Prezzo < 300)
+                        {
+                            <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio" class="btn btn-success">
+                                Dettaglio
+                            </a>
+                        }
+                        else if (prodotto.Prezzo < 600)
+                        {
+                            <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio" class="btn btn-warning">
+                                Dettaglio
+                            </a>
+                        }
+                        else
+                        {
+                       @*    <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio" class="btn btn-danger">*@ 
+                              <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id">
+                                Dettaglio
+                            </a>
+                        }
+                       @*<button type="button" class="btn btn-warning">
                         <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio">Dettaglio</a>
-                    </button>
+                    </button> *@ 
                     </div>
                 </div>
             </div>

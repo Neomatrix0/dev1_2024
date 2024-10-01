@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Newtonsoft.Json;
 namespace WebAppProdotti.Pages;
 
 public class ProdottiModel : PageModel
@@ -46,6 +46,10 @@ public class ProdottiModel : PageModel
             
         };
 
+   /*       var json = System.IO.File.ReadAllText("wwwroot/json/prodotti.json");
+            var tuttiProdotti = JsonConvert.DeserializeObject<List<Prodotto>>(json);
+           // Prodotti = tuttiProdotti; */
+           
     
 
      //metodo giusto

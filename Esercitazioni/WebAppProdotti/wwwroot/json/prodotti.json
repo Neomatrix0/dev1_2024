@@ -1,0 +1,15 @@
+[{
+    "Immagine": "img/shoes.jpg",
+    "Id": 1,
+    "Nome": "Prodotto1",
+    "Prezzo": 100,
+    "Dettaglio": "Dettaglio1"
+},
+{
+    "Immagine": "img/img2.webp",
+    "Id": 2,
+    "Nome": "Prodotto2",
+    "Prezzo": 200,
+    "Dettaglio": "Dettaglio2"
+}
+]
