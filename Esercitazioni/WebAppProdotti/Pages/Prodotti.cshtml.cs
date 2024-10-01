@@ -46,34 +46,7 @@ public class ProdottiModel : PageModel
             
         };
 
-        /*
-
-        
-
-        var prodottiFiltrati = new List<Prodotto>();
-
-        foreach(var prodotto in allProdotti){
-        bool aggiungi = true;
-        
-        }
-        if(minPrezzo.HasValue){
-        if(prodotto.Prezzo < minPrezzo.Value){
-        aggiungi =false;
-        }
-        }
-
-        if(maxPrezzo.HasValue){
-        if(prodotto.Prezzo > maxprezzo.Value){
-        aggiungi = false
-        }
-        }
-
-        if(aggiungi){
-        prodottiFiltrati.Add(prodotto);})
-        }
-        }
-        Prodotti = prodottiFiltrati;
-    } */
+    
 
      //metodo giusto
 // Dichiarazione della lista di prodotti filtrati, inizialmente vuota
