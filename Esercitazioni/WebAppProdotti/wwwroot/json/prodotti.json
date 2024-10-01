@@ -8,9 +8,9 @@
   },
   {
     "Id": 2,
-    "Nome": "prodotto 2",
-    "Prezzo": 200.0,
-    "Dettaglio": "Dettaglio2",
+    "Nome": "sigari",
+    "Prezzo": 150.0,
+    "Dettaglio": "scatola da 30",
     "Immagine": "img/cigars.jpeg"
   },
   {
@@ -43,10 +43,10 @@
   },
   {
     "Id": 7,
-    "Nome": "prodotto 7",
-    "Prezzo": 700.0,
+    "Nome": "Occhiali",
+    "Prezzo": 220.0,
     "Dettaglio": "Dettaglio7",
-    "Immagine": "img/glasses.jfif"
+    "Immagine": "img/sunglasses.webp"
   },
   {
     "Id": 8,
@@ -113,9 +113,9 @@
   },
   {
     "Id": 17,
-    "Nome": "cellulare",
-    "Prezzo": 1200.0,
+    "Nome": "Smartphone",
+    "Prezzo": 1300.0,
     "Dettaglio": "dettaglio17",
-    "Immagine": null
+    "Immagine": "img/phone.webp"
   }
 ]
