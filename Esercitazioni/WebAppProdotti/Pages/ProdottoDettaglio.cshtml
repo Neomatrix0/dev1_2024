@@ -1,13 +1,19 @@
 @page
 @model ProdottoDettaglioModel
 
-@{
+@*@{
     ViewData["Title"] = "ProdottoDettaglio";
+}  *@--
+@{
+    // Se il prodotto esiste, imposta il titolo come il nome del prodotto
+    ViewData["Title"] = Model.prodotto?.Nome ?? "Prodotto non trovato";
 }
 
 <h1>@ViewData["Title"]</h1> 
 
 <div>
+    @if (Model.prodotto != null)
+    {
      <table class="table">
         <thead>
             <tr>
@@ -29,5 +35,13 @@
             
         </tbody>
     </table>
+
+       }
+    else
+    {
+        <!-- Mostra un messaggio di errore se il prodotto non è disponibile -->
+        <p>Il prodotto non è stato trovato.</p>
+    }
+    
     <a asp-page="/Prodotti">Torna a prodotti</a>
 </div>

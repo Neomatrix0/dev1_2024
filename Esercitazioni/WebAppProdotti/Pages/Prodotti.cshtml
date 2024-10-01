@@ -6,48 +6,20 @@
 <h1>@ViewData["Title"]</h1>
 
 <div>
-   <form method ="get">
+   <form method="get">
         <div class="form-group">
-        <label for ="minPrezzo">Min prezzo</label>
-        <input type="number" class="form-control" name = "minPrezzo"/>
+        <label for="minPrezzo">Min prezzo</label>
+        <input type="number" class="form-control" name="minPrezzo"/>
         </div>
-<div class="form-group">
-        <label for ="maxPrezzo">Max prezzo</label>
-        <input type="number" class="form-control" name = "maxPrezzo"/>
+        <div class="form-group">
+        <label for="maxPrezzo">Max prezzo</label>
+        <input type="number" class="form-control" name="maxPrezzo"/>
         <button type="submit" class="btn btn-primary">Filtra</button>
         </div>
-
     </form>
     <br>
-    @*
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Immagine</th>
-                <th>Nome</th>
-                <th>Prezzo</th>
-                <th>Dettaglio</th>
-                <th>Link</th>
-               
-            </tr>
-        </thead>
-        <tbody>  
-           @foreach (var prodotto in Model.Prodotti) //model è una variabile che contiene i dati e le funzionalità di quella pagina
-                                                        // se vuoi accedere a qualcosa all'interno di Model devi specificare che stai prendendo quell'informazione tipo Model.Prodotti
-            {
-                <tr>
-                    <td><img src="~/@prodotto.Immagine" alt="@prodotto.Nome" width="300" height="300" /></td>  <!-- Mostra l'immagine -->
-                    <td>@prodotto.Nome</td>
-                    <td>@prodotto.Prezzo</td>
-                    <td>@prodotto.Dettaglio</td>
-                    <td><a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio">Dettaglio</a></td>
-                </tr>
-            }
-        </tbody>
-    </table> 
-    *@
 
-   <!-- Container per le card -->
+    <!-- Container per le card -->
     <div class="row">
         @foreach (var prodotto in Model.Prodotti)
         {
@@ -56,18 +28,16 @@
                     <img src="~/@prodotto.Immagine" class="card-img-top" alt="@prodotto.Nome" style="height: 300px; object-fit: cover;" />
                     <div class="card-body">
                         <h5 class="card-title">@prodotto.Nome</h5>
-                        
-                         @if (prodotto.Prezzo < 300)
+
+                        @if (prodotto.Prezzo < 300)
                         {
                             <p class="card-text text-success">
                                 Prezzo: @prodotto.Prezzo €
                             </p>
-                     
                         }
-                         else if(prodotto.Prezzo < 600)
+                        else if(prodotto.Prezzo < 600)
                         {
                             <p class="card-text text-dark">
-
                                 Prezzo: @prodotto.Prezzo €
                             </p>
                         } 
@@ -76,60 +46,43 @@
                             <p class="card-text text-danger">
                                 Prezzo: @prodotto.Prezzo €
                             </p>
-                        } 
+                        }
 
-                    @*    @switch(prodotto.Prezzo){
-                            case var expression when expression <300:
-                            <p class="card-text text-success">@prodotto.Prezzo</p>
-                            break;
-
-                            case var expression when expression <600:
-                            <p class="card-text text-warning">@prodotto.Prezzo</p>
-                            break;
-
-                           default:
-                            <p class="card-text text-danger">@prodotto.Prezzo</p>
-                            break;
-                        } *@
-                     @*  <p class="card-text">Prezzo: @prodotto.Prezzo€</p>*@ 
                         <p class="card-text">Dettaglio: @prodotto.Dettaglio</p>
 
-                           <!-- Cambia colore del bottone in base al prezzo -->
+                        <!-- Cambia colore del bottone in base al prezzo -->
                         @if (prodotto.Prezzo < 300)
                         {
-                            <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio" class="btn btn-success">
+                            <a asp-page="ProdottoDettaglio" asp-route-id="@prodotto.Id" class="btn btn-success">
                                 Dettaglio
                             </a>
                         }
                         else if (prodotto.Prezzo < 600)
                         {
-                            <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio" class="btn btn-warning">
+                            <a asp-page="ProdottoDettaglio" asp-route-id="@prodotto.Id" class="btn btn-warning">
                                 Dettaglio
                             </a>
                         }
                         else
                         {
-                       @*    <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio" class="btn btn-danger">*@ 
-                              <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id">
+                            <a asp-page="ProdottoDettaglio" asp-route-id="@prodotto.Id" class="btn btn-danger">
                                 Dettaglio
                             </a>
                         }
-                       @*<button type="button" class="btn btn-warning">
-                        <a asp-page="ProdottoDettaglio" asp-route-id ="prodotto.Id" asp-route-immagine="@prodotto.Immagine" asp-route-nome ="@prodotto.Nome" asp-route-prezzo="@prodotto.Prezzo" asp-route-dettaglio="@prodotto.Dettaglio">Dettaglio</a>
-                    </button> *@ 
                     </div>
                 </div>
             </div>
         }
     </div>
-    <form method ="get">
-        <input type="hidden" name ="minPrezzo" value ="@Request.Query["minPrezzo"]"/> <!-- per mantenere il valore del filtro quando si cambia la pagina-->
-        <input type="hidden" name ="maxPrezzo" value ="@Request.Query["maxPrezzo"]"/> <!-- per mantenere il valore del filtro quando si cambia la pagina-->
-    @for(int i=1;i<= Model.numeroPagine;i++){
-        <button type="submit" class="btn btn-dark" name ="pageIndex" value="@i">@i</button>
-    }
+
+    <form method="get">
+        <input type="hidden" name="minPrezzo" value="@Request.Query["minPrezzo"]"/> <!-- Mantiene il valore del filtro quando si cambia pagina -->
+        <input type="hidden" name="maxPrezzo" value="@Request.Query["maxPrezzo"]"/> <!-- Mantiene il valore del filtro quando si cambia pagina -->
+        @for (int i = 1; i <= Model.numeroPagine; i++)
+        {
+            <button type="submit" class="btn btn-dark" name="pageIndex" value="@i">@i</button>
+        }
     </form>
     <br>
-
     <a asp-page="/Index">Torna a Home</a>
 </div>

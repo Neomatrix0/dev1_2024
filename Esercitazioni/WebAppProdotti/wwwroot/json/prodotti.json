@@ -1,15 +1,114 @@
-[{
-    "Immagine": "img/shoes.jpg",
-    "Id": 1,
-    "Nome": "Prodotto1",
-    "Prezzo": 100,
-    "Dettaglio": "Dettaglio1"
-},
-{
-    "Immagine": "img/img2.webp",
-    "Id": 2,
-    "Nome": "Prodotto2",
-    "Prezzo": 200,
-    "Dettaglio": "Dettaglio2"
-}
+[
+    {
+        "Id": 1,
+        "Nome": "prodotto 1",
+        "Prezzo": 100,
+        "Immagine": "img/shoes.jpg",
+        "Dettaglio": "Dettaglio1"
+    },
+    {
+        "Id": 2,
+        "Nome": "prodotto 2",
+        "Prezzo": 200,
+        "Immagine": "img/img2.webp",
+        "Dettaglio": "Dettaglio2"
+    },
+    {
+        "Id": 3,
+        "Nome": "prodotto 3",
+        "Prezzo": 300,
+        "Immagine": "img/apple.jpg",
+        "Dettaglio": "Dettaglio3"
+    },
+    {
+        "Id": 4,
+        "Nome": "prodotto 4",
+        "Prezzo": 400,
+        "Immagine": "img/shoes.jpg",
+        "Dettaglio": "Dettaglio4"
+    },
+    {
+        "Id": 5,
+        "Nome": "prodotto 5",
+        "Prezzo": 500,
+        "Immagine": "img/img2.webp",
+        "Dettaglio": "Dettaglio5"
+    },
+    {
+        "Id": 6,
+        "Nome": "prodotto 6",
+        "Prezzo": 600,
+        "Immagine": "img/apple.jpg",
+        "Dettaglio": "Dettaglio6"
+    },
+    {
+        "Id": 7,
+        "Nome": "prodotto 7",
+        "Prezzo": 700,
+        "Immagine": "img/shoes.jpg",
+        "Dettaglio": "Dettaglio7"
+    },
+    {
+        "Id": 8,
+        "Nome": "prodotto 8",
+        "Prezzo": 800,
+        "Immagine": "img/img2.webp",
+        "Dettaglio": "Dettaglio8"
+    },
+    {
+        "Id": 9,
+        "Nome": "prodotto 9",
+        "Prezzo": 900,
+        "Immagine": "img/apple.jpg",
+        "Dettaglio": "Dettaglio9"
+    },
+    {
+        "Id": 10,
+        "Nome": "prodotto 10",
+        "Prezzo": 1000,
+        "Immagine": "img/books.jfif",
+        "Dettaglio": "Dettaglio10"
+    },
+    {
+        "Id": 11,
+        "Nome": "prodotto 11",
+        "Prezzo": 10000,
+        "Immagine": "img/img2.webp",
+        "Dettaglio": "Dettaglio11"
+    },
+    {
+        "Id": 12,
+        "Nome": "prodotto 12",
+        "Prezzo": 1100,
+        "Immagine": "img/img2.webp",
+        "Dettaglio": "Dettaglio12"
+    },
+    {
+        "Id": 13,
+        "Nome": "prodotto 13",
+        "Prezzo": 1000,
+        "Immagine": "img/books.jfif",
+        "Dettaglio": "Dettaglio13"
+    },
+    {
+        "Id": 14,
+        "Nome": "prodotto 14",
+        "Prezzo": 10000,
+        "Immagine": "img/img2.webp",
+        "Dettaglio": "Dettaglio14"
+    },
+    {
+        "Id": 15,
+        "Nome": "prodotto 15",
+        "Prezzo": 1200,
+        "Immagine": "img/img2.webp",
+        "Dettaglio": "Dettaglio15"
+    },
+    {
+        "Id": 16,
+        "Nome": "prodotto 16",
+        "Prezzo": 1300,
+        "Immagine": "img/img2.webp",
+        "Dettaglio": "Dettaglio16"
+    }
 ]
