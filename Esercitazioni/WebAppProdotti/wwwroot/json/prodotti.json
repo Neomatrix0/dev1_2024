@@ -10,7 +10,7 @@
         "Id": 2,
         "Nome": "prodotto 2",
         "Prezzo": 200,
-        "Immagine": "img/img2.webp",
+        "Immagine": "img/cigars.jpeg",
         "Dettaglio": "Dettaglio2"
     },
     {
@@ -24,7 +24,7 @@
         "Id": 4,
         "Nome": "prodotto 4",
         "Prezzo": 400,
-        "Immagine": "img/shoes.jpg",
+        "Immagine": "img/profumo.webp",
         "Dettaglio": "Dettaglio4"
     },
     {
@@ -38,21 +38,21 @@
         "Id": 6,
         "Nome": "prodotto 6",
         "Prezzo": 600,
-        "Immagine": "img/apple.jpg",
+        "Immagine": "img/suits.png",
         "Dettaglio": "Dettaglio6"
     },
     {
         "Id": 7,
         "Nome": "prodotto 7",
         "Prezzo": 700,
-        "Immagine": "img/shoes.jpg",
+        "Immagine": "img/glasses.jfif",
         "Dettaglio": "Dettaglio7"
     },
     {
         "Id": 8,
         "Nome": "prodotto 8",
         "Prezzo": 800,
-        "Immagine": "img/img2.webp",
+        "Immagine": "img/arts.jpg",
         "Dettaglio": "Dettaglio8"
     },
     {
@@ -73,42 +73,42 @@
         "Id": 11,
         "Nome": "prodotto 11",
         "Prezzo": 10000,
-        "Immagine": "img/img2.webp",
+        "Immagine": "img/champagne.webp",
         "Dettaglio": "Dettaglio11"
     },
     {
         "Id": 12,
         "Nome": "prodotto 12",
         "Prezzo": 1100,
-        "Immagine": "img/img2.webp",
+        "Immagine": "img/borsa.jpg",
         "Dettaglio": "Dettaglio12"
     },
     {
         "Id": 13,
         "Nome": "prodotto 13",
         "Prezzo": 1000,
-        "Immagine": "img/books.jfif",
+        "Immagine": "img/pc.jpg",
         "Dettaglio": "Dettaglio13"
     },
     {
         "Id": 14,
         "Nome": "prodotto 14",
         "Prezzo": 10000,
-        "Immagine": "img/img2.webp",
+        "Immagine": "img/headphones.webp",
         "Dettaglio": "Dettaglio14"
     },
     {
         "Id": 15,
         "Nome": "prodotto 15",
         "Prezzo": 1200,
-        "Immagine": "img/img2.webp",
+        "Immagine": "img/console.webp",
         "Dettaglio": "Dettaglio15"
     },
     {
         "Id": 16,
         "Nome": "prodotto 16",
         "Prezzo": 1300,
-        "Immagine": "img/img2.webp",
+        "Immagine": "img/books.jfif",
         "Dettaglio": "Dettaglio16"
     }
 ]
