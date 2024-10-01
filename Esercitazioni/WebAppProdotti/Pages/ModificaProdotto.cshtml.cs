@@ -28,7 +28,7 @@ public Prodotto Prodotto { get; set; }
             }
         }
 
-public IActionResult OnPost(int Id, string nome,decimal prezzo,string dettaglio,string immagine )
+public IActionResult OnPost(int id, string nome,decimal prezzo,string dettaglio,string immagine )
         
         {
             var json = System.IO.File.ReadAllText("wwwroot/json/prodotti.json");
@@ -36,7 +36,7 @@ public IActionResult OnPost(int Id, string nome,decimal prezzo,string dettaglio,
             Prodotto prodotto =null;
 
              foreach(var p in tuttiProdotti){
-                if(p.Id == Id){
+                if(p.Id == id){
                     Prodotto = p;
                     break;
                 }
