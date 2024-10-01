@@ -117,5 +117,12 @@
     "Prezzo": 300.0,
     "Dettaglio": "dettaglio16",
     "Immagine": null
+  },
+  {
+    "Id": 0,
+    "Nome": "tshirt",
+    "Prezzo": 80.0,
+    "Dettaglio": "dettaglio18",
+    "Immagine": null
   }
 ]
