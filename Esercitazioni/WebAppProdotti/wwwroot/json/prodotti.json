@@ -117,5 +117,12 @@
     "Prezzo": 1300.0,
     "Dettaglio": "dettaglio17",
     "Immagine": "img/phone.webp"
+  },
+  {
+    "Id": 18,
+    "Nome": "nuovescarpe",
+    "Prezzo": 360.0,
+    "Dettaglio": "nuovoprodottoaggiunto",
+    "Immagine": "img/shoes.jpg"
   }
 ]
