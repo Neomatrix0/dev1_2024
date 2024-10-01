@@ -7,5 +7,29 @@
 <h1>@ViewData["Title"]</h1>
 
 <div>
-    
+     <form method="post">
+            <div class="form-group">
+                <label for="nome">Nome Prodotto:</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="@Model.Prodotto.Nome" required />
+            </div>
+
+            <div class="form-group">
+                <label for="prezzo">Prezzo Prodotto:</label>
+                <input type="number"  class="form-control" id="prezzo" name="prezzo" value="@Model.Prodotto.Prezzo" required />
+            </div>
+
+            <div class="form-group">
+                <label for="dettaglio">Dettaglio Prodotto:</label>
+                <input type="text" class="form-control" id="dettaglio" name="dettaglio" value="@Model.Prodotto.Dettaglio" required />
+            </div>
+
+            <div class="form-group">
+                <label for="immagine">URL Immagine Prodotto:</label>
+                <input type="text" class="form-control" id="immagine" name="immagine" value="@Model.Prodotto.Immagine" required />
+            </div>
+
+            <input type="hidden" name="Id" value="@Model.Prodotto.Id" />
+
+            <button type="submit" class="btn btn-primary">Salva Modifiche</button>
+        </form>
 </div>
