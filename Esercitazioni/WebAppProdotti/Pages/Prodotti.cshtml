@@ -44,4 +44,14 @@
             }
         </tbody>
     </table>
+    <form method ="get">
+        <input type="hidden" name ="minPrezzo" value ="@Request.Query["minPrezzo"]"/> <!-- per mantenere il valore del filtro quando si cambia la pagina-->
+        <input type="hidden" name ="maxPrezzo" value ="@Request.Query["maxPrezzo"]"/> <!-- per mantenere il valore del filtro quando si cambia la pagina-->
+    @for(int i=1;i<= Model.numeroPagine;i++){
+        <button type="submit" class="btn btn-dark" name ="pageIndex" value="@i">@i</button>
+    }
+    </form>
+    <br>
+
+    <a asp-page="/Index">Torna a Home</a>
 </div>
