@@ -12,14 +12,32 @@ using  Newtonsoft.Json;
     {
         private readonly ILogger<AggiungiProdottoModel> _logger;
 
-        public AggiungiProdotto(ILogger<AggiungiProdottoModel> logger)
+        public AggiungiProdottoModel(ILogger<AggiungiProdottoModel> logger)
         {
             _logger = logger;
         }
 
+// metodo che riceve i dati dal server
         public void OnGet()
         {
         }
 
-        public void OnPost(){}
+
+
+//invia dati al server web
+// i parametri vengono passati attraverso il form nella pagina web
+        public IActionResult OnPost(string nome,decimal prezzo,string dettaglio){
+             
+            var json = System.IO.File.ReadAllText("wwwroot/json/prodotti.json");
+            var tuttiProdotti = JsonConvert.DeserializeObject<List<Prodotto>>(json);
+            tuttiProdotti.Add(new Prodotto{
+                Nome = nome,
+                Prezzo = prezzo,
+                Dettaglio = dettaglio
+            });
+            System.IO.File.WriteAllText("wwwroot/json/prodotti.json",JsonConvert.SerializeObject(tuttiProdotti, Formatting.Indented));
+            return RedirectToPage("Prodotti");
+
+
+        }
     }
