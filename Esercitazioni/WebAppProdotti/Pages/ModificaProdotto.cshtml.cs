@@ -27,9 +27,9 @@ public class ModificaProdottoModel : PageModel
         // Trova il prodotto con l'ID corrispondente
         foreach (var prodotto in tuttiProdotti)
         {
-            if (prodotto.Id == id)
+            if (prodotto.Id == id)   // Se l'ID del prodotto corrente corrisponde all'ID cercato
             {
-                Prodotto = prodotto;
+                Prodotto = prodotto; // Assegna il prodotto alla proprietà Prodotto del modello
                 break;
             }
         }
