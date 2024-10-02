@@ -12,11 +12,10 @@ using  Newtonsoft.Json;
     {
         private readonly ILogger<AggiungiProdottoModel> _logger;
 
-       
+       [BindProperty]
        Prodotto Prodotto{ get; set; }
 
        [BindProperty]  //viene utilizzato per includere la propeità nella fase di model binding
-
        public string Codice{ get; set; }
           public List<string> Categorie { get; set; }
 
@@ -44,7 +43,12 @@ using  Newtonsoft.Json;
 // i parametri vengono passati attraverso il form nella pagina web
         public IActionResult OnPost(string nome,decimal prezzo,string dettaglio,string immagine,int quantita,string categoria){
 
-            if(Codice != "1234"){
+ /* if (!ModelState.IsValid)
+        {
+            // Torna alla pagina se ci sono errori di validazione
+            return Page();
+        }*/
+            if(Codice != "1234" || !ModelState.IsValid){
                 return RedirectToPage("Error",new { message = "Codice non valido" });
             }
              

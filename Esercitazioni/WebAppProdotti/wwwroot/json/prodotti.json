@@ -171,11 +171,21 @@
   },
   {
     "Id": 18,
-    "Nome": "vino",
-    "Prezzo": 40.0,
-    "Dettaglio": null,
+    "Nome": null,
+    "Prezzo": 10.0,
+    "Dettaglio": "ciaooo",
     "Immagine": null,
-    "Quantita": 10,
+    "Quantita": 1,
+    "Categoria": "Gioielli",
+    "Categorie": null
+  },
+  {
+    "Id": 19,
+    "Nome": null,
+    "Prezzo": 300.0,
+    "Dettaglio": "dettagli2",
+    "Immagine": null,
+    "Quantita": 1,
     "Categoria": null,
     "Categorie": null
   }
