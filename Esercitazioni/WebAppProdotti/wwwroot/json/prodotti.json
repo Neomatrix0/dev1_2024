@@ -65,9 +65,9 @@
   {
     "Id": 10,
     "Nome": "libri",
-    "Prezzo": 80.0,
+    "Prezzo": 55.0,
     "Dettaglio": "Dettaglio10",
-    "Immagine": "img/books.jfif"
+    "Immagine": "img/books2.jfif"
   },
   {
     "Id": 11,
@@ -107,9 +107,9 @@
   {
     "Id": 16,
     "Nome": "prodotto 16",
-    "Prezzo": 1300.0,
+    "Prezzo": 60.0,
     "Dettaglio": "Dettaglio16",
-    "Immagine": "img/sunglasses.webp"
+    "Immagine": "img/umbrella.jpg"
   },
   {
     "Id": 17,
