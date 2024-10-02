@@ -11,7 +11,13 @@ using  Newtonsoft.Json;
     public class AggiungiProdottoModel : PageModel
     {
         private readonly ILogger<AggiungiProdottoModel> _logger;
+
+       
        Prodotto Prodotto{ get; set; }
+
+       [BindProperty]  //viene utilizzato per includere la propeità nella fase di model binding
+
+       public string Codice{ get; set; }
           public List<string> Categorie { get; set; }
 
         public AggiungiProdottoModel(ILogger<AggiungiProdottoModel> logger)
@@ -37,6 +43,10 @@ using  Newtonsoft.Json;
 //invia dati al server web
 // i parametri vengono passati attraverso il form nella pagina web
         public IActionResult OnPost(string nome,decimal prezzo,string dettaglio,string immagine,int quantita,string categoria){
+
+            if(Codice != "1234"){
+                return RedirectToPage("Error",new { message = "Codice non valido" });
+            }
              
             var json = System.IO.File.ReadAllText("wwwroot/json/prodotti.json");
             var tuttiProdotti = JsonConvert.DeserializeObject<List<Prodotto>>(json);

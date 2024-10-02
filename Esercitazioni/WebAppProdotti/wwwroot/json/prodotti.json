@@ -168,5 +168,15 @@
     "Quantita": 8,
     "Categoria": "Elettronica",
     "Categorie": null
+  },
+  {
+    "Id": 18,
+    "Nome": "vino",
+    "Prezzo": 40.0,
+    "Dettaglio": null,
+    "Immagine": null,
+    "Quantita": 10,
+    "Categoria": null,
+    "Categorie": null
   }
 ]
