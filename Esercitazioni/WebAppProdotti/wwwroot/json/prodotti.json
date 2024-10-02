@@ -1,8 +1,8 @@
 [
   {
     "Id": 1,
-    "Nome": "prodotto 1",
-    "Prezzo": 100.0,
+    "Nome": "scarpenere",
+    "Prezzo": 180.0,
     "Dettaglio": "Dettaglio1",
     "Immagine": "img/shoes.jpg"
   },
