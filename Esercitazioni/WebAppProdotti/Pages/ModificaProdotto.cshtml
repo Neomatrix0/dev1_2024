@@ -28,6 +28,26 @@
             <input type="text" class="form-control" id="immagine" name="immagine" value="@Model.Prodotto.Immagine" required />
         </div>
 
+        <div class="form-group">
+            <label for="immagine">Quantita:</label>
+            <input type="text" class="form-control" id="quantita" name="quantita" value="@Model.Prodotto.Quantita" required />
+        </div>
+
+        <div class="form-group">
+          <!--  <label for="immagine">Categoria:</label>
+            <input type="text" class="form-control" id="categoria" name="categoria" value="@Model.Prodotto.Categoria" required />-->
+               
+               
+   <label for="categoria">Categoria</label>
+     <!--<input type="text" class="form-control" name="categoria"/> -->
+     <select class="form-control" name="categoria">
+        <option value="">Seleziona categoria</option>
+        @foreach(var categoria in Model.Categorie ){
+             <option value="@categoria">@categoria</option>
+        }
+     </select>
+        </div>
+
         <input type="hidden" name="id" value="@Model.Prodotto.Id" />
 
         <button type="submit" class="btn btn-primary">Salva Modifiche</button>

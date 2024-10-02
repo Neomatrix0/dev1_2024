@@ -4,118 +4,169 @@
     "Nome": "scarpe eleganti",
     "Prezzo": 350.0,
     "Dettaglio": "Dettaglio1",
-    "Immagine": "img/shoes.jpg"
+    "Immagine": "img/shoes.jpg",
+    "Quantita": 10,
+    "Categoria": "Abbigliamento",
+    "Categorie": null
   },
   {
     "Id": 2,
     "Nome": "sigari",
     "Prezzo": 150.0,
     "Dettaglio": "scatola da 30",
-    "Immagine": "img/cigars.jpeg"
+    "Immagine": "img/cigars.jpeg",
+    "Quantita": 50,
+    "Categoria": "Accessori",
+    "Categorie": null
   },
   {
     "Id": 3,
     "Nome": "prodotti Ap",
     "Prezzo": 700.0,
     "Dettaglio": "Dettaglio3",
-    "Immagine": "img/apple.jpg"
+    "Immagine": "img/apple.jpg",
+    "Quantita": 5,
+    "Categoria": "Elettronica",
+    "Categorie": null
   },
   {
     "Id": 4,
     "Nome": "profumi",
     "Prezzo": 180.0,
     "Dettaglio": "Dettaglio4",
-    "Immagine": "img/profumo.webp"
+    "Immagine": "img/profumo.webp",
+    "Quantita": 20,
+    "Categoria": "Cosmetici",
+    "Categorie": null
   },
   {
     "Id": 5,
     "Nome": "Orologi",
     "Prezzo": 50000.0,
     "Dettaglio": "Dettaglio5",
-    "Immagine": "img/img2.webp"
+    "Immagine": "img/img2.webp",
+    "Quantita": 2,
+    "Categoria": "Gioielleria",
+    "Categorie": null
   },
   {
     "Id": 6,
     "Nome": "Abiti",
     "Prezzo": 1000.0,
     "Dettaglio": "Dettaglio6",
-    "Immagine": "img/suits.png"
+    "Immagine": "img/suits.png",
+    "Quantita": 15,
+    "Categoria": "Abbigliamento",
+    "Categorie": null
   },
   {
     "Id": 7,
     "Nome": "Occhiali",
     "Prezzo": 220.0,
     "Dettaglio": "Dettaglio7",
-    "Immagine": "img/sunglasses.webp"
+    "Immagine": "img/sunglasses.webp",
+    "Quantita": 30,
+    "Categoria": "Accessori",
+    "Categorie": null
   },
   {
     "Id": 8,
     "Nome": "Quadri",
     "Prezzo": 2000.0,
     "Dettaglio": "Dettaglio8",
-    "Immagine": "img/arts.jpg"
+    "Immagine": "img/arts.jpg",
+    "Quantita": 5,
+    "Categoria": "Arte",
+    "Categorie": null
   },
   {
     "Id": 9,
     "Nome": "prodotto 9",
     "Prezzo": 900.0,
     "Dettaglio": "Dettaglio9",
-    "Immagine": "img/pens.jpg"
+    "Immagine": "img/pens.jpg",
+    "Quantita": 10,
+    "Categoria": "Accessori",
+    "Categorie": null
   },
   {
     "Id": 10,
     "Nome": "libri",
     "Prezzo": 55.0,
     "Dettaglio": "Dettaglio10",
-    "Immagine": "img/books2.jfif"
+    "Immagine": "img/books2.jfif",
+    "Quantita": 100,
+    "Categoria": "Libri",
+    "Categorie": null
   },
   {
     "Id": 11,
     "Nome": "Bevande",
     "Prezzo": 250.0,
     "Dettaglio": "Dettaglio11",
-    "Immagine": "img/champagne.webp"
+    "Immagine": "img/champagne.webp",
+    "Quantita": 30,
+    "Categoria": "Bevande",
+    "Categorie": null
   },
   {
     "Id": 12,
     "Nome": "Prodotti ufficio",
     "Prezzo": 420.0,
     "Dettaglio": "Dettaglio12",
-    "Immagine": "img/borsa.jpg"
+    "Immagine": "img/borsa.jpg",
+    "Quantita": 25,
+    "Categoria": "Ufficio",
+    "Categorie": null
   },
   {
     "Id": 13,
     "Nome": "Pc",
     "Prezzo": 1300.0,
     "Dettaglio": "Dettaglio13",
-    "Immagine": "img/pc.jpg"
+    "Immagine": "img/pc.jpg",
+    "Quantita": 10,
+    "Categoria": "Elettronica",
+    "Categorie": null
   },
   {
     "Id": 14,
     "Nome": "cuffie",
     "Prezzo": 320.0,
     "Dettaglio": "Dettaglio14",
-    "Immagine": "img/headphones.webp"
+    "Immagine": "img/headphones.webp",
+    "Quantita": 40,
+    "Categoria": "Elettronica",
+    "Categorie": null
   },
   {
     "Id": 15,
     "Nome": "console",
-    "Prezzo": 400.0,
+    "Prezzo": 500.0,
     "Dettaglio": "Dettaglio15",
-    "Immagine": "img/console.webp"
+    "Immagine": "img/console.webp",
+    "Quantita": 15,
+    "Categoria": "Elettronica",
+    "Categorie": null
   },
   {
     "Id": 16,
     "Nome": "prodotto 16",
     "Prezzo": 60.0,
     "Dettaglio": "Dettaglio16",
-    "Immagine": "img/umbrella.jpg"
+    "Immagine": "img/umbrella.jpg",
+    "Quantita": 50,
+    "Categoria": "Accessori",
+    "Categorie": null
   },
   {
     "Id": 17,
     "Nome": "Smartphone",
     "Prezzo": 1300.0,
     "Dettaglio": "dettaglio17",
-    "Immagine": "img/phone.webp"
+    "Immagine": "img/phone.webp",
+    "Quantita": 8,
+    "Categoria": "Elettronica",
+    "Categorie": null
   }
 ]

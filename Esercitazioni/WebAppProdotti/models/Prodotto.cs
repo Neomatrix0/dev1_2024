@@ -7,5 +7,8 @@
         public string Dettaglio { get; set; }
 
         public string Immagine{ get; set; }
+        public int Quantita { get; set; }
+        public string Categoria { get; set; }
+        public List<string> Categorie { get; set;}
     }
 
