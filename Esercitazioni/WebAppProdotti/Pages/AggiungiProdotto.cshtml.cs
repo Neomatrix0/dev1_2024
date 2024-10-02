@@ -43,14 +43,23 @@ using  Newtonsoft.Json;
 // i parametri vengono passati attraverso il form nella pagina web
         public IActionResult OnPost(string nome,decimal prezzo,string dettaglio,string immagine,int quantita,string categoria){
 
- /* if (!ModelState.IsValid)
-        {
-            // Torna alla pagina se ci sono errori di validazione
-            return Page();
-        }*/
+ 
             if(Codice != "1234" || !ModelState.IsValid){
                 return RedirectToPage("Error",new { message = "Codice non valido" });
             }
+
+     /*       if (!ModelState.IsValid)
+        {
+            // Torna alla pagina se ci sono errori di validazione
+            return Page();
+        }
+
+        // Verifica il codice di conferma
+        if (Codice != "1234")
+        {
+            ModelState.AddModelError("Codice", "Codice non valido");
+            return Page();
+        }*/
              
             var json = System.IO.File.ReadAllText("wwwroot/json/prodotti.json");
             var tuttiProdotti = JsonConvert.DeserializeObject<List<Prodotto>>(json);
