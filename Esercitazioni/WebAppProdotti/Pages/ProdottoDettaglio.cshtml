@@ -3,10 +3,10 @@
 
 @*@{
     ViewData["Title"] = "ProdottoDettaglio";
-}  *@--
+}  *@
 @{
-    // Se il prodotto esiste, imposta il titolo come il nome del prodotto
-    ViewData["Title"] = Model.prodotto?.Nome ?? "Prodotto non trovato";
+    
+    ViewData["Title"] = Model.prodotto;
 }
 
 <h1>@ViewData["Title"]</h1> 
@@ -29,12 +29,12 @@
         <tbody>
        
                 <tr>
-                    <td><img src="~/@Model.prodotto.Immagine" alt="@Model.prodotto.Nome" width="300" height="300" /></td>  <!-- Mostra l'immagine -->
-                    <td>@Model.prodotto.Nome</td>
-                    <td>@Model.prodotto.Prezzo</td>
-                    <td>@Model.prodotto.Dettaglio</td>
-                      <td>@Model.prodotto.Quantita</td>
-                    <td>@Model.prodotto.Categoria</td>
+                    <td data-label="Immagine"><img src="~/@Model.prodotto.Immagine" alt="@Model.prodotto.Nome" width="300" height="300" /></td>  <!-- Mostra l'immagine -->
+                    <td data-label="Nome">@Model.prodotto.Nome</td>
+                    <td data-label="Prezzo">@Model.prodotto.Prezzo</td>
+                    <td data-label="Dettaglio">@Model.prodotto.Dettaglio</td>
+                      <td data-label="Quantita">@Model.prodotto.Quantita</td>
+                    <td data-label="Categoria">@Model.prodotto.Categoria</td>
                 </tr>
             
         </tbody>

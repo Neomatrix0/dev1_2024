@@ -33,3 +33,76 @@ body {
 .footer{
 background-color: rgb(33,37,41); /* colore bg-dark */
     color: white; }
+
+    .table th, .table td {
+      color: white; /* Imposta il colore del testo in bianco */
+  }
+  h1 {
+      color: white; /* Imposta il colore dell'intestazione in bianco */
+  }
+  a {
+      color: white; /* Imposta i link in bianco */
+  }
+  
+ 
+  @media (max-width: 768px) {
+    .table {
+        display: block;
+        width: 100%;
+    }
+
+    .table thead {
+        display: none; /* Nasconde l'intestazione della tabella */
+    }
+
+    .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+        text-align: left; /* Impila gli elementi in colonna */
+        margin-bottom: 20px; /* Spazio tra le righe */
+    }
+
+    .table td {
+        text-align: left;
+        padding-left: 0;
+        position: relative;
+    }
+
+    .table td::before {
+        content: attr(data-label); /* Usa l'attributo data-label per simulare l'intestazione */
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    img {
+        width: 100%; /* Adatta l'immagine alla larghezza del dispositivo */
+        height: auto;
+    }
+}
+
+/*carousel scritta*/
+
+.carousel-item {
+  position: relative; /* Assicura che la didascalia sia posizionata in base all'immagine */
+}
+.carousel-caption {
+  position: absolute; /* Posiziona la didascalia sopra l'immagine */
+  left: 50%; /* Centra la didascalia orizzontalmente */
+    transform: translateX(-50%); /* Assicura il centramento */
+    width: 300px; /* Larghezza fissa della didascalia */
+  background-color: rgba(0, 0, 0, 0.5); /* Sfondo nero semi-trasparente */
+  padding: 10px;
+  color: white; /* Colore del testo */
+  text-align: center; /* Centra il testo */
+  box-sizing: border-box; /* Include il padding nei calcoli della larghezza */
+  z-index: 10; /* Assicura che la didascalia sia sopra l'immagine */
+ 
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+  margin:0;
+  color: white; /* Cambia il colore del testo in bianco */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Aggiunge un'ombra al testo per migliorarne la leggibilità */
+}

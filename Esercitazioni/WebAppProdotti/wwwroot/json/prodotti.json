@@ -151,5 +151,14 @@
     "Immagine": "img/phone.webp",
     "Quantita": 8,
     "Categoria": "Elettronica"
+  },
+  {
+    "Id": 18,
+    "Nome": "cibi",
+    "Prezzo": 350.0,
+    "Dettaglio": "cibodamangiare",
+    "Immagine": "img/shoes.jpg",
+    "Quantita": 10,
+    "Categoria": "Bevande"
   }
 ]
