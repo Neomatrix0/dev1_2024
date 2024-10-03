@@ -10,8 +10,7 @@
         </div>
         <div class="card-body">
             <form method="post"> <!-- importante -->
-
-                <div class="form-group">
+     <div class="form-group">
                     <label asp-for="Prodotto.Nome" class="control-label">Nome</label>
                     <input asp-for="Prodotto.Nome" class="form-control" />
                     <span asp-validation-for="Prodotto.Nome" class="text-danger"></span>
@@ -19,7 +18,7 @@
 
                 <div class="form-group mb-3">
                     <label asp-for="Prodotto.Prezzo" class="control-label">Prezzo</label>
-                    <input asp-for="Prodotto.Prezzo" class="form-control" />
+                    <input asp-for="Prodotto.Prezzo" class="form-control"  placeholder="prezzo"/>
                     <span asp-validation-for="Prodotto.Prezzo" class="text-danger"></span>
                 </div>
 
