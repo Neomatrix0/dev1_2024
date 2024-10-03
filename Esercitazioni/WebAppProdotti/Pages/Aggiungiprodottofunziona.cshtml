@@ -1,0 +1,71 @@
+@*@page
+@model AggiungiProdottoModel
+@{
+    ViewData["Title"] = "Aggiungi Prodotto";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-dark text-white">
+            <h1 class="card-title">@ViewData["Title"]</h1>
+        </div>
+        <div class="card-body">
+            <form method="post"> <!-- importante -->
+
+                <div class="form-group mb-3">
+                    <label asp-for="Prodotto.Nome">Nome</label>
+                    <input asp-for="Prodotto.Nome" class="form-control" placeholder="Inserisci il nome del prodotto" />
+                    <span asp-validation-for="Prodotto.Nome" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Prodotto.Prezzo">Prezzo</label>
+                    <input asp-for="Prodotto.Prezzo" class="form-control" placeholder="Inserisci il prezzo del prodotto" />
+                    <span asp-validation-for="Prodotto.Prezzo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Prodotto.Dettaglio">Dettaglio</label>
+                    <input asp-for="Prodotto.Dettaglio" class="form-control" placeholder="Inserisci i dettagli del prodotto" />
+                    <span asp-validation-for="Prodotto.Dettaglio" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Prodotto.Immagine">Immagine</label>
+                    <input asp-for="Prodotto.Immagine" class="form-control" placeholder="Inserisci l'URL dell'immagine" />
+                    <span asp-validation-for="Prodotto.Immagine" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Prodotto.Quantita">Quantità</label>
+                    <input asp-for="Prodotto.Quantita" class="form-control" placeholder="Inserisci la quantità disponibile" />
+                    <span asp-validation-for="Prodotto.Quantita" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Prodotto.Categoria">Categoria</label>
+                    <select asp-for="Prodotto.Categoria" class="form-control">
+                        <option value="">Seleziona categoria</option>
+                        @foreach (var categoria in Model.Categorie)
+                        {
+                            <option value="@categoria">@categoria</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Codice">Codice</label>
+                    <input asp-for="Codice" class="form-control" placeholder="Inserisci codice segreto" />
+                    <span asp-validation-for="Codice" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-dark">Aggiungi</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+*@

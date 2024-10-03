@@ -6,8 +6,7 @@
     "Dettaglio": "Dettaglio1",
     "Immagine": "img/shoes.jpg",
     "Quantita": 10,
-    "Categoria": "Abbigliamento",
-    "Categorie": null
+    "Categoria": "Abbigliamento"
   },
   {
     "Id": 2,
@@ -16,8 +15,7 @@
     "Dettaglio": "scatola da 30",
     "Immagine": "img/cigars.jpeg",
     "Quantita": 50,
-    "Categoria": "Accessori",
-    "Categorie": null
+    "Categoria": "Accessori"
   },
   {
     "Id": 3,
@@ -26,8 +24,7 @@
     "Dettaglio": "Dettaglio3",
     "Immagine": "img/apple.jpg",
     "Quantita": 5,
-    "Categoria": "Elettronica",
-    "Categorie": null
+    "Categoria": "Elettronica"
   },
   {
     "Id": 4,
@@ -36,8 +33,7 @@
     "Dettaglio": "Dettaglio4",
     "Immagine": "img/profumo.webp",
     "Quantita": 20,
-    "Categoria": "Cosmetici",
-    "Categorie": null
+    "Categoria": "Cosmetici"
   },
   {
     "Id": 5,
@@ -46,8 +42,7 @@
     "Dettaglio": "Dettaglio5",
     "Immagine": "img/img2.webp",
     "Quantita": 2,
-    "Categoria": "Gioielleria",
-    "Categorie": null
+    "Categoria": "Gioielleria"
   },
   {
     "Id": 6,
@@ -56,8 +51,7 @@
     "Dettaglio": "Dettaglio6",
     "Immagine": "img/suits.png",
     "Quantita": 15,
-    "Categoria": "Abbigliamento",
-    "Categorie": null
+    "Categoria": "Abbigliamento"
   },
   {
     "Id": 7,
@@ -66,8 +60,7 @@
     "Dettaglio": "Dettaglio7",
     "Immagine": "img/sunglasses.webp",
     "Quantita": 30,
-    "Categoria": "Accessori",
-    "Categorie": null
+    "Categoria": "Accessori"
   },
   {
     "Id": 8,
@@ -76,8 +69,7 @@
     "Dettaglio": "Dettaglio8",
     "Immagine": "img/arts.jpg",
     "Quantita": 5,
-    "Categoria": "Arte",
-    "Categorie": null
+    "Categoria": "Arte"
   },
   {
     "Id": 9,
@@ -86,8 +78,7 @@
     "Dettaglio": "Dettaglio9",
     "Immagine": "img/pens.jpg",
     "Quantita": 10,
-    "Categoria": "Accessori",
-    "Categorie": null
+    "Categoria": "Accessori"
   },
   {
     "Id": 10,
@@ -96,8 +87,7 @@
     "Dettaglio": "Dettaglio10",
     "Immagine": "img/books2.jfif",
     "Quantita": 100,
-    "Categoria": "Libri",
-    "Categorie": null
+    "Categoria": "Libri"
   },
   {
     "Id": 11,
@@ -106,8 +96,7 @@
     "Dettaglio": "Dettaglio11",
     "Immagine": "img/champagne.webp",
     "Quantita": 30,
-    "Categoria": "Bevande",
-    "Categorie": null
+    "Categoria": "Bevande"
   },
   {
     "Id": 12,
@@ -116,8 +105,7 @@
     "Dettaglio": "Dettaglio12",
     "Immagine": "img/borsa.jpg",
     "Quantita": 25,
-    "Categoria": "Ufficio",
-    "Categorie": null
+    "Categoria": "Ufficio"
   },
   {
     "Id": 13,
@@ -126,8 +114,7 @@
     "Dettaglio": "Dettaglio13",
     "Immagine": "img/pc.jpg",
     "Quantita": 10,
-    "Categoria": "Elettronica",
-    "Categorie": null
+    "Categoria": "Elettronica"
   },
   {
     "Id": 14,
@@ -136,8 +123,7 @@
     "Dettaglio": "Dettaglio14",
     "Immagine": "img/headphones.webp",
     "Quantita": 40,
-    "Categoria": "Elettronica",
-    "Categorie": null
+    "Categoria": "Elettronica"
   },
   {
     "Id": 15,
@@ -146,8 +132,7 @@
     "Dettaglio": "Dettaglio15",
     "Immagine": "img/console.webp",
     "Quantita": 15,
-    "Categoria": "Elettronica",
-    "Categorie": null
+    "Categoria": "Elettronica"
   },
   {
     "Id": 16,
@@ -156,8 +141,7 @@
     "Dettaglio": "Dettaglio16",
     "Immagine": "img/umbrella.jpg",
     "Quantita": 50,
-    "Categoria": "Accessori",
-    "Categorie": null
+    "Categoria": "Accessori"
   },
   {
     "Id": 17,
@@ -166,7 +150,15 @@
     "Dettaglio": "dettaglio17",
     "Immagine": "img/phone.webp",
     "Quantita": 8,
-    "Categoria": "Elettronica",
-    "Categorie": null
+    "Categoria": "Elettronica"
+  },
+  {
+    "Id": 18,
+    "Nome": "pipa",
+    "Prezzo": 10.0,
+    "Dettaglio": "del tabacco",
+    "Immagine": "img/shoes.jpg",
+    "Quantita": 2,
+    "Categoria": "Tabacco"
   }
 ]
