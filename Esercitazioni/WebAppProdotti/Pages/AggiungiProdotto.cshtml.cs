@@ -77,7 +77,7 @@ using  Newtonsoft.Json;
                 Categoria=categoria
             });
             System.IO.File.WriteAllText("wwwroot/json/prodotti.json",JsonConvert.SerializeObject(tuttiProdotti, Formatting.Indented));
-            return RedirectToPage("Prodotti");
+            return RedirectToPage("/Prodotti");
 
 
         }

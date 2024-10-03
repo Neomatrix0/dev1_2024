@@ -3,35 +3,37 @@
 @{
     ViewData["Title"] = "AggiungiProdotto";
 }
-
-<h1>@ViewData["Title"]</h1>
-
-<div>
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-dark text-white">
+            <h1 class="card-title">@ViewData["Title"]</h1>
+        </div>
+        <div class="card-body">
     <form method="post"> <!-- importante -->
 
         <div class="form-group">
             <label for="nome">Nome</label>
-            <input type="text" class="form-control" name="nome" />
+            <input type="text" class="form-control" name="nome" placeholder="nome prodotto" />
         </div>
 
         <div class="form-group mb-3">
             <label for="prezzo">Prezzo</label>
-            <input type="text" class="form-control" name="prezzo" />
+            <input type="text" class="form-control" name="prezzo" placeholder="prezzo prodotto" />
         </div>
 
         <div class="form-group">
             <label for="dettaglio">Dettaglio</label>
-            <input type="text" class="form-control" name="dettaglio" />
+            <input type="text" class="form-control" name="dettaglio" placeholder="dettagli prodotto" />
         </div>
 
         <div class="form-group">
             <label for="immagine">Immagine</label>
-            <input type="text" class="form-control" name="immagine" />
+            <input type="text" class="form-control" name="immagine" placeholder="path immagine prodotto" />
         </div>
 
         <div class="form-group">
             <label for="quantita">Quantita</label>
-            <input type="text" class="form-control" name="quantita" />
+            <input type="text" class="form-control" name="quantita" placeholder="quantita prodotto" />
         </div>
 
         <div class="form-group">
@@ -47,11 +49,13 @@
 
         <div class="form-group">
             <label asp-for="Codice">Codice</label>
-            <input asp-for="Codice" class="form-control" />
+            <input asp-for="Codice" class="form-control" placeholder="codice di sicurezza"/>
             <span asp-validation-for="Codice" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-dark">Aggiungi</button>
 
     </form>
+</div>
+</div>
 </div>

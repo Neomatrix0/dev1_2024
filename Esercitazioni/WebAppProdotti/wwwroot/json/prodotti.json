@@ -11,11 +11,11 @@
   {
     "Id": 2,
     "Nome": "sigari",
-    "Prezzo": 150.0,
+    "Prezzo": 200.0,
     "Dettaglio": "scatola da 30",
     "Immagine": "img/cigars.jpeg",
     "Quantita": 50,
-    "Categoria": "Accessori"
+    "Categoria": "Tabacco"
   },
   {
     "Id": 3,
@@ -151,14 +151,5 @@
     "Immagine": "img/phone.webp",
     "Quantita": 8,
     "Categoria": "Elettronica"
-  },
-  {
-    "Id": 18,
-    "Nome": "pipa",
-    "Prezzo": 10.0,
-    "Dettaglio": "del tabacco",
-    "Immagine": "img/shoes.jpg",
-    "Quantita": 2,
-    "Categoria": "Tabacco"
   }
 ]
