@@ -23,8 +23,17 @@ public List<Prodotto> RandomProdotti { get; set; } = new List<Prodotto>();
               if (tuttiProdotti != null && tuttiProdotti.Count > 0)
             {
                 Random random = new Random();
-                RandomProdotti = tuttiProdotti.OrderBy(x => random.Next()).Take(3).ToList();
-            }
 
+                  
+            for (int i = 0; i < 3; i++)
+            {
+                int randomIndex = random.Next(tuttiProdotti.Count);
+                RandomProdotti.Add(tuttiProdotti[randomIndex]);}
+
+               
+            //Take prende i primi 3 elementi della lista
+          //  RandomProdotti = tuttiProdotti.OrderBy(x => random.Next()).Take(3).ToList();
+            }
+            }
     }
-}
+
