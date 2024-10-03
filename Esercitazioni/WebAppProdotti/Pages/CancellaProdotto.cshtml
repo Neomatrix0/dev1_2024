@@ -1,23 +1,34 @@
+
 @page
 @model CancellaProdottoModel
 @{
     ViewData["Title"] = "CancellaProdotto";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container mt-5">
+    <div class="card shadow-lg" style= "max-width: 600px;">
+        <div class="card-header bg-dark text-white">
 
-<div>
+ <h1 class="card-title">@ViewData["Title"]</h1>
+
+
+</div>
+        <div class="card-body my-custom-card">
     <form method ="post">
         <div class="form-group">
-            <p>@Model.Prodotto.Nome</p>
-            <p>@Model.Prodotto.Prezzo</p>
-            <p>@Model.Prodotto.Dettaglio</p>
-            <p>@Model.Prodotto.Immagine</p>
-           <p>@Model.Prodotto.Quantita</p> 
-          <p>  @Model.Prodotto.Categoria</p>
+            <h1 style="color:black">@Model.Prodotto.Nome</h1>
+            <p><strong>Prezzo:</strong> @Model.Prodotto.Prezzo eur</p>
+            <!--<p>@Model.Prodotto.Dettaglio</p>-->
+            <img src="@Model.Prodotto.Immagine" style="width: 200px;">
+          <!-- <p>@Model.Prodotto.Quantita</p> -->
+       <!--   <p>  @Model.Prodotto.Categoria</p>-->
         </div>
-        <button type ="submit" class="btn btn-dark">Cancella</button>
+        <button type ="submit" class="btn btn-dark mt-2">Cancella</button>
 
     </form>
     
 </div>
+</div>
+</div>
+
+

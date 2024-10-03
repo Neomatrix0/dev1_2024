@@ -106,3 +106,8 @@ background-color: rgb(33,37,41); /* colore bg-dark */
   color: white; /* Cambia il colore del testo in bianco */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Aggiunge un'ombra al testo per migliorarne la leggibilità */
 }
+
+
+.my-custom-card {
+  color: black;
+}
