@@ -25,3 +25,11 @@ body {
   background-color: #3B3B3B;
   color:white;
 }
+
+.navbar .nav-link {
+  color: white !important;
+}
+
+.footer{
+background-color: rgb(33,37,41); /* colore bg-dark */
+    color: white; }

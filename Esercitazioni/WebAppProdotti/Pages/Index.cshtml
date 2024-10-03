@@ -5,8 +5,8 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">Applicazione costruita con  ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to the store</h1>
+    
 
 @if (Model.RandomProdotti != null && Model.RandomProdotti.Count > 0)
     {
@@ -23,9 +23,9 @@
                 {
                     var prodotto = Model.RandomProdotti[i];
                     <div class="carousel-item @(i == 0 ? "active" : "")">
-                        <img src="~/@prodotto.Immagine" class="d-block w-100" alt="@prodotto.Nome" style="height: 400px; object-fit: cover;" />
+                        <img src="~/@prodotto.Immagine" class="d-block w-100" alt="@prodotto.Nome" style="width: 100%; height: 400px; object-fit: contain;" />
                         <div class="carousel-caption d-none d-md-block">
-                            <h5 style="color: rgba(255, 255, 255, 0.777)">@prodotto.Nome</h5>
+                            <h5 style="color: white;font-weight: bold;">@prodotto.Nome</h5>
                            
                             <p><strong>Prezzo:</strong> @prodotto.Prezzo €</p>
                         </div>

@@ -73,12 +73,12 @@
   },
   {
     "Id": 9,
-    "Nome": "prodotto 9",
-    "Prezzo": 900.0,
+    "Nome": "Penne",
+    "Prezzo": 320.0,
     "Dettaglio": "Dettaglio9",
     "Immagine": "img/pens.jpg",
     "Quantita": 10,
-    "Categoria": "Accessori"
+    "Categoria": "Gioielli"
   },
   {
     "Id": 10,
@@ -136,12 +136,12 @@
   },
   {
     "Id": 16,
-    "Nome": "prodotto 16",
+    "Nome": "Ombrello",
     "Prezzo": 60.0,
     "Dettaglio": "Dettaglio16",
     "Immagine": "img/umbrella.jpg",
     "Quantita": 50,
-    "Categoria": "Accessori"
+    "Categoria": "Abbigliamento"
   },
   {
     "Id": 17,
