@@ -112,7 +112,7 @@ background-color: rgb(33,37,41); /* colore bg-dark */
   color: black;
 }
 
-@media (min-width: 468px) and (max-width: 992px) {
+@media (min-width: 260px) and (max-width: 992px) {
   .card {
     width: 80%; /* Aumenta la larghezza delle cards */
     margin-left: auto;
