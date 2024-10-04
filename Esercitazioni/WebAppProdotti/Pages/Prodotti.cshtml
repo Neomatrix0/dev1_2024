@@ -49,36 +49,23 @@
                     <!-- Button Group per i pulsanti -->
    <!--<div class="d-flex justify-content-between"> -->
         
-            <div class="btn-group" role="group" aria-label="Button group">
-                        <!-- Cambia colore del bottone in base al prezzo -->
-                        @if (prodotto.Prezzo < 300)
-                        {
-                            <a asp-page="ProdottoDettaglio" asp-route-id="@prodotto.Id" class="btn btn-success">
-                                Dettaglio
-                            </a>
-                        }
-                        else if (prodotto.Prezzo < 600)
-                        {
-                            <a asp-page="ProdottoDettaglio" asp-route-id="@prodotto.Id" class="btn btn-success">
-                                Dettaglio
-                            </a>
-                        }
-                        else
-                        {
-                            <a asp-page="ProdottoDettaglio" asp-route-id="@prodotto.Id" class="btn btn-success me-2 ">
-                                Dettaglio
-                            </a>}
-                     <!-- Pulsante Modifica -->
-                        <a asp-page="ModificaProdotto" asp-route-id="@prodotto.Id" class="btn btn-secondary me-2">
-                            Modifica</a>
-                          <a asp-page="CancellaProdotto" asp-route-id="@prodotto.Id" class="btn btn-danger me-2">
-                            Cancella</a>
+          <div class="d-flex flex-column justify-content-between mt-2">
+                        <a asp-page="ProdottoDettaglio" asp-route-id="@prodotto.Id" class="btn btn-success mb-2">
+                            Dettaglio
+                        </a>
+                        <a asp-page="ModificaProdotto" asp-route-id="@prodotto.Id" class="btn btn-secondary mb-2">
+                            Modifica
+                        </a>
+                        <a asp-page="CancellaProdotto" asp-route-id="@prodotto.Id" class="btn btn-danger mb-2">
+                            Cancella
+                        </a>
                         </div>
                     </div>
                 </div>
                 </div>
             
         }
+
     </div>
 
     <form method="get">
