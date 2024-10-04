@@ -122,6 +122,31 @@ background-color: rgb(33,37,41); /* colore bg-dark */
   color: red; /* Colore rosso per i messaggi di errore */
 }
 
+/* Cambia il colore del bordo degli input validi */
+.input-validation-valid {
+  border-color: green !important; /* Bordo verde per evidenziare i campi validi */
+}
+
+/* Cambia il colore del messaggio di successo */
+.field-validation-valid {
+  color: green;
+}
+
+/* Rimuove lo sfondo azzurro su autocompletamento nei browser Webkit (Chrome, Safari, Edge) */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important; /* Imposta lo sfondo bianco per sovrascrivere l'azzurro */
+  -webkit-text-fill-color: black !important; /* Imposta il colore del testo */
+}
+
+/* Rimuove lo sfondo azzurro per altri browser che usano il motore Blink (Chrome, Edge) */
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: black !important;
+}
+
+
 
 @media (min-width: 260px) and (max-width: 992px) {
   .card {
