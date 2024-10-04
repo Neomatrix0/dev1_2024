@@ -82,8 +82,8 @@ public class AggiungiProdottoModel : PageModel
             {
                 id = tuttiProdotti[tuttiProdotti.Count - 1].Id + 1;
             }
-
-            Prodotto.Id = id;
+            //imposta l'id del nuovo progetto
+            Prodotto.Id = id;  //assegno l'id al prodotto da aggiungere
 
             if (Prodotto.Immagine == null)
             {
@@ -91,15 +91,7 @@ public class AggiungiProdottoModel : PageModel
             }
 
             tuttiProdotti.Add(Prodotto);
-            /*     tuttiProdotti.Add(new Prodotto{
-                     Id =id,
-                     Nome = nome,
-                     Prezzo = prezzo,
-                     Dettaglio = dettaglio,
-                     Immagine =immagine,
-                     Quantita = quantita,
-                     Categoria=categoria
-                 }); */
+          
             System.IO.File.WriteAllText("wwwroot/json/prodotti.json", JsonConvert.SerializeObject(tuttiProdotti, Formatting.Indented));
             return RedirectToPage("Prodotti");
 
