@@ -14,6 +14,7 @@
                 <div class="form-group">
                     <label asp-for="Prodotto.Nome" class="control-label">Nome</label>
                     <input asp-for="Prodotto.Nome" class="form-control" placeholder="nome prodotto"/>
+                        <i class="bi bi-exclamation-circle" style="color:red"></i> <!-- Replaced with Bootstrap house icon -->
                     <span asp-validation-for="Prodotto.Nome" class="text-danger"></span>
                 </div>
 
@@ -62,6 +63,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-dark mt-3">Aggiungi</button>
+                <i class="bi bi-3-circle-fill"></i>
             </form>
         </div>
     </div>

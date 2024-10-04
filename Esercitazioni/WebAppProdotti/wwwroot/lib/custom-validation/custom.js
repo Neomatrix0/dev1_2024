@@ -6,13 +6,13 @@ $(document).ready(function () {
     $("input, select").on("blur keyup", function () {
         if ($(this).val().trim() === "") {
             // Se il campo è vuoto, aggiungi la classe input-validation-error e rimuovi input-validation-valid
-            $(this).removeClass("input-validation-valid").addClass("input-validation-error");
+            $(this).removeClass("input-validation-valid").addClass("input-validation-error").next(".invalid-icon").show();
         } else if ($(this).hasClass("input-validation-error")) {
             // Se ci sono errori di validazione, mantieni input-validation-error
-            $(this).removeClass("input-validation-valid").addClass("input-validation-error");
+            $(this).removeClass("input-validation-valid").addClass("input-validation-error").next(".invalid-icon").show();
         } else {
             // Se il campo è correttamente compilato, rimuovi input-validation-error e aggiungi input-validation-valid
-            $(this).removeClass("input-validation-error").addClass("input-validation-valid");
+            $(this).removeClass("input-validation-error").addClass("input-validation-valid").next(".invalid-icon").hide();
         }
     });
 });
