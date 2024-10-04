@@ -21,6 +21,7 @@ public class Prodotto
     public string Immagine { get; set; }
 
     [Required(ErrorMessage = "Il campo Quantità è obbligatorio.")]
+    [Range(1, int.MaxValue, ErrorMessage = "La quantità deve essere almeno 1.")]
     public int Quantita { get; set; }
 
     [Required(ErrorMessage = "La categoria è obbligatoria.")]
