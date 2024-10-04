@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label asp-for="Prodotto.Nome" class="control-label">Nome</label>
                     <input asp-for="Prodotto.Nome" class="form-control" placeholder="nome prodotto"/>
-                        <i class="bi bi-exclamation-circle" style="color:red"></i> <!-- Replaced with Bootstrap house icon -->
+                        <i class="bi bi-exclamation-circle text-danger invalid-icon" style="display:none"></i> <!-- Replaced with Bootstrap house icon -->
                     <span asp-validation-for="Prodotto.Nome" class="text-danger"></span>
                 </div>
 
@@ -22,6 +22,8 @@
                 <div class="form-group mb-3">
                     <label asp-for="Prodotto.Prezzo" class="control-label">Prezzo</label>
                     <input asp-for="Prodotto.Prezzo" class="form-control" placeholder="prezzo"/>
+                     <i class="bi bi-exclamation-circle text-danger invalid-icon" style="display:none"></i> 
+                       <i class="bi bi-check-circle text-success valid-icon" style="display:none"></i> 
                     <span asp-validation-for="Prodotto.Prezzo" class="text-danger"></span>
                 </div>
 
@@ -29,6 +31,8 @@
                 <div class="form-group">
                     <label asp-for="Prodotto.Dettaglio" class="control-label">Dettaglio</label>
                     <input asp-for="Prodotto.Dettaglio" class="form-control" placeholder="dettaglio"/>
+                     <i class="bi bi-exclamation-circle text-danger invalid-icon" style="display:none"></i> 
+                       <i class="bi bi-check-circle text-success valid-icon" style="display:none"></i>
                     <span asp-validation-for="Prodotto.Dettaglio" class="text-danger"></span>
                 </div>
 
@@ -36,6 +40,8 @@
                 <div class="form-group">
                     <label asp-for="Prodotto.Immagine" class="control-label">Immagine</label>
                     <input asp-for="Prodotto.Immagine" class="form-control" placeholder="img/"/>
+                       <i class="bi bi-exclamation-circle text-danger invalid-icon" style="display:none"></i> 
+                       <i class="bi bi-exclamation-circle text-success valid-icon" style="display:none"></i>
                     <span asp-validation-for="Prodotto.Immagine" class="text-danger"></span>
                 </div>
 
@@ -43,6 +49,8 @@
                 <div class="form-group">
                     <label asp-for="Prodotto.Quantita" class="control-label">Quantità</label>
                     <input asp-for="Prodotto.Quantita" class="form-control" placeholder="quantita"/>
+                       <i class="bi bi-exclamation-circle text-danger invalid-icon" style="display:none"></i> 
+                       <i class="bi bi-check-circle text-success valid-icon" style="display:none"></i>
                     <span asp-validation-for="Prodotto.Quantita" class="text-danger"></span>
                 </div>
 
@@ -59,6 +67,8 @@
                 <div class="form-group">
                     <label asp-for="Codice">Codice</label>
                     <input asp-for="Codice" class="form-control" placeholder="codice di sicurezza"/>
+                       <i class="bi bi-exclamation-circle text-danger invalid-icon" style="display:none"></i> 
+                       <i class="bi bi-check-circle text-success valid-icon" style="display:none"></i>
                     <span asp-validation-for="Codice" class="text-danger"></span>
                 </div>
 
