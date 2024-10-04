@@ -151,14 +151,5 @@
     "Immagine": "img/phone.webp",
     "Quantita": 8,
     "Categoria": "Elettronica"
-  },
-  {
-    "Id": 18,
-    "Nome": "ciao",
-    "Prezzo": 10.0,
-    "Dettaglio": "dettagli",
-    "Immagine": "img/apple.jpg",
-    "Quantita": 1,
-    "Categoria": "Elettronica"
   }
 ]

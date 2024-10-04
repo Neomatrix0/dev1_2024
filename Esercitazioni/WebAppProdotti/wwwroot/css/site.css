@@ -146,6 +146,13 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: black !important;
 }
 
+::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+::-webkit-input-placeholder {
+  color: #6c757d;
+}
 
 
 @media (min-width: 260px) and (max-width: 992px) {
