@@ -111,3 +111,11 @@ background-color: rgb(33,37,41); /* colore bg-dark */
 .my-custom-card {
   color: black;
 }
+
+@media (min-width: 468px) and (max-width: 992px) {
+  .card {
+    width: 80%; /* Aumenta la larghezza delle cards */
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

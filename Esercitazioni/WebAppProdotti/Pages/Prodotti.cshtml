@@ -28,8 +28,8 @@
                     <img src="~/@prodotto.Immagine" class="card-img-top" alt="@prodotto.Nome" style="height: 300px; object-fit: cover;" />
                     <div class="card-body">
                         <h5 class="card-title" style="color:black;">@prodotto.Nome</h5>
-                        <p class="card-text text-dark"><strong>Quantità:</strong>@prodotto.Quantita</p>
-                        <p class="card-text text-dark"><strong>Categoria:</strong>@prodotto.Categoria</p>
+                        <p class="card-text text-dark"><strong>Quantità:</strong> <span class="mr-2">@prodotto.Quantita</span></p>
+                        <p class="card-text text-dark"><strong>Categoria:</strong> <span class="mr-2">@prodotto.Categoria</span></p>
 
                         @if (prodotto.Prezzo < 300)
                         {
@@ -39,7 +39,7 @@
                         }
                         else if(prodotto.Prezzo < 600)
                         {
-                            <p class="card-text text-dark">
+                            <p class="card-text text-success">
                                 Prezzo: @prodotto.Prezzo €
                             </p>
                         } 
