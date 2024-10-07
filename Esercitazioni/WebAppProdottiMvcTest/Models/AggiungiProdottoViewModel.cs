@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 public class AggiungiProdottoViewModel
 {
     public Prodotto Prodotto { get; set; } // Oggetto prodotto che verrà aggiunto
