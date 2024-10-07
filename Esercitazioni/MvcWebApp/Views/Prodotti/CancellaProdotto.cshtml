@@ -1,0 +1,50 @@
+
+@model Prodotto
+@{
+    ViewData["Title"] = "CancellaProdotto";
+}
+
+<h1>Cancella Prodotto</h1>
+
+<p>Sei sicuro di voler eliminare questo prodotto?</p>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nome
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Nome
+        </dd>
+        <dt class="col-sm-2">
+            Prezzo
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Prezzo
+        </dd>
+        <dt class="col-sm-2">
+            Dettaglio
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Dettaglio
+        </dd>
+        <dt class="col-sm-2">
+            Quantità
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Quantita
+        </dd>
+        <dt class="col-sm-2">
+            Categoria
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Categoria
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Cancella</button>
+        <a asp-action="Index" class="btn btn-secondary">Annulla</a>
+    </form>
+</div>

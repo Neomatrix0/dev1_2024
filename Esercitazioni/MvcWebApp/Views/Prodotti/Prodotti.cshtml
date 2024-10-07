@@ -1,0 +1,62 @@
+@model IEnumerable<Prodotto>
+
+@{
+    ViewData["Title"] = "Prodotti";
+}
+<h1>@ViewData["Title"]</h1>
+
+<!-- Filtri per prezzo -->
+<form method="get">
+    <div class="form-group col-md-3">
+        <label for="minPrezzo">Min prezzo</label>
+        <input type="number" class="form-control" name="minPrezzo" value="@ViewBag.minPrezzo" placeholder="Inserisci prezzo minimo"/>
+    </div>
+    <div class="form-group col-md-3">
+        <label for="maxPrezzo">Max prezzo</label>
+        <input type="number" class="form-control" name="maxPrezzo" value="@ViewBag.maxPrezzo" placeholder="Inserisci prezzo massimo"/>
+        <button type="submit" class="btn btn-dark mt-3">Filtra</button>
+    </div>
+</form>
+<br>
+
+<!-- Container per le card -->
+<div class="row">
+    @foreach (var prodotto in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 18rem;">
+                <img src="~/@prodotto.Immagine" class="card-img-top" alt="@prodotto.Nome" style="height: 300px; object-fit: cover;" />
+                <div class="card-body">
+                    <h5 class="card-title" style="color:black;">@prodotto.Nome</h5>
+                    <p class="card-text text-dark"><strong>Quantità:</strong> @prodotto.Quantita</p>
+                    <p class="card-text text-dark"><strong>Categoria:</strong> @prodotto.Categoria</p>
+
+                    @if (prodotto.Prezzo < 600)
+                    {
+                        <p class="card-text text-success">Prezzo: @prodotto.Prezzo €</p>
+                    }
+                    else
+                    {
+                        <p class="card-text text-danger">Prezzo: @prodotto.Prezzo €</p>
+                    }
+
+                    <div class="d-flex flex-column justify-content-between mt-2">
+                        <a asp-action="Details" asp-controller="Prodotti" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white;">Dettaglio</a>
+                        <a asp-action="Edit" asp-controller="Prodotti" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white;">Modifica</a>
+                        <a asp-action="Delete" asp-controller="Prodotti" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white;">Cancella</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Paginazione -->
+<form method="get">
+    @for (int i = 1; i <= ViewBag.numeroPagine; i++)
+    {
+        <button type="submit" class="btn btn-dark" name="pageIndex" value="@i">@i</button>
+    }
+</form>
+
+<a asp-action="Index" asp-controller="Home">Torna a Home</a>

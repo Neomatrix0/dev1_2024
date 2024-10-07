@@ -1,0 +1,70 @@
+@*@model Prodotto
+
+@{
+    ViewData["Title"] = "AggiungiProdotto";
+}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-dark text-white">
+            <h1 class="card-title">@ViewData["Title"]</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <!-- Campo Nome -->
+                <div class="form-group">
+                    <label asp-for="Prodotto.Nome" class="control-label">Nome</label>
+                    <input asp-for="Prodotto.Nome" class="form-control" placeholder="nome prodotto" />
+                    <span asp-validation-for="Prodotto.Nome" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Prezzo -->
+                <div class="form-group mb-3">
+                    <label asp-for="Prodotto.Prezzo" class="control-label">Prezzo</label>
+                    <input asp-for="Prodotto.Prezzo" class="form-control" placeholder="prezzo" />
+                    <span asp-validation-for="Prodotto.Prezzo" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Dettaglio -->
+                <div class="form-group">
+                    <label asp-for="Prodotto.Dettaglio" class="control-label">Dettaglio</label>
+                    <input asp-for="Prodotto.Dettaglio" class="form-control" placeholder="dettaglio" />
+                    <span asp-validation-for="Prodotto.Dettaglio" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Immagine -->
+                <div class="form-group">
+                    <label asp-for="Prodotto.Immagine" class="control-label">Immagine</label>
+                    <input asp-for="Prodotto.Immagine" class="form-control" placeholder="img/" />
+                    <span asp-validation-for="Prodotto.Immagine" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Quantità -->
+                <div class="form-group">
+                    <label asp-for="Prodotto.Quantita" class="control-label">Quantità</label>
+                    <input asp-for="Prodotto.Quantita" class="form-control" placeholder="quantita" />
+                    <span asp-validation-for="Prodotto.Quantita" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Categoria -->
+                <div class="form-group">
+                    <label asp-for="Prodotto.Categoria" class="control-label">Categoria</label>
+                    <select asp-for="Prodotto.Categoria" class="form-control" asp-items="@(new SelectList(Model.Categorie))">
+                        <option value="">Seleziona categoria</option>
+                    </select>
+                    <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Codice -->
+                <div class="form-group">
+                    <label for="Codice">Codice</label>
+                    <input type="text" name="Codice" class="form-control" placeholder="codice di sicurezza" />
+                    <span asp-validation-for="Codice" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-dark mt-3">Aggiungi</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+*@
