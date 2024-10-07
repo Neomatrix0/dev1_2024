@@ -33,11 +33,29 @@ private readonly ILogger<ProdottiController> _logger;
 
 
     // Metodo per leggere le categorie dal file JSON
-    private List<string> LeggiCategorieDaJson()
+   /* private List<string> LeggiCategorieDaJson()
     {
         var jsonData = System.IO.File.ReadAllText(categorieFilePath);
         return JsonConvert.DeserializeObject<List<string>>(jsonData) ?? new List<string>();
+    }*/
+
+    private List<string> LeggiCategorieDaJson()
+{
+    try
+    {
+        var jsonData = System.IO.File.ReadAllText(categorieFilePath);
+        _logger.LogInformation("Categorie JSON loaded: " + jsonData); // Log the JSON data
+        return JsonConvert.DeserializeObject<List<string>>(jsonData) ?? new List<string>();
     }
+    catch (Exception ex)
+    {
+        _logger.LogError("Error reading categorie.json: " + ex.Message);
+        return new List<string>(); // Return an empty list if there's an error
+    }
+}  
+
+
+
 
     // Action per visualizzare la lista dei prodotti con filtro prezzo e paginazione
     public IActionResult Index(int? minPrezzo, int? maxPrezzo, int pageIndex = 1)
@@ -98,48 +116,47 @@ private readonly ILogger<ProdottiController> _logger;
 
     // Action POST per processare il form
 
-[HttpPost]
-public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
-{
-    // Verifica del codice di sicurezza
-    if (viewModel.Codice != "1234")
+  // POST Action to process the form submission
+    [HttpPost]
+    public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
     {
-        ModelState.AddModelError("Codice", "Codice non valido.");
-        _logger.LogWarning("Codice di sicurezza non valido.");
-    }
-
-    // Verifica se il modello è valido
-    if (ModelState.IsValid)
-    {
-        _logger.LogInformation("Tentativo di aggiungere un nuovo prodotto valido.");
-        
-        var prodotti = LeggiProdottiDaJson();
-        viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
-
-        // Se non è stata inserita un'immagine, imposta un'immagine di default
-        if (string.IsNullOrWhiteSpace(viewModel.Prodotto.Immagine))
+        // Verify security code
+        if (viewModel.Codice != "1234")
         {
-            viewModel.Prodotto.Immagine = "img/default.jpg";
+            ModelState.AddModelError("Codice", "Codice non valido.");
+            _logger.LogWarning("Codice di sicurezza non valido.");
         }
 
-        // Aggiungi il nuovo prodotto
-        prodotti.Add(viewModel.Prodotto);
-        SalvaProdottiSuJson(prodotti);
+        // Check if the model is valid
+        if (ModelState.IsValid)
+        {
+            _logger.LogInformation("Tentativo di aggiungere un nuovo prodotto valido.");
+            
+            var prodotti = LeggiProdottiDaJson();
+            viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
 
-        // Reindirizza alla pagina dei prodotti
-        return RedirectToAction("Index");
+            // Set default image if not provided
+            if (string.IsNullOrWhiteSpace(viewModel.Prodotto.Immagine))
+            {
+                viewModel.Prodotto.Immagine = "img/shoes.jpg";
+            }
+
+            // Add new product
+            prodotti.Add(viewModel.Prodotto);
+            SalvaProdottiSuJson(prodotti);
+
+            return RedirectToAction("Index");
+        }
+
+        // Log validation errors
+        _logger.LogWarning("Il modello non è valido. Errori: {Errors}", 
+                           ModelState.Values.SelectMany(v => v.Errors)
+                           .Select(e => e.ErrorMessage));
+
+        // Reload categories and return view with errors
+        viewModel.Categorie = LeggiCategorieDaJson();
+        return View(viewModel);
     }
-
-    // Log per vedere cosa ha causato la non validità del modello
-    _logger.LogWarning("Il modello non è valido. Errori: {Errors}", ModelState.Values
-                       .SelectMany(v => v.Errors)
-                       .Select(e => e.ErrorMessage));
-
-    // Se ci sono errori, ricarica le categorie e ritorna alla vista
-    viewModel.Categorie = LeggiCategorieDaJson();
-    return View(viewModel);
-}
-
 
     // Azione GET per visualizzare il form di modifica del prodotto
     public IActionResult ModificaProdotto(int id)

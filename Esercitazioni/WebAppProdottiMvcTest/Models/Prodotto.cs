@@ -24,6 +24,7 @@ public class Prodotto
     [Range(1, int.MaxValue, ErrorMessage = "La quantità deve essere almeno 1.")]
     public int Quantita { get; set; }
 
-    [Required(ErrorMessage = "La categoria è obbligatoria.")]
+   [Required(ErrorMessage = "La categoria è obbligatoria.")]
     public string Categoria { get; set; }
+
 }

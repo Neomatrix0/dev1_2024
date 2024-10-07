@@ -1,6 +1,4 @@
-@*
-
-@model ModificaProdottoViewModel
+@*@model ModificaProdottoViewModel
 
 @{
     ViewData["Title"] = "Modifica Prodotto";
@@ -41,15 +39,16 @@
 
                 <div class="form-group">
                     <label for="categoria">Categoria:</label>
-  <select class="form-control" name="categoria" required>
-    <option value="">Seleziona categoria</option>
-    @foreach (var categoria in Model.Categorie)
-    {
-        var isSelected = categoria == Model.Prodotto.Categoria ? "selected" : ""; <!-- Usiamo una variabile per la logica C# -->
-        <option value="@categoria" @isSelected>@categoria</option>
-    }
-</select>
-
+                    <select class="form-control" name="categoria" required>
+                        <option value="">Seleziona categoria</option>
+                         
+        @foreach (var categoria in Model.Categorie)
+        {
+            <option value="@categoria" selected="@(categoria == Model.Prodotto.Categoria ? "selected" : "")">
+                @categoria
+            </option>
+        }
+                    </select>
                 </div>
 
                 <input type="hidden" name="id" value="@Model.Prodotto.Id" />
@@ -59,5 +58,4 @@
         </div>
     </div>
 </div>
-
 *@

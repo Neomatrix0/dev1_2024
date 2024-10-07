@@ -47,13 +47,15 @@
                 </div>
 
                 <!-- Campo Categoria -->
-                <div class="form-group">
-                    <label asp-for="Prodotto.Categoria" class="control-label">Categoria</label>
-                    <select asp-for="Prodotto.Categoria" class="form-control" asp-items="@(new SelectList(Model.Categorie))">
-                        <option value="">Seleziona categoria</option>
-                    </select>
-                    <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
-                </div>
+   <!-- Campo Categoria -->
+<div class="form-group">
+    <label asp-for="Prodotto.Categoria" class="control-label">Categoria</label>
+    <select asp-for="Prodotto.Categoria" class="form-control" asp-items="@(new SelectList(Model.Categorie))">
+        <option value="">Seleziona categoria</option>
+    </select>
+    <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
+</div>
+
 
                 <!-- Campo Codice -->
                 <div class="form-group">
@@ -63,6 +65,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-dark mt-3">Aggiungi</button>
+                <div asp-validation-summary="All" class="text-danger"></div>
             </form>
         </div>
     </div>
