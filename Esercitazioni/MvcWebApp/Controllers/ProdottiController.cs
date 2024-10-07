@@ -53,10 +53,39 @@ public IActionResult Prodotti()
 }
 
 
-    public IActionResult Index()
+/*    public IActionResult Index()
 {
     return View(prodotti); // Passa una lista di prodotti
+}  */
+
+/*public IActionResult Index(decimal? minPrezzo, decimal? maxPrezzo, int? pageIndex)
+{
+    // Applica i filtri per prezzo minimo e massimo
+    var prodottiFiltrati = prodotti
+        .Where(p => (!minPrezzo.HasValue || p.Prezzo >= minPrezzo.Value) &&
+                    (!maxPrezzo.HasValue || p.Prezzo <= maxPrezzo.Value))
+        .ToList();
+
+    // Calcola il numero di pagine
+    int prodottiPerPagina = 6;
+    int numeroPagine = (int)Math.Ceiling((double)prodottiFiltrati.Count() / prodottiPerPagina);
+
+    ViewBag.numeroPagine = numeroPagine;
+    ViewBag.minPrezzo = minPrezzo;
+    ViewBag.maxPrezzo = maxPrezzo;
+
+    // Restituisce la lista paginata
+    var prodottiPaginati = prodottiFiltrati.Skip(((pageIndex ?? 1) - 1) * prodottiPerPagina).Take(prodottiPerPagina);
+
+    return View(prodottiPaginati);
+}  */
+
+public IActionResult Index()
+{
+    // Assicurati che 'prodotti' sia una lista o una collezione
+    return View(prodotti); // Passa una lista di prodotti alla View
 }
+
 
 
     public IActionResult Create()

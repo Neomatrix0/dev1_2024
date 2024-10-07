@@ -1,3 +1,4 @@
+@* 
 @model IEnumerable<Prodotto>
 
 @{
@@ -6,7 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <!-- Filtri per prezzo -->
-<form method="get">
+@*<form method="get">
     <div class="form-group col-md-3">
         <label for="minPrezzo">Min prezzo</label>
         <input type="number" class="form-control" name="minPrezzo" value="@ViewBag.minPrezzo" placeholder="Inserisci prezzo minimo"/>
@@ -17,7 +18,7 @@
         <button type="submit" class="btn btn-dark mt-3">Filtra</button>
     </div>
 </form>
-<br>
+<br>  
 
 <!-- Container per le card -->
 <div class="row">
@@ -59,4 +60,47 @@
     }
 </form>
 
-<a asp-action="Index" asp-controller="Home">Torna a Home</a>
+<a asp-action="Index" asp-controller="Home">Torna a Home</a>  *@
+
+@model IEnumerable<Prodotto>
+
+@{
+    ViewData["Title"] = "Prodotti";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<!-- Table or List to display products -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Prezzo</th>
+            <th>Categoria</th>
+            <th>Quantità</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var prodotto in Model)
+    {
+        <tr>
+            <td>@prodotto.Nome</td>
+            <td>@prodotto.Prezzo €</td>
+            <td>@prodotto.Categoria</td>
+            <td>@prodotto.Quantita</td>
+            <td>
+                <a href="@Url.Action("Details", "Prodotti", new { id = prodotto.Id })" class="btn btn-info">
+                    Dettagli
+                </a>
+                <a href="@Url.Action("Edit", "Prodotti", new { id = prodotto.Id })" class="btn btn-warning">
+                    Modifica
+                </a>
+                <a href="@Url.Action("Delete", "Prodotti", new { id = prodotto.Id })" class="btn btn-danger">
+                    Elimina
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
