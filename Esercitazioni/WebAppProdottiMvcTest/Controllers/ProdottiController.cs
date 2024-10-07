@@ -23,11 +23,20 @@ private readonly ILogger<ProdottiController> _logger;
     }
 
     // Metodo per salvare i prodotti nel file JSON
-    private void SalvaProdottiSuJson(List<Prodotto> prodotti)
+  private void SalvaProdottiSuJson(List<Prodotto> prodotti)
+{
+    try
     {
         var jsonData = JsonConvert.SerializeObject(prodotti, Formatting.Indented);
         System.IO.File.WriteAllText(prodottiFilePath, jsonData);
+        _logger.LogInformation("Product list successfully written to JSON.");
     }
+    catch (Exception ex)
+    {
+        _logger.LogError("Error writing to JSON file: {Message}", ex.Message);
+    }
+}
+
 
 
 
@@ -178,38 +187,49 @@ private readonly ILogger<ProdottiController> _logger;
         return View(viewModel);
     }
 
-    // Azione POST per salvare le modifiche al prodotto
-    [HttpPost]
-    public IActionResult ModificaProdotto(Prodotto prodottoAggiornato)
+  [HttpPost]
+public IActionResult ModificaProdotto(Prodotto prodottoAggiornato)
+{
+    _logger.LogInformation("Attempting to modify product with ID: {Id}", prodottoAggiornato.Id);
+
+    if (ModelState.IsValid)
     {
-        if (ModelState.IsValid)
+        var prodotti = LeggiProdottiDaJson();
+        var prodotto = prodotti.Find(p => p.Id == prodottoAggiornato.Id);
+
+        if (prodotto != null)
         {
-            var prodotti = LeggiProdottiDaJson();
-            var prodotto = prodotti.Find(p => p.Id == prodottoAggiornato.Id);
+            _logger.LogInformation("Product found, updating product details.");
 
-            if (prodotto != null)
-            {
-                prodotto.Nome = prodottoAggiornato.Nome;
-                prodotto.Prezzo = prodottoAggiornato.Prezzo;
-                prodotto.Dettaglio = prodottoAggiornato.Dettaglio;
-                prodotto.Immagine = prodottoAggiornato.Immagine;
-                prodotto.Quantita = prodottoAggiornato.Quantita;
-                prodotto.Categoria = prodottoAggiornato.Categoria;
+            prodotto.Nome = prodottoAggiornato.Nome;
+            prodotto.Prezzo = prodottoAggiornato.Prezzo;
+            prodotto.Dettaglio = prodottoAggiornato.Dettaglio;
+            prodotto.Immagine = prodottoAggiornato.Immagine;
+            prodotto.Quantita = prodottoAggiornato.Quantita;
+            prodotto.Categoria = prodottoAggiornato.Categoria;
 
-                SalvaProdottiSuJson(prodotti); // Salva le modifiche nel file JSON
-            }
-
-            return RedirectToAction("Index");
+            SalvaProdottiSuJson(prodotti); // Save the modified products list
+            _logger.LogInformation("Product updated successfully and saved to JSON.");
+        }
+        else
+        {
+            _logger.LogWarning("Product with ID {Id} not found.", prodottoAggiornato.Id);
         }
 
-        var viewModel = new ModificaProdottoViewModel
-        {
-            Prodotto = prodottoAggiornato,
-            Categorie = LeggiCategorieDaJson()
-        };
-
-        return View(viewModel);
+        return RedirectToAction("Index");
     }
+
+    _logger.LogWarning("Model state is invalid. Returning to view with errors.");
+    var viewModel = new ModificaProdottoViewModel
+    {
+        Prodotto = prodottoAggiornato,
+        Categorie = LeggiCategorieDaJson()
+    };
+
+    return View(viewModel);
+}
+
+
 
     // Azione GET per visualizzare la conferma della cancellazione di un prodotto
     public IActionResult CancellaProdotto(int id)
