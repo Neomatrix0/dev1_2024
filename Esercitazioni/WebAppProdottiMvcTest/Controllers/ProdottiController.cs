@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 public class ProdottiController : Controller
 {
     private readonly string prodottiFilePath = "wwwroot/json/prodotti.json"; // Path del file prodotti
     private readonly string categorieFilePath = "wwwroot/json/categorie.json"; // Path del file categorie
-
+private readonly ILogger<ProdottiController> _logger; 
     // Metodo per leggere i prodotti dal file JSON
+
+      public ProdottiController(ILogger<ProdottiController> logger)
+    {
+        _logger = logger;
+    }
     private List<Prodotto> LeggiProdottiDaJson()
     {
         var jsonData = System.IO.File.ReadAllText(prodottiFilePath);
@@ -22,6 +28,9 @@ public class ProdottiController : Controller
         var jsonData = JsonConvert.SerializeObject(prodotti, Formatting.Indented);
         System.IO.File.WriteAllText(prodottiFilePath, jsonData);
     }
+
+
+
 
     // Metodo per leggere le categorie dal file JSON
     private List<string> LeggiCategorieDaJson()
@@ -88,35 +97,48 @@ public class ProdottiController : Controller
     }
 
     // Action POST per processare il form
-    [HttpPost]
-    public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
+
+[HttpPost]
+public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
+{
+    // Verifica del codice di sicurezza
+    if (viewModel.Codice != "1234")
     {
-        if (viewModel.Codice != "1234") // Verifica del codice di sicurezza
-        {
-            ModelState.AddModelError("Codice", "Codice non valido.");
-        }
-
-        if (ModelState.IsValid)
-        {
-            var prodotti = LeggiProdottiDaJson();
-            viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
-
-            // Se l'immagine non è specificata, usa un'immagine di default
-            if (string.IsNullOrWhiteSpace(viewModel.Prodotto.Immagine))
-            {
-                viewModel.Prodotto.Immagine = "img/default.jpg";
-            }
-
-            prodotti.Add(viewModel.Prodotto);
-            SalvaProdottiSuJson(prodotti);
-
-            return RedirectToAction("Index");
-        }
-
-        // Ricarica le categorie in caso di errore
-        viewModel.Categorie = LeggiCategorieDaJson();
-        return View(viewModel);
+        ModelState.AddModelError("Codice", "Codice non valido.");
+        _logger.LogWarning("Codice di sicurezza non valido.");
     }
+
+    // Verifica se il modello è valido
+    if (ModelState.IsValid)
+    {
+        _logger.LogInformation("Tentativo di aggiungere un nuovo prodotto valido.");
+        
+        var prodotti = LeggiProdottiDaJson();
+        viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
+
+        // Se non è stata inserita un'immagine, imposta un'immagine di default
+        if (string.IsNullOrWhiteSpace(viewModel.Prodotto.Immagine))
+        {
+            viewModel.Prodotto.Immagine = "img/default.jpg";
+        }
+
+        // Aggiungi il nuovo prodotto
+        prodotti.Add(viewModel.Prodotto);
+        SalvaProdottiSuJson(prodotti);
+
+        // Reindirizza alla pagina dei prodotti
+        return RedirectToAction("Index");
+    }
+
+    // Log per vedere cosa ha causato la non validità del modello
+    _logger.LogWarning("Il modello non è valido. Errori: {Errors}", ModelState.Values
+                       .SelectMany(v => v.Errors)
+                       .Select(e => e.ErrorMessage));
+
+    // Se ci sono errori, ricarica le categorie e ritorna alla vista
+    viewModel.Categorie = LeggiCategorieDaJson();
+    return View(viewModel);
+}
 
 
     // Azione GET per visualizzare il form di modifica del prodotto
