@@ -41,9 +41,10 @@
                         }
 
                         <div class="d-flex flex-column justify-content-between mt-2">
-                            <a asp-action="Dettaglio" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white; border-color: #3B3B3B;">
-                                Dettaglio
-                            </a>
+                           <a asp-action="ProdottoDettaglio" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white; border-color: #3B3B3B;">
+    Dettaglio
+</a>
+
                             <a asp-action="Modifica" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white; border-color: #3B3B3B;">
                                 Modifica
                             </a>
