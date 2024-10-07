@@ -2,229 +2,190 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json; // Assicurati di avere il pacchetto Newtonsoft.Json
- // Assicurati di usare il tuo namespace corretto
+using Newtonsoft.Json;
 
-
-
-    public class ProdottiController : Controller
-    {
-        private readonly string prodottiFilePath = "wwwroot/json/prodotti.json"; // Path del file prodotti
-        private readonly string categorieFilePath = "wwwroot/json/categorie.json"; // Path del file categorie
-
-        // Metodo per leggere i prodotti dal file JSON
-        private List<Prodotto> LeggiProdottiDaJson()
-        {
-            var jsonData = System.IO.File.ReadAllText(prodottiFilePath);
-            return JsonConvert.DeserializeObject<List<Prodotto>>(jsonData) ?? new List<Prodotto>();
-        }
-
-        // Metodo per salvare i prodotti nel file JSON
-        private void SalvaProdottiSuJson(List<Prodotto> prodotti)
-        {
-            var jsonData = JsonConvert.SerializeObject(prodotti, Formatting.Indented);
-            System.IO.File.WriteAllText(prodottiFilePath, jsonData);
-        }
-
-        // Metodo per leggere le categorie dal file JSON
-        private List<string> LeggiCategorieDaJson()
-        {
-            var jsonData = System.IO.File.ReadAllText(categorieFilePath);
-            return JsonConvert.DeserializeObject<List<string>>(jsonData) ?? new List<string>();
-        }
-
-   /*     // Action per visualizzare la lista dei prodotti
-        public IActionResult Index()
-        {
-            var prodotti = LeggiProdottiDaJson();
-            return View(prodotti); // Passiamo la lista alla vista Index
-        } */
-
-        public IActionResult Index(int? minPrezzo, int? maxPrezzo, int pageIndex = 1)
+public class ProdottiController : Controller
 {
-    var prodotti = LeggiProdottiDaJson(); // Carica i prodotti da JSON
+    private readonly string prodottiFilePath = "wwwroot/json/prodotti.json"; // Path del file prodotti
+    private readonly string categorieFilePath = "wwwroot/json/categorie.json"; // Path del file categorie
 
-    // Filtro dei prodotti
-    if (minPrezzo.HasValue)
+    // Metodo per leggere i prodotti dal file JSON
+    private List<Prodotto> LeggiProdottiDaJson()
     {
-        prodotti = prodotti.Where(p => p.Prezzo >= minPrezzo.Value).ToList();
-    }
-    if (maxPrezzo.HasValue)
-    {
-        prodotti = prodotti.Where(p => p.Prezzo <= maxPrezzo.Value).ToList();
+        var jsonData = System.IO.File.ReadAllText(prodottiFilePath);
+        return JsonConvert.DeserializeObject<List<Prodotto>>(jsonData) ?? new List<Prodotto>();
     }
 
-    // Imposta la paginazione (logica paginazione semplificata)
-    int numeroProdottiPerPagina = 10;
-    var prodottiPaginati = prodotti.Skip((pageIndex - 1) * numeroProdottiPerPagina).Take(numeroProdottiPerPagina);
-
-    var viewModel = new ProdottiViewModel
+    // Metodo per salvare i prodotti nel file JSON
+    private void SalvaProdottiSuJson(List<Prodotto> prodotti)
     {
-        Prodotti = prodottiPaginati,
-        MinPrezzo = minPrezzo ?? 0,
-        MaxPrezzo = maxPrezzo ?? prodotti.Max(p => p.Prezzo),
-        NumeroPagine = (int)Math.Ceiling((double)prodotti.Count() / numeroProdottiPerPagina)
-    };
-
-   // Specifica la vista "Prodotti"
-    return View("Prodotti", viewModel);
-}
-
-public IActionResult ProdottoDettaglio(int id)
-{
-    var prodotti = LeggiProdottiDaJson(); // Carica i prodotti dal file JSON
-    var prodotto = prodotti.Find(p => p.Id == id); // Trova il prodotto per ID
-    
-    if (prodotto == null)
-    {
-        return NotFound();
+        var jsonData = JsonConvert.SerializeObject(prodotti, Formatting.Indented);
+        System.IO.File.WriteAllText(prodottiFilePath, jsonData);
     }
-    
-    return View(prodotto); // Passa il prodotto alla vista
-}
 
+    // Metodo per leggere le categorie dal file JSON
+    private List<string> LeggiCategorieDaJson()
+    {
+        var jsonData = System.IO.File.ReadAllText(categorieFilePath);
+        return JsonConvert.DeserializeObject<List<string>>(jsonData) ?? new List<string>();
+    }
 
-       // Visualizza il form per aggiungere un nuovo prodotto
-        public IActionResult AggiungiProdotto()
+    // Action per visualizzare la lista dei prodotti con filtro prezzo e paginazione
+    public IActionResult Index(int? minPrezzo, int? maxPrezzo, int pageIndex = 1)
+    {
+        var prodotti = LeggiProdottiDaJson();
+
+        // Filtro per prezzo minimo e massimo
+        if (minPrezzo.HasValue)
         {
-            ViewBag.Categorie = LeggiCategorieDaJson(); // Passa le categorie alla vista
-            return View();
+            prodotti = prodotti.Where(p => p.Prezzo >= minPrezzo.Value).ToList();
+        }
+        if (maxPrezzo.HasValue)
+        {
+            prodotti = prodotti.Where(p => p.Prezzo <= maxPrezzo.Value).ToList();
         }
 
-        // Azione per processare l'inserimento di un nuovo prodotto
-        [HttpPost]
-        public IActionResult AggiungiProdotto(Prodotto nuovoProdotto)
+        // Paginazione
+        int numeroProdottiPerPagina = 10;
+        var prodottiPaginati = prodotti.Skip((pageIndex - 1) * numeroProdottiPerPagina).Take(numeroProdottiPerPagina);
+
+        var viewModel = new ProdottiViewModel
         {
-            if (ModelState.IsValid)
-            {
-                var prodotti = LeggiProdottiDaJson();
-                nuovoProdotto.Id = prodotti.Max(p => p.Id) + 1; // Genera un nuovo ID
-                prodotti.Add(nuovoProdotto);
-                SalvaProdottiSuJson(prodotti); // Salva il nuovo prodotto nel file JSON
-                return RedirectToAction("Index");
-            }
-            ViewBag.Categorie = LeggiCategorieDaJson(); // Ricarica le categorie in caso di errore
-            return View(nuovoProdotto);
-        }
+            Prodotti = prodottiPaginati,
+            MinPrezzo = minPrezzo ?? 0,
+            MaxPrezzo = maxPrezzo ?? prodotti.Max(p => p.Prezzo),
+            NumeroPagine = (int)Math.Ceiling((double)prodotti.Count() / numeroProdottiPerPagina)
+        };
 
- // Azione GET per visualizzare il form di modifica del prodotto
-public IActionResult ModificaProdotto(int id)
-{
-    var prodotti = LeggiProdottiDaJson();
-    var prodotto = prodotti.Find(p => p.Id == id);
-
-    if (prodotto == null)
-    {
-        return NotFound();
+        // Specifica la vista "Prodotti"
+        return View("Prodotti", viewModel);
     }
 
-    var viewModel = new ModificaProdottoViewModel
+    // Visualizza i dettagli di un prodotto
+    public IActionResult ProdottoDettaglio(int id)
     {
-        Prodotto = prodotto,
-        Categorie = LeggiCategorieDaJson() // Carica le categorie
+        var prodotti = LeggiProdottiDaJson();
+        var prodotto = prodotti.Find(p => p.Id == id);
+
+        if (prodotto == null)
+        {
+            return NotFound();
+        }
+
+        return View(prodotto);
+    }
+
+  public IActionResult AggiungiProdotto()
+{
+    // Inizializza il ViewModel con un oggetto Prodotto vuoto e le categorie
+    var viewModel = new AggiungiProdottoViewModel
+    {
+        Prodotto = new Prodotto(), // Inizializza un nuovo oggetto Prodotto
+        Categorie = LeggiCategorieDaJson(), // Carica le categorie dal file JSON
+        Codice = string.Empty // Inizializza un campo Codice vuoto
     };
 
     return View(viewModel);
 }
 
-// Azione POST per salvare le modifiche al prodotto
 [HttpPost]
-public IActionResult ModificaProdotto(Prodotto prodottoAggiornato)
+public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
 {
     if (ModelState.IsValid)
     {
         var prodotti = LeggiProdottiDaJson();
-        var prodotto = prodotti.Find(p => p.Id == prodottoAggiornato.Id);
-
-        if (prodotto != null)
-        {
-            prodotto.Nome = prodottoAggiornato.Nome;
-            prodotto.Prezzo = prodottoAggiornato.Prezzo;
-            prodotto.Dettaglio = prodottoAggiornato.Dettaglio;
-            prodotto.Immagine = prodottoAggiornato.Immagine;
-            prodotto.Quantita = prodottoAggiornato.Quantita;
-            prodotto.Categoria = prodottoAggiornato.Categoria;
-
-            SalvaProdottiSuJson(prodotti); // Salva le modifiche nel file JSON
-        }
-
+        viewModel.Prodotto.Id = prodotti.Max(p => p.Id) + 1; // Genera un nuovo ID per il prodotto
+        prodotti.Add(viewModel.Prodotto);
+        SalvaProdottiSuJson(prodotti); // Salva il nuovo prodotto nel file JSON
         return RedirectToAction("Index");
     }
 
-    var viewModel = new ModificaProdottoViewModel
-    {
-        Prodotto = prodottoAggiornato,
-        Categorie = LeggiCategorieDaJson() // Ricarica le categorie in caso di errore
-    };
-
+    // Se ci sono errori di validazione, ricarica le categorie
+    viewModel.Categorie = LeggiCategorieDaJson();
     return View(viewModel);
 }
 
 
- /*       // Azione per processare la modifica di un prodotto
-        [HttpPost]
-        public IActionResult ModificaProdotto(Prodotto prodottoAggiornato)
+    // Azione GET per visualizzare il form di modifica del prodotto
+    public IActionResult ModificaProdotto(int id)
+    {
+        var prodotti = LeggiProdottiDaJson();
+        var prodotto = prodotti.Find(p => p.Id == id);
+
+        if (prodotto == null)
         {
-            if (ModelState.IsValid)
-            {
-                var prodotti = LeggiProdottiDaJson();
-                var prodotto = prodotti.Find(p => p.Id == prodottoAggiornato.Id);
-                if (prodotto != null)
-                {
-                    prodotto.Nome = prodottoAggiornato.Nome;
-                    prodotto.Prezzo = prodottoAggiornato.Prezzo;
-                    prodotto.Dettaglio = prodottoAggiornato.Dettaglio;
-                    prodotto.Immagine = prodottoAggiornato.Immagine;
-                    prodotto.Quantita = prodottoAggiornato.Quantita;
-                    prodotto.Categoria = prodottoAggiornato.Categoria;
-                    SalvaProdottiSuJson(prodotti); // Salva le modifiche nel file JSON
-                }
-                return RedirectToAction("Index");
-            }
-            ViewBag.Categorie = LeggiCategorieDaJson();
-            return View(prodottoAggiornato);
+            return NotFound();
         }
-*/
-        // Visualizza i dettagli di un prodotto
- /*       public IActionResult ProdottoDettaglio(int id)
+
+        var viewModel = new ModificaProdottoViewModel
+        {
+            Prodotto = prodotto,
+            Categorie = LeggiCategorieDaJson()
+        };
+
+        return View(viewModel);
+    }
+
+    // Azione POST per salvare le modifiche al prodotto
+    [HttpPost]
+    public IActionResult ModificaProdotto(Prodotto prodottoAggiornato)
+    {
+        if (ModelState.IsValid)
         {
             var prodotti = LeggiProdottiDaJson();
-            var prodotto = prodotti.Find(p => p.Id == id);
-            if (prodotto == null)
+            var prodotto = prodotti.Find(p => p.Id == prodottoAggiornato.Id);
+
+            if (prodotto != null)
             {
-                return NotFound();
+                prodotto.Nome = prodottoAggiornato.Nome;
+                prodotto.Prezzo = prodottoAggiornato.Prezzo;
+                prodotto.Dettaglio = prodottoAggiornato.Dettaglio;
+                prodotto.Immagine = prodottoAggiornato.Immagine;
+                prodotto.Quantita = prodottoAggiornato.Quantita;
+                prodotto.Categoria = prodottoAggiornato.Categoria;
+
+                SalvaProdottiSuJson(prodotti); // Salva le modifiche nel file JSON
             }
-            return View(prodotto); // Passiamo il prodotto alla vista Dettagli
-        } */
 
-        public IActionResult CancellaProdotto(int id)
-{
-    var prodotti = LeggiProdottiDaJson();
-    var prodotto = prodotti.Find(p => p.Id == id);
+            return RedirectToAction("Index");
+        }
 
-    if (prodotto == null)
+        var viewModel = new ModificaProdottoViewModel
+        {
+            Prodotto = prodottoAggiornato,
+            Categorie = LeggiCategorieDaJson()
+        };
+
+        return View(viewModel);
+    }
+
+    // Azione GET per visualizzare la conferma della cancellazione di un prodotto
+    public IActionResult CancellaProdotto(int id)
     {
-        return NotFound();
+        var prodotti = LeggiProdottiDaJson();
+        var prodotto = prodotti.Find(p => p.Id == id);
+
+        if (prodotto == null)
+        {
+            return NotFound();
+        }
+
+        return View(prodotto);
     }
 
-    return View(prodotto); // Mostra il prodotto nella vista CancellaProdotto.cshtml
-}
-
-[HttpPost, ActionName("CancellaProdotto")]
-public IActionResult ConfermaCancellazione(int id)
-{
-    var prodotti = LeggiProdottiDaJson();
-    var prodotto = prodotti.Find(p => p.Id == id);
-
-    if (prodotto != null)
+    // Azione POST per confermare la cancellazione del prodotto
+    [HttpPost, ActionName("CancellaProdotto")]
+    public IActionResult ConfermaCancellazione(int id)
     {
-        prodotti.Remove(prodotto); // Rimuovi il prodotto dalla lista
-        SalvaProdottiSuJson(prodotti); // Salva il file JSON aggiornato
-    }
+        var prodotti = LeggiProdottiDaJson();
+        var prodotto = prodotti.Find(p => p.Id == id);
 
-    return RedirectToAction("Index"); // Torna alla lista dei prodotti
+        if (prodotto != null)
+        {
+            prodotti.Remove(prodotto); // Rimuovi il prodotto dalla lista
+            SalvaProdottiSuJson(prodotti); // Salva il file JSON aggiornato
+        }
+
+        return RedirectToAction("Index");
+    }
 }
-
-   
-    }
-
