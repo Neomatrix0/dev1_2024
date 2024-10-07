@@ -75,35 +75,48 @@ public class ProdottiController : Controller
         return View(prodotto);
     }
 
-  public IActionResult AggiungiProdotto()
-{
-    // Inizializza il ViewModel con un oggetto Prodotto vuoto e le categorie
-    var viewModel = new AggiungiProdottoViewModel
+    // Action GET per mostrare il form
+    public IActionResult AggiungiProdotto()
     {
-        Prodotto = new Prodotto(), // Inizializza un nuovo oggetto Prodotto
-        Categorie = LeggiCategorieDaJson(), // Carica le categorie dal file JSON
-        Codice = string.Empty // Inizializza un campo Codice vuoto
-    };
+        var viewModel = new AggiungiProdottoViewModel
+        {
+            Prodotto = new Prodotto(),
+            Categorie = LeggiCategorieDaJson()
+        };
 
-    return View(viewModel);
-}
-
-[HttpPost]
-public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
-{
-    if (ModelState.IsValid)
-    {
-        var prodotti = LeggiProdottiDaJson();
-        viewModel.Prodotto.Id = prodotti.Max(p => p.Id) + 1; // Genera un nuovo ID per il prodotto
-        prodotti.Add(viewModel.Prodotto);
-        SalvaProdottiSuJson(prodotti); // Salva il nuovo prodotto nel file JSON
-        return RedirectToAction("Index");
+        return View(viewModel);
     }
 
-    // Se ci sono errori di validazione, ricarica le categorie
-    viewModel.Categorie = LeggiCategorieDaJson();
-    return View(viewModel);
-}
+    // Action POST per processare il form
+    [HttpPost]
+    public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
+    {
+        if (viewModel.Codice != "1234") // Verifica del codice di sicurezza
+        {
+            ModelState.AddModelError("Codice", "Codice non valido.");
+        }
+
+        if (ModelState.IsValid)
+        {
+            var prodotti = LeggiProdottiDaJson();
+            viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
+
+            // Se l'immagine non è specificata, usa un'immagine di default
+            if (string.IsNullOrWhiteSpace(viewModel.Prodotto.Immagine))
+            {
+                viewModel.Prodotto.Immagine = "img/default.jpg";
+            }
+
+            prodotti.Add(viewModel.Prodotto);
+            SalvaProdottiSuJson(prodotti);
+
+            return RedirectToAction("Index");
+        }
+
+        // Ricarica le categorie in caso di errore
+        viewModel.Categorie = LeggiCategorieDaJson();
+        return View(viewModel);
+    }
 
 
     // Azione GET per visualizzare il form di modifica del prodotto
