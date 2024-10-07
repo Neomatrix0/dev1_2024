@@ -19,10 +19,31 @@
                 </div>
 
                 <!-- Campo Prezzo -->
-                <div class="form-group mb-3">
+                <div class="form-group">
                     <label asp-for="Prodotto.Prezzo" class="control-label">Prezzo</label>
-                    <input asp-for="Prodotto.Prezzo" class="form-control" placeholder="Prezzo" />
+                    <input asp-for="Prodotto.Prezzo" class="form-control" placeholder="Prezzo prodotto" />
                     <span asp-validation-for="Prodotto.Prezzo" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Dettaglio -->
+                <div class="form-group">
+                    <label asp-for="Prodotto.Dettaglio" class="control-label">Dettaglio</label>
+                    <input asp-for="Prodotto.Dettaglio" class="form-control" placeholder="Dettaglio prodotto" />
+                    <span asp-validation-for="Prodotto.Dettaglio" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Immagine -->
+                <div class="form-group">
+                    <label asp-for="Prodotto.Immagine" class="control-label">URL Immagine</label>
+                    <input asp-for="Prodotto.Immagine" class="form-control" placeholder="img/" />
+                    <span asp-validation-for="Prodotto.Immagine" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Quantità -->
+                <div class="form-group">
+                    <label asp-for="Prodotto.Quantita" class="control-label">Quantità</label>
+                    <input asp-for="Prodotto.Quantita" class="form-control" placeholder="Quantità prodotto" />
+                    <span asp-validation-for="Prodotto.Quantita" class="text-danger"></span>
                 </div>
 
                 <!-- Campo Categoria -->
@@ -34,8 +55,19 @@
                     <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
                 </div>
 
+                <!-- Campo Codice -->
+                <div class="form-group">
+                    <label asp-for="Codice" class="control-label">Codice</label>
+                    <input asp-for="Codice" class="form-control" placeholder="Codice di sicurezza" />
+                    <span asp-validation-for="Codice" class="text-danger"></span>
+                </div>
+
                 <button type="submit" class="btn btn-dark mt-3">Aggiungi</button>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
