@@ -1,0 +1,63 @@
+@*
+
+@model ModificaProdottoViewModel
+
+@{
+    ViewData["Title"] = "Modifica Prodotto";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-dark text-white">
+            <h1 class="card-title">@ViewData["Title"]</h1>
+        </div>
+
+        <div class="card-body">
+            <form method="post">
+                <div class="form-group">
+                    <label for="nome">Nome Prodotto:</label>
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome prodotto" value="@Model.Prodotto.Nome" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="prezzo">Prezzo Prodotto:</label>
+                    <input type="number" class="form-control" id="prezzo" name="prezzo" placeholder="Prezzo prodotto" value="@Model.Prodotto.Prezzo" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="dettaglio">Dettaglio Prodotto:</label>
+                    <input type="text" class="form-control" id="dettaglio" name="dettaglio" placeholder="Dettaglio prodotto" value="@Model.Prodotto.Dettaglio" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="immagine">URL Immagine Prodotto:</label>
+                    <input type="text" class="form-control" id="immagine" name="immagine" placeholder="Immagine prodotto" value="@Model.Prodotto.Immagine" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="quantita">Quantità:</label>
+                    <input type="number" class="form-control" id="quantita" name="quantita" placeholder="Quantità prodotto" value="@Model.Prodotto.Quantita" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="categoria">Categoria:</label>
+  <select class="form-control" name="categoria" required>
+    <option value="">Seleziona categoria</option>
+    @foreach (var categoria in Model.Categorie)
+    {
+        var isSelected = categoria == Model.Prodotto.Categoria ? "selected" : ""; <!-- Usiamo una variabile per la logica C# -->
+        <option value="@categoria" @isSelected>@categoria</option>
+    }
+</select>
+
+                </div>
+
+                <input type="hidden" name="id" value="@Model.Prodotto.Id" />
+
+                <button type="submit" class="btn btn-dark mt-3">Salva Modifiche</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+*@

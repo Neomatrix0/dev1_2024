@@ -45,12 +45,13 @@
     Dettaglio
 </a>
 
-                            <a asp-action="Modifica" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white; border-color: #3B3B3B;">
+                            <a asp-action="ModificaProdotto" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white; border-color: #3B3B3B;">
                                 Modifica
                             </a>
-                            <a asp-action="Cancella" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white; border-color: #3B3B3B;">
-                                Cancella
-                            </a>
+                            <a asp-action="CancellaProdotto" asp-route-id="@prodotto.Id" class="btn mb-2" style="background-color: #3B3B3B; color: white; border-color: #3B3B3B;">
+    Cancella
+</a>
+
                         </div>
                     </div>
                 </div>

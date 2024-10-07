@@ -99,15 +99,6 @@
     "Categoria": "Bevande"
   },
   {
-    "Id": 12,
-    "Nome": "Prodotti ufficio",
-    "Prezzo": 420.0,
-    "Dettaglio": "Dettaglio12",
-    "Immagine": "img/borsa.jpg",
-    "Quantita": 25,
-    "Categoria": "Ufficio"
-  },
-  {
     "Id": 13,
     "Nome": "Pc",
     "Prezzo": 1300.0,

@@ -84,7 +84,7 @@ public IActionResult ProdottoDettaglio(int id)
 }
 
 
-        // Visualizza il form per aggiungere un nuovo prodotto
+       // Visualizza il form per aggiungere un nuovo prodotto
         public IActionResult AggiungiProdotto()
         {
             ViewBag.Categorie = LeggiCategorieDaJson(); // Passa le categorie alla vista
@@ -107,20 +107,61 @@ public IActionResult ProdottoDettaglio(int id)
             return View(nuovoProdotto);
         }
 
-        // Visualizza il form per modificare un prodotto esistente
-        public IActionResult ModificaProdotto(int id)
+ // Azione GET per visualizzare il form di modifica del prodotto
+public IActionResult ModificaProdotto(int id)
+{
+    var prodotti = LeggiProdottiDaJson();
+    var prodotto = prodotti.Find(p => p.Id == id);
+
+    if (prodotto == null)
+    {
+        return NotFound();
+    }
+
+    var viewModel = new ModificaProdottoViewModel
+    {
+        Prodotto = prodotto,
+        Categorie = LeggiCategorieDaJson() // Carica le categorie
+    };
+
+    return View(viewModel);
+}
+
+// Azione POST per salvare le modifiche al prodotto
+[HttpPost]
+public IActionResult ModificaProdotto(Prodotto prodottoAggiornato)
+{
+    if (ModelState.IsValid)
+    {
+        var prodotti = LeggiProdottiDaJson();
+        var prodotto = prodotti.Find(p => p.Id == prodottoAggiornato.Id);
+
+        if (prodotto != null)
         {
-            var prodotti = LeggiProdottiDaJson();
-            var prodotto = prodotti.Find(p => p.Id == id);
-            if (prodotto == null)
-            {
-                return NotFound();
-            }
-            ViewBag.Categorie = LeggiCategorieDaJson(); // Passa le categorie alla vista
-            return View(prodotto);
+            prodotto.Nome = prodottoAggiornato.Nome;
+            prodotto.Prezzo = prodottoAggiornato.Prezzo;
+            prodotto.Dettaglio = prodottoAggiornato.Dettaglio;
+            prodotto.Immagine = prodottoAggiornato.Immagine;
+            prodotto.Quantita = prodottoAggiornato.Quantita;
+            prodotto.Categoria = prodottoAggiornato.Categoria;
+
+            SalvaProdottiSuJson(prodotti); // Salva le modifiche nel file JSON
         }
 
-        // Azione per processare la modifica di un prodotto
+        return RedirectToAction("Index");
+    }
+
+    var viewModel = new ModificaProdottoViewModel
+    {
+        Prodotto = prodottoAggiornato,
+        Categorie = LeggiCategorieDaJson() // Ricarica le categorie in caso di errore
+    };
+
+    return View(viewModel);
+}
+
+
+ /*       // Azione per processare la modifica di un prodotto
         [HttpPost]
         public IActionResult ModificaProdotto(Prodotto prodottoAggiornato)
         {
@@ -143,7 +184,7 @@ public IActionResult ProdottoDettaglio(int id)
             ViewBag.Categorie = LeggiCategorieDaJson();
             return View(prodottoAggiornato);
         }
-
+*/
         // Visualizza i dettagli di un prodotto
  /*       public IActionResult ProdottoDettaglio(int id)
         {
@@ -156,30 +197,34 @@ public IActionResult ProdottoDettaglio(int id)
             return View(prodotto); // Passiamo il prodotto alla vista Dettagli
         } */
 
-        // Visualizza il form per cancellare un prodotto
         public IActionResult CancellaProdotto(int id)
-        {
-            var prodotti = LeggiProdottiDaJson();
-            var prodotto = prodotti.Find(p => p.Id == id);
-            if (prodotto == null)
-            {
-                return NotFound();
-            }
-            return View(prodotto); // Conferma cancellazione
-        }
+{
+    var prodotti = LeggiProdottiDaJson();
+    var prodotto = prodotti.Find(p => p.Id == id);
 
-        // Azione per processare la cancellazione di un prodotto
-        [HttpPost, ActionName("CancellaProdotto")]
-        public IActionResult ConfermaCancellazione(int id)
-        {
-            var prodotti = LeggiProdottiDaJson();
-            var prodotto = prodotti.Find(p => p.Id == id);
-            if (prodotto != null)
-            {
-                prodotti.Remove(prodotto); // Rimuove il prodotto dalla lista
-                SalvaProdottiSuJson(prodotti); // Aggiorna il file JSON
-            }
-            return RedirectToAction("Index");
-        }
+    if (prodotto == null)
+    {
+        return NotFound();
+    }
+
+    return View(prodotto); // Mostra il prodotto nella vista CancellaProdotto.cshtml
+}
+
+[HttpPost, ActionName("CancellaProdotto")]
+public IActionResult ConfermaCancellazione(int id)
+{
+    var prodotti = LeggiProdottiDaJson();
+    var prodotto = prodotti.Find(p => p.Id == id);
+
+    if (prodotto != null)
+    {
+        prodotti.Remove(prodotto); // Rimuovi il prodotto dalla lista
+        SalvaProdottiSuJson(prodotti); // Salva il file JSON aggiornato
+    }
+
+    return RedirectToAction("Index"); // Torna alla lista dei prodotti
+}
+
+   
     }
 
