@@ -84,7 +84,7 @@ private readonly ILogger<ProdottiController> _logger;
         }
 
         // Paginazione
-        int numeroProdottiPerPagina = 10;
+        int numeroProdottiPerPagina = 6;
         var prodottiPaginati = prodotti.Skip((pageIndex - 1) * numeroProdottiPerPagina).Take(numeroProdottiPerPagina);
 
         var viewModel = new ProdottiViewModel
