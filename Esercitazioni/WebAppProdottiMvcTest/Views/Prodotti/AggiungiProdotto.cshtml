@@ -50,11 +50,12 @@
    <!-- Campo Categoria -->
 <div class="form-group">
     <label asp-for="Prodotto.Categoria" class="control-label">Categoria</label>
-    <select asp-for="Prodotto.Categoria" class="form-control" asp-items="@(new SelectList(Model.Categorie))">
-        <option value="">Seleziona categoria</option>
-    </select>
+    <input asp-for="Prodotto.Categoria" class="form-control" placeholder="Inserisci la categoria" />
     <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
 </div>
+
+
+
 
 
                 <!-- Campo Codice -->
@@ -72,5 +73,5 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+ <!--   <partial name="_ValidationScriptsPartial" /> -->
 }

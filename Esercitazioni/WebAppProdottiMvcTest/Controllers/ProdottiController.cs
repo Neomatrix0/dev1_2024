@@ -66,6 +66,8 @@ private readonly ILogger<ProdottiController> _logger;
 
 
 
+
+
     // Action per visualizzare la lista dei prodotti con filtro prezzo e paginazione
     public IActionResult Index(int? minPrezzo, int? maxPrezzo, int pageIndex = 1)
     {
@@ -111,61 +113,46 @@ private readonly ILogger<ProdottiController> _logger;
         return View(prodotto);
     }
 
-    // Action GET per mostrare il form
-    public IActionResult AggiungiProdotto()
+ public IActionResult AggiungiProdotto()
+{
+    var viewModel = new AggiungiProdottoViewModel
     {
-        var viewModel = new AggiungiProdottoViewModel
-        {
-            Prodotto = new Prodotto(),
-            Categorie = LeggiCategorieDaJson()
-        };
+        Prodotto = new Prodotto(),
+        Categorie = LeggiCategorieDaJson() // Carica le categorie dal file JSON o altra fonte
+    };
 
-        return View(viewModel);
-    }
+    return View(viewModel);
+}
 
-    // Action POST per processare il form
-
-  // POST Action to process the form submission
-    [HttpPost]
-    public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
+[HttpPost]
+public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
+{
+    _logger.LogInformation("Valore della categoria: " + viewModel.Prodotto.Categoria);
+     if (!ModelState.IsValid)
     {
-        // Verify security code
-        if (viewModel.Codice != "1234")
+        // Log degli errori di validazione
+        foreach (var modelState in ModelState.Values)
         {
-            ModelState.AddModelError("Codice", "Codice non valido.");
-            _logger.LogWarning("Codice di sicurezza non valido.");
-        }
-
-        // Check if the model is valid
-        if (ModelState.IsValid)
-        {
-            _logger.LogInformation("Tentativo di aggiungere un nuovo prodotto valido.");
-            
-            var prodotti = LeggiProdottiDaJson();
-            viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
-
-            // Set default image if not provided
-            if (string.IsNullOrWhiteSpace(viewModel.Prodotto.Immagine))
+            foreach (var error in modelState.Errors)
             {
-                viewModel.Prodotto.Immagine = "img/shoes.jpg";
+                _logger.LogError(error.ErrorMessage);
             }
-
-            // Add new product
-            prodotti.Add(viewModel.Prodotto);
-            SalvaProdottiSuJson(prodotti);
-
-            return RedirectToAction("Index");
         }
 
-        // Log validation errors
-        _logger.LogWarning("Il modello non è valido. Errori: {Errors}", 
-                           ModelState.Values.SelectMany(v => v.Errors)
-                           .Select(e => e.ErrorMessage));
+        var prodotti = LeggiProdottiDaJson();
+        viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
 
-        // Reload categories and return view with errors
-        viewModel.Categorie = LeggiCategorieDaJson();
-        return View(viewModel);
+        // Logica di salvataggio
+        prodotti.Add(viewModel.Prodotto);
+        SalvaProdottiSuJson(prodotti);
+
+        return RedirectToAction("Index");
     }
+
+    // In caso di errore, ricarica le categorie e ritorna la vista
+    viewModel.Categorie = LeggiCategorieDaJson();
+    return View(viewModel);
+}
 
     // Azione GET per visualizzare il form di modifica del prodotto
     public IActionResult ModificaProdotto(int id)
