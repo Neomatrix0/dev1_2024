@@ -19,8 +19,8 @@
   },
   {
     "Id": 3,
-    "Nome": "prodotti Ap",
-    "Prezzo": 700.0,
+    "Nome": "prodotti Apple",
+    "Prezzo": 900.0,
     "Dettaglio": "Dettaglio3",
     "Immagine": "img/apple.jpg",
     "Quantita": 5,

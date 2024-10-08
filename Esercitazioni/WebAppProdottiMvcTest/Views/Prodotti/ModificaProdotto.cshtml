@@ -11,7 +11,7 @@
         </div>
 
         <div class="card-body">
-            <form method="post">
+            <form asp-action="ModificaProdotto" method="post">
                 <div class="form-group">
                     <label for="nome">Nome Prodotto:</label>
                     <input type="text" class="form-control" id="nome" name="Prodotto.Nome" placeholder="Nome prodotto" value="@Model.Prodotto.Nome" required />
@@ -37,23 +37,12 @@
                     <input type="number" class="form-control" id="quantita" name="Prodotto.Quantita" placeholder="Quantità prodotto" value="@Model.Prodotto.Quantita" required />
                 </div>
 
-                <div class="form-group">
-                    <label for="categoria">Categoria:</label>
-                    <select class="form-control" name="Prodotto.Categoria" required>
-                        <option value="">Seleziona categoria</option>
-                        @foreach (var categoria in Model.Categorie)
-                        {
-                            if (categoria == Model.Prodotto.Categoria)
-                            {
-                                <option value="@categoria" selected>@categoria</option>
-                            }
-                            else
-                            {
-                                <option value="@categoria">@categoria</option>
-                            }
-                        }
-                    </select>
-                </div>
+  <div class="form-group">
+    <label asp-for="Prodotto.Categoria">Categoria:</label>
+    <input asp-for="Prodotto.Categoria" class="form-control" placeholder="Inserisci la categoria" />
+    <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
+</div>
+
 
                 <input type="hidden" name="Prodotto.Id" value="@Model.Prodotto.Id" />
 
@@ -62,3 +51,8 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+   <!-- <partial name="_ValidationScriptsPartial" />  -->
+}
+

@@ -156,65 +156,124 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
 
     // Azione GET per visualizzare il form di modifica del prodotto
     public IActionResult ModificaProdotto(int id)
-    {
-        var prodotti = LeggiProdottiDaJson();
-        var prodotto = prodotti.Find(p => p.Id == id);
-
-        if (prodotto == null)
-        {
-            return NotFound();
-        }
-
-        var viewModel = new ModificaProdottoViewModel
-        {
-            Prodotto = prodotto,
-            Categorie = LeggiCategorieDaJson()
-        };
-
-        return View(viewModel);
-    }
-
-  [HttpPost]
-public IActionResult ModificaProdotto(Prodotto prodottoAggiornato)
 {
-    _logger.LogInformation("Attempting to modify product with ID: {Id}", prodottoAggiornato.Id);
+    var prodotti = LeggiProdottiDaJson();
+    var prodotto = prodotti.FirstOrDefault(p => p.Id == id);
 
-    if (ModelState.IsValid)
+    if (prodotto == null)
     {
-        var prodotti = LeggiProdottiDaJson();
-        var prodotto = prodotti.Find(p => p.Id == prodottoAggiornato.Id);
-
-        if (prodotto != null)
-        {
-            _logger.LogInformation("Product found, updating product details.");
-
-            prodotto.Nome = prodottoAggiornato.Nome;
-            prodotto.Prezzo = prodottoAggiornato.Prezzo;
-            prodotto.Dettaglio = prodottoAggiornato.Dettaglio;
-            prodotto.Immagine = prodottoAggiornato.Immagine;
-            prodotto.Quantita = prodottoAggiornato.Quantita;
-            prodotto.Categoria = prodottoAggiornato.Categoria;
-
-            SalvaProdottiSuJson(prodotti); // Save the modified products list
-            _logger.LogInformation("Product updated successfully and saved to JSON.");
-        }
-        else
-        {
-            _logger.LogWarning("Product with ID {Id} not found.", prodottoAggiornato.Id);
-        }
-
-        return RedirectToAction("Index");
+        return NotFound(); // Restituisce un errore se il prodotto non esiste
     }
 
-    _logger.LogWarning("Model state is invalid. Returning to view with errors.");
     var viewModel = new ModificaProdottoViewModel
     {
-        Prodotto = prodottoAggiornato,
-        Categorie = LeggiCategorieDaJson()
+        Prodotto = prodotto,
+       // Categorie = LeggiCategorieDaJson() // Ricarica le categorie dal file JSON
     };
 
     return View(viewModel);
 }
+
+/*[HttpPost]
+public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
+{
+
+    _logger.LogInformation("Categoria selezionata: " + viewModel.Prodotto.Categoria);
+    if (!ModelState.IsValid)
+    {
+        // Log degli errori di validazione
+        foreach (var modelState in ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                _logger.LogError(error.ErrorMessage);
+            }
+        }
+
+        // Ricarica le categorie in caso di errore di validazione
+        viewModel.Categorie = LeggiCategorieDaJson();
+        return View(viewModel);
+    }
+
+    // Se il ModelState è valido, aggiorna il prodotto esistente
+    var prodotti = LeggiProdottiDaJson();
+    var prodottoDaModificare = prodotti.FirstOrDefault(p => p.Id == viewModel.Prodotto.Id);
+
+    if (prodottoDaModificare != null)
+    {
+        _logger.LogInformation("Modifica del prodotto con ID: {Id}", viewModel.Prodotto.Id);
+
+        prodottoDaModificare.Nome = viewModel.Prodotto.Nome;
+        prodottoDaModificare.Prezzo = viewModel.Prodotto.Prezzo;
+        prodottoDaModificare.Dettaglio = viewModel.Prodotto.Dettaglio;
+        prodottoDaModificare.Immagine = viewModel.Prodotto.Immagine;
+        prodottoDaModificare.Quantita = viewModel.Prodotto.Quantita;
+        prodottoDaModificare.Categoria = viewModel.Prodotto.Categoria;
+
+        // Salva i prodotti aggiornati
+        SalvaProdottiSuJson(prodotti);
+
+        _logger.LogInformation("Prodotto con ID: {Id} modificato con successo.", viewModel.Prodotto.Id);
+
+        return RedirectToAction("Index");
+    }
+    
+    _logger.LogWarning("Prodotto con ID: {Id} non trovato.", viewModel.Prodotto.Id);
+    return NotFound(); // Se il prodotto non esiste, restituisce 404
+}
+
+
+
+*/
+
+[HttpPost]
+public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
+{
+    _logger.LogInformation("Categoria selezionata: " + viewModel.Prodotto.Categoria);
+
+    if (!ModelState.IsValid)
+    {
+        // Log degli errori di validazione
+        foreach (var modelState in ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                _logger.LogError(error.ErrorMessage);
+            }
+        }
+
+        // Rimuovi il caricamento delle categorie
+        return View(viewModel);
+    }
+
+    // Se il ModelState è valido, aggiorna il prodotto esistente
+    var prodotti = LeggiProdottiDaJson();
+    var prodottoDaModificare = prodotti.FirstOrDefault(p => p.Id == viewModel.Prodotto.Id);
+
+    if (prodottoDaModificare != null)
+    {
+        _logger.LogInformation("Modifica del prodotto con ID: {Id}", viewModel.Prodotto.Id);
+
+        prodottoDaModificare.Nome = viewModel.Prodotto.Nome;
+        prodottoDaModificare.Prezzo = viewModel.Prodotto.Prezzo;
+        prodottoDaModificare.Dettaglio = viewModel.Prodotto.Dettaglio;
+        prodottoDaModificare.Immagine = viewModel.Prodotto.Immagine;
+        prodottoDaModificare.Quantita = viewModel.Prodotto.Quantita;
+        prodottoDaModificare.Categoria = viewModel.Prodotto.Categoria;
+
+        // Salva i prodotti aggiornati
+        SalvaProdottiSuJson(prodotti);
+
+        _logger.LogInformation("Prodotto con ID: {Id} modificato con successo.", viewModel.Prodotto.Id);
+
+        return RedirectToAction("Index");
+    }
+    
+    _logger.LogWarning("Prodotto con ID: {Id} non trovato.", viewModel.Prodotto.Id);
+    return NotFound(); // Se il prodotto non esiste, restituisce 404
+}
+
+
 
 
 
@@ -230,7 +289,10 @@ public IActionResult ModificaProdotto(Prodotto prodottoAggiornato)
         }
 
         return View(prodotto);
-    }
+    }  
+
+
+
 
     // Azione POST per confermare la cancellazione del prodotto
     [HttpPost, ActionName("CancellaProdotto")]
