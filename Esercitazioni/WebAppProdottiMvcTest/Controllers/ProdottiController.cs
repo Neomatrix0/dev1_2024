@@ -196,8 +196,10 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
 [HttpPost]
 public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
 {
+    // Log dell'informazione per tracciare la categoria selezionata dall'utente
     _logger.LogInformation("Categoria selezionata: " + viewModel.Prodotto.Categoria);
 
+// Verifica se il modello è valido, controlla eventuali errori di validazione
     if (!ModelState.IsValid)
     {
         // Log degli errori di validazione
@@ -209,19 +211,21 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
             }
         }
 
-        // Rimuovi il caricamento delle categorie
+       // Se ci sono errori ritorna la stessa vista per permettere all'utente di correggerli
         return View(viewModel);
     }
 
-    // Se il ModelState è valido, aggiorna il prodotto esistente
+    // Se il ModelState è valido (nessun errore), procedi con la modifica del prodotto
     var prodotti = LeggiProdottiDaJson();
     var prodottoDaModificare = prodotti.FirstOrDefault(p => p.Id == viewModel.Prodotto.Id);
+      // Trova il prodotto corrispondente all'ID passato dal viewModel
 
+// Se il prodotto è stato trovato aggiorna le sue proprietà
     if (prodottoDaModificare != null)
     {
         _logger.LogInformation("Modifica del prodotto con ID: {Id}", viewModel.Prodotto.Id);
 
-         // Aggiorna le proprietà del prodotto
+         // Aggiorna le proprietà del prodotto con i valori provenienti dal form di modifica
         prodottoDaModificare.Nome = viewModel.Prodotto.Nome;
         prodottoDaModificare.Prezzo = viewModel.Prodotto.Prezzo;
         prodottoDaModificare.Dettaglio = viewModel.Prodotto.Dettaglio;
@@ -234,6 +238,7 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
 
         _logger.LogInformation("Prodotto con ID: {Id} modificato con successo.", viewModel.Prodotto.Id);
 
+         // Reindirizza l'utente all'azione Index (lista dei prodotti) dopo la modifica
         return RedirectToAction("Index");
     }
     
