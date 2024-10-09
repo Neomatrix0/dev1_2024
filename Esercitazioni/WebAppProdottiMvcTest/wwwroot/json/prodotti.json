@@ -38,11 +38,11 @@
   {
     "Id": 5,
     "Nome": "Orologi",
-    "Prezzo": 50000.00,
+    "Prezzo": 18000.0,
     "Dettaglio": "Dettaglio5",
     "Immagine": "img/img2.webp",
     "Quantita": 2,
-    "Categoria": "Gioielleria"
+    "Categoria": "Accessori"
   },
   {
     "Id": 6,
@@ -119,7 +119,7 @@
   {
     "Id": 15,
     "Nome": "console",
-    "Prezzo": 5000000.0,
+    "Prezzo": 500.0,
     "Dettaglio": "Dettaglio15",
     "Immagine": "img/console2.webp",
     "Quantita": 15,

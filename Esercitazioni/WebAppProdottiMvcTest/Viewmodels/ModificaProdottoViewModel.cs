@@ -5,5 +5,5 @@ public class ModificaProdottoViewModel
     
     //  Questa proprietà poteva essere utilizzata per fornire una lista di categorie 
     // selezionabili nel form. È commentata perché al momento non è necessaria o non utilizzata.
-   // public List<string> Categorie { get; set; }
+    public List<string> Categorie { get; set; }
 }

@@ -20,8 +20,7 @@
 
                 <div class="form-group">
                     <label for="prezzo">Prezzo Prodotto:</label>
-              <input type="text" class="form-control" id="prezzo" name="Prodotto.Prezzo" 
-                           placeholder="Prezzo prodotto" value="@Model.Prodotto.Prezzo.ToString("F2", CultureInfo.InvariantCulture)" required />
+               <input type="number" step="0.01" class="form-control" id="prezzo" name="Prodotto.Prezzo" placeholder="Prezzo prodotto" value="@Model.Prodotto.Prezzo" required />
 
                 </div>
 
@@ -39,12 +38,21 @@
                     <label for="quantita">Quantità:</label>
                     <input type="number" class="form-control" id="quantita" name="Prodotto.Quantita" placeholder="Quantità prodotto" value="@Model.Prodotto.Quantita" required />
                 </div>
-
+<!--
   <div class="form-group">
     <label asp-for="Prodotto.Categoria">Categoria:</label>
     <input asp-for="Prodotto.Categoria" class="form-control" placeholder="Inserisci la categoria" />
     <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
+</div>  -->
+
+<div class="form-group">
+    <label asp-for="Prodotto.Categoria" class="control-label">Categoria</label>
+    <select asp-for="Prodotto.Categoria" class="form-control" asp-items="@(new SelectList(Model.Categorie))">
+        <option value="">Seleziona categoria</option>
+    </select>
+    <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
 </div>
+
 
 
                 <input type="hidden" name="Prodotto.Id" value="@Model.Prodotto.Id" />
@@ -56,11 +64,12 @@
 </div>
 
 @section Scripts {
-   <!-- <partial name="_ValidationScriptsPartial" />  -->
+    <partial name="_ValidationScriptsPartial" />  
 }
 
+@*
 <script>
     document.getElementById('prezzo').addEventListener('input', function (e) {
         this.value = this.value.replace('.', ',');
     });
-</script>
+</script>  *@
