@@ -272,6 +272,7 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
     public IActionResult ConfermaCancellazione(int id)
     {
         var prodotti = LeggiProdottiDaJson();
+         // Trova il prodotto con l'ID specificato
         var prodotto = prodotti.Find(p => p.Id == id);
 
         if (prodotto != null)
