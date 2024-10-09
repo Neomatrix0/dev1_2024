@@ -112,18 +112,18 @@
     "Nome": "cuffie",
     "Prezzo": 320.00,
     "Dettaglio": "Dettaglio14",
-    "Immagine": "img/headphones.webp",
+    "Immagine": "img/headphones2.png",
     "Quantita": 40,
     "Categoria": "Elettronica"
   },
   {
     "Id": 15,
     "Nome": "console",
-    "Prezzo": 500.00,
+    "Prezzo": 5000000.0,
     "Dettaglio": "Dettaglio15",
     "Immagine": "img/console2.webp",
     "Quantita": 15,
-    "Categoria": "Elettronica"
+    "Categoria": "Giochi"
   },
   {
     "Id": 16,
