@@ -1,4 +1,4 @@
-/* appena commentato
+/* //appena commentato
 $(document).ready(function () {
   // Metti a fuoco il primo campo con la classe input-validation-error
   $("input.input-validation-error, select.input-validation-error")
@@ -36,7 +36,7 @@ $(document).ready(function () {
         .show();
     }
   });
-});
+});  */
 
 /*
 
