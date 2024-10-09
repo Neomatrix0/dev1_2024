@@ -21,7 +21,7 @@
                 <!-- Campo Prezzo -->
                 <div class="form-group">
                     <label asp-for="Prodotto.Prezzo" class="control-label">Prezzo</label>
-                    <input asp-for="Prodotto.Prezzo" class="form-control" placeholder="Prezzo prodotto" />
+                    <input asp-for="Prodotto.Prezzo" class="form-control" type="number" step="0.01" placeholder="Prezzo prodotto" />
                     <span asp-validation-for="Prodotto.Prezzo" class="text-danger"></span>
                 </div>
 
