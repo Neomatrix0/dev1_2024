@@ -2,7 +2,7 @@
   {
     "Id": 1,
     "Nome": "scarpe eleganti",
-    "Prezzo": 350.0,
+    "Prezzo": 350.00,
     "Dettaglio": "Dettaglio1",
     "Immagine": "img/shoes.jpg",
     "Quantita": 10,
@@ -11,7 +11,7 @@
   {
     "Id": 2,
     "Nome": "sigari",
-    "Prezzo": 200.0,
+    "Prezzo": 200.00,
     "Dettaglio": "scatola da 30",
     "Immagine": "img/cigars.jpeg",
     "Quantita": 50,
@@ -20,7 +20,7 @@
   {
     "Id": 3,
     "Nome": "prodotti Apple",
-    "Prezzo": 900.0,
+    "Prezzo": 900.00,
     "Dettaglio": "Dettaglio3",
     "Immagine": "img/apple.jpg",
     "Quantita": 5,
@@ -29,7 +29,7 @@
   {
     "Id": 4,
     "Nome": "profumi",
-    "Prezzo": 180.0,
+    "Prezzo": 180.00,
     "Dettaglio": "Dettaglio4",
     "Immagine": "img/profumo.webp",
     "Quantita": 20,
@@ -38,7 +38,7 @@
   {
     "Id": 5,
     "Nome": "Orologi",
-    "Prezzo": 50000.0,
+    "Prezzo": 50000.00,
     "Dettaglio": "Dettaglio5",
     "Immagine": "img/img2.webp",
     "Quantita": 2,
@@ -47,7 +47,7 @@
   {
     "Id": 6,
     "Nome": "Abiti",
-    "Prezzo": 1200.0,
+    "Prezzo": 1200.00,
     "Dettaglio": "Dettaglio6",
     "Immagine": "img/suits.png",
     "Quantita": 15,
@@ -56,7 +56,7 @@
   {
     "Id": 7,
     "Nome": "Occhiali",
-    "Prezzo": 220.0,
+    "Prezzo": 220.50,
     "Dettaglio": "Dettaglio7",
     "Immagine": "img/sunglasses.webp",
     "Quantita": 30,
@@ -65,7 +65,7 @@
   {
     "Id": 8,
     "Nome": "Quadri",
-    "Prezzo": 2000.0,
+    "Prezzo": 2000.00,
     "Dettaglio": "Dettaglio8",
     "Immagine": "img/arts.jpg",
     "Quantita": 5,
@@ -74,7 +74,7 @@
   {
     "Id": 9,
     "Nome": "Penne",
-    "Prezzo": 320.0,
+    "Prezzo": 320.99,
     "Dettaglio": "Dettaglio9",
     "Immagine": "img/pens.jpg",
     "Quantita": 10,
@@ -83,7 +83,7 @@
   {
     "Id": 10,
     "Nome": "libri",
-    "Prezzo": 55.0,
+    "Prezzo": 55.50,
     "Dettaglio": "Dettaglio10",
     "Immagine": "img/books2.jfif",
     "Quantita": 100,
@@ -92,7 +92,7 @@
   {
     "Id": 11,
     "Nome": "Bevande",
-    "Prezzo": 250.0,
+    "Prezzo": 250.00,
     "Dettaglio": "Dettaglio11",
     "Immagine": "img/champagne.webp",
     "Quantita": 30,
@@ -110,7 +110,7 @@
   {
     "Id": 14,
     "Nome": "cuffie",
-    "Prezzo": 320.0,
+    "Prezzo": 320.00,
     "Dettaglio": "Dettaglio14",
     "Immagine": "img/headphones.webp",
     "Quantita": 40,
@@ -119,7 +119,7 @@
   {
     "Id": 15,
     "Nome": "console",
-    "Prezzo": 500.0,
+    "Prezzo": 500.00,
     "Dettaglio": "Dettaglio15",
     "Immagine": "img/console2.webp",
     "Quantita": 15,
@@ -128,7 +128,7 @@
   {
     "Id": 16,
     "Nome": "Ombrello",
-    "Prezzo": 60.0,
+    "Prezzo": 60.55,
     "Dettaglio": "Dettaglio16",
     "Immagine": "img/umbrella.jpg",
     "Quantita": 50,
@@ -137,7 +137,7 @@
   {
     "Id": 17,
     "Nome": "Smartphone",
-    "Prezzo": 1300.0,
+    "Prezzo": 1299.99,
     "Dettaglio": "dettaglio17",
     "Immagine": "img/phone.webp",
     "Quantita": 8,
