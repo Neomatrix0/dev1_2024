@@ -53,6 +53,8 @@
     <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
 </div>
 
+<!--Il campo nascosto input hidden viene utilizzato per mantenere traccia dell'ID del prodotto che si sta modificando
+ in modo che il server sappia quale prodotto specifico aggiornare una volta che il form è stato inviato-->
 
 
                 <input type="hidden" name="Prodotto.Id" value="@Model.Prodotto.Id" />

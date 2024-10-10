@@ -128,11 +128,11 @@
   {
     "Id": 16,
     "Nome": "Ombrello",
-    "Prezzo": 60.55,
+    "Prezzo": 65.0,
     "Dettaglio": "Dettaglio16",
     "Immagine": "img/umbrella.jpg",
     "Quantita": 50,
-    "Categoria": "Abbigliamento"
+    "Categoria": "Accessori"
   },
   {
     "Id": 17,

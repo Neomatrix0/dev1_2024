@@ -55,6 +55,10 @@
 </div>  *@
 
 @*Nota:  asp-for lega un campo di input a una proprietà del modello (ViewModel)*@
+<!--
+asp-items genera dinamicamente le opzioni(<option>) per il menu a tendina utilizzando la lista Model.Categorie.
+La classe SelectList viene utilizzata per convertire la lista in una struttura compatibile con asp-items
+-->
 
 <div class="form-group">
     <label asp-for="Prodotto.Categoria" class="control-label">Categoria</label>
@@ -63,9 +67,6 @@
     </select>
     <span asp-validation-for="Prodotto.Categoria" class="text-danger"></span>
 </div>
-
-
-
 
 
 
