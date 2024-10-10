@@ -13,6 +13,7 @@ public class Prodotto
 
     [Required(ErrorMessage = "Il campo Prezzo è obbligatorio.")]
     [Range(0.01, double.MaxValue, ErrorMessage = "Il prezzo deve essere maggiore di 0.")]
+    [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)] //aggiunto formattazione permette  campo 'Prezzo' venga visualizzato con 2 cifre decimali 
     public decimal Prezzo { get; set; }
 
     [Required(ErrorMessage = "Il campo Dettaglio è obbligatorio.")]

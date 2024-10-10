@@ -1,4 +1,5 @@
 @using System.Globalization
+
 @model ModificaProdottoViewModel
 
 @{
@@ -20,7 +21,8 @@
 
                 <div class="form-group">
                     <label for="prezzo">Prezzo Prodotto:</label>
-               <input type="number" step="0.01" class="form-control" id="prezzo" name="Prodotto.Prezzo" placeholder="Prezzo prodotto" value="@Model.Prodotto.Prezzo" required />
+           <!--    <input type="number" step="0.01" class="form-control" id="prezzo" name="Prodotto.Prezzo" placeholder="Prezzo prodotto" value="@Model.Prodotto.Prezzo.ToString("F2", CultureInfo.InvariantCulture) " required /> -->
+            <input type="text" class="form-control" id="prezzo" name="Prodotto.Prezzo" placeholder="Prezzo prodotto" value="@Model.Prodotto.Prezzo.ToString("F2", CultureInfo.InvariantCulture)" required />
 
                 </div>
 
@@ -67,11 +69,16 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />  
+
+    <script>
+        document.getElementById('modificaProdottoForm').addEventListener('submit', function (e) {
+            var prezzoInput = document.getElementById('prezzo');
+            prezzoInput.value = prezzoInput.value.replace(',', '.'); // Converte la virgola in punto prima di inviare i dati
+        });
+    </script>
 }
 
-@*
-<script>
-    document.getElementById('prezzo').addEventListener('input', function (e) {
-        this.value = this.value.replace('.', ',');
-    });
-</script>  *@
+
+
+
+

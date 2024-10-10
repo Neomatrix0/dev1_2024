@@ -214,6 +214,8 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
     // Logga il prezzo ricevuto nel form di modifica per test
     _logger.LogInformation("Prezzo ricevuto: " + viewModel.Prodotto.Prezzo);
 
+   
+
 // commentato perchè interferiva con il funzionamento
 /*    if (!ModelState.IsValid)
     {
