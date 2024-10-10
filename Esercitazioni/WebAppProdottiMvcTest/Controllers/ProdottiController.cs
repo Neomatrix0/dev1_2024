@@ -49,13 +49,6 @@ private readonly ILogger<ProdottiController> _logger;
 
 
 
-    
-   /* private List<string> LeggiCategorieDaJson()
-    {
-        var jsonData = System.IO.File.ReadAllText(categorieFilePath);
-        return JsonConvert.DeserializeObject<List<string>>(jsonData) ?? new List<string>();
-    }*/
-
     // Metodo per leggere le categorie dal file JSON
 
     private List<string> LeggiCategorieDaJson()
@@ -82,10 +75,12 @@ private readonly ILogger<ProdottiController> _logger;
         var prodotti = LeggiProdottiDaJson();
 
         // Filtro per prezzo minimo e massimo
+        // Filtro per il prezzo minimo: se il prezzo minimo è specificato filtra i prodotti con un prezzo >= al valore indicato
         if (minPrezzo.HasValue)
         {
             prodotti = prodotti.Where(p => p.Prezzo >= minPrezzo.Value).ToList();
         }
+        //Filtro per il prezzo massimo: se il prezzo massimo è specificato filtra i prodotti con un prezzo <= al valore indicato
         if (maxPrezzo.HasValue)
         {
             prodotti = prodotti.Where(p => p.Prezzo <= maxPrezzo.Value).ToList();
@@ -96,6 +91,9 @@ private readonly ILogger<ProdottiController> _logger;
         var prodottiPaginati = prodotti.Skip((pageIndex - 1) * numeroProdottiPerPagina).Take(numeroProdottiPerPagina);
 
 // Crea un ViewModel con i prodotti filtrati e i dettagli per la paginazione
+
+    //  Il valore del prezzo minimo e massimo (se non specificati, imposta il minimo a 0 e il massimo al prezzo massimo tra i prodotti)
+    //  Il numero totale delle pagine viene calcolato sulla base del numero totale dei prodotti e del numero di prodotti per pagina
         var viewModel = new ProdottiViewModel
         {
             Prodotti = prodottiPaginati,
@@ -111,9 +109,10 @@ private readonly ILogger<ProdottiController> _logger;
     // Action per visualizzare i dettagli di un singolo prodotto
     public IActionResult ProdottoDettaglio(int id)
     {
-        // Cerca il prodotto per ID nella lista di prodotti
+        //  Usa il metodo Find per cercare il prodotto corrispondente all'ID specificato nella lista di prodotti
         var prodotti = LeggiProdottiDaJson();
-        var prodotto = prodotti.Find(p => p.Id == id);
+        //La lambda p => p.Id == id è una funzione anonima che riceve un parametro p che rappresenta un prodotto e restituisce true se l'ID del prodotto corrisponde all'ID cercato altrimenti restituisce false
+        var prodotto = prodotti.Find(p => p.Id == id);  
 
         // ritorna errore se il prodotto non esiste
         if (prodotto == null)
@@ -127,10 +126,12 @@ private readonly ILogger<ProdottiController> _logger;
 // Action per visualizzare il form di aggiunta prodotto (GET)
  public IActionResult AggiungiProdotto()
 {
-     // Crea un ViewModel che include un nuovo prodotto e la lista delle categorie
+     // Crea un ViewModel che include un nuovo prodotto e la lista delle categorie da caricare dal json
     var viewModel = new AggiungiProdottoViewModel
     {
+        // Oggetto prodotto vuoto da popolare con i dati del form
         Prodotto = new Prodotto(),
+        // Carica la lista delle categorie dal file categorie.json
         Categorie = LeggiCategorieDaJson() // Carica le categorie dal file JSON 
     };
 
@@ -142,12 +143,13 @@ private readonly ILogger<ProdottiController> _logger;
 [HttpPost]
 public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
 {
+    // Logga il valore della categoria selezionata nel form
     _logger.LogInformation("Valore della categoria: " + viewModel.Prodotto.Categoria);
 
     // Se il ModelState non è valido (errore di validazione)
      if (!ModelState.IsValid)
     {
-        // Log che registra  errori di validazione
+        //  Cicla attraverso gli errori di validazione nel ModelState e logga ogni errore
         foreach (var modelState in ModelState.Values)
         {
             foreach (var error in modelState.Errors)
@@ -155,8 +157,12 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
                 _logger.LogError(error.ErrorMessage);
             }
         }
+
+        // Se il ModelState è valido, si procede a caricare la lista dei prodotti dal file JSON
          
         var prodotti = LeggiProdottiDaJson();
+
+        // Genera un nuovo ID per il prodotto: se esistono già dei prodotti imposta l'ID al massimo attuale +1, altrimenti lo imposta a 1
         viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
 
         // Logica di salvataggio
@@ -166,7 +172,7 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
         return RedirectToAction("Index");
     }
 
-    // In caso di errore, ricarica le categorie e ritorna la view
+    // In caso di errore, ricarica le categorie  dal file JSON e torna alla vista originale
     viewModel.Categorie = LeggiCategorieDaJson();
     return View(viewModel);
 }
@@ -175,13 +181,20 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
     public IActionResult ModificaProdotto(int id)
 {
     var prodotti = LeggiProdottiDaJson();
-    var prodotto = prodotti.FirstOrDefault(p => p.Id == id); // trova il prodotto per ID
+
+    // Cerca il prodotto specifico utilizzando l'ID fornito
+
+    // Il metodo FirstOrDefault() itera attraverso la lista prodotti.
+// Per ogni elemento p nella lista controlla se la proprietà Id del prodotto (p.Id) corrisponde all'ID specificato (id).
+// Appena trova un prodotto che soddisfa questa condizione lo restituisce.
+// Se nessun prodotto nella lista ha un ID uguale a id il metodo restituisce null.
+    var prodotto = prodotti.FirstOrDefault(p => p.Id == id); 
 
     if (prodotto == null)
     {
         return NotFound(); // Restituisce un errore se il prodotto non esiste
     }
-
+    // Crea un nuovo oggetto ModificaProdottoViewModel che include il prodotto  e le categorie da selezionare
     var viewModel = new ModificaProdottoViewModel
     {
         Prodotto = prodotto,
@@ -196,9 +209,12 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
 [HttpPost]
 public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
 {
+    // Logga la categoria selezionata nel form per trovare degli errori
     _logger.LogInformation("Categoria selezionata: " + viewModel.Prodotto.Categoria);
+    // Logga il prezzo ricevuto nel form di modifica per test
     _logger.LogInformation("Prezzo ricevuto: " + viewModel.Prodotto.Prezzo);
 
+// commentato perchè interferiva con il funzionamento
 /*    if (!ModelState.IsValid)
     {
         // Log degli errori di validazione
@@ -215,15 +231,21 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
         return View(viewModel);
     }
 */
-    // Se il ModelState è valido (nessun errore), procedi con la modifica del prodotto
+    
+     // Legge i prodotti dal file JSON
+
     var prodotti = LeggiProdottiDaJson();
+
+    // Trova il prodotto da modificare in base all'ID fornito dal viewModel
+    //Quindi  cerca nel file JSON il prodotto con lo stesso ID di quello inviato dal form di modifica 
+// (rappresentato da viewModel.Prodotto.Id). Se trova una corrispondenza restituisce il prodotto altrimenti restituisce null.
     var prodottoDaModificare = prodotti.FirstOrDefault(p => p.Id == viewModel.Prodotto.Id);
 
     if (prodottoDaModificare != null)
     {
         _logger.LogInformation("Modifica del prodotto con ID: {Id}", viewModel.Prodotto.Id);
 
-        // Aggiorna le proprietà del prodotto
+        // Aggiorna le proprietà del prodotto con i nuovi valori immessi nel form di modifica
         prodottoDaModificare.Nome = viewModel.Prodotto.Nome;
         prodottoDaModificare.Prezzo = viewModel.Prodotto.Prezzo;
         prodottoDaModificare.Dettaglio = viewModel.Prodotto.Dettaglio;
@@ -231,7 +253,7 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
         prodottoDaModificare.Quantita = viewModel.Prodotto.Quantita;
         prodottoDaModificare.Categoria = viewModel.Prodotto.Categoria;
 
-        // Salva i prodotti aggiornati
+        // Salva i prodotti aggiornati nel json
         SalvaProdottiSuJson(prodotti);
 
         _logger.LogInformation("Prodotto con ID: {Id} modificato con successo.", viewModel.Prodotto.Id);
