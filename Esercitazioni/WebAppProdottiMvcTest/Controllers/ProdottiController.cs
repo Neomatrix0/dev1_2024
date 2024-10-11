@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 public class ProdottiController : Controller
 {
-    private readonly string prodottiFilePath = "wwwroot/json/prodotti.json"; // Path del file prodotti
+ /*   private readonly string prodottiFilePath = "wwwroot/json/prodotti.json"; // Path del file prodotti
     private readonly string categorieFilePath = "wwwroot/json/categorie.json"; // Path del file categorie
 
     // Logger per registrare informazioni, avvisi ed errori
@@ -67,12 +67,23 @@ private readonly ILogger<ProdottiController> _logger;
     }
 }  
 
+*/
 
+private readonly ILogger<ProdottiController> _logger;
+    private readonly ProdottiService _prodottiService;
+
+    // Costruttore che riceve sia il logger che il servizio ProdottiService
+    public ProdottiController(ILogger<ProdottiController> logger, ProdottiService prodottiService)
+    {
+        _logger = logger;
+        _prodottiService = prodottiService;
+    }
 
     // Action per visualizzare la lista dei prodotti con filtro prezzo e paginazione
     public IActionResult Index(int? minPrezzo, int? maxPrezzo, int pageIndex = 1)
     {
-        var prodotti = LeggiProdottiDaJson();
+                var prodotti = _prodottiService.LeggiProdottiDaJson();
+        
 
         // Filtro per prezzo minimo e massimo
         // Filtro per il prezzo minimo: se il prezzo minimo è specificato filtra i prodotti con un prezzo >= al valore indicato
@@ -110,7 +121,7 @@ private readonly ILogger<ProdottiController> _logger;
     public IActionResult ProdottoDettaglio(int id)
     {
         //  Usa il metodo Find per cercare il prodotto corrispondente all'ID specificato nella lista di prodotti
-        var prodotti = LeggiProdottiDaJson();
+        var prodotti = _prodottiService.LeggiProdottiDaJson();
         //La lambda p => p.Id == id è una funzione anonima che riceve un parametro p che rappresenta un prodotto e restituisce true se l'ID del prodotto corrisponde all'ID cercato altrimenti restituisce false
         var prodotto = prodotti.Find(p => p.Id == id);  
 
@@ -132,50 +143,12 @@ private readonly ILogger<ProdottiController> _logger;
         // Oggetto prodotto vuoto da popolare con i dati del form
         Prodotto = new Prodotto(),
         // Carica la lista delle categorie dal file categorie.json
-        Categorie = LeggiCategorieDaJson() // Carica le categorie dal file JSON 
+        Categorie = _prodottiService.LeggiCategorieDaJson() // Carica le categorie dal file JSON 
     };
 
     return View(viewModel);
 }
 
-// Action per processare l'aggiunta di un nuovo prodotto (POST)
-/*
-[HttpPost]
-public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
-{
-    // Logga il valore della categoria selezionata nel form
-    _logger.LogInformation("Valore della categoria: " + viewModel.Prodotto.Categoria);
-
-    // Se il ModelState non è valido (errore di validazione)
-     if (!ModelState.IsValid)
-    {
-        //  Cicla attraverso gli errori di validazione nel ModelState e logga ogni errore
-        foreach (var modelState in ModelState.Values)
-        {
-            foreach (var error in modelState.Errors)
-            {
-                _logger.LogError(error.ErrorMessage);
-            }
-        }
-
-        // Se il ModelState è valido, si procede a caricare la lista dei prodotti dal file JSON
-         
-        var prodotti = LeggiProdottiDaJson();
-
-        // Genera un nuovo ID per il prodotto: se esistono già dei prodotti imposta l'ID al massimo attuale +1, altrimenti lo imposta a 1
-        viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
-
-        // Logica di salvataggio
-        prodotti.Add(viewModel.Prodotto);
-        SalvaProdottiSuJson(prodotti);
-
-        return RedirectToAction("Index");
-    }
-
-    // In caso di errore, ricarica le categorie  dal file JSON e torna alla vista originale
-    viewModel.Categorie = LeggiCategorieDaJson();
-    return View(viewModel);
-}  */
 
 
 [HttpPost]
@@ -200,14 +173,14 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
     }
 
     // Se il ModelState è valido, si procede a caricare la lista dei prodotti dal file JSON
-    var prodotti = LeggiProdottiDaJson();
+    var prodotti = _prodottiService.LeggiProdottiDaJson();
 
     // Genera un nuovo ID per il prodotto: se esistono già dei prodotti imposta l'ID al massimo attuale +1, altrimenti lo imposta a 1
     viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
 
     // Logica di salvataggio
     prodotti.Add(viewModel.Prodotto);
-    SalvaProdottiSuJson(prodotti);
+    _prodottiService.SalvaProdottiSuJson(prodotti);
 
     return RedirectToAction("Index");  // Redirige alla lista dei prodotti dopo l'aggiunta
 }
@@ -216,7 +189,7 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
     // Azione GET per visualizzare il form di modifica del prodotto
     public IActionResult ModificaProdotto(int id)
 {
-    var prodotti = LeggiProdottiDaJson();
+    var prodotti = _prodottiService.LeggiProdottiDaJson();
 
     // Cerca il prodotto specifico utilizzando l'ID fornito
 
@@ -234,7 +207,7 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
     var viewModel = new ModificaProdottoViewModel
     {
         Prodotto = prodotto,
-        Categorie = LeggiCategorieDaJson() 
+        Categorie = _prodottiService.LeggiCategorieDaJson() 
       
     };
 
@@ -272,7 +245,7 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
     
      // Legge i prodotti dal file JSON
 
-    var prodotti = LeggiProdottiDaJson();
+    var prodotti = _prodottiService.LeggiProdottiDaJson();
 
     // Trova il prodotto da modificare in base all'ID fornito dal viewModel
     //Quindi  cerca nel file JSON il prodotto con lo stesso ID di quello inviato dal form di modifica 
@@ -292,7 +265,7 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
         prodottoDaModificare.Categoria = viewModel.Prodotto.Categoria;
 
         // Salva i prodotti aggiornati nel json
-        SalvaProdottiSuJson(prodotti);
+        _prodottiService.SalvaProdottiSuJson(prodotti);
 
         _logger.LogInformation("Prodotto con ID: {Id} modificato con successo.", viewModel.Prodotto.Id);
 
@@ -369,7 +342,7 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
     // Azione GET per visualizzare la conferma della cancellazione di un prodotto
     public IActionResult CancellaProdotto(int id)
     {
-        var prodotti = LeggiProdottiDaJson();
+        var prodotti = _prodottiService.LeggiProdottiDaJson();
         var prodotto = prodotti.Find(p => p.Id == id); // Cerca il prodotto per ID
 
         if (prodotto == null)
@@ -387,14 +360,14 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
     [HttpPost, ActionName("CancellaProdotto")]
     public IActionResult ConfermaCancellazione(int id)
     {
-        var prodotti = LeggiProdottiDaJson();
+        var prodotti = _prodottiService.LeggiProdottiDaJson();
          // Trova il prodotto con l'ID specificato
         var prodotto = prodotti.Find(p => p.Id == id);
 
         if (prodotto != null)
         {
             prodotti.Remove(prodotto); // Rimuovi il prodotto dalla lista
-            SalvaProdottiSuJson(prodotti); // Salva il file JSON aggiornato
+            _prodottiService.SalvaProdottiSuJson(prodotti); // Salva il file JSON aggiornato
         }
 
         return RedirectToAction("Index");

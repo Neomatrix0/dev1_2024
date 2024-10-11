@@ -12,8 +12,11 @@ builder.Services.AddControllersWithViews();
     options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => null);
 }); */
 
-var app = builder.Build();
 
+
+builder.Services.AddSingleton<ProdottiService>();
+
+var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
