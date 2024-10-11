@@ -78,7 +78,7 @@ private readonly ILogger<ProdottiController> _logger;
         _logger = logger;
         _prodottiService = prodottiService;
     }
-
+/*
     // Action per visualizzare la lista dei prodotti con filtro prezzo e paginazione
     public IActionResult Index(int? minPrezzo, int? maxPrezzo, int pageIndex = 1)
     {
@@ -115,7 +115,29 @@ private readonly ILogger<ProdottiController> _logger;
 
         // Ritorna la vista "Prodotti" con il ViewModel
         return View("Prodotti", viewModel);
+    }  */
+
+ public IActionResult Index(int? minPrezzo, int? maxPrezzo, int pageIndex = 1)
+    {
+        var prodottiFiltrati = _prodottiService.FiltraProdotti(minPrezzo, maxPrezzo);
+
+        int numeroProdottiPerPagina = 6;
+        var prodottiPaginati = _prodottiService.PaginazioneProdotti(prodottiFiltrati, pageIndex, numeroProdottiPerPagina);
+
+        var viewModel = new ProdottiViewModel
+        {
+            Prodotti = prodottiPaginati,
+            MinPrezzo = minPrezzo ?? 0,
+            MaxPrezzo = maxPrezzo ?? prodottiFiltrati.Max(p => p.Prezzo),
+            NumeroPagine = (int)Math.Ceiling((double)prodottiFiltrati.Count / numeroProdottiPerPagina)
+        };
+
+        return View("Prodotti", viewModel);
     }
+
+
+
+
 
     // Action per visualizzare i dettagli di un singolo prodotto
     public IActionResult ProdottoDettaglio(int id)

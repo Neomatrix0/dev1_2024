@@ -76,7 +76,30 @@
       
     }  
 
+    // Filtraggio per prezzo e paginazione
+    public List<Prodotto> FiltraProdotti(int? minPrezzo, int? maxPrezzo)
+    {
+        var prodotti = LeggiProdottiDaJson();
 
+        if (minPrezzo.HasValue)
+        {
+            prodotti = prodotti.Where(p => p.Prezzo >= minPrezzo.Value).ToList();
+        }
+
+        if (maxPrezzo.HasValue)
+        {
+            prodotti = prodotti.Where(p => p.Prezzo <= maxPrezzo.Value).ToList();
+        }
+
+        return prodotti;
+    }
+
+    public List<Prodotto> PaginazioneProdotti(List<Prodotto> prodotti, int pageIndex, int numeroProdottiPerPagina)
+    {
+        return prodotti.Skip((pageIndex - 1) * numeroProdottiPerPagina).Take(numeroProdottiPerPagina).ToList();
+    }
+
+ 
 
 
  }     
