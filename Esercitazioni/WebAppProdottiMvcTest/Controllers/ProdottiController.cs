@@ -340,7 +340,7 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
 
 
     // Azione GET per visualizzare la conferma della cancellazione di un prodotto
-    public IActionResult CancellaProdotto(int id)
+   /* public IActionResult CancellaProdotto(int id)
     {
         var prodotti = _prodottiService.LeggiProdottiDaJson();
         var prodotto = prodotti.Find(p => p.Id == id); // Cerca il prodotto per ID
@@ -352,7 +352,6 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
 
         return View(prodotto);
     }  
-
 
 
 
@@ -371,5 +370,27 @@ public IActionResult ModificaProdotto(ModificaProdottoViewModel viewModel)
         }
 
         return RedirectToAction("Index");
+    }  */
+
+   // Azione GET per visualizzare la conferma della cancellazione di un prodotto
+    public IActionResult CancellaProdotto(int id)
+    {
+        var prodotto = _prodottiService.TrovaProdottoPerId(id);
+
+        if (prodotto == null)
+        {
+            return NotFound();
+        }
+
+        return View(prodotto);
+    }
+
+    // Azione POST per confermare la cancellazione del prodotto
+    [HttpPost, ActionName("CancellaProdotto")]
+    public IActionResult ConfermaCancellazione(int id)
+    {
+        _prodottiService.CancellaProdotto(id);
+        return RedirectToAction("Index");
     }
 }
+

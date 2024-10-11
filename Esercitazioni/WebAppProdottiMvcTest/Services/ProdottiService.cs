@@ -55,6 +55,28 @@
     }
 }  
 
+// Metodo per rimuovere un prodotto
+    public Prodotto TrovaProdottoPerId(int id)
+    {
+        var prodotti = LeggiProdottiDaJson();
+        return prodotti.FirstOrDefault(p => p.Id == id);
+    }
+
+  // Azione per visualizzare la conferma della cancellazione di un prodotto
+    public void  CancellaProdotto(int id)
+    {
+        var prodotti = LeggiProdottiDaJson();
+        var prodotto = prodotti.Find(p => p.Id == id); // Cerca il prodotto per ID
+
+      if (prodotto != null)
+        {
+            prodotti.Remove(prodotto);
+            SalvaProdottiSuJson(prodotti);
+        }
+      
+    }  
+
+
 
 
  }     
