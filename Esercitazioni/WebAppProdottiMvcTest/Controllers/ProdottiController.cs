@@ -139,7 +139,7 @@ private readonly ILogger<ProdottiController> _logger;
 }
 
 // Action per processare l'aggiunta di un nuovo prodotto (POST)
-
+/*
 [HttpPost]
 public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
 {
@@ -175,7 +175,43 @@ public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
     // In caso di errore, ricarica le categorie  dal file JSON e torna alla vista originale
     viewModel.Categorie = LeggiCategorieDaJson();
     return View(viewModel);
+}  */
+
+
+[HttpPost]
+public IActionResult AggiungiProdotto(AggiungiProdottoViewModel viewModel)
+{
+    // Logga il valore della categoria selezionata nel form
+    _logger.LogInformation("Valore della categoria: " + viewModel.Prodotto.Categoria);
+
+    // Se il ModelState non è valido (errore di validazione)
+    if (!ModelState.IsValid)
+    {
+        // Cicla attraverso gli errori di validazione nel ModelState e logga ogni errore
+        foreach (var modelState in ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                _logger.LogError(error.ErrorMessage);
+            }
+        }
+
+       
+    }
+
+    // Se il ModelState è valido, si procede a caricare la lista dei prodotti dal file JSON
+    var prodotti = LeggiProdottiDaJson();
+
+    // Genera un nuovo ID per il prodotto: se esistono già dei prodotti imposta l'ID al massimo attuale +1, altrimenti lo imposta a 1
+    viewModel.Prodotto.Id = prodotti.Count > 0 ? prodotti.Max(p => p.Id) + 1 : 1;
+
+    // Logica di salvataggio
+    prodotti.Add(viewModel.Prodotto);
+    SalvaProdottiSuJson(prodotti);
+
+    return RedirectToAction("Index");  // Redirige alla lista dei prodotti dopo l'aggiunta
 }
+
 
     // Azione GET per visualizzare il form di modifica del prodotto
     public IActionResult ModificaProdotto(int id)
