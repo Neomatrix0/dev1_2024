@@ -162,3 +162,28 @@ input:-webkit-autofill:active {
     margin-right: auto;
   }
 }
+
+
+
+
+/* Aggiunta una regola per schermi grandi (superiori a 1280px) per centrare le card */
+
+@media (min-width: 1280px) {
+  .card {
+    width: 18rem; 
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  
+ /* .row {
+    justify-content: center;
+  }
+  
+  /* Modifica la disposizione delle colonne su schermi grandi */
+  /* Le colonne prendono circa il 30% dello schermo */
+  /*.col-md-4 {
+    flex: 0 0 30%; 
+    max-width: 30%;
+  }  */
+} 
