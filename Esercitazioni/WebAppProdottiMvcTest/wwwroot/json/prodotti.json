@@ -119,10 +119,10 @@
   {
     "Id": 15,
     "Nome": "console",
-    "Prezzo": 700.0,
+    "Prezzo": 700.00,
     "Dettaglio": "Dettaglio15",
     "Immagine": "img/console2.webp",
-    "Quantita": 15,
+    "Quantita": 20,
     "Categoria": "Giochi"
   },
   {

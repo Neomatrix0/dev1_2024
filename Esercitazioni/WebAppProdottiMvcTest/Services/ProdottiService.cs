@@ -10,6 +10,7 @@
             _logger = logger;
         }
 
+  // Metodo per leggere i prodotti dal file JSON
  public List<Prodotto> LeggiProdottiDaJson()
     {
         // Legge il contenuto del file prodotti.json
@@ -50,15 +51,18 @@
     }
     catch (Exception ex)
     {
+        // Registra un messaggio di errore se si verifica un'eccezione durante la lettura
         _logger.LogError("Error reading categorie.json: " + ex.Message);
         return new List<string>(); // Ritorna una lista vuota se c'è un errore
     }
 }  
 
-// Metodo per rimuovere un prodotto
+ // Metodo per trovare un prodotto in base al suo ID
     public Prodotto TrovaProdottoPerId(int id)
     {
+        // Legge tutti i prodotti dal file JSON
         var prodotti = LeggiProdottiDaJson();
+        // Restituisce il prodotto corrispondente all'ID, oppure null se non viene trovato
         return prodotti.FirstOrDefault(p => p.Id == id);
     }
 
@@ -70,7 +74,10 @@
 
       if (prodotto != null)
         {
+            // Se il prodotto esiste, lo rimuove dalla lista
             prodotti.Remove(prodotto);
+
+            // Salva la lista aggiornata di prodotti nel file JSON
             SalvaProdottiSuJson(prodotti);
         }
       
@@ -81,11 +88,14 @@
     {
         var prodotti = LeggiProdottiDaJson();
 
+// Filtra i prodotti con un prezzo maggiore o uguale al prezzo minimo
         if (minPrezzo.HasValue)
         {
+            
             prodotti = prodotti.Where(p => p.Prezzo >= minPrezzo.Value).ToList();
         }
 
+        // Filtra i prodotti con un prezzo minore o uguale al prezzo massimo
         if (maxPrezzo.HasValue)
         {
             prodotti = prodotti.Where(p => p.Prezzo <= maxPrezzo.Value).ToList();
@@ -94,12 +104,12 @@
         return prodotti;
     }
 
+// Metodo per eseguire la paginazione su una lista di prodotti
     public List<Prodotto> PaginazioneProdotti(List<Prodotto> prodotti, int pageIndex, int numeroProdottiPerPagina)
     {
+        // Restituisce i prodotti della pagina corrente in base all'indice di pagina e al numero di prodotti per pagina
         return prodotti.Skip((pageIndex - 1) * numeroProdottiPerPagina).Take(numeroProdottiPerPagina).ToList();
     }
-
- 
 
 
  }     
