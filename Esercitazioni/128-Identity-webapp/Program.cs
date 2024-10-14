@@ -15,6 +15,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>() // Aggiunge supporto per i ruoli
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddScoped<ProdottiService>(); 
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -53,7 +55,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+ // Aggiungi l'autenticazione qui
+
+
 
 app.MapControllerRoute(
     name: "default",
