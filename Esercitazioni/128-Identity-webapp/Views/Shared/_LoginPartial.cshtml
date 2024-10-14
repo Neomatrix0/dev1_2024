@@ -13,11 +13,11 @@
             <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
         </form>
     </li>
-    <li><h1>Hello, @User.Identity.IsAuthenticated</h1></li>
+   /* <li><h1>Hello, @User.Identity.IsAuthenticated</h1></li>*/
     @if(@User.Identity.IsAuthenticated){
-        <h1>Hello, @User.Identity.Name!</h1>
+        <p>Hello, @User.Identity.Name!</p>
     }else{
-        <h1>Hello,guest</h1>
+        <p>Hello,guest</p>
     }
 }
 else
