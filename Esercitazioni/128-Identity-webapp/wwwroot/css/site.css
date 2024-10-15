@@ -32,7 +32,16 @@ body {
 
 .footer{
 background-color: rgb(33,37,41); /* colore bg-dark */
-    color: white; }
+    color: white;
+    position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Altezza del footer */
+  /*background-color: #212529;  Colore bg-dark */
+  
+  line-height: 60px; /* Allinea il testo verticalmente */
+  
+  }
 
     .table th, .table td {
       color: white; /* Imposta il colore del testo in bianco */
