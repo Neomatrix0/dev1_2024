@@ -142,9 +142,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-controller="Prodotti" asp-action="Index">Prodotti</a>
                         </li>
+
+                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-controller="Prodotti" asp-action="AggiungiProdotto">Aggiungi Prodotto</a>
                         </li>
+
+                        }
                         
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -152,7 +157,7 @@
                                 <a class="nav-link text-white" asp-controller="Account" asp-action="AddToRoleAdmin">Aggiungi ruolo Admin</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-controller="Account" asp-action="GetRole">Ruolo</a>
+                                <a class="nav-link text-white" asp-controller="Account" asp-action="GetRole">Vedi Ruolo</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-controller="Account" asp-action="RemoveFromRoleAdmin">Rimuovi Ruolo Admin</a>
