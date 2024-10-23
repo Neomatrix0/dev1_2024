@@ -79,4 +79,15 @@ public class SeedData
     }
 }
 
+#Migrazione e aggiornamento del database
+
+ ```bash
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
  ```
+
+
+
+ Cambiare i riferimenti a IdentityUser in AppUser nelle pagine che danno errore ad esempio Loginpartial
